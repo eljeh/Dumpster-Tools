@@ -1,0 +1,31 @@
+---
+const pathname = new URL(Astro.request.url).pathname;
+const currentPath = pathname.slice(1); // remove the first "/"
+---
+
+<style is:inline>
+  nav {
+    display: flex;
+    gap: 0 1em;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1em;
+  }
+</style>
+<nav>
+  <a class={currentPath === ' ' ? 'active' : ''} href='/'>Horde Spawner</a>
+  <a class={currentPath === 'vehicle List' ? 'active' : ''} href='/vehicleList'
+    >Vehicle List</a
+  >
+  <a
+    class={currentPath === 'circleSpawner' ? 'active' : ''}
+    href='/circleSpawner'>Circle Spawner</a
+  >
+  <a
+    class={currentPath === 'scatterSpawner' ? 'active' : ''}
+    href='/scatterSpawner'>Xcatter Spawner</a
+  >
+  <a class={currentPath === 'spawnCircle' ? 'active' : ''} href='/spawnCircle'
+    >Spawn Circle</a
+  >
+</nav>

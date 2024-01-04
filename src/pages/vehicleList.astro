@@ -1,0 +1,306 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<style is:inline>
+  body {
+    background: #1e1f22;
+    color: #c2c2c2;
+  }
+  .wrapper {
+    margin: 1em 1.5em;
+  }
+  .wrapper textarea {
+    background: #313338;
+    color: #d1d1d1;
+    border: none;
+    padding: 1em 1.25em;
+    border-radius: 0.5em;
+    height: 18em;
+    width: 95vw;
+    text-wrap: nowrap;
+  }
+  .wrapper button {
+    margin-top: 1em;
+    background: #2b2d31;
+    color: #d1d1d1;
+    border: none;
+    padding: 1em 1.25em;
+    border-radius: 0.5em;
+    cursor: pointer;
+  }
+
+  .wrapper table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 0.5em;
+    text-align: left;
+    display: grid;
+  }
+  thead {
+    margin-top: 0.5em;
+  }
+  tr {
+    background: #313338;
+    color: #d1d1d1;
+    border-bottom: 0.25em solid #1e1f22;
+  }
+  td {
+    /* background: #313338;
+    color: #d1d1d1; */
+    padding: 0.75em 1.25em;
+    text-wrap: nowrap;
+  }
+
+  th {
+    background: #2b2d31;
+    color: #d1d1d1;
+    padding: 1em 1.25em;
+  }
+  th:has(> .clickable) {
+    background: #2b2d31;
+    color: #d1d1d1;
+    padding: 0;
+  }
+
+  #bpcCounts {
+    margin-top: 20px;
+  }
+
+  /* Add this style for highlighting on click */
+  tr.highlight {
+    background: #2b2d31;
+    color: #d1d1d1;
+  }
+
+  .clickable {
+    cursor: pointer;
+    padding: 1em 1.25em;
+  }
+  .clickable:hover {
+    background: #1e1f22;
+    color: #d1d1d1;
+  }
+</style>
+
+<Layout title='Vehicle List '>
+  <h2 class='my-8 text-2xl text-center'>Vehicle List Converter</h2>
+  <div class='wrapper'>
+    <form>
+      <textarea
+        id='inputString'
+        rows='4'
+        cols='50'
+        placeholder='Paste Vehicle List'></textarea>
+      <br />
+      <button type='button' onclick='convertToTable()'>Convert</button>
+    </form>
+
+    <div id='bpcCounts'></div>
+    <div id='tableContainer'></div>
+  </div>
+  <script is='inline'>
+    function convertToTable() {
+      var inputString = document.getElementById('inputString').value;
+      var tableContainer = document.getElementById('tableContainer');
+      var bpcCountsContainer = document.getElementById('bpcCounts');
+
+      // Format the string into a table
+      var bpcData = {};
+      var lines = inputString.split('\n');
+      lines.forEach(function (line) {
+        var cells = line.split(/\s+/).filter(Boolean);
+        var bpcType = cells[1];
+        if (!bpcData[bpcType]) {
+          bpcData[bpcType] = [];
+        }
+        bpcData[bpcType].push(cells);
+      });
+
+      // Display the table
+      var tableHTML = '<table>';
+      var cellID = '';
+      for (var bpcType in bpcData) {
+        tableHTML +=
+          '<thead><tr><th colspan="100%">' + bpcType + '</th></tr></thead>';
+        tableHTML += '<tbody>';
+
+        // Assuming index 1 contains the date & time
+        bpcData[bpcType].sort(function (a, b) {
+          // Extract and convert date & time to comparable format
+          var dateA = new Date(a[2]).getTime();
+          var dateB = new Date(b[2]).getTime();
+
+          // Compare the dates
+          return dateA - dateB;
+        });
+
+        bpcData[bpcType].forEach(function (cells) {
+          tableHTML += '<tr class="clickable-row">';
+          cells.forEach(function (cell, index) {
+            if (index === 0) {
+              var textToCopy = cell.trim();
+              textToCopy = textToCopy.replace(/^#/, ''); // Remove leading #
+              textToCopy = textToCopy.replace(/:$/, ''); // Remove trailing :
+              cellID = textToCopy;
+            }
+
+            if (index === 3) {
+              var textToCopy = cell.trim();
+              cellX = textToCopy.replace('X=', '');
+            }
+            if (index === 4) {
+              var textToCopy = cell.trim();
+              cellY = textToCopy.replace('Y=', '');
+            }
+            if (index === 5) {
+              var textToCopy = cell.trim();
+              cellZ = textToCopy.replace('Z=', '');
+            }
+
+            // Add click event listener to the first cell in each row
+            if (index === 0) {
+              cell =
+                '<span class="clickable" onclick="teleportToVehicle(this)" title="#teleportToVehicle">' +
+                cell +
+                '</span>';
+            }
+            if (index === 2) {
+              cell = new Date(cell).toLocaleString();
+            }
+            if (index === 3 || index === 4) {
+              // Skip cells with index 3 and 4
+              return;
+            }
+            if (index === 5) {
+              cell =
+                '<span class="clickable" onclick="copyXYZ(this)"  title="X Y Z ">' +
+                cellX +
+                ' ' +
+                cellY +
+                ' ' +
+                cellZ;
+              ('</span>');
+            }
+
+            if (index === 6) {
+              cell =
+                '<span class="clickable" onclick="playerDetails(this)"  title="!player ">' +
+                cell +
+                '</span>';
+            }
+            if (index === 7) {
+              cell =
+                '<span class="clickable" onclick="renameVehicle(this)"  title="#renameVehicle">' +
+                cell +
+                '</span>';
+            }
+            tableHTML += '<td id="' + cellID + '">' + cell + '</td>';
+          });
+          tableHTML += '</tr>';
+        });
+
+        tableHTML += '</tbody>';
+      }
+      tableHTML += '</table>';
+
+      tableContainer.textContent = '';
+      tableContainer.insertAdjacentHTML('beforeend', tableHTML);
+
+      // Display the count of each BPC type
+      var countsHTML = '<h3>Vehicle Type Counts</h3>';
+      var total = 0; // Initialize total to zero
+      countsHTML += '<ul>';
+
+      for (var bpcType in bpcData) {
+        if (bpcType != 'vehicle') {
+          countsHTML +=
+            '<li>' + bpcType + ': ' + bpcData[bpcType].length + '</li>';
+          total += bpcData[bpcType].length; // Accumulate the counts
+        }
+      }
+
+      countsHTML += '<li>Total: ' + total + '</li>';
+      countsHTML += '</ul>';
+      bpcCountsContainer.innerHTML = countsHTML;
+
+      // Add click event listeners to each row for highlighting
+      var clickableRows = document.querySelectorAll('.clickable-row');
+      clickableRows.forEach(function (row) {
+        row.addEventListener('click', function () {
+          this.classList.toggle('highlight');
+        });
+      });
+    }
+
+    // Function to copy content to clipboard and modify it
+    function teleportToVehicle(element) {
+      var teleportToText = element.textContent.trim();
+      teleportToText = teleportToText.replace(/^#/, ''); // Remove leading #
+      teleportToText = teleportToText.replace(/:$/, ''); // Remove trailing :
+      teleportToText = '#TeleportToVehicle ' + teleportToText; // Prepend "#TeleportToVehicle "
+
+      // Create a temporary textarea to copy the modified text to the clipboard
+      var tempTextArea = document.createElement('textarea');
+      tempTextArea.value = teleportToText;
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempTextArea);
+    }
+    // Function to copy content to clipboard and modify it
+    function copyXYZ(element) {
+      var copyXYZ = element.textContent.trim();
+
+      // Create a temporary textarea to copy the modified text to the clipboard
+      var tempTextArea = document.createElement('textarea');
+      tempTextArea.value = copyXYZ;
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempTextArea);
+    }
+    // Function to copy content to clipboard and modify it
+    function playerDetails(element) {
+      var steamID = element.textContent.trim();
+      steamID = steamID.replace(/^STEAMID:/, ''); // Remove leading #
+      steamID = '!player ' + steamID; // Prepend "#TeleportToVehicle "
+
+      // Create a temporary textarea to copy the modified text to the clipboard
+      var tempTextArea = document.createElement('textarea');
+      tempTextArea.value = steamID;
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempTextArea);
+    }
+    // Function to copy content to clipboard and modify it
+    function renameVehicle(element) {
+      // Get the parent element and its ID
+      var parentElement = element.parentElement;
+      var parentId = parentElement.id;
+      var renameVehicleText = element.textContent.trim();
+      renameVehicleText = renameVehicleText.replace(/^#/, ''); // Remove leading #
+      renameVehicleText = renameVehicleText.replace(/:$/, ''); // Remove trailing :
+      renameVehicleText =
+        '#renameVehicle ' +
+        parentId +
+        ' "STEAMID:' +
+        renameVehicleText +
+        // ' Owns:1 VID:' +
+        // parentId +
+        // ' ' +
+        // renameVehicleText +
+        '"';
+
+      // Create a temporary textarea to copy the modified text to the clipboard
+      var tempTextArea = document.createElement('textarea');
+      tempTextArea.value = renameVehicleText;
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempTextArea);
+    }
+  </script>
+</Layout>
