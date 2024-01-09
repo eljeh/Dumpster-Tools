@@ -1,0 +1,196 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<style is:inline>
+  body {
+    background: #1e1f22;
+    color: #c2c2c2;
+  }
+  .wrapper {
+    margin: 1em 1.5em;
+    text-align: center;
+  }
+  .wrapper textarea {
+    background: #313338;
+    color: #d1d1d1;
+    border: none;
+    padding: 1em 1.25em;
+    border-radius: 0.5em;
+    height: 18em;
+    width: 95vw;
+    text-wrap: nowrap;
+  }
+  .wrapper button {
+    margin-top: 1em;
+    background: #2b2d31;
+    color: #d1d1d1;
+    border: none;
+    padding: 1em 1.25em;
+    border-radius: 0.5em;
+    cursor: pointer;
+  }
+
+  .wrapper table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 0.5em;
+    text-align: left;
+    display: grid;
+  }
+  thead {
+    margin-top: 0.5em;
+  }
+  tr {
+    background: #313338;
+    color: #d1d1d1;
+    border-bottom: 0.25em solid #1e1f22;
+  }
+  td {
+    /* background: #313338;
+    color: #d1d1d1; */
+    padding: 0.75em 1.25em;
+    text-wrap: nowrap;
+  }
+
+  th {
+    background: #2b2d31;
+    color: #d1d1d1;
+    padding: 1em 1.25em;
+  }
+  th:has(> .clickable) {
+    background: #2b2d31;
+    color: #d1d1d1;
+    padding: 0;
+  }
+
+  #bpcCounts {
+    margin-top: 20px;
+  }
+
+  /* Add this style for highlighting on click */
+  tr.highlight {
+    background: #2b2d31;
+    color: #d1d1d1;
+  }
+
+  .clickable {
+    cursor: pointer;
+    padding: 1em 1.25em;
+  }
+  button:hover {
+    background: #1e1f22;
+    color: #d1d1d1;
+  }
+</style>
+
+<Layout title='Vehicle List '>
+  <h2 class='my-8 text-2xl text-center'>Bunker Teleport</h2>
+  <div class='wrapper'>
+    <div class="flex gap-2 justify-center">
+      <button onclick="teleportTo(this)" title="X=402223.594 Y=555957.188 Z=15991.244">
+        D4
+      </button>
+      <button onclick="teleportTo(this)" title="X=142191.672 Y=546498.188 Z=24782.061">
+        D3
+      </button>
+      <button onclick="teleportTo(this)" title="X=-243872.766 Y=568457.750 Z=72037.938">
+        D2
+      </button>
+      <button onclick="teleportTo(this)" title="X=-538029.312 Y=539931.875 Z=81042.703">
+        D1
+      </button>
+      <button onclick="teleportTo(this)" title="X=-871767.875 Y=597019.250 Z=63084.723">
+        D0
+      </button>
+    </div>
+
+    <div class="flex gap-2 justify-center">
+      <button onclick="teleportTo(this)" title="X=446282.406 Y=263119.031 Z=18379.043">
+        C4
+      </button>
+      <button onclick="teleportTo(this)" title="X=190416.391 Y=294937.688 Z=40195.414">
+        C3
+      </button>
+      <button onclick="teleportTo(this)" title="X=-221955.922 Y=186481.688 Z=76617.336">
+        C2
+      </button>
+      <button onclick="teleportTo(this)" title="X=-393581.250 Y=217143.031 Z=59713.719">
+        C1
+      </button>
+      <button onclick="teleportTo(this)" title="X=-899003.500 Y=230813.844 Z=48900.578">
+        C0
+      </button>
+    </div>
+
+    <div class="flex gap-2 justify-center">
+      <button onclick="teleportTo(this)" title="X=443626.750 Y=-13702.469 Z=11979.164">
+        B4
+      </button>
+      <button onclick="teleportTo(this)" title="X=238849.578 Y=-91799.602 Z=30849.242">
+        B3
+      </button>
+      <button onclick="teleportTo(this)" title="X=-40867.332 Y=-196668.828 Z=31862.395">
+        B2
+      </button>
+      <button onclick="teleportTo(this)" title="X=-585901.250 Y=-261015.031 Z=17164.949">
+        B1
+      </button>
+      <button onclick="teleportTo(this)" title="X=-808213.000 Y=-89713.945 Z=35505.285">
+        B0
+      </button>
+    </div>
+
+    <div class="flex gap-2 justify-center">
+      <button onclick="teleportTo(this)" title="X=449957.594 Y=-401849.250 Z=8063.548">
+        A4
+      </button>
+      <button onclick="teleportTo(this)" title="X=230072.500 Y=-447184.219 Z=9357.233">
+        A3
+      </button>
+      <button onclick="teleportTo(this)" title="X=-40887.375 Y=-324878.438 Z=16259.652">
+        A2
+      </button>
+      <button onclick="teleportTo(this)" title="X=-348392.594 Y=-469006.938 Z=4076.368">
+        A1
+      </button>
+      <button onclick="teleportTo(this)" title="X=-769538.625 Y=-349752.062 Z=6468.148">
+       A0
+      </button>
+    </div>
+    
+    <div class="flex gap-2 justify-center">
+      <button onclick="teleportTo(this)" title="X=521845.781 Y=-823576.562 Z=4945.017">
+        Z4
+      </button>
+      <button onclick="teleportTo(this)" title="X=30741.719 Y=-807036.438 Z=11221.033">
+        Z3
+      </button>
+      <button onclick="teleportTo(this)" title="X=-201842.016 Y=-645720.625 Z=5518.477">
+        Z2
+      </button>
+      <button onclick="teleportTo(this)" title="X=-564537.938 Y=-724910.062 Z=14845.137">
+        Z1
+      </button>
+      <button onclick="teleportTo(this)" title="X=-700999.375 Y=-792435.812 Z=10776.563">
+        Z0
+      </button>
+    </div>
+
+  </div>
+  <script is='inline'>
+    function teleportTo(element) {
+      var teleportToText = element.getAttribute('title');
+      teleportToText = '#Teleport ' + teleportToText; // Prepend "#TeleportToVehicle "
+
+      // Create a temporary textarea to copy the modified text to the clipboard
+      var tempText = document.createElement('textarea');
+      tempText.value = teleportToText;
+      document.body.appendChild(tempText);
+      tempText.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempText);
+    }
+  </script>
+</Layout>

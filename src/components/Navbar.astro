@@ -13,11 +13,15 @@ const currentPath = pathname.slice(1); // remove the first "/"
   }
 </style>
 <nav>
-  <a class={currentPath === ' ' ? 'active' : ''} href='/'>Horde Spawner</a>
+  <!-- <a class={currentPath === ' ' ? 'active' : ''} href='/'>Horde Spawner</a> -->
   <a class={currentPath === 'vehicle List' ? 'active' : ''} href='/vehicleList'
     >Vehicle List</a
   >
-  <a
+  <a class={currentPath === 'vehicle List' ? 'active' : ''} href='/bunkers'
+    >Bunkers</a
+    
+  >
+  <!-- <a
     class={currentPath === 'circleSpawner' ? 'active' : ''}
     href='/circleSpawner'>Circle Spawner</a
   >
@@ -27,5 +31,5 @@ const currentPath = pathname.slice(1); // remove the first "/"
   >
   <a class={currentPath === 'spawnCircle' ? 'active' : ''} href='/spawnCircle'
     >Spawn Circle</a
-  >
+  > -->
 </nav>
