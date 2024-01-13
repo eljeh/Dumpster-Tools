@@ -14,7 +14,7 @@ const { title } = Astro.props;
     <meta charset='UTF-8' />
     <meta name='description' content='Astro description' />
     <meta name='viewport' content='width=device-width' />
-    <link href=../assets/fonts/SpecialElite-Regular.ttf' rel='stylesheet' />
+    <link href="../assets/fonts/SpecialElite-Regular.ttf'" rel='stylesheet' />
     <link href='../assets/fonts/defused.ttf' rel='stylesheet' />
     <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
     <meta name='generator' content={Astro.generator} />
@@ -26,11 +26,15 @@ const { title } = Astro.props;
       .defused {
         font-family: 'Defused', sans-serif;
       }
+      h1 {
+        font-size: 4rem;
+      }
     </style>
   </head>
   <body>
-    <h1 class='my-8 text-4xl text-center defused'>Scum</h1>
-    <h2 class='my-8 text-4xl text-center specialElite'>Dumpster Tools</h2>
+    <h1 class='my-8 text-4xl text-center defused'>
+      Scum <span class='flex justify-center specialElite'>Dumpster Tools</span>
+    </h1>
     <NavBar />
     <slot />
   </body>
