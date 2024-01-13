@@ -1,0 +1,221 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<style is:inline>
+  body {
+    background: #1e1f22;
+    color: #c2c2c2;
+  }
+  .wrapper {
+    margin: 1em 1.5em;
+    text-align: center;
+  }
+  .wrapper textarea {
+    background: #313338;
+    color: #d1d1d1;
+    border: none;
+    padding: 1em 1.25em;
+    border-radius: 0.5em;
+    height: 18em;
+    width: 95vw;
+    text-wrap: nowrap;
+  }
+  .wrapper button {
+    margin-top: 1em;
+    background: #2b2d31;
+    color: #d1d1d1;
+    border: none;
+    padding: 1em 1.25em;
+    border-radius: 0.5em;
+    cursor: pointer;
+    aspect-ratio: 2/1;
+  }
+
+  .wrapper table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 0.5em;
+    text-align: left;
+    display: grid;
+  }
+  thead {
+    margin-top: 0.5em;
+  }
+  tr {
+    background: #313338;
+    color: #d1d1d1;
+    border-bottom: 0.25em solid #1e1f22;
+  }
+  td {
+    /* background: #313338;
+    color: #d1d1d1; */
+    padding: 0.75em 1.25em;
+    text-wrap: nowrap;
+  }
+
+  th {
+    background: #2b2d31;
+    color: #d1d1d1;
+    padding: 1em 1.25em;
+  }
+  th:has(> .clickable) {
+    background: #2b2d31;
+    color: #d1d1d1;
+    padding: 0;
+  }
+
+  #bpcCounts {
+    margin-top: 20px;
+  }
+
+  /* Add this style for highlighting on click */
+  tr.highlight {
+    background: #2b2d31;
+    color: #d1d1d1;
+  }
+
+  .clickable {
+    cursor: pointer;
+    padding: 1em 1.25em;
+  }
+  button:hover {
+    background: #1e1f22;
+    color: #d1d1d1;
+  }
+</style>
+
+<Layout title='Vehicle List '>
+  <h2 class='my-8 text-2xl text-center'>Maze Teleports</h2>
+  <div class='wrapper'>
+    <div class='flex gap-2 justify-center'>
+      <button
+        onclick='teleportTo(this)'
+        title='X=169385.344 Y=50615.965 Z=31996.258'
+      >
+        left tower
+      </button>
+      <button
+        onclick='teleportTo(this)'
+        title='X=166828.688 Y=54289.211 Z=32116.883'
+      >
+        center tower
+      </button>
+
+      <button
+        onclick='teleportTo(this)'
+        title='X=169877.781 Y=56979.234 Z=32103.465'
+      >
+        right tower
+      </button>
+    </div>
+
+    <div class='flex gap-2 justify-center'>
+      <button onclick='teleportTo(this)' title=''> Start</button>
+      <button onclick='teleportTo(this)' title=''> Finish</button>
+      <button
+        onclick='teleportTo(this)'
+        title='X=167282.469 Y=54356.586 Z=30314.230'
+      >
+        Flag
+      </button>
+    </div>
+
+    <div class='flex gap-2 justify-center'>
+      <button
+        onclick='teleportTo(this)'
+        title='X=163650.484 Y=52618.016 Z=30272.324'
+      >
+        1
+      </button>
+      <button
+        onclick='teleportTo(this)'
+        title='X=163067.688 Y=51583.910 Z=30259.691'
+      >
+        2
+      </button>
+      <button
+        onclick='teleportTo(this)'
+        title='X=162662.156 Y=56820.504 Z=30368.184'
+      >
+        3
+      </button>
+      <button
+        onclick='teleportTo(this)'
+        title='X=163850.312 Y=56690.594 Z=30317.186'
+      >
+        4
+      </button>
+    </div>
+
+    <div class='flex gap-2 justify-center'>
+      <button
+        onclick='teleportTo(this)'
+        title='X=164923.531 Y=56255.137 Z=30329.938'
+      >
+        5
+      </button>
+
+      <button
+        onclick='teleportTo(this)'
+        title='X=165491.641 Y=56432.152 Z=30326.574'
+      >
+        6
+      </button>
+      <button
+        onclick='teleportTo(this)'
+        title='X=169405.266 Y=56118.426 Z=30281.242'
+      >
+        7
+      </button>
+      <button
+        onclick='teleportTo(this)'
+        title='X=166986.234 Y=53569.367 Z=30219.092'
+      >
+        8
+      </button>
+    </div>
+
+    <div class='flex gap-2 justify-center'>
+      <button
+        onclick='teleportTo(this)'
+        title='X=165068.859 Y=53375.617 Z=30241.926'
+      >
+        9
+      </button>
+      <button
+        onclick='teleportTo(this)'
+        title='X=167159.016 Y=53950.168 Z=30310.355'
+      >
+        10
+      </button>
+      <button
+        onclick='teleportTo(this)'
+        title='X=168575.891 Y=52537.098 Z=30185.580'
+      >
+        11
+      </button>
+      <button
+        onclick='teleportTo(this)'
+        title='X=168532.078 Y=52540.113 Z=30202.818'
+      >
+        12
+      </button>
+    </div>
+  </div>
+  <script is='inline'>
+    function teleportTo(element) {
+      var teleportToText = element.getAttribute('title');
+      teleportToText = '#Teleport ' + teleportToText; // Prepend "#TeleportToVehicle "
+
+      // Create a temporary textarea to copy the modified text to the clipboard
+      var tempText = document.createElement('textarea');
+      tempText.value = teleportToText;
+      document.body.appendChild(tempText);
+      tempText.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempText);
+    }
+  </script>
+</Layout>
