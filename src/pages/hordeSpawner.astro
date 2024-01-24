@@ -22,7 +22,9 @@ import Layout from '../layouts/Layout.astro';
     padding-left: 1em;
     cursor: pointer;
   }
-  .wrapper input, .wrapper textarea {
+  .wrapper input,
+  .wrapper button,
+  .wrapper textarea {
     background: #313338;
     color: #d1d1d1;
     border: none;
@@ -30,7 +32,6 @@ import Layout from '../layouts/Layout.astro';
     border-radius: 0.5em;
     text-wrap: nowrap;
   }
-
 
   .category > div:hover label,
   .category input:focus ~ label {
@@ -44,15 +45,10 @@ import Layout from '../layouts/Layout.astro';
   <div class='min-w-min max-w-4xl m-auto gap-'>
     <div class='wrapper shadow-md rounded px-8 pt-6 pb-8 mb-4'>
       <header>
-        <h2 class='font-bold text-2xl text-center'>
-          Horde Spawner
-        </h2>
+        <h2 class='font-bold text-2xl text-center'>Horde Spawner</h2>
       </header>
       <div class='md:flex flex-col gap-2'>
-        <label
-          class='block text-lg font-bold'
-          for='coordinates'
-        >
+        <label class='block text-lg font-bold' for='coordinates'>
           Coordinates
         </label>
         <input
@@ -60,7 +56,7 @@ import Layout from '../layouts/Layout.astro';
           id='coordinates'
           name='coordinates'
           required
-          class='border rounded w-full py-2 px-3 mb-2  leading-tight'
+          class='border rounded w-full py-2 px-3 mb-2 leading-tight'
         />
       </div>
 
@@ -71,15 +67,10 @@ import Layout from '../layouts/Layout.astro';
       </div>
 
       <div class='flex flex-col my-5'>
-
-
         <div class='block text-l font-bold'>Scatter Controls</div>
         <div id='scatterControls' class='md:flex md:items-center gap-5 mb-5'>
           <div class='md:flex md:items-center gap-2'>
-            <label
-              class='block  text-md font-bold'
-              for='zAdjust-scatter'
-            >
+            <label class='block text-md font-bold' for='zAdjust-scatter'>
               ZAdjust:
             </label>
             <input
@@ -88,7 +79,7 @@ import Layout from '../layouts/Layout.astro';
               name='zAdjust scatter'
               value='0'
               step='100'
-              class='border rounded w-28 py-2 px-3  leading-tight'
+              class='border rounded w-28 py-2 px-3 leading-tight'
             />
           </div>
           <div class='md:flex md:items-center gap-2'>
@@ -113,7 +104,7 @@ import Layout from '../layouts/Layout.astro';
               type='number'
               id='spread'
               name='spread'
-              class='border rounded w-28 py-2 px-3  leading-tight'
+              class='border rounded w-28 py-2 px-3 leading-tight'
               value='500'
               step='100'
               min='0'
@@ -122,13 +113,10 @@ import Layout from '../layouts/Layout.astro';
           </div>
         </div>
 
-        <div class='block  text-lg font-bold'>Circle Controls</div>
+        <div class='block text-lg font-bold'>Circle Controls</div>
         <div id='circleControls' class='md:flex md:items-center gap-5'>
           <div class='md:flex md:items-center gap-2'>
-            <label
-              class='block text-md font-bold'
-              for='zAdjust-circle'
-            >
+            <label class='block text-md font-bold' for='zAdjust-circle'>
               ZAdjust:
             </label>
             <input
@@ -137,22 +125,19 @@ import Layout from '../layouts/Layout.astro';
               name='zAdjust Circle'
               value='0'
               step='100'
-              class='border rounded w-28 py-2 px-3  leading-tight'
+              class='border rounded w-28 py-2 px-3 leading-tight'
             />
           </div>
 
           <div class='md:flex md:items-center gap-2'>
-            <label
-              class='block  text-md font-bold mb-2'
-              for='radius'
-            >
+            <label class='block text-md font-bold mb-2' for='radius'>
               Radius:
             </label>
             <input
               type='number'
               id='radius'
               name='radius'
-              class='border rounded w-28 py-2 px-3  leading-tight focus:outline-none focus:shadow-outline'
+              class='border rounded w-28 py-2 px-3 leading-tight focus:outline-none focus:shadow-outline'
               value='1000'
               step='100'
               min='0'
@@ -164,7 +149,7 @@ import Layout from '../layouts/Layout.astro';
 
       <div class='flex'>
         <button
-          class='  font-bold py-2 px-4 mt-6 mr-6 rounded'
+          class='font-bold py-2 px-4 mt-6 mr-6 rounded'
           type='button'
           onclick='
           scattered()
@@ -173,7 +158,7 @@ import Layout from '../layouts/Layout.astro';
           Scattered
         </button>
         <button
-          class=' font-bold py-2 px-4 mt-6 rounded focus:outline-none'
+          class='font-bold py-2 px-4 mt-6 rounded focus:outline-none'
           type='button'
           onclick='
           circleSpawner()
@@ -195,7 +180,7 @@ import Layout from '../layouts/Layout.astro';
           id='result'
           readonly
           rows='6'
-          class='border rounded w-full py-2 px-4  leading-tight focus:outline-none focus:shadow-outline'
+          class='border rounded w-full py-2 px-4 leading-tight focus:outline-none focus:shadow-outline'
         ></textarea>
       </footer>
     </div>
@@ -277,7 +262,7 @@ import Layout from '../layouts/Layout.astro';
     }
 
     // Load the zombie options from the JSON file
-    fetch('./zombieOptions.json')
+    fetch('./data/zombieOptions.json')
       .then((response) => response.json())
       .then((loadedZombieOptions) => {
         // Assign the loaded zombie options to the global variable
