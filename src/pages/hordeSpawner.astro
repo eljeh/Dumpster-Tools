@@ -262,7 +262,7 @@ import Layout from '../layouts/Layout.astro';
     }
 
     // Load the zombie options from the JSON file
-    fetch('./data/zombieOptions.json')
+    fetch('../data/zombieOptions.json')
       .then((response) => response.json())
       .then((loadedZombieOptions) => {
         // Assign the loaded zombie options to the global variable
