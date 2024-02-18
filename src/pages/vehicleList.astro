@@ -110,27 +110,27 @@ import Layout from '../layouts/Layout.astro';
       var bpcCountsContainer = document.getElementById('bpcCounts');
 
       // Format the string into a table
-      var bpcData = {};
+      var data = {};
       var lines = inputString.split('\n');
       lines.forEach(function (line) {
         var cells = line.split(/\s+/).filter(Boolean);
-        var bpcType = cells[1];
-        if (!bpcData[bpcType]) {
-          bpcData[bpcType] = [];
+        var type = cells[1];
+        if (!data[type]) {
+          data[type] = [];
         }
-        bpcData[bpcType].push(cells);
+        data[type].push(cells);
       });
 
       // Display the table
       var tableHTML = '<table>';
       var cellID = '';
-      for (var bpcType in bpcData) {
+      for (var type in data) {
         tableHTML +=
-          '<thead><tr><th colspan="100%">' + bpcType + '</th></tr></thead>';
+          '<thead><tr><th colspan="100%">' + type + '</th></tr></thead>';
         tableHTML += '<tbody>';
 
         // Assuming index 1 contains the date & time
-        bpcData[bpcType].sort(function (a, b) {
+        data[type].sort(function (a, b) {
           // Extract and convert date & time to comparable format
           var dateA = new Date(a[2]).getTime();
           var dateB = new Date(b[2]).getTime();
@@ -139,7 +139,7 @@ import Layout from '../layouts/Layout.astro';
           return dateA - dateB;
         });
 
-        bpcData[bpcType].forEach(function (cells) {
+        data[type].forEach(function (cells) {
           tableHTML += '<tr class="clickable-row">';
           cells.forEach(function (cell, index) {
             if (index === 0) {

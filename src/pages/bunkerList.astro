@@ -94,7 +94,7 @@ import Layout from '../layouts/Layout.astro';
   }
 </style>
 
-<Layout title='Vehicle List '>
+<Layout title='Bunker List '>
   <h2 class='my-8 text-2xl text-center'>Bunker List</h2>
   <div class='wrapper'>
     <form>
@@ -340,6 +340,7 @@ import Layout from '../layouts/Layout.astro';
           lockedBunkers.push(bunkerID);
         }
       });
+      
       console.log(activeBunkers);
       // Iterate through each button and style it based on active or locked status
       var buttons = document.querySelectorAll('button');

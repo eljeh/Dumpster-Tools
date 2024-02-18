@@ -1,0 +1,140 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<style is:inline>
+  body {
+    background: #1e1f22;
+    color: #c2c2c2;
+  }
+  .wrapper {
+    margin: 1em 1.5em;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+  }
+  .wrapper textarea {
+    background: #313338;
+    color: #d1d1d1;
+    border: none;
+    padding: 1em 1.25em;
+    border-radius: 0.5em;
+    height: 18em;
+    width: 95vw;
+    text-wrap: nowrap;
+  }
+  .wrapper button {
+    margin-top: 1em;
+    background: #2b2d31;
+    color: #d1d1d1;
+    border: none;
+    padding: 1em 1.25em;
+    border-radius: 0.5em;
+    cursor: pointer;
+  }
+
+  .wrapper table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 0.5em;
+    text-align: left;
+    display: grid;
+  }
+  thead {
+    margin-top: 0.5em;
+  }
+  tr {
+    background: #313338;
+    color: #d1d1d1;
+    border-bottom: 0.25em solid #1e1f22;
+  }
+  td {
+    /* background: #313338;
+    color: #d1d1d1; */
+    padding: 0.75em 1.25em;
+    text-wrap: nowrap;
+  }
+
+  th {
+    background: #2b2d31;
+    color: #d1d1d1;
+    padding: 1em 1.25em;
+  }
+  th:has(> .clickable) {
+    background: #2b2d31;
+    color: #d1d1d1;
+    padding: 0;
+  }
+
+  #bpcCounts {
+    margin-top: 20px;
+  }
+
+  /* Add this style for highlighting on click */
+  tr.highlight {
+    background: #2b2d31;
+    color: #d1d1d1;
+  }
+
+  .clickable {
+    cursor: pointer;
+    padding: 1em 1.25em;
+  }
+  .clickable:hover {
+    background: #1e1f22;
+    color: #d1d1d1;
+  }
+</style>
+
+<Layout title='Econ file '>
+  <h2 class='my-8 text-2xl text-center'>Econ File</h2>
+  <div class='wrapper'>
+    <div id='tableContainer'></div>
+  </div>
+  <script is='inline'>
+    function displayJsonAsTable() {
+      fetch('./data/economyOverride.json')
+        .then((response) => response.json())
+        .then((jsonData) => {
+          const economyOverride = jsonData['economy-override'];
+          const tableContainer = document.getElementById('tableContainer');
+
+          let tableHTML = '<table>';
+          for (const trader in economyOverride.traders) {
+            tableHTML += `<thead><tr><th colspan="6" class="trader-header">${trader}</th></tr></thead>`;
+            tableHTML += '<tbody class="trader-body" style="display:block;">';
+            economyOverride.traders[trader].forEach((item) => {
+              tableHTML += '<tr>';
+              for (const key in item) {
+                tableHTML += `<td>${item[key]}</td>`;
+              }
+              tableHTML += '</tr>';
+            });
+            tableHTML += '</tbody>';
+          }
+          tableHTML += '</table>';
+
+          tableContainer.innerHTML = tableHTML;
+
+          // Add event listeners to each trader header
+          const traderHeaders = document.querySelectorAll('.trader-header');
+          traderHeaders.forEach((header) => {
+            header.addEventListener('click', () => {
+              const traderBody = header.nextElementSibling;
+              traderBody.style.display =
+                traderBody.style.display === 'none'
+                  ? 'table-row-group'
+                  : 'none';
+            });
+          });
+        })
+        .catch((error) =>
+          console.error('Error fetching or parsing data: ', error),
+        );
+    }
+
+    // Call the function to display JSON data as a table
+    displayJsonAsTable();
+  </script>
+</Layout>
