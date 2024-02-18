@@ -6805,7 +6805,7 @@
           "base-purchase-price": "55",
           "base-sell-price": "18",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -6813,7 +6813,7 @@
           "base-purchase-price": "110",
           "base-sell-price": "36",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -6853,7 +6853,7 @@
           "base-purchase-price": "55",
           "base-sell-price": "18",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -6874,8 +6874,8 @@
         },
         {
           "tradeable-code": "Screwdriver",
-          "base-purchase-price": "9500",
-          "base-sell-price": "1979",
+          "base-purchase-price": 50000,
+          "base-sell-price": 10000,
           "delta-price": "-1.0",
           "can-be-purchased": "False",
           "required-famepoints": "-1"
@@ -6883,7 +6883,7 @@
         {
           "tradeable-code": "Lockpick_Advanced_Item",
           "base-purchase-price": "1100",
-          "base-sell-price": "244",
+          "base-sell-price": 1000,
           "delta-price": "-1.0",
           "can-be-purchased": "False",
           "required-famepoints": "-1"
@@ -6915,7 +6915,7 @@
         {
           "tradeable-code": "Lock_Item_Advanced",
           "base-purchase-price": "3300",
-          "base-sell-price": "733",
+          "base-sell-price": 1533,
           "delta-price": "-1.0",
           "can-be-purchased": "False",
           "required-famepoints": "-1"
@@ -6925,7 +6925,7 @@
           "base-purchase-price": 5000,
           "base-sell-price": 500,
           "delta-price": "-1.0",
-          "can-be-purchased": true,
+          "can-be-purchased": false,
           "required-famepoints": "-1"
         },
         {
@@ -6933,13 +6933,13 @@
           "base-purchase-price": 10000,
           "base-sell-price": 1000,
           "delta-price": "-1.0",
-          "can-be-purchased": true,
+          "can-be-purchased": false,
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "DialLock_Item",
           "base-purchase-price": "4396",
-          "base-sell-price": "977",
+          "base-sell-price": 1977,
           "delta-price": "-1.0",
           "can-be-purchased": "False",
           "required-famepoints": "-1"
@@ -6965,7 +6965,7 @@
           "base-purchase-price": 5000,
           "base-sell-price": 200,
           "delta-price": "-1.0",
-          "can-be-purchased": true,
+          "can-be-purchased": false,
           "required-famepoints": "-1"
         },
         {
@@ -7029,7 +7029,7 @@
           "base-purchase-price": "2",
           "base-sell-price": "0",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7037,7 +7037,7 @@
           "base-purchase-price": "2",
           "base-sell-price": "0",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7058,7 +7058,7 @@
         },
         {
           "tradeable-code": "1H_Little_Spade",
-          "base-purchase-price": "165",
+          "base-purchase-price": 365,
           "base-sell-price": "68",
           "delta-price": "-1.0",
           "can-be-purchased": "True",
@@ -7066,7 +7066,7 @@
         },
         {
           "tradeable-code": "2H_Axe",
-          "base-purchase-price": "1650",
+          "base-purchase-price": 3650,
           "base-sell-price": "687",
           "delta-price": "-1.0",
           "can-be-purchased": "True",
@@ -7090,7 +7090,7 @@
         },
         {
           "tradeable-code": "2H_Baseball_Bat",
-          "base-purchase-price": "440",
+          "base-purchase-price": 1240,
           "base-sell-price": "183",
           "delta-price": "-1.0",
           "can-be-purchased": "True",
@@ -7098,10 +7098,10 @@
         },
         {
           "tradeable-code": "Improvised_Metal_Spear",
-          "base-purchase-price": "55",
+          "base-purchase-price": 155,
           "base-sell-price": "11",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7117,7 +7117,7 @@
           "base-purchase-price": "5",
           "base-sell-price": "0",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7125,7 +7125,7 @@
           "base-purchase-price": "110",
           "base-sell-price": "8",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7141,7 +7141,7 @@
           "base-purchase-price": "220",
           "base-sell-price": "12",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7165,7 +7165,7 @@
           "base-purchase-price": "10",
           "base-sell-price": "1",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7173,7 +7173,7 @@
           "base-purchase-price": "5",
           "base-sell-price": "0",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7181,7 +7181,7 @@
           "base-purchase-price": "10",
           "base-sell-price": "1",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7213,7 +7213,7 @@
           "base-purchase-price": "550",
           "base-sell-price": "244",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7221,7 +7221,7 @@
           "base-purchase-price": "550",
           "base-sell-price": "244",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7229,7 +7229,7 @@
           "base-purchase-price": "550",
           "base-sell-price": "244",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7237,7 +7237,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7245,7 +7245,7 @@
           "base-purchase-price": "550",
           "base-sell-price": "244",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7253,7 +7253,7 @@
           "base-purchase-price": "550",
           "base-sell-price": "244",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7261,7 +7261,7 @@
           "base-purchase-price": "550",
           "base-sell-price": "244",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7269,7 +7269,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7277,7 +7277,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "41",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7717,7 +7717,7 @@
           "base-purchase-price": "1200",
           "base-sell-price": "400",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7917,7 +7917,7 @@
           "base-purchase-price": "25",
           "base-sell-price": "8",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -7925,7 +7925,7 @@
           "base-purchase-price": "500",
           "base-sell-price": "166",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8301,7 +8301,7 @@
           "base-purchase-price": "440",
           "base-sell-price": "146",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8389,7 +8389,7 @@
           "base-purchase-price": "550",
           "base-sell-price": "183",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8549,7 +8549,7 @@
           "base-purchase-price": "110",
           "base-sell-price": "36",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8557,7 +8557,7 @@
           "base-purchase-price": "220",
           "base-sell-price": "73",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8565,7 +8565,7 @@
           "base-purchase-price": "220",
           "base-sell-price": "73",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8573,7 +8573,7 @@
           "base-purchase-price": "220",
           "base-sell-price": "73",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8581,7 +8581,7 @@
           "base-purchase-price": "220",
           "base-sell-price": "73",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8597,7 +8597,7 @@
           "base-purchase-price": "110",
           "base-sell-price": "36",
           "delta-price": "-1.0",
-          "can-be-purchased": "True",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8605,7 +8605,7 @@
           "base-purchase-price": "550",
           "base-sell-price": "183",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8613,7 +8613,7 @@
           "base-purchase-price": "440",
           "base-sell-price": "146",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8621,7 +8621,7 @@
           "base-purchase-price": "440",
           "base-sell-price": "146",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8629,7 +8629,7 @@
           "base-purchase-price": "440",
           "base-sell-price": "146",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8637,7 +8637,7 @@
           "base-purchase-price": "880",
           "base-sell-price": "293",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8645,7 +8645,7 @@
           "base-purchase-price": "1100",
           "base-sell-price": "366",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8653,7 +8653,7 @@
           "base-purchase-price": "440",
           "base-sell-price": "146",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8661,7 +8661,7 @@
           "base-purchase-price": "440",
           "base-sell-price": "146",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8669,7 +8669,7 @@
           "base-purchase-price": "440",
           "base-sell-price": "146",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8677,7 +8677,7 @@
           "base-purchase-price": "1100",
           "base-sell-price": "366",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8685,7 +8685,7 @@
           "base-purchase-price": "440",
           "base-sell-price": "146",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8693,7 +8693,7 @@
           "base-purchase-price": "550",
           "base-sell-price": "183",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8701,7 +8701,7 @@
           "base-purchase-price": "440",
           "base-sell-price": "146",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -8789,7 +8789,7 @@
           "base-purchase-price": "2200",
           "base-sell-price": "733",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -10629,7 +10629,7 @@
           "base-purchase-price": "500",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -10637,7 +10637,7 @@
           "base-purchase-price": "1000",
           "base-sell-price": "4",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -10645,7 +10645,7 @@
           "base-purchase-price": "1500",
           "base-sell-price": "6",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -10661,7 +10661,7 @@
           "base-purchase-price": "400",
           "base-sell-price": "1",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -10677,7 +10677,7 @@
           "base-purchase-price": "800",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -10685,7 +10685,7 @@
           "base-purchase-price": "1200",
           "base-sell-price": "5",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -10717,7 +10717,7 @@
           "base-purchase-price": "200",
           "base-sell-price": "16",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -10725,7 +10725,7 @@
           "base-purchase-price": "11",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -10733,7 +10733,7 @@
           "base-purchase-price": "22",
           "base-sell-price": "4",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -10821,7 +10821,7 @@
           "base-purchase-price": "40",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -10861,7 +10861,7 @@
           "base-purchase-price": "110",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -10877,7 +10877,7 @@
           "base-purchase-price": "40",
           "base-sell-price": "4",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -10933,7 +10933,7 @@
           "base-purchase-price": "110",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -10965,7 +10965,7 @@
           "base-purchase-price": "16",
           "base-sell-price": "1",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11005,7 +11005,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11013,7 +11013,7 @@
           "base-purchase-price": "1100",
           "base-sell-price": "244",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11021,7 +11021,7 @@
           "base-purchase-price": "1500",
           "base-sell-price": "312",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11034,26 +11034,26 @@
         },
         {
           "tradeable-code": "Human_Ears",
-          "base-purchase-price": "11",
+          "base-purchase-price": "110",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Human_Skin",
-          "base-purchase-price": "55",
+          "base-purchase-price": "550",
           "base-sell-price": "12",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Human_Teeth",
-          "base-purchase-price": "11",
+          "base-purchase-price": "110",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11066,10 +11066,10 @@
         },
         {
           "tradeable-code": "Improvised_Metal_Chest",
-          "base-purchase-price": "440",
+          "base-purchase-price": 5000,
           "base-sell-price": "97",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": false,
           "required-famepoints": "-1"
         },
         {
@@ -11077,7 +11077,7 @@
           "base-purchase-price": "300",
           "base-sell-price": "31",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11085,7 +11085,7 @@
           "base-purchase-price": "750",
           "base-sell-price": "39",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11093,7 +11093,7 @@
           "base-purchase-price": "33",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11101,7 +11101,7 @@
           "base-purchase-price": "33",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11109,7 +11109,7 @@
           "base-purchase-price": "33",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11170,26 +11170,26 @@
         },
         {
           "tradeable-code": "Metal_Scrap_02",
-          "base-purchase-price": "5",
+          "base-purchase-price": 500,
           "base-sell-price": "0",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Metal_Scrap_03",
-          "base-purchase-price": "5",
+          "base-purchase-price": 500,
           "base-sell-price": "0",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Nails_Package_Box",
-          "base-purchase-price": "200",
+          "base-purchase-price": 600,
           "base-sell-price": "16",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11197,7 +11197,7 @@
           "base-purchase-price": "93",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11210,10 +11210,10 @@
         },
         {
           "tradeable-code": "Pen",
-          "base-purchase-price": "200",
+          "base-purchase-price": 1000,
           "base-sell-price": "41",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": false,
           "required-famepoints": "-1"
         },
         {
@@ -11235,7 +11235,7 @@
         {
           "tradeable-code": "Puppet_Eye",
           "base-purchase-price": "50",
-          "base-sell-price": "10",
+          "base-sell-price": 500,
           "delta-price": "-1.0",
           "can-be-purchased": "False",
           "required-famepoints": "-1"
@@ -11506,10 +11506,10 @@
         },
         {
           "tradeable-code": "Improvised_Wheel",
-          "base-purchase-price": "550",
+          "base-purchase-price": 5500,
           "base-sell-price": "1",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11546,10 +11546,10 @@
         },
         {
           "tradeable-code": "Portable_Gas_Stove",
-          "base-purchase-price": "880",
+          "base-purchase-price": 5800,
           "base-sell-price": "195",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11597,7 +11597,7 @@
           "base-purchase-price": "200",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11618,10 +11618,10 @@
         },
         {
           "tradeable-code": "Water_Collector_Raincoat",
-          "base-purchase-price": "1100",
-          "base-sell-price": "244",
+          "base-purchase-price": 4100,
+          "base-sell-price": 244,
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11637,7 +11637,7 @@
           "base-purchase-price": "220",
           "base-sell-price": "97",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11645,7 +11645,7 @@
           "base-purchase-price": "220",
           "base-sell-price": "97",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11653,7 +11653,7 @@
           "base-purchase-price": "55",
           "base-sell-price": "12",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11661,7 +11661,7 @@
           "base-purchase-price": "27",
           "base-sell-price": "6",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11669,7 +11669,7 @@
           "base-purchase-price": "110",
           "base-sell-price": "48",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11677,7 +11677,7 @@
           "base-purchase-price": "110",
           "base-sell-price": "48",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11773,7 +11773,7 @@
           "base-purchase-price": "200",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11781,7 +11781,7 @@
           "base-purchase-price": "200",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11789,7 +11789,7 @@
           "base-purchase-price": "150",
           "base-sell-price": "15",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11805,7 +11805,7 @@
           "base-purchase-price": "150",
           "base-sell-price": "15",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -11837,7 +11837,7 @@
           "base-purchase-price": "150",
           "base-sell-price": "15",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12045,7 +12045,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12053,7 +12053,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12141,7 +12141,7 @@
           "base-purchase-price": "200",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12149,7 +12149,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12325,7 +12325,7 @@
           "base-purchase-price": "10",
           "base-sell-price": "0",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12333,7 +12333,7 @@
           "base-purchase-price": "10",
           "base-sell-price": "0",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12341,7 +12341,7 @@
           "base-purchase-price": "10",
           "base-sell-price": "0",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12357,7 +12357,7 @@
           "base-purchase-price": "10",
           "base-sell-price": "0",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12365,7 +12365,7 @@
           "base-purchase-price": "10",
           "base-sell-price": "0",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12373,7 +12373,7 @@
           "base-purchase-price": "10",
           "base-sell-price": "0",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12405,7 +12405,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12429,7 +12429,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12461,7 +12461,7 @@
           "base-purchase-price": "200",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12517,7 +12517,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12525,7 +12525,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12541,7 +12541,7 @@
           "base-purchase-price": "30",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12557,7 +12557,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12573,7 +12573,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12581,7 +12581,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -12589,15 +12589,15 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Improvised_Lockpick",
-          "base-purchase-price": "1",
+          "base-purchase-price": 200,
           "base-sell-price": "0",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": false,
           "required-famepoints": "-1"
         },
         {
@@ -12605,7 +12605,7 @@
           "base-purchase-price": "330",
           "base-sell-price": "73",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13306,23 +13306,23 @@
         },
         {
           "tradeable-code": "1H_DannyMachete",
-          "base-purchase-price": "7",
+          "base-purchase-price": 1200,
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "1H_Beam_Dildo",
           "base-purchase-price": "5500",
-          "base-sell-price": "1145",
+          "base-sell-price": 2145,
           "delta-price": "-1.0",
           "can-be-purchased": "False",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "1H_Cleaver",
-          "base-purchase-price": "550",
+          "base-purchase-price": "1550",
           "base-sell-price": "229",
           "delta-price": "-1.0",
           "can-be-purchased": "True",
@@ -13330,7 +13330,7 @@
         },
         {
           "tradeable-code": "1H_Crowbar",
-          "base-purchase-price": "1100",
+          "base-purchase-price": "3100",
           "base-sell-price": "458",
           "delta-price": "-1.0",
           "can-be-purchased": "True",
@@ -13370,7 +13370,7 @@
         },
         {
           "tradeable-code": "1H_KitchenKnife_02",
-          "base-purchase-price": "110",
+          "base-purchase-price": "270",
           "base-sell-price": "45",
           "delta-price": "-1.0",
           "can-be-purchased": "False",
@@ -13378,7 +13378,7 @@
         },
         {
           "tradeable-code": "1H_KitchenKnife_04",
-          "base-purchase-price": "110",
+          "base-purchase-price": "220",
           "base-sell-price": "45",
           "delta-price": "-1.0",
           "can-be-purchased": "False",
@@ -13386,7 +13386,7 @@
         },
         {
           "tradeable-code": "1H_Metal_Pipe",
-          "base-purchase-price": "55",
+          "base-purchase-price": "125",
           "base-sell-price": "22",
           "delta-price": "-1.0",
           "can-be-purchased": "True",
@@ -13394,7 +13394,7 @@
         },
         {
           "tradeable-code": "1H_Scalpel",
-          "base-purchase-price": "220",
+          "base-purchase-price": "2720",
           "base-sell-price": "91",
           "delta-price": "-1.0",
           "can-be-purchased": "False",
@@ -13402,7 +13402,7 @@
         },
         {
           "tradeable-code": "1H_Small_Axe",
-          "base-purchase-price": "1100",
+          "base-purchase-price": "3000",
           "base-sell-price": "458",
           "delta-price": "-1.0",
           "can-be-purchased": "True",
@@ -13418,7 +13418,7 @@
         },
         {
           "tradeable-code": "2H_Baseball_Bat_Blaze",
-          "base-purchase-price": "2200",
+          "base-purchase-price": "3200",
           "base-sell-price": "916",
           "delta-price": "-1.0",
           "can-be-purchased": "False",
@@ -13426,7 +13426,7 @@
         },
         {
           "tradeable-code": "2H_Improvised_metal_shovel",
-          "base-purchase-price": "110",
+          "base-purchase-price": "510",
           "base-sell-price": "0",
           "delta-price": "-1.0",
           "can-be-purchased": "False",
@@ -13442,7 +13442,7 @@
         },
         {
           "tradeable-code": "2H_Metal_Axe",
-          "base-purchase-price": "550",
+          "base-purchase-price": "1250",
           "base-sell-price": "114",
           "delta-price": "-1.0",
           "can-be-purchased": "True",
@@ -13450,7 +13450,7 @@
         },
         {
           "tradeable-code": "2H_Metal_Baseball_Bat",
-          "base-purchase-price": "1100",
+          "base-purchase-price": "3000",
           "base-sell-price": "458",
           "delta-price": "-1.0",
           "can-be-purchased": "True",
@@ -13458,7 +13458,7 @@
         },
         {
           "tradeable-code": "2H_Pickaxe",
-          "base-purchase-price": "1100",
+          "base-purchase-price": "3000",
           "base-sell-price": "458",
           "delta-price": "-1.0",
           "can-be-purchased": "True",
@@ -13466,7 +13466,7 @@
         },
         {
           "tradeable-code": "2H_Pitchfork",
-          "base-purchase-price": "880",
+          "base-purchase-price": "2780",
           "base-sell-price": "366",
           "delta-price": "-1.0",
           "can-be-purchased": "True",
@@ -13474,7 +13474,7 @@
         },
         {
           "tradeable-code": "2H_Pitchfork_Bent",
-          "base-purchase-price": "880",
+          "base-purchase-price": "2280",
           "base-sell-price": "366",
           "delta-price": "-1.0",
           "can-be-purchased": "False",
@@ -13482,7 +13482,7 @@
         },
         {
           "tradeable-code": "2H_Shovel_01",
-          "base-purchase-price": "165",
+          "base-purchase-price": "465",
           "base-sell-price": "68",
           "delta-price": "-1.0",
           "can-be-purchased": "True",
@@ -13490,7 +13490,7 @@
         },
         {
           "tradeable-code": "2H_Shovel_02",
-          "base-purchase-price": "220",
+          "base-purchase-price": "620",
           "base-sell-price": "91",
           "delta-price": "-1.0",
           "can-be-purchased": "True",
@@ -13498,7 +13498,7 @@
         },
         {
           "tradeable-code": "2H_Stone_Axe",
-          "base-purchase-price": "440",
+          "base-purchase-price": "2240",
           "base-sell-price": "1",
           "delta-price": "-1.0",
           "can-be-purchased": "True",
@@ -13506,7 +13506,7 @@
         },
         {
           "tradeable-code": "Chainsaw",
-          "base-purchase-price": "3300",
+          "base-purchase-price": "6300",
           "base-sell-price": "1375",
           "delta-price": "-1.0",
           "can-be-purchased": "True",
@@ -13525,7 +13525,7 @@
           "base-purchase-price": "60",
           "base-sell-price": "6",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13533,7 +13533,7 @@
           "base-purchase-price": "60",
           "base-sell-price": "6",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13541,7 +13541,7 @@
           "base-purchase-price": "30",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13549,7 +13549,7 @@
           "base-purchase-price": "260",
           "base-sell-price": "27",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13557,7 +13557,7 @@
           "base-purchase-price": "30",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13565,7 +13565,7 @@
           "base-purchase-price": "30",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13573,7 +13573,7 @@
           "base-purchase-price": "30",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13581,7 +13581,7 @@
           "base-purchase-price": "30",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13589,7 +13589,7 @@
           "base-purchase-price": "510",
           "base-sell-price": "53",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13597,7 +13597,7 @@
           "base-purchase-price": "160",
           "base-sell-price": "16",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13605,7 +13605,7 @@
           "base-purchase-price": "50",
           "base-sell-price": "5",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13613,7 +13613,7 @@
           "base-purchase-price": "60",
           "base-sell-price": "6",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13621,7 +13621,7 @@
           "base-purchase-price": "160",
           "base-sell-price": "16",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13629,7 +13629,7 @@
           "base-purchase-price": "30",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13637,7 +13637,7 @@
           "base-purchase-price": "160",
           "base-sell-price": "16",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13645,7 +13645,7 @@
           "base-purchase-price": "209",
           "base-sell-price": "21",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13653,7 +13653,7 @@
           "base-purchase-price": "10",
           "base-sell-price": "0",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13661,7 +13661,7 @@
           "base-purchase-price": "510",
           "base-sell-price": "53",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13669,7 +13669,7 @@
           "base-purchase-price": "510",
           "base-sell-price": "53",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13677,7 +13677,7 @@
           "base-purchase-price": "40",
           "base-sell-price": "4",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13685,7 +13685,7 @@
           "base-purchase-price": "190",
           "base-sell-price": "19",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13693,7 +13693,7 @@
           "base-purchase-price": "30",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13701,7 +13701,7 @@
           "base-purchase-price": "510",
           "base-sell-price": "53",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13709,7 +13709,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13717,7 +13717,7 @@
           "base-purchase-price": "30",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13725,7 +13725,7 @@
           "base-purchase-price": "30",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13733,7 +13733,7 @@
           "base-purchase-price": "209",
           "base-sell-price": "21",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13741,7 +13741,7 @@
           "base-purchase-price": "500",
           "base-sell-price": "52",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13773,7 +13773,7 @@
           "base-purchase-price": "500",
           "base-sell-price": "52",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13781,7 +13781,7 @@
           "base-purchase-price": "26",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13789,7 +13789,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13797,7 +13797,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13805,7 +13805,7 @@
           "base-purchase-price": "110",
           "base-sell-price": "11",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13813,7 +13813,7 @@
           "base-purchase-price": "110",
           "base-sell-price": "36",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13829,7 +13829,7 @@
           "base-purchase-price": "50",
           "base-sell-price": "16",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13837,7 +13837,7 @@
           "base-purchase-price": "50",
           "base-sell-price": "16",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13861,7 +13861,7 @@
           "base-purchase-price": "40",
           "base-sell-price": "4",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13869,7 +13869,7 @@
           "base-purchase-price": "7",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13877,7 +13877,7 @@
           "base-purchase-price": "7",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13885,7 +13885,7 @@
           "base-purchase-price": "7",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13893,7 +13893,7 @@
           "base-purchase-price": "7",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13965,7 +13965,7 @@
           "base-purchase-price": "115",
           "base-sell-price": "35",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13973,7 +13973,7 @@
           "base-purchase-price": "115",
           "base-sell-price": "35",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -13981,7 +13981,7 @@
           "base-purchase-price": "115",
           "base-sell-price": "35",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -14013,7 +14013,7 @@
           "base-purchase-price": "110",
           "base-sell-price": "32",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -14021,7 +14021,7 @@
           "base-purchase-price": "110",
           "base-sell-price": "32",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -14045,7 +14045,7 @@
           "base-purchase-price": "54",
           "base-sell-price": "17",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -14053,7 +14053,7 @@
           "base-purchase-price": "54",
           "base-sell-price": "17",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -14077,7 +14077,7 @@
           "base-purchase-price": "608",
           "base-sell-price": "202",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -14093,7 +14093,7 @@
           "base-purchase-price": "608",
           "base-sell-price": "202",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -14101,7 +14101,7 @@
           "base-purchase-price": "608",
           "base-sell-price": "202",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -14125,7 +14125,7 @@
           "base-purchase-price": "165",
           "base-sell-price": "36",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -14133,7 +14133,7 @@
           "base-purchase-price": "165",
           "base-sell-price": "36",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -14141,7 +14141,7 @@
           "base-purchase-price": "165",
           "base-sell-price": "36",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -14149,7 +14149,7 @@
           "base-purchase-price": "184",
           "base-sell-price": "40",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -14157,7 +14157,7 @@
           "base-purchase-price": "165",
           "base-sell-price": "36",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -14221,7 +14221,7 @@
           "base-purchase-price": "165",
           "base-sell-price": "36",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -14237,7 +14237,7 @@
           "base-purchase-price": "165",
           "base-sell-price": "36",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -14253,7 +14253,7 @@
           "base-purchase-price": "165",
           "base-sell-price": "36",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -14637,7 +14637,7 @@
           "base-purchase-price": "1072",
           "base-sell-price": "78",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -14653,12 +14653,12 @@
           "base-purchase-price": "286",
           "base-sell-price": "59",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Portable_Electric_Stove",
-          "base-purchase-price": 10000,
+          "base-purchase-price": 5000,
           "base-sell-price": 200,
           "delta-price": "-1.0",
           "can-be-purchased": true,
@@ -14666,7 +14666,7 @@
         },
         {
           "tradeable-code": "Refrigerator_Portable_Small",
-          "base-purchase-price": 10000,
+          "base-purchase-price": 7000,
           "base-sell-price": 500,
           "delta-price": "-1.0",
           "can-be-purchased": true,
@@ -15055,7 +15055,7 @@
           "base-purchase-price": "200",
           "base-sell-price": "41",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15071,7 +15071,7 @@
           "base-purchase-price": "200",
           "base-sell-price": "41",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15087,7 +15087,7 @@
           "base-purchase-price": "350",
           "base-sell-price": "72",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15095,7 +15095,7 @@
           "base-purchase-price": "2000",
           "base-sell-price": "416",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15103,7 +15103,7 @@
           "base-purchase-price": "1500",
           "base-sell-price": "312",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15127,7 +15127,7 @@
           "base-purchase-price": "1500",
           "base-sell-price": "312",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15135,7 +15135,7 @@
           "base-purchase-price": "900",
           "base-sell-price": "187",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15143,7 +15143,7 @@
           "base-purchase-price": "55",
           "base-sell-price": "12",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15151,7 +15151,7 @@
           "base-purchase-price": "27",
           "base-sell-price": "6",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15159,7 +15159,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15167,7 +15167,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15175,7 +15175,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15183,7 +15183,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15191,7 +15191,7 @@
           "base-purchase-price": "1000",
           "base-sell-price": "208",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15199,7 +15199,7 @@
           "base-purchase-price": "600",
           "base-sell-price": "124",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15207,7 +15207,7 @@
           "base-purchase-price": "87",
           "base-sell-price": "18",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15215,7 +15215,7 @@
           "base-purchase-price": "87",
           "base-sell-price": "18",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15223,7 +15223,7 @@
           "base-purchase-price": "87",
           "base-sell-price": "18",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15231,7 +15231,7 @@
           "base-purchase-price": "87",
           "base-sell-price": "18",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15239,7 +15239,7 @@
           "base-purchase-price": "900",
           "base-sell-price": "187",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15247,7 +15247,7 @@
           "base-purchase-price": "550",
           "base-sell-price": "114",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15263,7 +15263,7 @@
           "base-purchase-price": "87",
           "base-sell-price": "18",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15279,7 +15279,7 @@
           "base-purchase-price": "550",
           "base-sell-price": "114",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15295,7 +15295,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15303,7 +15303,7 @@
           "base-purchase-price": "1000",
           "base-sell-price": "208",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15311,7 +15311,7 @@
           "base-purchase-price": "600",
           "base-sell-price": "124",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15319,7 +15319,7 @@
           "base-purchase-price": "200",
           "base-sell-price": "41",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15327,7 +15327,7 @@
           "base-purchase-price": "150",
           "base-sell-price": "31",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15343,7 +15343,7 @@
           "base-purchase-price": "1500",
           "base-sell-price": "312",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15351,7 +15351,7 @@
           "base-purchase-price": "900",
           "base-sell-price": "187",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15359,7 +15359,7 @@
           "base-purchase-price": "0",
           "base-sell-price": "0",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15367,7 +15367,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15375,7 +15375,7 @@
           "base-purchase-price": "50",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15383,7 +15383,7 @@
           "base-purchase-price": "50",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15391,7 +15391,7 @@
           "base-purchase-price": "50",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15399,7 +15399,7 @@
           "base-purchase-price": "50",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15407,7 +15407,7 @@
           "base-purchase-price": "50",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15415,7 +15415,7 @@
           "base-purchase-price": "50",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15423,7 +15423,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15439,7 +15439,7 @@
           "base-purchase-price": "50",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15447,7 +15447,7 @@
           "base-purchase-price": "50",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15463,7 +15463,7 @@
           "base-purchase-price": "200",
           "base-sell-price": "41",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15471,7 +15471,7 @@
           "base-purchase-price": "75",
           "base-sell-price": "15",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15479,7 +15479,7 @@
           "base-purchase-price": "75",
           "base-sell-price": "15",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15487,7 +15487,7 @@
           "base-purchase-price": "75",
           "base-sell-price": "15",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15495,7 +15495,7 @@
           "base-purchase-price": "75",
           "base-sell-price": "15",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15503,7 +15503,7 @@
           "base-purchase-price": "800",
           "base-sell-price": "166",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15511,7 +15511,7 @@
           "base-purchase-price": "500",
           "base-sell-price": "104",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15535,7 +15535,7 @@
           "base-purchase-price": "150",
           "base-sell-price": "15",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15559,7 +15559,7 @@
           "base-purchase-price": "150",
           "base-sell-price": "15",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15583,7 +15583,7 @@
           "base-purchase-price": "150",
           "base-sell-price": "15",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15599,7 +15599,7 @@
           "base-purchase-price": "150",
           "base-sell-price": "15",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -15615,7 +15615,7 @@
           "base-purchase-price": "300",
           "base-sell-price": "31",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16007,7 +16007,7 @@
           "base-purchase-price": "250",
           "base-sell-price": "26",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16015,7 +16015,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16023,7 +16023,7 @@
           "base-purchase-price": "50",
           "base-sell-price": "5",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16031,7 +16031,7 @@
           "base-purchase-price": "60",
           "base-sell-price": "6",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16039,7 +16039,7 @@
           "base-purchase-price": "50",
           "base-sell-price": "5",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16047,7 +16047,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16055,7 +16055,7 @@
           "base-purchase-price": "60",
           "base-sell-price": "6",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16063,7 +16063,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16071,7 +16071,7 @@
           "base-purchase-price": "300",
           "base-sell-price": "62",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16079,7 +16079,7 @@
           "base-purchase-price": "200",
           "base-sell-price": "41",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16087,7 +16087,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16095,7 +16095,7 @@
           "base-purchase-price": "300",
           "base-sell-price": "31",
           "delta-price": "-1.0",
-          "can-be-purchased": "True",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16103,7 +16103,7 @@
           "base-purchase-price": "150",
           "base-sell-price": "15",
           "delta-price": "-1.0",
-          "can-be-purchased": "True",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16127,7 +16127,7 @@
           "base-purchase-price": "150",
           "base-sell-price": "15",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16143,7 +16143,7 @@
           "base-purchase-price": "150",
           "base-sell-price": "15",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16159,7 +16159,7 @@
           "base-purchase-price": "250",
           "base-sell-price": "26",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16183,7 +16183,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16191,7 +16191,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16199,7 +16199,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16215,7 +16215,7 @@
           "base-purchase-price": "300",
           "base-sell-price": "31",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16231,7 +16231,7 @@
           "base-purchase-price": "150",
           "base-sell-price": "15",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16255,7 +16255,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16271,7 +16271,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16287,7 +16287,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16295,7 +16295,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16319,7 +16319,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16327,7 +16327,7 @@
           "base-purchase-price": "500",
           "base-sell-price": "52",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16343,7 +16343,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16359,7 +16359,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16367,7 +16367,7 @@
           "base-purchase-price": "500",
           "base-sell-price": "52",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16375,7 +16375,7 @@
           "base-purchase-price": "500",
           "base-sell-price": "52",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16383,7 +16383,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16399,7 +16399,7 @@
           "base-purchase-price": "500",
           "base-sell-price": "52",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16407,7 +16407,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16423,7 +16423,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16431,7 +16431,7 @@
           "base-purchase-price": "200",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16447,7 +16447,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16455,7 +16455,7 @@
           "base-purchase-price": "200",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16471,7 +16471,7 @@
           "base-purchase-price": "10",
           "base-sell-price": "0",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16487,7 +16487,7 @@
           "base-purchase-price": "500",
           "base-sell-price": "52",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16495,7 +16495,7 @@
           "base-purchase-price": "180",
           "base-sell-price": "18",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16503,7 +16503,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16519,7 +16519,7 @@
           "base-purchase-price": "200",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16527,7 +16527,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16535,7 +16535,7 @@
           "base-purchase-price": "30",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16543,7 +16543,7 @@
           "base-purchase-price": "200",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16551,7 +16551,7 @@
           "base-purchase-price": "200",
           "base-sell-price": "20",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16567,7 +16567,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16575,7 +16575,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16583,7 +16583,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16591,7 +16591,7 @@
           "base-purchase-price": "75",
           "base-sell-price": "7",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16599,7 +16599,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16607,7 +16607,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16615,7 +16615,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16623,7 +16623,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16631,7 +16631,7 @@
           "base-purchase-price": "50",
           "base-sell-price": "5",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16639,7 +16639,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16647,7 +16647,7 @@
           "base-purchase-price": "50",
           "base-sell-price": "5",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16655,7 +16655,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16663,7 +16663,7 @@
           "base-purchase-price": "3",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16671,7 +16671,7 @@
           "base-purchase-price": "3",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16679,7 +16679,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16743,7 +16743,7 @@
           "base-purchase-price": "40",
           "base-sell-price": "4",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16759,7 +16759,7 @@
           "base-purchase-price": "40",
           "base-sell-price": "4",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16791,7 +16791,7 @@
           "base-purchase-price": "60",
           "base-sell-price": "6",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16815,7 +16815,7 @@
           "base-purchase-price": "40",
           "base-sell-price": "4",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16839,7 +16839,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16847,7 +16847,7 @@
           "base-purchase-price": "30",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16863,7 +16863,7 @@
           "base-purchase-price": "50",
           "base-sell-price": "5",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16879,7 +16879,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16887,7 +16887,7 @@
           "base-purchase-price": "30",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16903,7 +16903,7 @@
           "base-purchase-price": "100",
           "base-sell-price": "10",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16927,7 +16927,7 @@
           "base-purchase-price": "20",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16951,7 +16951,7 @@
           "base-purchase-price": "28",
           "base-sell-price": "2",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16959,7 +16959,7 @@
           "base-purchase-price": "65",
           "base-sell-price": "6",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -16967,7 +16967,7 @@
           "base-purchase-price": "37",
           "base-sell-price": "3",
           "delta-price": "-1.0",
-          "can-be-purchased": "False",
+          "can-be-purchased": true,
           "required-famepoints": "-1"
         },
         {
@@ -17006,8 +17006,8 @@
       "A_0_Hospital": [
         {
           "tradeable-code": "Painkillers_01",
-          "base-purchase-price": "2400",
-          "base-sell-price": "499",
+          "base-purchase-price": 3000,
+          "base-sell-price": 1000,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
@@ -17022,7 +17022,7 @@
         },
         {
           "tradeable-code": "Rags",
-          "base-purchase-price": "30",
+          "base-purchase-price": 30,
           "base-sell-price": "0",
           "delta-price": "-1.0",
           "can-be-purchased": "True",
@@ -17030,56 +17030,56 @@
         },
         {
           "tradeable-code": "Apple",
-          "base-purchase-price": "40",
-          "base-sell-price": "4",
+          "base-purchase-price": 40,
+          "base-sell-price": 8,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Tourniquet",
-          "base-purchase-price": "2000",
-          "base-sell-price": "416",
+          "base-purchase-price": 2400,
+          "base-sell-price": 800,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Medical_Glove_01",
-          "base-purchase-price": "700",
-          "base-sell-price": "77",
+          "base-purchase-price": 700,
+          "base-sell-price": 150,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Disposable_Mask",
-          "base-purchase-price": "27",
-          "base-sell-price": "9",
+          "base-purchase-price": 27,
+          "base-sell-price": 9,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Head_Bags_01",
-          "base-purchase-price": "55",
-          "base-sell-price": "18",
+          "base-purchase-price": 110,
+          "base-sell-price": 36,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Hospital_Shirt_01",
-          "base-purchase-price": "110",
-          "base-sell-price": "36",
+          "base-purchase-price": 220,
+          "base-sell-price": 72,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Hospital_Pants",
-          "base-purchase-price": "55",
-          "base-sell-price": "18",
+          "base-purchase-price": 110,
+          "base-sell-price": 36,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
@@ -17102,40 +17102,40 @@
         },
         {
           "tradeable-code": "Emergency_bandage",
-          "base-purchase-price": "500",
-          "base-sell-price": "104",
+          "base-purchase-price": 600,
+          "base-sell-price": 200,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Emergency_bandage_Big",
-          "base-purchase-price": "2000",
-          "base-sell-price": "416",
+          "base-purchase-price": 2400,
+          "base-sell-price": 800,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Hemostatic_Dressing",
-          "base-purchase-price": "1000",
-          "base-sell-price": "208",
+          "base-purchase-price": 1200,
+          "base-sell-price": 400,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Pressure_Dressing",
-          "base-purchase-price": "1000",
-          "base-sell-price": "208",
+          "base-purchase-price": 1200,
+          "base-sell-price": 400,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Cigarettes",
-          "base-purchase-price": "200",
-          "base-sell-price": "83",
+          "base-purchase-price": 420,
+          "base-sell-price": 160,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
@@ -17143,111 +17143,111 @@
         {
           "tradeable-code": "Apple_2",
           "base-purchase-price": "40",
-          "base-sell-price": "4",
+          "base-sell-price": 8,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Vitamins_01",
-          "base-purchase-price": "500",
-          "base-sell-price": "104",
+          "base-purchase-price": 600,
+          "base-sell-price": 200,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Vitamins_02",
-          "base-purchase-price": "750",
-          "base-sell-price": "156",
+          "base-purchase-price": 900,
+          "base-sell-price": 300,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Vitamins_03",
-          "base-purchase-price": "1000",
-          "base-sell-price": "208",
+          "base-purchase-price": 1200,
+          "base-sell-price": 400,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "ActivatedCharcoal_01",
-          "base-purchase-price": "2400",
-          "base-sell-price": "499",
+          "base-purchase-price": 3000,
+          "base-sell-price": 1000,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "ActivatedCharcoal_02",
-          "base-purchase-price": "4200",
-          "base-sell-price": "874",
+          "base-purchase-price": 5100,
+          "base-sell-price": 1700,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "ActivatedCharcoal_03",
-          "base-purchase-price": "6000",
-          "base-sell-price": "1250",
+          "base-purchase-price": 7500,
+          "base-sell-price": 2500,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Adrenaline_Shot",
-          "base-purchase-price": "1200",
-          "base-sell-price": "249",
+          "base-purchase-price": 1500,
+          "base-sell-price": 500,
           "delta-price": "-1.0",
           "can-be-purchased": "False",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Anti_Radiation_Pils_01",
-          "base-purchase-price": "400",
-          "base-sell-price": "83",
+          "base-purchase-price": 480,
+          "base-sell-price": 160,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Anti_Radiation_Pils_02",
-          "base-purchase-price": "800",
-          "base-sell-price": "166",
+          "base-purchase-price": 960,
+          "base-sell-price": 320,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Anti_Radiation_Pils_03",
-          "base-purchase-price": "1200",
-          "base-sell-price": "249",
+          "base-purchase-price": 1500,
+          "base-sell-price": 500,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Antibiotics_01",
-          "base-purchase-price": "2400",
-          "base-sell-price": "499",
+          "base-purchase-price": 3000,
+          "base-sell-price": 1000,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Antibiotics_02",
-          "base-purchase-price": "4200",
-          "base-sell-price": "874",
+          "base-purchase-price": 5100,
+          "base-sell-price": 1700,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Antibiotics_03",
-          "base-purchase-price": "6000",
-          "base-sell-price": "1250",
+          "base-purchase-price": 7500,
+          "base-sell-price": 2500,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
@@ -17310,8 +17310,8 @@
         },
         {
           "tradeable-code": "Aspirin",
-          "base-purchase-price": "800",
-          "base-sell-price": "166",
+          "base-purchase-price": 990,
+          "base-sell-price": 330,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
@@ -17326,80 +17326,80 @@
         },
         {
           "tradeable-code": "BeePollen_Pils_01",
-          "base-purchase-price": "300",
-          "base-sell-price": "62",
+          "base-purchase-price": 360,
+          "base-sell-price": 120,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "BeePollen_Pils_02",
-          "base-purchase-price": "500",
-          "base-sell-price": "104",
+          "base-purchase-price": 600,
+          "base-sell-price": 200,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "BeePollen_Pils_03",
-          "base-purchase-price": "700",
-          "base-sell-price": "145",
+          "base-purchase-price": 900,
+          "base-sell-price": 300,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Isopropyl_alcohol",
-          "base-purchase-price": "1000",
-          "base-sell-price": "250",
+          "base-purchase-price": 1500,
+          "base-sell-price": 500,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Painkillers_02",
-          "base-purchase-price": "3600",
-          "base-sell-price": "750",
+          "base-purchase-price": 4500,
+          "base-sell-price": 1500,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "PainKillers_03",
-          "base-purchase-price": "4800",
-          "base-sell-price": "999",
+          "base-purchase-price": 6000,
+          "base-sell-price": 2000,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "Penicillin01",
-          "base-purchase-price": "2500",
-          "base-sell-price": "520",
+          "base-purchase-price": 3000,
+          "base-sell-price": 1000,
           "delta-price": "-1.0",
           "can-be-purchased": "False",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "PotassiumIodide_Pills_01",
-          "base-purchase-price": "500",
-          "base-sell-price": "104",
+          "base-purchase-price": 600,
+          "base-sell-price": 200,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "PotassiumIodide_Pills_02",
-          "base-purchase-price": "700",
-          "base-sell-price": "145",
+          "base-purchase-price": 900,
+          "base-sell-price": 300,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "PotassiumIodide_Pills_03",
-          "base-purchase-price": "1000",
-          "base-sell-price": "208",
+          "base-purchase-price": 1200,
+          "base-sell-price": 400,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
@@ -17438,16 +17438,16 @@
         },
         {
           "tradeable-code": "Crutch",
-          "base-purchase-price": "1100",
-          "base-sell-price": "458",
+          "base-purchase-price": 2700,
+          "base-sell-price": 900,
           "delta-price": "-1.0",
           "can-be-purchased": "True",
           "required-famepoints": "-1"
         },
         {
           "tradeable-code": "BP_PlasticSurgeryService",
-          "base-purchase-price": "5000",
-          "base-sell-price": "5000",
+          "base-purchase-price": 2500,
+          "base-sell-price": 2500,
           "delta-price": "-1.0",
           "can-be-purchased": "true",
           "required-famepoints": "-1"
