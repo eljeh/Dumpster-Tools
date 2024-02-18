@@ -14,17 +14,20 @@ const { title } = Astro.props;
     <meta charset='UTF-8' />
     <meta name='description' content='Astro description' />
     <meta name='viewport' content='width=device-width' />
-    <link href="../assets/fonts/SpecialElite-Regular.ttf'" rel='stylesheet' />
-    <link href='../assets/fonts/defused.ttf' rel='stylesheet' />
+    <link rel='preconnect' href='https://fonts.googleapis.com' />
+    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+    <link
+      href='https://fonts.googleapis.com/css2?family=Special+Elite&display=swap'
+      rel='stylesheet'
+    />
     <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
     <meta name='generator' content={Astro.generator} />
     <title>{title}</title>
     <style>
       .specialElite {
-        font-family: 'Special Elite', sans-serif;
-      }
-      .defused {
-        font-family: 'Defused', sans-serif;
+        font-family: 'Special Elite', system-ui;
+        font-weight: 400;
+        font-style: normal;
       }
       h1 {
         font-size: 4rem;
