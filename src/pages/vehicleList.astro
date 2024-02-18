@@ -216,11 +216,11 @@ import Layout from '../layouts/Layout.astro';
       var total = 0; // Initialize total to zero
       countsHTML += '<ul>';
 
-      for (var bpcType in bpcData) {
-        if (bpcType != 'vehicle') {
+      for (var type in data) {
+        if (type != 'vehicle') {
           countsHTML +=
-            '<li>' + bpcType + ': ' + bpcData[bpcType].length + '</li>';
-          total += bpcData[bpcType].length; // Accumulate the counts
+            '<li>' + type + ': ' + data[type].length + '</li>';
+          total += data[type].length; // Accumulate the counts
         }
       }
 
