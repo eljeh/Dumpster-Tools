@@ -94,7 +94,7 @@ import Layout from '../layouts/Layout.astro';
   </div>
   <script is='inline'>
     function displayJsonAsTable() {
-      fetch('./data/economyOverride.json')
+      fetch('../data/economyOverride.json')
         .then((response) => response.json())
         .then((jsonData) => {
           const economyOverride = jsonData['economy-override'];
