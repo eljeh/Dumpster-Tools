@@ -20,7 +20,6 @@ import Layout from '../layouts/Layout.astro';
   #zombieOptionsForm h4 {
     translate: -1em;
     padding-left: 1em;
-    cursor: pointer;
   }
   .wrapper input,
   .wrapper button,
@@ -31,6 +30,7 @@ import Layout from '../layouts/Layout.astro';
     padding: 1em 1.25em;
     border-radius: 0.5em;
     text-wrap: nowrap;
+    min-width: 5.6em;
   }
 
   .category > div:hover label,
@@ -225,6 +225,7 @@ import Layout from '../layouts/Layout.astro';
             name='${option.id}'
             value='0'
             min='0'
+            max='50'
             class= 'border rounded w-16 py-2 px-3 text-gray-900 leading-tight'
           />
           <label class='rounded w-full py-1 px-2' for='${option.id}'>${option.name}</label>
@@ -326,51 +327,49 @@ import Layout from '../layouts/Layout.astro';
 
     // Define the horde function in the global scope
     function circleSpawner() {
-      // Get the input values
-      const coordinates = document.getElementById('coordinates').value;
-      let radius = document.getElementById('radius').value; // Change to let
-      radius = parseFloat(Number(radius));
-      let zAdjust = document.getElementById('zAdjust-circle').value; // Change to let
-      zAdjust = parseFloat(Number(zAdjust));
-      const regex = /X=([-+]?\d*\.\d+)\s*Y=([-+]?\d*\.\d+)\s*Z=([-+]?\d*\.\d+)/;
-      const match = coordinates.match(regex);
-      if (match) {
-        let x = parseFloat(match[1]);
-        let y = parseFloat(match[2]);
-        let z = parseFloat(match[3]); // Parse z as a float
+  // Get the input values
+  const coordinates = document.getElementById('coordinates').value;
+  let radius = document.getElementById('radius').value; // Change to let
+  radius = parseFloat(Number(radius));
+  let zAdjust = document.getElementById('zAdjust-circle').value; // Change to let
+  zAdjust = parseFloat(Number(zAdjust));
+  const regex = /X=([-+]?\d*\.\d+)\s*Y=([-+]?\d*\.\d+)\s*Z=([-+]?\d*\.\d+)/;
+  const match = coordinates.match(regex);
+  if (match) {
+    let x = parseFloat(match[1]);
+    let y = parseFloat(match[2]);
+    let z = parseFloat(match[3]);
 
-        // Initialize the hordeResult string
-        let hordeResult = '';
+    // Initialize the hordeResult string
+    let hordeResult = '';
 
-        const centerX = Math.round(x / 1) * 1 + radius; // Calculate centerX once
-        const centerY = Math.round(y / 1) * 1 + radius; // Calculate centerY once
-        const roundedZ = Math.round(z / 100) * 100; // Rename z to avoid redeclaration
+    const roundedZ = Math.round(z / 100) * 100; // Rename z to avoid redeclaration
 
-        for (const optionId in zombieOptions) {
-          if (zombieOptions.hasOwnProperty(optionId)) {
-            const option = zombieOptions[optionId];
-            const count = parseInt(document.getElementById(option.id).value);
-            if (count > 0) {
-              // Calculate the coordinates for the points on the circle
-              for (let i = 0; i < count; i++) {
-                const angle = (i / count) * 2 * Math.PI;
-                const circleX = centerX + radius * Math.cos(angle);
-                const circleY = centerY + radius * Math.sin(angle);
-                const xAdjusted = Math.round(circleX / 1) * 1;
-                const yAdjusted = Math.round(circleY / 1) * 1;
-                hordeResult += `#SpawnZombie ${
-                  option.id
-                } 1 Location "X=${xAdjusted} Y=${yAdjusted} Z=${
-                  roundedZ + zAdjust
-                }"\n`;
-              }
-            }
+    for (const optionId in zombieOptions) {
+      if (zombieOptions.hasOwnProperty(optionId)) {
+        const option = zombieOptions[optionId];
+        const count = parseInt(document.getElementById(option.id).value);
+        if (count > 0) {
+          // Calculate the coordinates for the points on the circle
+          for (let i = 0; i < count; i++) {
+            const angle = (i / count) * 2 * Math.PI;
+            const circleX = x + radius * Math.cos(angle);
+            const circleY = y + radius * Math.sin(angle);
+            const xAdjusted = Math.round(circleX / 1) * 1;
+            const yAdjusted = Math.round(circleY / 1) * 1;
+            hordeResult += `#SpawnZombie ${
+              option.id
+            } 1 Location "X=${xAdjusted} Y=${yAdjusted} Z=${
+              roundedZ + zAdjust
+            }"\n`;
           }
         }
-        // Display the result in the textarea
-        document.getElementById('result').value = hordeResult;
       }
     }
+    // Display the result in the textarea
+    document.getElementById('result').value = hordeResult;
+  }
+}
 
     // Add an event listener to update the radius value
     const radiusInput = document.getElementById('radius');
@@ -378,14 +377,13 @@ import Layout from '../layouts/Layout.astro';
       document.getElementById('radius').value = this.value;
     });
 
-    function copyToClipboard() {
-      const textarea = document.getElementById('result');
-      textarea.select();
-      document.execCommand('copy');
-    }
-
     const copyButton = document.getElementById('copyButton');
-    copyButton.addEventListener('click', copyToClipboard);
+    const textarea = document.getElementById('result');
+
+    copyButton.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(textarea.value);
+      alert('Content copied to clipboard!');
+    });
   </script>
 </Layout>
 e
