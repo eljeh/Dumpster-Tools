@@ -43,47 +43,26 @@ import Layout from '../layouts/Layout.astro';
   }
   thead {
     margin-top: 0.5em;
+    cursor: pointer;
+    background: #27272b;
+    color: #d1d1d1;
+    padding: 0.75em 1.25em;
   }
   tr {
-    background: #313338;
-    color: #d1d1d1;
-    border-bottom: 0.25em solid #1e1f22;
+    display: block;
   }
   td {
-    /* background: #313338;
-    color: #d1d1d1; */
     padding: 0.75em 1.25em;
     text-wrap: nowrap;
-  }
-
-  th {
     background: #2b2d31;
     color: #d1d1d1;
     padding: 1em 1.25em;
   }
-  th:has(> .clickable) {
-    background: #2b2d31;
-    color: #d1d1d1;
-    padding: 0;
+  tbody td {
+    border-bottom: 0.25em solid #1e1f22;
   }
-
-  #bpcCounts {
-    margin-top: 20px;
-  }
-
-  /* Add this style for highlighting on click */
-  tr.highlight {
-    background: #2b2d31;
-    color: #d1d1d1;
-  }
-
-  .clickable {
-    cursor: pointer;
-    padding: 1em 1.25em;
-  }
-  .clickable:hover {
-    background: #1e1f22;
-    color: #d1d1d1;
+  .hidden {
+    display: none;
   }
 </style>
 
@@ -103,7 +82,7 @@ import Layout from '../layouts/Layout.astro';
           let tableHTML = '<table>';
           for (const trader in economyOverride.traders) {
             tableHTML += `<thead><tr><th colspan="6" class="trader-header">${trader}</th></tr></thead>`;
-            tableHTML += '<tbody class="trader-body" style="display:block;">';
+            tableHTML += '<tbody class="trader-body hidden">';
             economyOverride.traders[trader].forEach((item) => {
               tableHTML += '<tr>';
               for (const key in item) {
@@ -117,15 +96,14 @@ import Layout from '../layouts/Layout.astro';
 
           tableContainer.innerHTML = tableHTML;
 
-          // Add event listeners to each trader header
-          const traderHeaders = document.querySelectorAll('.trader-header');
-          traderHeaders.forEach((header) => {
-            header.addEventListener('click', () => {
-              const traderBody = header.nextElementSibling;
-              traderBody.style.display =
-                traderBody.style.display === 'none'
-                  ? 'table-row-group'
-                  : 'none';
+          // Add functionality to toggle the visibility of each trader's items
+          const traderHeaders = document.querySelectorAll('thead');
+          traderHeaders.forEach((traderHeader) => {
+            traderHeader.addEventListener('click', () => {
+              console.log('click');
+              const traderBody = traderHeader.nextSibling;
+              console.log(traderBody);
+              traderBody.classList.toggle('hidden');
             });
           });
         })
