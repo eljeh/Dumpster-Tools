@@ -10,9 +10,19 @@ const currentPath = pathname.slice(1); // remove the first "/"
     align-items: center;
     justify-content: center;
     margin-bottom: 1em;
+    flex-wrap: wrap;
   }
 </style>
 <nav>
+  <a class={currentPath === 'orderPack' ? 'active' : ''} href='/orderPack'
+    >Order Pack</a
+  >
+  <a class={currentPath === 'sendMessage' ? 'active' : ''} href='/sendMessage'
+    >Send Message</a
+  >
+  <a class={currentPath === 'teleporter' ? 'active' : ''} href='/teleporter'
+    >Teleporter</a
+  >
   <a class={currentPath === 'vehicle' ? 'active' : ''} href='/vehicleList'
     >Vehicle List</a
   >
@@ -26,6 +36,20 @@ const currentPath = pathname.slice(1); // remove the first "/"
   <a class={currentPath === 'econfile' ? 'active' : ''} href='/econfile'
     >Economy Override</a
   >
+  <a class={currentPath === 'vehicle-api' ? 'active' : ''} href='/vehicle-api'
+    >vehicle API</a
+  >
+  <a class={currentPath === 'getPacks' ? 'active' : ''} href='/getPacks'
+    >getPacks API</a
+  >
+  <a
+    class={currentPath === 'playerLocations' ? 'active' : ''}
+    href='/playerLocations'>PLocs API</a
+  >
+  <a class={currentPath === 'getPlayers' ? 'active' : ''} href='/getPlayers'
+    >getPlayers API</a
+  >
+
   <!-- <a
     class={currentPath === 'circleSpawner' ? 'active' : ''}
     href='/circleSpawner'>Circle Spawner</a

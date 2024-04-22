@@ -1,0 +1,166 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<style is:inline>
+  body {
+    background: #1e1f22;
+    color: #c2c2c2;
+  }
+  .wrapper {
+    margin: 1em auto;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    /* width: 120ch; */
+  }
+  .wrapper textarea {
+    background: #313338;
+    color: #d1d1d1;
+    border: none;
+    padding: 1em 1.25em;
+    border-radius: 0.5em;
+    height: 18em;
+    width: 95vw;
+    text-wrap: nowrap;
+  }
+  .wrapper button {
+    margin-top: 1em;
+    background: #2b2d31;
+    color: #d1d1d1;
+    border: none;
+    padding: 1em 1.25em;
+    border-radius: 0.5em;
+    cursor: pointer;
+  }
+
+  .wrapper table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 0.5em;
+    text-align: left;
+    display: grid;
+  }
+  thead {
+    margin-top: 0.5em;
+    cursor: pointer;
+    background: #27272b;
+    color: #d1d1d1;
+    padding: 0.75em 1.25em;
+  }
+  tr {
+    padding: 0.75em 1.25em;
+    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    color: #d1d1d1;
+  }
+  td {
+    padding: 0.75em 1.25em;
+    /* text-wrap: nowrap; */
+    background: #2b2d31;
+    color: #d1d1d1;
+  }
+  thead tr {
+  }
+  tbody tr {
+    border-bottom: 0.25em solid #1e1f22;
+    background: #2b2d31;
+  }
+  .hidden {
+    display: none;
+  }
+</style>
+
+<Layout title='BOT API '>
+  <h2 class='my-8 text-2xl text-center'>GetPlayers API</h2>
+  <div class='wrapper'>
+    <div id='tableContainer'>
+      <table id='jsonTable' class='table-auto'>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>PlayerName</th>
+            <th>CharacterName</th>
+            <th>SteamID</th>
+            <th>DiscordID</th>
+            <th>IP</th>
+            <th>InTime</th>
+            <th>OutTime</th>
+          </tr>
+        </thead>
+        <tbody id='tableBody'> </tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+    async function fetchData(url) {
+      try {
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            Accept: '*/*',
+            Authorization: 'WhalleyBotAPI_rtTECwgxKLKy9Q==',
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error fetching or parsing data: ', error);
+        throw error;
+      }
+    }
+
+    async function displayJsonAsTable() {
+      try {
+        let allPlayers = []; // Array to store all players from all pages
+        let pageNumber = 1; // Start with the first page
+        let nextPageExists = true;
+
+        while (nextPageExists) {
+          // Fetch data for the current page
+          const data = await fetchData(
+            `https://api.whalleybot.com/bot/afd0a027/GetPlayers/${pageNumber}`,
+          );
+
+          if (data && data.PlayerData && data.PlayerData.length > 0) {
+            // Add players from the current page to the array
+            allPlayers = allPlayers.concat(data.PlayerData);
+            pageNumber++; // Move to the next page
+          } else {
+            nextPageExists = false; // No more data available, exit the loop
+          }
+        }
+
+        // Clear existing table rows
+        const tableBody = document.getElementById('tableBody');
+        tableBody.innerHTML = '';
+
+        // Populate table with JSON data
+        allPlayers.forEach((player) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${player.ID}</td>
+            <td>${player.PlayerName}</td>
+            <td>${player.CharacterName}</td>
+            <td>${player.SteamID}</td>
+            <td>${player.DiscordID}</td>
+            <td>${player.IP}</td>
+            <td>${player.InTime}</td>
+            <td>${player.OutTime}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error('Error fetching or parsing data: ', error);
+      }
+    }
+
+    // Call the function to display JSON data as a table
+    displayJsonAsTable();
+  </script>
+</Layout>

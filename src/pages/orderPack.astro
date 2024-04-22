@@ -1,0 +1,205 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<style is:inline>
+  body {
+    background: #1e1f22;
+    color: #c2c2c2;
+  }
+  .wrapper {
+    margin: 1em auto;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    max-width: 120ch;
+  }
+  .wrapper select {
+    background: #313338;
+    color: #d1d1d1;
+    border: none;
+    padding: 1em 1.25em;
+    border-radius: 0.5em;
+    width: 100%;
+  }
+</style>
+
+<Layout title='BOT API'>
+  <h2 class='my-8 text-2xl text-center'>Order Pack</h2>
+  <div class='wrapper'>
+    <form class='w-full flex flex-col item-center'>
+      <div class='flex items-center justify-center mb-6'>
+        <div class=''>
+          <label
+            for='playerIDSelect'
+            class='block text-gray-500 font-bold md:text-right pr-4'
+            for='inline-full-name'
+          >
+            Player Name
+          </label>
+        </div>
+        <div class=''>
+          <select id='playerIDSelect'>
+            <option value='76561198187036603'>...loading data</option>
+          </select>
+        </div>
+      </div>
+
+      <div class='flex items-center justify-center mb-6'>
+        <div class=''>
+          <label
+            for='packNameSelect'
+            class='block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4'
+            for='inline-full-name'
+          >
+            Pack Name
+          </label>
+        </div>
+        <div class=''>
+          <select id='packNameSelect'>
+            <option value='170270'>...loading data</option>
+          </select>
+        </div>
+      </div>
+
+      <div class='flex items-center justify-center mb-6'>
+        <div class=''>
+          <button
+            class='shadow bg-green-800 hover:bg-green-900 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+            type='button'
+          >
+            Order Pack
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div>
+      <script>
+        const heresMYAuth = 'WhalleyBotAPI_rtTECwgxKLKy9Q==';
+        // Order button click Api post https://api.whalleybot.com/bot/afd0a027/SendPack/{PlayerID}/{PackID}/1
+        const orderButton = document.querySelector('button');
+        orderButton.addEventListener('click', async () => {
+          const playerIDSelect = document.getElementById('playerIDSelect');
+          const packNameSelect = document.getElementById('packNameSelect');
+
+          if (playerIDSelect.value && packNameSelect.value) {
+            try {
+              const response = await fetch(
+                `https://api.whalleybot.com/bot/afd0a027/SendPack/${playerIDSelect.value}/${packNameSelect.value}/1`,
+                {
+                  method: 'POST',
+                  headers: {
+                    Accept: '*/*',
+                    Authorization: heresMYAuth,
+                  },
+                },
+              );
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              const data = await response.json();
+              console.log('Order pack response: ', data);
+            } catch (error) {
+              console.error('Error ordering pack: ', error);
+            }
+          } else {
+            console.error('Please select a player and pack');
+          }
+        });
+
+        async function fetchData(url) {
+          try {
+            const response = await fetch(url, {
+              method: 'GET',
+              headers: {
+                Accept: '*/*',
+                Authorization: heresMYAuth,
+              },
+            });
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            return data;
+          } catch (error) {
+            console.error('Error fetching or parsing data: ', error);
+            throw error;
+          }
+        }
+
+        async function populatePlayerSelect() {
+          try {
+            let allPlayers = []; // Array to store all players from all pages
+            let pageNumber = 1; // Start with the first page
+            let nextPageExists = true;
+
+            while (nextPageExists) {
+              // Fetch data for the current page
+              const data = await fetchData(
+                `https://api.whalleybot.com/bot/afd0a027/GetPlayers/${pageNumber}`,
+              );
+
+              if (data && data.PlayerData && data.PlayerData.length > 0) {
+                // Add players from the current page to the array
+                allPlayers = allPlayers.concat(data.PlayerData);
+                pageNumber++; // Move to the next page
+              } else {
+                nextPageExists = false; // No more data available, exit the loop
+              }
+            }
+
+            // Populate the player select dropdown with all players
+            const playerSelect = document.getElementById('playerIDSelect');
+            playerSelect.innerHTML =
+              '<option value="">Select a player name</option>';
+            allPlayers.forEach((player) => {
+              const option = new Option(player.PlayerName, player.SteamID);
+              playerSelect.add(option);
+            });
+          } catch (error) {
+            console.error('Error populating player select: ', error);
+          }
+        }
+
+        async function populatePackSelect() {
+          try {
+            let allPacks = []; // Array to store all packs from all pages
+            let pageNumber = 1; // Start with the first page
+            let nextPageExists = true;
+
+            while (nextPageExists) {
+              // Fetch data for the current page
+              const data = await fetchData(
+                `https://api.whalleybot.com/bot/afd0a027/GetPacks/${pageNumber}`,
+              );
+
+              if (data && data.packData && data.packData.length > 0) {
+                // Add packs from the current page to the array
+                allPacks = allPacks.concat(data.packData);
+                pageNumber++; // Move to the next page
+              } else {
+                nextPageExists = false; // No more data available, exit the loop
+              }
+            }
+
+            // Populate the pack select dropdown with all packs
+            const packSelect = document.getElementById('packNameSelect');
+            packSelect.innerHTML =
+              '<option value="">Select a pack name</option>';
+            allPacks.forEach((pack) => {
+              const option = new Option(pack.name, pack.packID);
+              packSelect.add(option);
+            });
+          } catch (error) {
+            console.error('Error populating pack select: ', error);
+          }
+        }
+
+        // Call functions to populate selects
+        populatePlayerSelect();
+        populatePackSelect();
+      </script>
+    </div>
+  </div>
+</Layout>

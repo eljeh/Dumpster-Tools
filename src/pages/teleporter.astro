@@ -1,0 +1,139 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<style is:inline>
+  body {
+    background: #1e1f22;
+    color: #c2c2c2;
+  }
+  .wrapper {
+    margin: 1em 1.5em;
+  }
+
+  .wrapper input,
+  .wrapper button,
+  .wrapper textarea {
+    background: #313338;
+    color: #d1d1d1;
+    border: none;
+    padding: 1em 1.25em;
+    border-radius: 0.5em;
+    text-wrap: nowrap;
+    min-width: 5.6em;
+  }
+</style>
+
+<Layout title='Teleporter'>
+  <div class='min-w-min max-w-4xl m-auto gap-'>
+    <div class='wrapper shadow-md rounded px-8 pt-6 pb-8 mb-4'>
+      <header>
+        <h2 class='font-bold text-2xl text-center'>Teleporter</h2>
+      </header>
+      <div class='md:flex flex-col gap-2'>
+        <label class='block text-lg font-bold' for='coordinates'>
+          Coordinates
+        </label>
+        <input
+          type='text'
+          id='coordinates'
+          name='coordinates'
+          required
+          class='border rounded w-full py-2 px-3 mb-2 leading-tight'
+        />
+      </div>
+
+      <div class='flex'>
+        <ul id='players'></ul>
+      </div>
+
+      <footer class='relative'>
+        <button
+          class='font-bold py-2 px-4 mt-6 rounded focus:outline-none'
+          type='button'
+        >
+          Send
+        </button>
+      </footer>
+    </div>
+  </div>
+
+  <script is='inline'>
+    function populatePlayers() {
+      const url = 'https://api.whalleybot.com/bot/afd0a027/PlayerLocations';
+      fetch(url, {
+        method: 'GET',
+        headers: {
+          Accept: '*/*',
+          Authorization: 'WhalleyBotAPI_rtTECwgxKLKy9Q==',
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          const playersList = document.getElementById('players');
+          playersList.innerHTML = '';
+
+          data.forEach((player) => {
+            const row = document.createElement('li');
+            row.innerHTML = `
+              <input type="checkbox" id="${player.steamID}" name="selectedPlayers" value="${player.steamID}">
+              <span>${player.playerName}</span>
+              <span>${player.lastKnownLocation}</span>
+            `;
+            playersList.appendChild(row);
+          });
+        })
+        .catch((error) => {
+          console.error('Error fetching or parsing data: ', error);
+        });
+    }
+    populatePlayers();
+
+    document.querySelector('button').addEventListener('click', () => {
+      const coordinatesInput = document.getElementById('coordinates').value;
+      const regex = /X=([-+]?\d*\.\d+)\s*Y=([-+]?\d*\.\d+)\s*Z=([-+]?\d*\.\d+)/;
+      const coordinates = coordinatesInput.match(regex);
+
+      const selectedPlayers = Array.from(
+        document.querySelectorAll('input[name="selectedPlayers"]:checked'),
+      ).map((player) => player.value);
+
+      if (selectedPlayers.length === 0) {
+        alert('Please select at least one player');
+        return;
+      }
+
+      selectedPlayers.forEach((playerID) => {
+        const encodedMessage = encodeURIComponent(
+          `#teleport ${playerID} location "${coordinatesInput}"`,
+        );
+        const url = `https://api.whalleybot.com/bot/afd0a027/GlobalMessage/Send?message=${encodedMessage}`;
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'WhalleyBotAPI_rtTECwgxKLKy9Q==',
+          },
+          body: JSON.stringify({ coordinates: coordinatesInput, playerID }),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            alert(data.message);
+          })
+          .catch((error) => {
+            console.error('Error fetching or parsing data: ', error);
+          });
+      });
+    });
+  </script>
+</Layout>
