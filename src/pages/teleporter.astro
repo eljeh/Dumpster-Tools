@@ -12,6 +12,7 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .wrapper input,
+  .wrapper select,
   .wrapper button,
   .wrapper textarea {
     background: #313338;
@@ -19,37 +20,110 @@ import Layout from '../layouts/Layout.astro';
     border: none;
     padding: 1em 1.25em;
     border-radius: 0.5em;
-    text-wrap: nowrap;
-    min-width: 5.6em;
+  }
+  .wrapper hr {
+    border: 1px solid #313338;
+    margin: 2em 1em 1em;
+  }
+  .playersList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+
+  .wrapper [type='checkbox'] {
+    zoom: 2;
   }
 </style>
 
 <Layout title='Teleporter'>
-  <div class='min-w-min max-w-4xl m-auto gap-'>
+  <div class='min-w-min max-w-4xl m-auto gap-4'>
     <div class='wrapper shadow-md rounded px-8 pt-6 pb-8 mb-4'>
       <header>
         <h2 class='font-bold text-2xl text-center'>Teleporter</h2>
       </header>
-      <div class='md:flex flex-col gap-2'>
-        <label class='block text-lg font-bold' for='coordinates'>
-          Coordinates
-        </label>
-        <input
-          type='text'
-          id='coordinates'
-          name='coordinates'
-          required
-          class='border rounded w-full py-2 px-3 mb-2 leading-tight'
-        />
-      </div>
 
-      <div class='flex'>
-        <ul id='players'></ul>
+      <div class='pb-4'>
+        <!-- Coordinates -->
+        <div class='flex flex-col mt-4'>
+          <label class='block text-lg font-bold' for='coordinates'>
+            Coordinates
+          </label>
+          <input
+            type='text'
+            id='coordinates'
+            name='coordinates'
+            required
+            class='border rounded w-full py-4 px-5 mb-2 leading-tight'
+          />
+        </div>
+
+        <!-- List of Coords -->
+        <div class='flex flex-col mt-4'>
+          <label class='block text-lg font-bold' for='listofCoords'>
+            List of Coords
+          </label>
+          <div class='flex gap-4'>
+            <select
+              id='listofCoords'
+              name='listofCoords'
+              required
+              class='border rounded w-full leading-tight'
+            >
+              <option>Upload data</option>
+            </select>
+
+            <button
+              class='font-bold py-4 px-5 rounded focus:outline-none'
+              type='button'
+            >
+              Upload
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr class='m-4' />
+      <div class='pt-4'>
+        <!--  IG Players -->
+        <div class='flex flex-col mt-4'>
+          <label class='block text-lg font-bold' for='players'>
+            IG Players
+          </label>
+
+          <div class='flex'>
+            <ul id='players' class='playersList'>
+              <li>No one in game</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- List of Players -->
+        <div class='flex flex-col mt-4'>
+          <label class='block text-lg font-bold' for='listofPlayers'>
+            List of Players
+          </label>
+          <div class='flex gap-4'>
+            <select
+              id='listofPlayers'
+              name='listofPlayers'
+              required
+              class='border rounded w-full leading-tight'
+            >
+              <option>Upload data</option>
+            </select>
+            <button
+              class='font-bold py-4 px-5 rounded focus:outline-none'
+              type='button'
+            >
+              Upload
+            </button>
+          </div>
+        </div>
       </div>
 
       <footer class='relative'>
         <button
-          class='font-bold py-2 px-4 mt-6 rounded focus:outline-none'
+          class='font-bold py-4 px-5 mt-6 rounded focus:outline-none'
           type='button'
         >
           Send
@@ -59,7 +133,7 @@ import Layout from '../layouts/Layout.astro';
   </div>
 
   <script is='inline'>
-    function populatePlayers() {
+    function populateIGPlayers() {
       const url = 'https://api.whalleybot.com/bot/afd0a027/PlayerLocations';
       fetch(url, {
         method: 'GET',
@@ -80,6 +154,7 @@ import Layout from '../layouts/Layout.astro';
 
           data.forEach((player) => {
             const row = document.createElement('li');
+            row.classList.add('flex', 'gap-4');
             row.innerHTML = `
               <input type="checkbox" id="${player.steamID}" name="selectedPlayers" value="${player.steamID}">
               <span>${player.playerName}</span>
@@ -92,12 +167,21 @@ import Layout from '../layouts/Layout.astro';
           console.error('Error fetching or parsing data: ', error);
         });
     }
-    populatePlayers();
+    populateIGPlayers();
 
     document.querySelector('button').addEventListener('click', () => {
       const coordinatesInput = document.getElementById('coordinates').value;
       const regex = /X=([-+]?\d*\.\d+)\s*Y=([-+]?\d*\.\d+)\s*Z=([-+]?\d*\.\d+)/;
-      const coordinates = coordinatesInput.match(regex);
+      const match = coordinatesInput.match(regex);
+
+      if (!match) {
+        alert('Invalid coordinates format');
+        return;
+      }
+
+      const x = match[1];
+      const y = match[2];
+      const z = match[3];
 
       const selectedPlayers = Array.from(
         document.querySelectorAll('input[name="selectedPlayers"]:checked'),
@@ -110,7 +194,7 @@ import Layout from '../layouts/Layout.astro';
 
       selectedPlayers.forEach((playerID) => {
         const encodedMessage = encodeURIComponent(
-          `#teleport ${playerID} location "${coordinatesInput}"`,
+          `#teleport ${x} ${y} ${z} ${playerID} `,
         );
         const url = `https://api.whalleybot.com/bot/afd0a027/GlobalMessage/Send?message=${encodedMessage}`;
         fetch(url, {

@@ -1,0 +1,113 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<style is:inline>
+  body {
+    background: #1e1f22;
+    color: #c2c2c2;
+  }
+  .wrapper {
+    margin: 1em 1.5em;
+  }
+
+  .wrapper input,
+  .wrapper select,
+  .wrapper button,
+  .wrapper textarea {
+    background: #313338;
+    color: #d1d1d1;
+    border: none;
+    padding: 1em 1.25em;
+    border-radius: 0.5em;
+  }
+  .wrapper hr {
+    border: 1px solid #313338;
+    margin: 2em 1em 1em;
+  }
+  .playersList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+
+  .wrapper [type='checkbox'] {
+    zoom: 2;
+  }
+</style>
+
+<Layout title='Teleporter'>
+  <div class='min-w-min max-w-4xl m-auto gap-4'>
+    <div class='wrapper shadow-md rounded px-8 pt-6 pb-8 mb-4'>
+      <header>
+        <h2 class='font-bold text-2xl text-center'>Teleporter</h2>
+      </header>
+      <div id='csvForm' class='flex gap-4'>
+        <label for='csvFile' class='block text-lg font-bold mb-2'
+          >Upload CSV file:</label
+        >
+        <input
+          type='file'
+          id='csvFile'
+          accept='.csv'
+          class='border rounded py-4 px-5 mb-2 leading-tight'
+        />
+        <button type='button' id='uploadBtn'>Upload</button>
+      </div>
+
+      <div id='selectForm' style='display: none;' class='flex gap-4'>
+        <label for='select_option' class='block text-lg font-bold mb-2'
+          >Select an option:</label
+        >
+        <select
+          name='select_option'
+          id='select_option'
+          class='border rounded leading-tight'></select>
+        <input
+          type='submit'
+          value='Submit'
+          class='font-bold py-2 px-4 mt-6 mr-6 rounded'
+        />
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document
+        .getElementById('uploadBtn')
+        .addEventListener('click', function () {
+          var fileInput = document.getElementById('csvFile');
+          var file = fileInput.files[0];
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+            var csvData = e.target.result;
+            parseCsv(csvData);
+            document.getElementById('csvForm').style.display = 'none';
+            document.getElementById('selectForm').style.display = 'block';
+          };
+
+          reader.readAsText(file);
+        });
+
+      function parseCsv(csvData) {
+        var rows = csvData.split('\n');
+        var selectOption = document.getElementById('select_option');
+        selectOption.innerHTML = '';
+
+        rows.forEach(function (row) {
+          var columns = row.split(',');
+          if (columns.length == 2) {
+            var key = columns[0].trim();
+            var value = columns[1].trim();
+            var option = document.createElement('option');
+            option.value = value;
+            option.textContent = key;
+            selectOption.appendChild(option);
+          }
+        });
+      }
+    });
+  </script>
+</Layout>
