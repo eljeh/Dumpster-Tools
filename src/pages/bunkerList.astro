@@ -257,6 +257,7 @@ import Layout from '../layouts/Layout.astro';
       </button>
       <button
         id='A0'
+        class='nonab'
         onclick='teleportTo(this)'
         title='X=-769538.625 Y=-349752.062 Z=6468.148'
       >
@@ -340,7 +341,7 @@ import Layout from '../layouts/Layout.astro';
           lockedBunkers.push(bunkerID);
         }
       });
-      
+
       console.log(activeBunkers);
       // Iterate through each button and style it based on active or locked status
       var buttons = document.querySelectorAll('button');

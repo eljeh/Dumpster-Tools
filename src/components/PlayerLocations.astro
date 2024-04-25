@@ -1,0 +1,55 @@
+<div class='wrapper'>
+  <h2 class='my-8 text-2xl text-center'>PlayerLocations API</h2>
+
+  <table class='table-auto'>
+    <thead>
+      <tr>
+        <th>playerName</th>
+        <th>lastKnownLocation</th>
+        <th>steamID</th>
+      </tr>
+    </thead>
+    <tbody id='PlayerLocTable'> </tbody>
+  </table>
+</div>
+<script>
+  function displayJsonAsTable() {
+    const url = 'https://api.whalleybot.com/bot/afd0a027/PlayerLocations';
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        Accept: '*/*',
+        Authorization: 'WhalleyBotAPI_rtTECwgxKLKy9Q==',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Clear existing table rows
+        const tableBody = document.getElementById('PlayerLocTable');
+        tableBody.innerHTML = '';
+        // Populate table with JSON data
+        data.forEach((player) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+              <td>${player.playerName}</td>
+              <td>${player.lastKnownLocation}</td>
+              <td>${player.steamID}</td>
+              <td>${player.type}</td>
+
+            `;
+          tableBody.appendChild(row);
+        });
+      })
+      .catch((error) => {
+        console.error('Error fetching or parsing data: ', error);
+      });
+  }
+
+  // Call the function to display JSON data as a table
+  displayJsonAsTable();
+</script>

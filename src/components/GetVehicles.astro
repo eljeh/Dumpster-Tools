@@ -1,0 +1,54 @@
+<div class='wrapper'>
+  <h2 class='my-8 text-2xl text-center'>Get Vehicles</h2>
+  <table class='table-auto'>
+    <thead>
+      <tr>
+        <th>Vehicle ID</th>
+        <th>Type</th>
+        <th>Coordinates</th>
+        <th>Registration</th>
+      </tr>
+    </thead>
+    <tbody id='VehicleTable'> </tbody>
+  </table>
+</div>
+<script>
+  function displayJsonAsTable() {
+    const url = 'https://api.whalleybot.com/bot/afd0a027/VehicleLocations';
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        Accept: '*/*',
+        Authorization: 'WhalleyBotAPI_rtTECwgxKLKy9Q==',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Clear existing table rows
+        const tableBody = document.getElementById('VehicleTable');
+        tableBody.innerHTML = '';
+        // Populate table with JSON data
+        data.forEach((record) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+              <td>${record.key}</td>
+              <td>${record.value.type}</td>
+              <td>${record.value.coords}</td>
+              <td>${record.value.reg}</td>
+            `;
+          tableBody.appendChild(row);
+        });
+      })
+      .catch((error) => {
+        console.error('Error fetching or parsing data: ', error);
+      });
+  }
+
+  // Call the function to display JSON data as a table
+  displayJsonAsTable();
+</script>

@@ -23,7 +23,7 @@ import Layout from '../layouts/Layout.astro';
   }
   .wrapper hr {
     border: 1px solid #313338;
-    margin: 2em 1em 1em;
+    margin: 3em 1em 1em;
   }
   .playersList {
     display: flex;
@@ -43,9 +43,70 @@ import Layout from '../layouts/Layout.astro';
         <h2 class='font-bold text-2xl text-center'>Teleporter</h2>
       </header>
 
-      <div class='pb-4'>
+      <div>
+        <!--  IG Players -->
+        <div class='flex flex-col my-8'>
+          <label class='block text-lg font-bold mb-2' for='players'>
+            IG Players
+          </label>
+
+          <div class='flex'>
+            <ul id='players' class='playersList'>
+              <li>No one in game</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- List of Players -->
+        <div class='flex flex-col my-8'>
+          <label class='block text-lg font-bold mb-2' for='listofPlayers'>
+            List of Players
+          </label>
+
+          <div class='flex gap-4'>
+            <div id='csvFormPlayers' class='flex relative gap-4 w-full'>
+              <label
+                for='csvFilePlayers'
+                class='text-sm absolute -bottom-4 left-6 h-3'
+                >Upload CSV file</label
+              >
+              <input
+                type='file'
+                id='csvFilePlayers'
+                accept='.csv'
+                class='border rounded py-4 px-5 leading-tight w-full'
+              />
+
+              <button
+                id='uploadBtnPlayers'
+                class='font-bold py-4 px-5 rounded focus:outline-none'
+              >
+                Upload
+              </button>
+            </div>
+
+            <div
+              id='selectFormPlayers'
+              style='display: none;'
+              class='flex gap-4 w-full'
+            >
+              <select
+                id='listofPlayers'
+                name='listofPlayers'
+                required
+                class='border rounded w-full leading-tight'
+              >
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr />
+
+      <div>
         <!-- Coordinates -->
-        <div class='flex flex-col mt-4'>
+        <div class='flex flex-col my-8'>
           <label class='block text-lg font-bold' for='coordinates'>
             Coordinates
           </label>
@@ -59,72 +120,57 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <!-- List of Coords -->
-        <div class='flex flex-col mt-4'>
+        <div class='flex flex-col my-8'>
           <label class='block text-lg font-bold' for='listofCoords'>
             List of Coords
           </label>
-          <div class='flex gap-4'>
-            <select
-              id='listofCoords'
-              name='listofCoords'
-              required
-              class='border rounded w-full leading-tight'
-            >
-              <option>Upload data</option>
-            </select>
 
-            <button
-              class='font-bold py-4 px-5 rounded focus:outline-none'
-              type='button'
+          <div class='flex gap-4'>
+            <div id='csvFormCoords' class='flex relative gap-4 w-full'>
+              <label
+                for='csvFileCoords'
+                class='text-sm absolute -bottom-4 left-6 h-3'
+                >Upload CSV file</label
+              >
+              <input
+                type='file'
+                id='csvFileCoords'
+                accept='.csv'
+                class='border rounded py-4 px-5 leading-tight w-full'
+              />
+
+              <button
+                id='uploadBtnCoords'
+                class='font-bold py-4 px-5 rounded focus:outline-none'
+              >
+                Upload
+              </button>
+            </div>
+
+            <div
+              id='selectFormCoords'
+              style='display: none;'
+              class='flex gap-4'
             >
-              Upload
-            </button>
+              <select
+                id='listofCoords'
+                name='listofCoords'
+                required
+                class='border rounded w-full leading-tight'
+              >
+              </select>
+            </div>
           </div>
         </div>
       </div>
+
       <hr class='m-4' />
-      <div class='pt-4'>
-        <!--  IG Players -->
-        <div class='flex flex-col mt-4'>
-          <label class='block text-lg font-bold' for='players'>
-            IG Players
-          </label>
 
-          <div class='flex'>
-            <ul id='players' class='playersList'>
-              <li>No one in game</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- List of Players -->
-        <div class='flex flex-col mt-4'>
-          <label class='block text-lg font-bold' for='listofPlayers'>
-            List of Players
-          </label>
-          <div class='flex gap-4'>
-            <select
-              id='listofPlayers'
-              name='listofPlayers'
-              required
-              class='border rounded w-full leading-tight'
-            >
-              <option>Upload data</option>
-            </select>
-            <button
-              class='font-bold py-4 px-5 rounded focus:outline-none'
-              type='button'
-            >
-              Upload
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <footer class='relative'>
+      <footer class='relative mt-4'>
         <button
           class='font-bold py-4 px-5 mt-6 rounded focus:outline-none'
           type='button'
+          id='sendButton'
         >
           Send
         </button>
@@ -132,7 +178,7 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </div>
 
-  <script is='inline'>
+  <script>
     function populateIGPlayers() {
       const url = 'https://api.whalleybot.com/bot/afd0a027/PlayerLocations';
       fetch(url, {
@@ -149,17 +195,18 @@ import Layout from '../layouts/Layout.astro';
           return response.json();
         })
         .then((data) => {
+          // Clear existing table rows
           const playersList = document.getElementById('players');
           playersList.innerHTML = '';
-
+          // Populate table with JSON data
           data.forEach((player) => {
             const row = document.createElement('li');
             row.classList.add('flex', 'gap-4');
             row.innerHTML = `
-              <input type="checkbox" id="${player.steamID}" name="selectedPlayers" value="${player.steamID}">
-              <span>${player.playerName}</span>
-              <span>${player.lastKnownLocation}</span>
-            `;
+            <input type="checkbox" id="${player.steamID}" name="selectedPlayers" value="${player.steamID}">
+            <span>${player.playerName}</span>
+            <span>${player.lastKnownLocation}</span>
+          `;
             playersList.appendChild(row);
           });
         })
@@ -167,10 +214,52 @@ import Layout from '../layouts/Layout.astro';
           console.error('Error fetching or parsing data: ', error);
         });
     }
+    // Call the function to display JSON data as a table
     populateIGPlayers();
 
-    document.querySelector('button').addEventListener('click', () => {
-      const coordinatesInput = document.getElementById('coordinates').value;
+    document
+      .getElementById('uploadBtnPlayers')
+      .addEventListener('click', function () {
+        var fileInput = document.getElementById('csvFilePlayers');
+        var file = fileInput.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          var csvData = e.target.result;
+          parseCsv(csvData, 'listofPlayers'); // Populate listofPlayers select element
+          document.getElementById('csvFormPlayers').style.display = 'none';
+          document.getElementById('selectFormPlayers').style.display = 'block';
+        };
+
+        reader.readAsText(file);
+      });
+
+    document
+      .getElementById('uploadBtnCoords')
+      .addEventListener('click', function () {
+        var fileInput = document.getElementById('csvFileCoords');
+        var file = fileInput.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          var csvData = e.target.result;
+          parseCsv(csvData, 'listofCoords'); // Populate listofCoords select element
+          document.getElementById('csvFormCoords').style.display = 'none';
+          document.getElementById('selectFormCoords').style.display = 'block';
+        };
+
+        reader.readAsText(file);
+      });
+
+    document.getElementById('sendButton').addEventListener('click', () => {
+      const coordinatesInput =
+        document.getElementById('coordinates').value === ''
+          ? document.querySelector('#listofCoords option:checked').value
+          : document.getElementById('coordinates').value;
+      // const coordinatesInput = document.querySelector(
+      //   '#listofCoords option:checked',
+      // ).value;
+      //const coordinatesInput = document.getElementById('coordinates').value;
       const regex = /X=([-+]?\d*\.\d+)\s*Y=([-+]?\d*\.\d+)\s*Z=([-+]?\d*\.\d+)/;
       const match = coordinatesInput.match(regex);
 
@@ -183,9 +272,17 @@ import Layout from '../layouts/Layout.astro';
       const y = match[2];
       const z = match[3];
 
-      const selectedPlayers = Array.from(
-        document.querySelectorAll('input[name="selectedPlayers"]:checked'),
+      const selectedIGPlayers = Array.from(
+        document.querySelectorAll(
+          '#players input[name="selectedPlayers"]:checked',
+        ),
       ).map((player) => player.value);
+
+      const selectedListPlayers = Array.from(
+        document.querySelectorAll('#listofPlayers option:checked'),
+      ).map((option) => option.value);
+
+      const selectedPlayers = [...selectedIGPlayers, ...selectedListPlayers];
 
       if (selectedPlayers.length === 0) {
         alert('Please select at least one player');
@@ -193,8 +290,9 @@ import Layout from '../layouts/Layout.astro';
       }
 
       selectedPlayers.forEach((playerID) => {
+        console.log(`#teleport ${x} ${y} ${z} ${playerID}`);
         const encodedMessage = encodeURIComponent(
-          `#teleport ${x} ${y} ${z} ${playerID} `,
+          `#teleport ${x} ${y} ${z} ${playerID}`,
         );
         const url = `https://api.whalleybot.com/bot/afd0a027/GlobalMessage/Send?message=${encodedMessage}`;
         fetch(url, {
@@ -215,9 +313,28 @@ import Layout from '../layouts/Layout.astro';
             alert(data.message);
           })
           .catch((error) => {
-            console.error('Error fetching or parsing data: ', error);
+            console.error('Error sending data:', error.message);
+            console.error('Stack trace:', error.stack);
           });
       });
     });
+
+    function parseCsv(csvData, selectElementId) {
+      var rows = csvData.split('\n');
+      var selectElement = document.getElementById(selectElementId);
+      selectElement.innerHTML = '';
+
+      rows.forEach(function (row) {
+        var columns = row.split(',');
+        if (columns.length == 2) {
+          var key = columns[0].trim();
+          var value = columns[1].trim();
+          var option = document.createElement('option');
+          option.value = value;
+          option.textContent = key;
+          selectElement.appendChild(option);
+        }
+      });
+    }
   </script>
 </Layout>

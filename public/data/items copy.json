@@ -1,0 +1,560 @@
+{
+  "Items": {
+    "Armory": [
+      {
+        "name": "Weapon_SCAR_DMR",
+        "base-purchase-price": 18000,
+        "base-sell-price": 6666,
+        "delta-price": -1,
+        "can-be-purchased": true,
+        "required-famepoints": -1
+      },
+      {
+        "name": "Weapon_Parts_Carbon_Hunter",
+        "base-purchase-price": 3178,
+        "base-sell-price": 1188,
+        "delta-price": -1,
+        "can-be-purchased": true,
+        "required-famepoints": -1
+      }
+    ],
+    "BoatShop": [
+      {
+        "name": "Diving_Mask",
+        "base-purchase-price": "220",
+        "base-sell-price": "73",
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+     {
+        "name": "SUP",
+        "base-purchase-price": "1980",
+        "base-sell-price": "412",
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      }
+    ],
+    "Mechanic": [
+      {
+        "name": "BPC_Rager",
+        "base-purchase-price": "90673",
+        "base-sell-price": "9195",
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Break_Oil",
+        "base-purchase-price": "238",
+        "base-sell-price": "24",
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Bicycle_Wheel_60_622_Item",
+        "base-purchase-price": "500",
+        "base-sell-price": "260",
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      }
+    ],
+    "Trader": [
+      {
+        "name": "Inmate_shirt_01",
+        "base-purchase-price": "55",
+        "base-sell-price": "18",
+        "delta-price": "-1.0",
+        "can-be-purchased": true,
+        "required-famepoints": "-1"
+      },
+     {
+        "name": "BCULock_Item",
+        "base-purchase-price": "0",
+        "base-sell-price": "1990",
+        "delta-price": "-1.0",
+        "can-be-purchased": "False",
+        "required-famepoints": "-1"
+      }
+    ],
+    "Saloon": [
+      {
+        "name": "Amanita_Virosa",
+        "base-purchase-price": "20",
+        "base-sell-price": "2",
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+     {
+        "name": "Coffee",
+        "base-purchase-price": "206",
+        "base-sell-price": "20",
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "SaltGrain",
+        "base-purchase-price": "1",
+        "base-sell-price": "0",
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      }
+    ],
+    "Hospital": [
+      {
+        "name": "Painkillers_01",
+        "base-purchase-price": 3000,
+        "base-sell-price": 1000,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Rag_Stripes",
+        "base-purchase-price": "2",
+        "base-sell-price": "0",
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Rags",
+        "base-purchase-price": 30,
+        "base-sell-price": "0",
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Apple",
+        "base-purchase-price": 40,
+        "base-sell-price": 8,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Tourniquet",
+        "base-purchase-price": 2400,
+        "base-sell-price": 800,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Medical_Glove_01",
+        "base-purchase-price": 700,
+        "base-sell-price": 150,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Disposable_Mask",
+        "base-purchase-price": 27,
+        "base-sell-price": 9,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Head_Bags_01",
+        "base-purchase-price": 110,
+        "base-sell-price": 36,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Hospital_Shirt_01",
+        "base-purchase-price": 220,
+        "base-sell-price": 72,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Hospital_Pants",
+        "base-purchase-price": 110,
+        "base-sell-price": 36,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Bundle_Of_Rags",
+        "base-purchase-price": "110",
+        "base-sell-price": "2",
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Bundle_Rag_Stripes",
+        "base-purchase-price": "55",
+        "base-sell-price": "1",
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Emergency_bandage",
+        "base-purchase-price": 600,
+        "base-sell-price": 200,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Emergency_bandage_Big",
+        "base-purchase-price": 2400,
+        "base-sell-price": 800,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Hemostatic_Dressing",
+        "base-purchase-price": 1200,
+        "base-sell-price": 400,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Pressure_Dressing",
+        "base-purchase-price": 1200,
+        "base-sell-price": 400,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Cigarettes",
+        "base-purchase-price": 420,
+        "base-sell-price": 160,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Apple_2",
+        "base-purchase-price": "40",
+        "base-sell-price": 8,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Vitamins_01",
+        "base-purchase-price": 600,
+        "base-sell-price": 200,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Vitamins_02",
+        "base-purchase-price": 900,
+        "base-sell-price": 300,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Vitamins_03",
+        "base-purchase-price": 1200,
+        "base-sell-price": 400,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "ActivatedCharcoal_01",
+        "base-purchase-price": 3000,
+        "base-sell-price": 1000,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "ActivatedCharcoal_02",
+        "base-purchase-price": 5100,
+        "base-sell-price": 1700,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "ActivatedCharcoal_03",
+        "base-purchase-price": 7500,
+        "base-sell-price": 2500,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Adrenaline_Shot",
+        "base-purchase-price": 1500,
+        "base-sell-price": 500,
+        "delta-price": "-1.0",
+        "can-be-purchased": "False",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Anti_Radiation_Pils_01",
+        "base-purchase-price": 480,
+        "base-sell-price": 160,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Anti_Radiation_Pils_02",
+        "base-purchase-price": 960,
+        "base-sell-price": 320,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Anti_Radiation_Pils_03",
+        "base-purchase-price": 1500,
+        "base-sell-price": 500,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Antibiotics_01",
+        "base-purchase-price": 3000,
+        "base-sell-price": 1000,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Antibiotics_02",
+        "base-purchase-price": 5100,
+        "base-sell-price": 1700,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Antibiotics_03",
+        "base-purchase-price": 7500,
+        "base-sell-price": 2500,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "AntiMalariaPils_01",
+        "base-purchase-price": "300",
+        "base-sell-price": "62",
+        "delta-price": "-1.0",
+        "can-be-purchased": "False",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "AntiMalariaPils_02",
+        "base-purchase-price": "600",
+        "base-sell-price": "124",
+        "delta-price": "-1.0",
+        "can-be-purchased": "False",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "AntiMalariaPils_03",
+        "base-purchase-price": "900",
+        "base-sell-price": "187",
+        "delta-price": "-1.0",
+        "can-be-purchased": "False",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Antiparasitics_01",
+        "base-purchase-price": "300",
+        "base-sell-price": "62",
+        "delta-price": "-1.0",
+        "can-be-purchased": "False",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Antiparasitics_02",
+        "base-purchase-price": "600",
+        "base-sell-price": "124",
+        "delta-price": "-1.0",
+        "can-be-purchased": "False",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Antiparasitics_03",
+        "base-purchase-price": "900",
+        "base-sell-price": "187",
+        "delta-price": "-1.0",
+        "can-be-purchased": "False",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Antipsychotic_Pils",
+        "base-purchase-price": "40",
+        "base-sell-price": "40",
+        "delta-price": "-1.0",
+        "can-be-purchased": "False",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Aspirin",
+        "base-purchase-price": 990,
+        "base-sell-price": 330,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "AtropineInjection",
+        "base-purchase-price": "1200",
+        "base-sell-price": "249",
+        "delta-price": "-1.0",
+        "can-be-purchased": "False",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "BeePollen_Pils_01",
+        "base-purchase-price": 360,
+        "base-sell-price": 120,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "BeePollen_Pils_02",
+        "base-purchase-price": 600,
+        "base-sell-price": 200,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "BeePollen_Pils_03",
+        "base-purchase-price": 900,
+        "base-sell-price": 300,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Isopropyl_alcohol",
+        "base-purchase-price": 1500,
+        "base-sell-price": 500,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Painkillers_02",
+        "base-purchase-price": 4500,
+        "base-sell-price": 1500,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "PainKillers_03",
+        "base-purchase-price": 6000,
+        "base-sell-price": 2000,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Penicillin01",
+        "base-purchase-price": 3000,
+        "base-sell-price": 1000,
+        "delta-price": "-1.0",
+        "can-be-purchased": "False",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "PotassiumIodide_Pills_01",
+        "base-purchase-price": 600,
+        "base-sell-price": 200,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "PotassiumIodide_Pills_02",
+        "base-purchase-price": 900,
+        "base-sell-price": 300,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "PotassiumIodide_Pills_03",
+        "base-purchase-price": 1200,
+        "base-sell-price": 400,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "QuinineSulphate_Pils_01",
+        "base-purchase-price": "500",
+        "base-sell-price": "104",
+        "delta-price": "-1.0",
+        "can-be-purchased": "False",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "QuinineSulphate_Pils_02",
+        "base-purchase-price": "700",
+        "base-sell-price": "145",
+        "delta-price": "-1.0",
+        "can-be-purchased": "False",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "QuinineSulphate_Pils_03",
+        "base-purchase-price": "1000",
+        "base-sell-price": "208",
+        "delta-price": "-1.0",
+        "can-be-purchased": "False",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Sedative",
+        "base-purchase-price": "1000",
+        "base-sell-price": "208",
+        "delta-price": "-1.0",
+        "can-be-purchased": "False",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "Crutch",
+        "base-purchase-price": 2700,
+        "base-sell-price": 900,
+        "delta-price": "-1.0",
+        "can-be-purchased": "True",
+        "required-famepoints": "-1"
+      },
+      {
+        "name": "BP_PlasticSurgeryService",
+        "base-purchase-price": 2500,
+        "base-sell-price": 2500,
+        "delta-price": "-1.0",
+        "can-be-purchased": "true",
+        "required-famepoints": "-1"
+      }
+    ]
+  }
+}

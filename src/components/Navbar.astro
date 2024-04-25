@@ -1,6 +1,6 @@
 ---
 const pathname = new URL(Astro.request.url).pathname;
-const currentPath = pathname.slice(1); // remove the first "/"
+const currentPath = pathname.slice(1);
 ---
 
 <style is:inline>
@@ -26,28 +26,19 @@ const currentPath = pathname.slice(1); // remove the first "/"
   <a class={currentPath === 'vehicle' ? 'active' : ''} href='/vehicleList'
     >Vehicle List</a
   >
+  <a class={currentPath === 'hordeSpawner' ? 'active' : ''} href='/hordeSpawner'
+  >Horde Spawner</a
+>
   <a class={currentPath === 'bunker' ? 'active' : ''} href='/bunkerList'
     >Bunker lIst</a
   >
   <a class={currentPath === 'maze' ? 'active' : ''} href='/maze'>Maze</a>
-  <a class={currentPath === 'hordeSpawner' ? 'active' : ''} href='/hordeSpawner'
-    >Horde Spawner</a
-  >
+
   <a class={currentPath === 'econfile' ? 'active' : ''} href='/econfile'
     >Economy Override</a
   >
-  <a class={currentPath === 'vehicle-api' ? 'active' : ''} href='/vehicle-api'
-    >vehicle API</a
-  >
-  <a class={currentPath === 'getPacks' ? 'active' : ''} href='/getPacks'
-    >getPacks API</a
-  >
-  <a
-    class={currentPath === 'playerLocations' ? 'active' : ''}
-    href='/playerLocations'>PLocs API</a
-  >
-  <a class={currentPath === 'getPlayers' ? 'active' : ''} href='/getPlayers'
-    >getPlayers API</a
+  <a class={currentPath === 'apis' ? 'active' : ''} href='/apis'
+    >APIs</a
   >
 
   <!-- <a

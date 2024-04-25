@@ -1,0 +1,85 @@
+---
+import Layout from '../layouts/Layout.astro';
+import GetPlayers from '../components/GetPlayers.astro';
+import GetVehicles from '../components/GetVehicles.astro';
+import PlayerLocations from '../components/PlayerLocations.astro';
+import GetPacks from '../components/GetPacks.astro';
+---
+
+<style is:inline>
+  body {
+    background: #1e1f22;
+    color: #c2c2c2;
+  }
+  .wrapper {
+    margin: 1em auto;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    width: 120ch;
+  }
+  .wrapper textarea {
+    background: #313338;
+    color: #d1d1d1;
+    border: none;
+    padding: 1em 1.25em;
+    border-radius: 0.5em;
+    height: 18em;
+    width: 95vw;
+    text-wrap: nowrap;
+  }
+  .wrapper button {
+    margin-top: 1em;
+    background: #2b2d31;
+    color: #d1d1d1;
+    border: none;
+    padding: 1em 1.25em;
+    border-radius: 0.5em;
+    cursor: pointer;
+  }
+
+  .wrapper table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 0.5em;
+    text-align: left;
+    display: grid;
+  }
+  thead {
+    margin-top: 0.5em;
+    cursor: pointer;
+    background: #27272b;
+    color: #d1d1d1;
+    padding: 0.75em 1.25em;
+  }
+  tr {
+    padding: 0.75em 1.25em;
+    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    color: #d1d1d1;
+  }
+  td {
+    padding: 0.75em 1.25em;
+    text-wrap: nowrap; */
+    background: #2b2d31;
+    color: #d1d1d1;
+  }
+  thead tr {
+  }
+  tbody tr {
+    border-bottom: 0.25em solid #1e1f22;
+    background: #2b2d31;
+  }
+  .hidden {
+    display: none;
+  }
+</style>
+
+<Layout title='APIs List '>
+  <PlayerLocations />
+  <GetPlayers />
+  <GetPacks />
+  <GetVehicles />
+</Layout>
