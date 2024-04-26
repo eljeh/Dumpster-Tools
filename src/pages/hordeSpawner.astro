@@ -22,7 +22,6 @@ import Layout from '../layouts/Layout.astro';
     padding-left: 1em;
   }
   .wrapper input,
-  .wrapper button,
   .wrapper textarea {
     background: #313338;
     color: #d1d1d1;
@@ -64,6 +63,7 @@ import Layout from '../layouts/Layout.astro';
         <h3 class='block text-lg font-bold'>Zombie Spawns:</h3>
 
         <div id='zombieOptionsForm' class='flex flex-row flex-wrap gap-6'></div>
+        
       </div>
 
       <div class='flex flex-col my-5'>
@@ -182,6 +182,13 @@ import Layout from '../layouts/Layout.astro';
           rows='6'
           class='border rounded w-full py-2 px-4 leading-tight focus:outline-none focus:shadow-outline'
         ></textarea>
+
+        <button
+          class='shadow bg-green-800 hover:bg-green-900 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+          id='sendButton'
+         
+          >Send</button
+        >
       </footer>
     </div>
   </div>
@@ -384,6 +391,42 @@ import Layout from '../layouts/Layout.astro';
       await navigator.clipboard.writeText(textarea.value);
       alert('Content copied to clipboard!');
     });
+
+    const heresMYAuth = 'WhalleyBotAPI_rtTECwgxKLKy9Q==';
+    const sendButton = document.getElementById('sendButton');
+
+     sendButton.addEventListener('click', async () => {
+       const message = document.getElementById('result');
+
+     if (message.value) {
+        try {
+    //       // Encode the message
+           const encodedMessage = encodeURIComponent(message.value);
+
+          const response = await fetch(
+            `https://api.whalleybot.com/bot/afd0a027/GlobalMessage/Send?message=${encodedMessage}`,
+            {
+              method: 'POST',
+              headers: {
+                Accept: '*/*',
+                Authorization: heresMYAuth,
+              },
+            },
+          );
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          alert('Message sent!');
+        } catch (error) {
+          console.error('Error sending message: ', error);
+        }
+      } else {
+        console.error('Please input a message to send.');
+      }
+     });
+
+
+
   </script>
 </Layout>
 e

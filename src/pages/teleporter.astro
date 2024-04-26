@@ -13,7 +13,8 @@ import Layout from '../layouts/Layout.astro';
 
   .wrapper input,
   .wrapper select,
-  .wrapper button,
+.wrapper #csvFormPlayers button,
+.wrapper #csvFormCoords button,
   .wrapper textarea {
     background: #313338;
     color: #d1d1d1;
@@ -168,8 +169,7 @@ import Layout from '../layouts/Layout.astro';
 
       <footer class='relative mt-4'>
         <button
-          class='font-bold py-4 px-5 mt-6 rounded focus:outline-none'
-          type='button'
+          class='shadow bg-green-800 hover:bg-green-900 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
           id='sendButton'
         >
           Send
@@ -256,10 +256,7 @@ import Layout from '../layouts/Layout.astro';
         document.getElementById('coordinates').value === ''
           ? document.querySelector('#listofCoords option:checked').value
           : document.getElementById('coordinates').value;
-      // const coordinatesInput = document.querySelector(
-      //   '#listofCoords option:checked',
-      // ).value;
-      //const coordinatesInput = document.getElementById('coordinates').value;
+
       const regex = /X=([-+]?\d*\.\d+)\s*Y=([-+]?\d*\.\d+)\s*Z=([-+]?\d*\.\d+)/;
       const match = coordinatesInput.match(regex);
 
@@ -309,8 +306,8 @@ import Layout from '../layouts/Layout.astro';
             }
             return response.json();
           })
-          .then((data) => {
-            alert(data.message);
+          .then(() => {
+            alert(`#teleport ${x} ${y} ${z} ${playerID}`);
           })
           .catch((error) => {
             console.error('Error sending data:', error.message);
