@@ -24,7 +24,6 @@ const { title } = Astro.props;
     <meta name='generator' content={Astro.generator} />
     <title>{title}</title>
     <style>
-
       .specialElite {
         font-family: 'Special Elite', system-ui;
         font-weight: 400;
@@ -34,11 +33,36 @@ const { title } = Astro.props;
         font-size: 4rem;
       }
     </style>
+    <script type='module' src='/src/netlify-identity.js'></script>
   </head>
   <body>
     <h1 class='my-8 text-center'>
       <span class='flex justify-center specialElite'>Dumpster Tools</span>
     </h1>
+    <div class="wrapper1">
+      <button id='login-button'>Login</button>
+      <button id='logout-button'>Logout</button>
+    </div>
+    <script>
+      const loginButton = document.getElementById('login-button');
+      const logoutButton = document.getElementById('logout-button');
+      loginButton.addEventListener('click', () => {
+        netlifyIdentity.open(); // open the modal
+      });
+
+      logoutButton.addEventListener('click', () => {
+        netlifyIdentity.logout(); // logs out the user
+      });
+
+      netlifyIdentity.on('login', (user) => {
+        console.log('Logged in user:', user);
+        netlifyIdentity.close(); // close the modal after login
+      });
+
+      netlifyIdentity.on('logout', () => {
+        console.log('User logged out');
+      });
+    </script>
     <NavBar />
     <slot />
   </body>
