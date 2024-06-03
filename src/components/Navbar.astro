@@ -15,14 +15,9 @@ const currentPath = pathname.slice(1);
 </style>
 <nav id='navBar'></nav>
 
-<!-- <script>
+<script>
   const navBarList = document.getElementById('navBar');
   const netlifyIdentity = window.netlifyIdentity;
-
-  // on load if not logged in, redirect to index page
-  if (!netlifyIdentity.currentUser()) {
-
-  }
 
   // if not logged in,remove the slot
   netlifyIdentity.on('logout', () => {
@@ -31,7 +26,6 @@ const currentPath = pathname.slice(1);
   });
 
   if (netlifyIdentity) {
-
     netlifyIdentity.on('login', (user) => {
       renderNavBar();
     });
@@ -70,4 +64,4 @@ const currentPath = pathname.slice(1);
   function removeNavBar() {
     navBarList.innerHTML = '';
   }
-</script> -->
+</script>
