@@ -13,42 +13,61 @@ const currentPath = pathname.slice(1);
     flex-wrap: wrap;
   }
 </style>
-<nav>
-  <a class={currentPath === 'orderPack' ? 'active' : ''} href='/orderPack'
-    >Order Pack</a
-  >
-  <a class={currentPath === 'sendMessage' ? 'active' : ''} href='/sendMessage'
-    >Send Message</a
-  >
-  <a class={currentPath === 'teleporter' ? 'active' : ''} href='/teleporter'
-    >Teleporter</a
-  >
-  <a class={currentPath === 'vehicle' ? 'active' : ''} href='/vehicleList'
-    >Vehicle List</a
-  >
-  <a class={currentPath === 'hordeSpawner' ? 'active' : ''} href='/hordeSpawner'
-  >Horde Spawner</a
->
-  <a class={currentPath === 'bunker' ? 'active' : ''} href='/bunkerList'
-    >Bunker lIst</a
-  >
-  <a class={currentPath === 'maze' ? 'active' : ''} href='/maze'>Maze</a>
+<nav id='navBar'></nav>
 
-  <a class={currentPath === 'econfile' ? 'active' : ''} href='/econfile'
-    >Economy Override</a
-  >
-  <a class={currentPath === 'apis' ? 'active' : ''} href='/apis'
-    >APIs</a
-  >
-  <!-- <a
-    class={currentPath === 'circleSpawner' ? 'active' : ''}
-    href='/circleSpawner'>Circle Spawner</a
-  >
-  <a
-    class={currentPath === 'scatterSpawner' ? 'active' : ''}
-    href='/scatterSpawner'>Xcatter Spawner</a
-  >
-  <a class={currentPath === 'spawnCircle' ? 'active' : ''} href='/spawnCircle'
-    >Spawn Circle</a
-  > -->
-</nav>
+<script>
+  const navBarList = document.getElementById('navBar');
+  const netlifyIdentity = window.netlifyIdentity;
+
+  // on load if not logged in, redirect to index page
+  if (!netlifyIdentity.currentUser()) {
+
+  }
+
+  // if not logged in,remove the slot
+  netlifyIdentity.on('logout', () => {
+    removeNavBar();
+    window.location.href = '/';
+  });
+
+  if (netlifyIdentity) {
+
+    netlifyIdentity.on('login', (user) => {
+      renderNavBar();
+    });
+    // Redirect to the main page after a successful login
+    netlifyIdentity.on('init', (user) => {
+      if (!user) {
+        netlifyIdentity.on('login', () => {
+          renderNavBar();
+        });
+      }
+    });
+  }
+
+  // Function to render NavBar component
+  function renderNavBar() {
+    navBarList.innerHTML =
+      '<a class={currentPath === "orderPack" ? "active" : ""} href="/orderPack">Order Pack</a>';
+    navBarList.innerHTML +=
+      '<a class={currentPath === "sendMessage" ? "active" : ""} href="/sendMessage">Send Message</a>';
+    navBarList.innerHTML +=
+      '<a class={currentPath === "teleporter" ? "active" : ""} href="/teleporter">Teleporter</a>';
+    navBarList.innerHTML +=
+      '<a class={currentPath === "vehicle" ? "active" : ""} href="/vehicleList">Vehicle List</a>';
+    navBarList.innerHTML +=
+      '<a class={currentPath === "hordeSpawner" ? "active" : ""} href="/hordeSpawner">Horde Spawner</a>';
+    navBarList.innerHTML +=
+      '<a class={currentPath === "bunker" ? "active" : ""} href="/bunkerList">Bunker lIst</a>';
+    navBarList.innerHTML +=
+      '<a class={currentPath === "maze" ? "active" : ""} href="/maze">Maze</a>';
+    navBarList.innerHTML +=
+      '<a class={currentPath === "econfile" ? "active" : ""} href="/econfile">Economy Override</a>';
+    navBarList.innerHTML +=
+      '<a class={currentPath === "apis" ? "active" : ""} href="/apis">APIs</a>';
+  }
+
+  function removeNavBar() {
+    navBarList.innerHTML = '';
+  }
+</script>

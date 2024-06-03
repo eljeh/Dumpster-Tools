@@ -1,11 +1,8 @@
 ---
-import NavBar from '../components/Navbar.astro';
-import netlifyIdentity from 'netlify-identity-widget';
-
+import NavBar from '../components/navbar.astro';
 interface Props {
   title: string;
 }
-
 const { title } = Astro.props;
 ---
 
@@ -34,14 +31,48 @@ const { title } = Astro.props;
         font-size: 4rem;
       }
     </style>
-    <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script
+      type='text/javascript'
+      src='https://identity.netlify.com/v1/netlify-identity-widget.js'></script>
   </head>
   <body>
     <h1 class='my-8 text-center'>
       <span class='flex justify-center specialElite'>Dumpster Tools</span>
     </h1>
-    <div data-netlify-identity-menu class='my-8 text-center'></div>
-    <NavBar />
-    <slot />
+
+    <div data-netlify-identity-button class='my-8 text-center'></div>
+
+    <div class='my-8 text-center' id='navBarContainer'>
+      <NavBar />
+    </div>
+    <main id='main'>
+      <slot />
+    </main>
   </body>
 </html>
+
+<script>
+  const main = document.getElementById('main');
+  const netlifyIdentity = window.netlifyIdentity;
+  //on page load check if the user is logged in
+  netlifyIdentity.on('init', (user) => {
+    console.log('init');
+    if (user) {
+      console.log('user logged in');
+    } else {
+      console.log('user not logged in');
+      removeSlot();
+    }
+  });
+  // if not logged in,remove the slot
+  netlifyIdentity.on('logout', () => {
+    console.log('logout');
+    removeSlot();
+    window.location.href = '/';
+  });
+
+  function removeSlot() {
+    console.log('removing slot');
+    main.innerHTML = '';
+  }
+</script>
