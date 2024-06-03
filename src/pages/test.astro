@@ -262,12 +262,12 @@ import Layout from '../layouts/Layout.astro';
 
   <script>
     function populateIGPlayers() {
-      const url = 'https://api.whalleybot.com/bot/afd0a027/PlayerLocations';
+      const url = 'https://api.whalleybot.com/bot/7ac35e92/PlayerLocations';
       fetch(url, {
         method: 'GET',
         headers: {
           Accept: '*/*',
-          Authorization: 'WhalleyBotAPI_rtTECwgxKLKy9Q==',
+          Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
         },
       })
         .then((response) => {
@@ -372,12 +372,12 @@ import Layout from '../layouts/Layout.astro';
         const encodedMessage = encodeURIComponent(
           `#teleport ${x} ${y} ${z} ${playerID}`,
         );
-        const url = `https://api.whalleybot.com/bot/afd0a027/GlobalMessage/Send?message=${encodedMessage}`;
+        const url = `https://api.whalleybot.com/bot/7ac35e92/GlobalMessage/Send?message=${encodedMessage}`;
         fetch(url, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: 'WhalleyBotAPI_rtTECwgxKLKy9Q==',
+            Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
           },
           body: JSON.stringify({ coordinates: coordinatesInput, playerID }),
         })

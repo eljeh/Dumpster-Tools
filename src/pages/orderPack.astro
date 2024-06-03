@@ -75,8 +75,8 @@ import Layout from '../layouts/Layout.astro';
 
     <div>
       <script>
-        const heresMYAuth = 'WhalleyBotAPI_rtTECwgxKLKy9Q==';
-        // Order button click Api post https://api.whalleybot.com/bot/afd0a027/SendPack/{PlayerID}/{PackID}/1
+        const heresMYAuth = 'WhalleyBotAPI_F935H3ucUJRv7g==';
+        // Order button click Api post https://api.whalleybot.com/bot/7ac35e92/SendPack/{PlayerID}/{PackID}/1
         const orderButton = document.querySelector('button');
         orderButton.addEventListener('click', async () => {
           const playerIDSelect = document.getElementById('playerIDSelect');
@@ -85,7 +85,7 @@ import Layout from '../layouts/Layout.astro';
           if (playerIDSelect.value && packNameSelect.value) {
             try {
               const response = await fetch(
-                `https://api.whalleybot.com/bot/afd0a027/SendPack/${playerIDSelect.value}/${packNameSelect.value}/1`,
+                `https://api.whalleybot.com/bot/7ac35e92/SendPack/${playerIDSelect.value}/${packNameSelect.value}/1`,
                 {
                   method: 'POST',
                   headers: {
@@ -136,7 +136,7 @@ import Layout from '../layouts/Layout.astro';
             while (nextPageExists) {
               // Fetch data for the current page
               const data = await fetchData(
-                `https://api.whalleybot.com/bot/afd0a027/GetPlayers/${pageNumber}`,
+                `https://api.whalleybot.com/bot/7ac35e92/GetPlayers/${pageNumber}`,
               );
 
               if (data && data.PlayerData && data.PlayerData.length > 0) {
@@ -170,7 +170,7 @@ import Layout from '../layouts/Layout.astro';
             while (nextPageExists) {
               // Fetch data for the current page
               const data = await fetchData(
-                `https://api.whalleybot.com/bot/afd0a027/GetPacks/${pageNumber}`,
+                `https://api.whalleybot.com/bot/7ac35e92/GetPacks/${pageNumber}`,
               );
 
               if (data && data.packData && data.packData.length > 0) {
