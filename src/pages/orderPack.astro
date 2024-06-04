@@ -76,7 +76,6 @@ import Layout from '../layouts/Layout.astro';
     <div>
       <script>
         const heresMYAuth = 'WhalleyBotAPI_F935H3ucUJRv7g==';
-        // Order button click Api post https://api.whalleybot.com/bot/7ac35e92/SendPack/{PlayerID}/{PackID}/1
         const orderButton = document.querySelector('button');
         orderButton.addEventListener('click', async () => {
           const playerIDSelect = document.getElementById('playerIDSelect');
@@ -85,7 +84,7 @@ import Layout from '../layouts/Layout.astro';
           if (playerIDSelect.value && packNameSelect.value) {
             try {
               const response = await fetch(
-                `https://api.whalleybot.com/bot/7ac35e92/SendPack/${playerIDSelect.value}/${packNameSelect.value}/1`,
+                `https://api.whalleybot.com/bot/afd0a027/SendPack/${playerIDSelect.value}/${packNameSelect.value}/1`,
                 {
                   method: 'POST',
                   headers: {
@@ -129,33 +128,21 @@ import Layout from '../layouts/Layout.astro';
 
         async function populatePlayerSelect() {
           try {
-            let allPlayers = []; // Array to store all players from all pages
-            let pageNumber = 1; // Start with the first page
-            let nextPageExists = true;
-
-            while (nextPageExists) {
-              // Fetch data for the current page
-              const data = await fetchData(
-                `https://api.whalleybot.com/bot/7ac35e92/GetPlayers/${pageNumber}`,
-              );
-
-              if (data && data.PlayerData && data.PlayerData.length > 0) {
-                // Add players from the current page to the array
-                allPlayers = allPlayers.concat(data.PlayerData);
-                pageNumber++; // Move to the next page
-              } else {
-                nextPageExists = false; // No more data available, exit the loop
-              }
-            }
-
-            // Populate the player select dropdown with all players
+            const data = await fetchData(
+              `https://api.whalleybot.com/bot/7ac35e92/PlayerLocations`,
+            );
+            console.log('Player data:', data); // Check the structure of data.players
             const playerSelect = document.getElementById('playerIDSelect');
-            playerSelect.innerHTML =
-              '<option value="">Select a player name</option>';
-            allPlayers.forEach((player) => {
-              const option = new Option(player.PlayerName, player.SteamID);
-              playerSelect.add(option);
-            });
+            playerSelect.innerHTML = '<option value="">Select a player</option>';
+
+          // Populate table with JSON data
+          data.forEach((player) => 
+          {
+            const option = new Option(player.playerName, player.steamID);
+            playerSelect.appendChild(option);
+          });
+            
+
           } catch (error) {
             console.error('Error populating player select: ', error);
           }
@@ -163,26 +150,23 @@ import Layout from '../layouts/Layout.astro';
 
         async function populatePackSelect() {
           try {
-            let allPacks = []; // Array to store all packs from all pages
-            let pageNumber = 1; // Start with the first page
+            let allPacks = [];
+            let pageNumber = 1;
             let nextPageExists = true;
 
             while (nextPageExists) {
-              // Fetch data for the current page
               const data = await fetchData(
                 `https://api.whalleybot.com/bot/7ac35e92/GetPacks/${pageNumber}`,
               );
 
               if (data && data.packData && data.packData.length > 0) {
-                // Add packs from the current page to the array
                 allPacks = allPacks.concat(data.packData);
-                pageNumber++; // Move to the next page
+                pageNumber++;
               } else {
-                nextPageExists = false; // No more data available, exit the loop
+                nextPageExists = false;
               }
             }
 
-            // Populate the pack select dropdown with all packs
             const packSelect = document.getElementById('packNameSelect');
             packSelect.innerHTML =
               '<option value="">Select a pack name</option>';
@@ -195,7 +179,6 @@ import Layout from '../layouts/Layout.astro';
           }
         }
 
-        // Call functions to populate selects
         populatePlayerSelect();
         populatePackSelect();
       </script>
