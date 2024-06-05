@@ -4,8 +4,8 @@ import Layout from '../layouts/Layout.astro';
 
 <style is:inline>
   body {
-    background: #1e1f22;
-    color: #c2c2c2;
+    /* background: #1e1f22;
+    color: #c2c2c2; */
   }
   .wrapper {
     margin: 1em 1.5em;
@@ -14,11 +14,6 @@ import Layout from '../layouts/Layout.astro';
     flex-direction: column;
   }
   .wrapper textarea {
-    background: #313338;
-    color: #d1d1d1;
-    border: none;
-    padding: 1em 1.25em;
-    border-radius: 0.5em;
     height: 18em;
     width: 95vw;
     text-wrap: nowrap;
@@ -36,25 +31,25 @@ import Layout from '../layouts/Layout.astro';
     margin-top: 0.5em;
   }
   tr {
-    background: #313338;
-    color: #d1d1d1;
-    border-bottom: 0.25em solid #1e1f22;
+    background: var(--color-tertiary);
+    color: var(--color-secondary);
+    border-bottom: 0.25em solid var(--color-accent);
   }
   td {
-    /* background: #313338;
-    color: #d1d1d1; */
+    background: var(--color-accent);
+    color: var(--color-secondary);
     padding: 0.75em 1.25em;
     text-wrap: nowrap;
   }
 
   th {
-    background: #2b2d31;
-    color: #d1d1d1;
+    background: var(--color-accent);
+    color: var(--color-secondary);
     padding: 1em 1.25em;
   }
   th:has(> .clickable) {
-    background: #2b2d31;
-    color: #d1d1d1;
+    background: var(--color-accent);
+    color: var(--color-secondary);
     padding: 0;
   }
 
@@ -64,8 +59,8 @@ import Layout from '../layouts/Layout.astro';
 
   /* Add this style for highlighting on click */
   tr.highlight {
-    background: #2b2d31;
-    color: #d1d1d1;
+    background: var(--color-primary);
+    color: var(--color-secondary);
   }
 
   .clickable {
@@ -73,8 +68,8 @@ import Layout from '../layouts/Layout.astro';
     padding: 1em 1.25em;
   }
   .clickable:hover {
-    background: #1e1f22;
-    color: #d1d1d1;
+    background: var(--color-primary);
+    color: var(--color-secondary);
   }
 </style>
 
@@ -92,11 +87,8 @@ import Layout from '../layouts/Layout.astro';
         type='button'
         onclick='convertToTable()'
         class='shadow
-        bg-green-800
-        hover:bg-green-900
         focus:shadow-outline
         focus:outline-none
-        text-white
         font-bold
         py-2
         px-4

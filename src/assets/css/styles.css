@@ -1,6 +1,14 @@
+:root {
+  /* Global colors */
+  --color-primary:#166534;
+  --color-accent: #102217;
+  --color-secondary: #c2c2c2;
+  --color-tertiary: #173C25;
+  }
+  
   body {
-    background: #1e1f22;
-    color: #c2c2c2;
+    background: var(--color-tertiary);
+    color: var(--color-secondary);
   }
   .wrapper {
     margin: 1em auto;
@@ -9,20 +17,10 @@
     flex-direction: column;
     /* width: 120ch; */
   }
-  .wrapper textarea {
-    background: #313338;
-    color: #d1d1d1;
-    border: none;
-    padding: 1em 1.25em;
-    border-radius: 0.5em;
-    height: 18em;
-    width: 95vw;
-    text-wrap: nowrap;
-  }
   .wrapper button {
     margin-top: 1em;
-    background: #2b2d31;
-    color: #d1d1d1;
+    background: var(--color-primary);
+    color: var(--color-secondary);
     border: none;
     padding: 1em 1.25em;
     border-radius: 0.5em;
@@ -40,8 +38,8 @@
   thead {
     margin-top: 0.5em;
     cursor: pointer;
-    background: #27272b;
-    color: #d1d1d1;
+    /* background: #173C25;
+    color: #d1d1d1; */
     padding: 0.75em 1.25em;
   }
   tr {
@@ -49,31 +47,32 @@
     justify-content: space-between;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    color: #d1d1d1;
+    /* color: #d1d1d1; */
   }
   td {
     padding: 0.75em 1.25em;
     /* text-wrap: nowrap; */
-    background: #2b2d31;
-    color: #d1d1d1;
+    /* background: #46805C;
+    color: #d1d1d1; */
   }
   thead tr{
     
   }
   tbody tr {
-    border-bottom: 0.25em solid #1e1f22;
-    background: #2b2d31;
+    border-bottom: 0.25em solid var(--color-accent);
+    /* background: #46805C; */
   }
   .hidden {
     display: none;
   }
+
   /* file upload button */
 input[type="file"]::file-selector-button {
   border-radius: 4px;
   padding: 0 16px;
   height: 40px;
   cursor: pointer;
-  background-color: white;
+  background-color: var(--color-accent);
   border: 1px solid rgba(0, 0, 0, 0.16);
   box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
   margin-right: 16px;
@@ -82,10 +81,21 @@ input[type="file"]::file-selector-button {
 
 /* file upload button hover state */
 input[type="file"]::file-selector-button:hover {
-  background-color: #f3f4f6;
+  background-color: var(--color-accent);
 }
 
 /* file upload button active state */
 input[type="file"]::file-selector-button:active {
-  background-color: #e5e7eb;
+  background-color: var(--color-accent);
+}
+
+.wrapper select,
+.wrapper input,
+.wrapper textarea{
+  background: var(--color-accent);
+  color: var(--color-secondary);
+  border: none;
+  padding: 1em 1.25em;
+  border-radius: 0.5em;
+  width: 100%;
 }

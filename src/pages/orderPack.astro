@@ -3,24 +3,13 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <style is:inline>
-  body {
-    background: #1e1f22;
-    color: #c2c2c2;
-  }
+
   .wrapper {
     margin: 1em auto;
     justify-content: center;
     display: flex;
     flex-direction: column;
     max-width: 120ch;
-  }
-  .wrapper select {
-    background: #313338;
-    color: #d1d1d1;
-    border: none;
-    padding: 1em 1.25em;
-    border-radius: 0.5em;
-    width: 100%;
   }
 </style>
 
@@ -32,7 +21,7 @@ import Layout from '../layouts/Layout.astro';
         <div class=''>
           <label
             for='playerIDSelect'
-            class='block text-gray-500 font-bold md:text-right pr-4'
+            class='block font-bold md:text-right pr-4'
             for='inline-full-name'
           >
             Player Name
@@ -49,7 +38,7 @@ import Layout from '../layouts/Layout.astro';
         <div class=''>
           <label
             for='packNameSelect'
-            class='block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4'
+            class='block font-bold md:text-right mb-1 md:mb-0 pr-4'
             for='inline-full-name'
           >
             Pack Name
@@ -65,7 +54,7 @@ import Layout from '../layouts/Layout.astro';
       <div class='flex items-center justify-center mb-6'>
         <div class=''>
           <button
-            class='shadow bg-green-800 hover:bg-green-900 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+            class='shadow focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
           >
             Order Pack
           </button>

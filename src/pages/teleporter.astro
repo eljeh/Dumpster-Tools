@@ -3,15 +3,11 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <style is:inline>
-  body {
-    background: #1e1f22;
-    color: #c2c2c2;
-  }
   .wrapper {
     margin: 1em 1.5em;
   }
 
-  .wrapper input,
+  /* .wrapper input,
   .wrapper select,
   .wrapper #csvFormPlayers button,
   .wrapper #csvFormCoords button,
@@ -21,7 +17,7 @@ import Layout from '../layouts/Layout.astro';
     border: none;
     padding: 1em 1.25em;
     border-radius: 0.5em;
-  }
+  } */
   .wrapper hr {
     border: 1px solid #313338;
     margin: 3em 1em 1em;
@@ -34,22 +30,22 @@ import Layout from '../layouts/Layout.astro';
 
   .wrapper [type='checkbox'] {
     zoom: 2;
+    width: unset;
   }
-  input[type="file"]::after {
-  position: absolute;
-  pointer-events: none;
-  top: 1.6em;
-  left: 40px;
-  color: #d1d1d1;
-  content: "Upload File";
-}
+  input[type='file']::after {
+    position: absolute;
+    pointer-events: none;
+    top: 1.6em;
+    left: 40px;
+    color: #d1d1d1;
+    content: 'Upload File';
+  }
 
   input[type='file']::file-selector-button {
     border-radius: 4px;
     padding: 0 16px;
     height: 40px;
     cursor: pointer;
-    color: #d1d1d100;
     --tw-bg-opacity: 1;
     background-color: rgb(20 83 45 / var(--tw-bg-opacity));
     border: 1px solid rgba(0, 0, 0, 0.16);
@@ -369,8 +365,3 @@ import Layout from '../layouts/Layout.astro';
     }
   </script>
 </Layout>
-
-
-
-
-

@@ -3,10 +3,7 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <style is:inline>
-  body {
-    background: #1e1f22;
-    color: #c2c2c2;
-  }
+
   .wrapper {
     margin: 1em 1.5em;
   }
@@ -21,21 +18,10 @@ import Layout from '../layouts/Layout.astro';
     translate: -1em;
     padding-left: 1em;
   }
-  .wrapper input,
-  .wrapper textarea {
-    background: #313338;
-    color: #d1d1d1;
-    border: none;
-    padding: 1em 1.25em;
-    border-radius: 0.5em;
-    text-wrap: nowrap;
-    min-width: 5.6em;
-  }
-
   .category > div:hover label,
   .category input:focus ~ label {
     --tw-bg-opacity: 1;
-    background-color: #313338;
+    /* background-color: #313338; */
     cursor: pointer;
   }
 </style>
@@ -171,7 +157,7 @@ import Layout from '../layouts/Layout.astro';
         <label class='block text-md font-bold'>Script</label>
         <button
           id='copyButton'
-          class='absolute right-0 mr-6 bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 my-2 rounded'
+          class='absolute right-0 mr-6  text-xs font-bold py-1 px-1 my-2 rounded'
         >
           Copy All
         </button>
@@ -183,7 +169,7 @@ import Layout from '../layouts/Layout.astro';
         ></textarea>
 
         <button
-          class='shadow bg-green-800 hover:bg-green-900 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+          class='shadow  focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded'
           id='sendButton'>Send</button
         >
       </footer>
@@ -230,7 +216,7 @@ import Layout from '../layouts/Layout.astro';
             value='0'
             min='0'
             max='50'
-            class= 'border rounded w-16 py-2 px-3 text-gray-900 leading-tight'
+            class= 'border rounded w-16 py-2 px-3 leading-tight'
           />
           <label class='rounded w-full py-1 px-2' for='${option.id}'>${option.name}</label>
         `;
