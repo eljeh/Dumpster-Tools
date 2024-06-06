@@ -3,194 +3,145 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <style is:inline>
-  .wrapper {
-    margin: 1em 1.5em;
+  main .wrapper {
+    align-items: unset;
   }
 
-  /* .wrapper input,
-  .wrapper select,
-  .wrapper #csvFormPlayers button,
-  .wrapper #csvFormCoords button,
-  .wrapper textarea {
-    background: #313338;
-    color: #d1d1d1;
-    border: none;
-    padding: 1em 1.25em;
-    border-radius: 0.5em;
-  } */
   .wrapper hr {
-    border: 1px solid #313338;
+    border: 1px solid var(--color-accent);
     margin: 3em 1em 1em;
   }
   .playersList {
     display: flex;
     flex-direction: column;
     gap: 0.5em;
+    max-height: 40em;
+    overflow-y: auto;
+    width: 100%;
   }
 
   .wrapper [type='checkbox'] {
     zoom: 2;
     width: unset;
   }
-  input[type='file']::after {
-    position: absolute;
-    pointer-events: none;
-    top: 1.6em;
-    left: 40px;
-    color: #d1d1d1;
-    content: 'Upload File';
-  }
-
-  input[type='file']::file-selector-button {
-    border-radius: 4px;
-    padding: 0 16px;
-    height: 40px;
-    cursor: pointer;
-    --tw-bg-opacity: 1;
-    background-color: rgb(20 83 45 / var(--tw-bg-opacity));
-    border: 1px solid rgba(0, 0, 0, 0.16);
-    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
-    margin-right: 16px;
-    transition: background-color 200ms;
-  }
-
-  /* file upload button hover state */
-  input[type='file']::file-selector-button:hover {
-    --tw-bg-opacity: 1;
-    background-color: rgb(20 83 45 / var(--tw-bg-opacity));
-  }
-
-  /* file upload button active state */
-  input[type='file']::file-selector-button:active {
-    --tw-bg-opacity: 1;
-    background-color: rgb(20 83 45 / var(--tw-bg-opacity));
-  }
 </style>
 
 <Layout title='Teleporter'>
   <div class='min-w-min max-w-4xl m-auto gap-4'>
-    <div class='wrapper shadow-md rounded px-8 pt-6 pb-8 mb-4'>
+    <div class='wrapper'>
       <header>
         <h2 class='font-bold text-2xl text-center'>Teleporter</h2>
       </header>
 
-      <div>
-        <!--  IG Players -->
-        <div class='flex flex-col my-8'>
-          <label class='block text-lg font-bold mb-2' for='players'>
-            IG Players
-          </label>
+      <!--  IG Players -->
+      <div class='flex flex-col my-8'>
+        <label class='block text-lg font-bold mb-2' for='players'>
+          IG Players
+        </label>
 
-          <div class='flex'>
-            <ul id='players' class='playersList'>
-              <li>No one in game</li>
-            </ul>
-          </div>
+        <div class='flex'>
+          <ul id='players' class='playersList'>
+            <li>No one in game</li>
+          </ul>
         </div>
+      </div>
 
-        <!-- List of Players -->
-        <div class='flex flex-col my-8'>
-          <label class='block text-lg font-bold mb-2' for='listofPlayers'>
-            List of Players
-          </label>
+      <!-- List of Players -->
+      <div class='flex flex-col my-8'>
+        <label class='block text-lg font-bold mb-2' for='listofPlayers'>
+          List of Players
+        </label>
 
-          <div class='flex gap-4'>
-            <div id='csvFormPlayers' class='flex relative gap-4 w-full'>
-              <label
-                for='csvFilePlayers'
-                class='text-sm absolute -bottom-4 left-6 h-3'
-                >Upload CSV file</label
-              >
-              <input
-                type='file'
-                id='csvFilePlayers'
-                accept='.csv'
-                class='border rounded py-4 px-5 leading-tight w-full'
-              />
-
-              <button
-                id='uploadBtnPlayers'
-                class='font-bold py-4 px-5 rounded focus:outline-none'
-              >
-                Upload
-              </button>
-            </div>
-
-            <div
-              id='selectFormPlayers'
-              style='display: none;'
-              class='flex gap-4 w-full'
+        <div class='flex gap-4'>
+          <div id='csvFormPlayers' class='flex relative gap-4 w-full'>
+            <label
+              for='csvFilePlayers'
+              class='text-sm absolute -bottom-4 left-6 h-3'
+              >Upload CSV file</label
             >
-              <select
-                id='listofPlayers'
-                name='listofPlayers'
-                required
-                class='border rounded w-full leading-tight'
-              >
-              </select>
-            </div>
+            <input
+              type='file'
+              id='csvFilePlayers'
+              accept='.csv'
+              class='border rounded py-4 px-5 leading-tight w-full'
+            />
+
+            <button
+              id='uploadBtnPlayers'
+              class='font-bold py-4 px-5 rounded focus:outline-none'
+            >
+              Upload
+            </button>
+          </div>
+
+          <div
+            id='selectFormPlayers'
+            style='display: none;'
+            class='flex gap-4 w-full'
+          >
+            <select
+              id='listofPlayers'
+              name='listofPlayers'
+              required
+              class='border rounded w-full leading-tight'
+            >
+            </select>
           </div>
         </div>
       </div>
 
       <hr />
 
-      <div>
-        <!-- Coordinates -->
-        <div class='flex flex-col my-8'>
-          <label class='block text-lg font-bold' for='coordinates'>
-            Coordinates
-          </label>
-          <input
-            type='text'
-            id='coordinates'
-            name='coordinates'
-            required
-            class='border rounded w-full py-4 px-5 mb-2 leading-tight'
-          />
-        </div>
+      <!-- Coordinates -->
+      <div class='flex flex-col my-8'>
+        <label class='block text-lg font-bold' for='coordinates'>
+          Coordinates
+        </label>
+        <input
+          type='text'
+          id='coordinates'
+          name='coordinates'
+          required
+          class='border rounded py-4 px-5 mb-2 leading-tight'
+        />
+      </div>
 
-        <!-- List of Coords -->
-        <div class='flex flex-col my-8'>
-          <label class='block text-lg font-bold' for='listofCoords'>
-            List of Coords
-          </label>
+      <!-- List of Coords -->
+      <div class='flex flex-col my-8'>
+        <label class='block text-lg font-bold' for='listofCoords'>
+          List of Coords
+        </label>
 
-          <div class='flex gap-4'>
-            <div id='csvFormCoords' class='flex relative gap-4 w-full'>
-              <label
-                for='csvFileCoords'
-                class='text-sm absolute -bottom-4 left-6 h-3'
-                >Upload CSV file</label
-              >
-              <input
-                type='file'
-                id='csvFileCoords'
-                accept='.csv'
-                class='border rounded py-4 px-5 leading-tight w-full'
-              />
-
-              <button
-                id='uploadBtnCoords'
-                class='font-bold py-4 px-5 rounded focus:outline-none'
-              >
-                Upload
-              </button>
-            </div>
-
-            <div
-              id='selectFormCoords'
-              style='display: none;'
-              class='flex gap-4'
+        <div class='flex gap-4'>
+          <div id='csvFormCoords' class='flex relative gap-4 w-full'>
+            <label
+              for='csvFileCoords'
+              class='text-sm absolute -bottom-4 left-6 h-3'
+              >Upload CSV file</label
             >
-              <select
-                id='listofCoords'
-                name='listofCoords'
-                required
-                class='border rounded w-full leading-tight'
-              >
-              </select>
-            </div>
+            <input
+              type='file'
+              id='csvFileCoords'
+              accept='.csv'
+              class='border rounded py-4 px-5 leading-tight w-full'
+            />
+
+            <button
+              id='uploadBtnCoords'
+              class='font-bold py-4 px-5 rounded focus:outline-none'
+            >
+              Upload
+            </button>
+          </div>
+
+          <div id='selectFormCoords' style='display: none;' class='flex gap-4'>
+            <select
+              id='listofCoords'
+              name='listofCoords'
+              required
+              class='border rounded w-full leading-tight'
+            >
+            </select>
           </div>
         </div>
       </div>
@@ -199,7 +150,7 @@ import Layout from '../layouts/Layout.astro';
 
       <footer class='relative mt-4'>
         <button
-          class='shadow bg-green-800 hover:bg-green-900 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+          class='shadow focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded'
           id='sendButton'
         >
           Send

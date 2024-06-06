@@ -71,6 +71,18 @@
   .hidden {
     display: none;
   }
+  input[type='file']::after {
+    position: absolute;
+     pointer-events: none;
+     top: 1.6em;
+     left: 40px;
+     color: var(--color-primary);
+     content: 'Upload File'; 
+     font-weight: bold;
+   }
+   input[type='file']:hover::after {
+     color: var(--color-accent);
+   }
 
   /* file upload button */
 input[type="file"]::file-selector-button {
@@ -78,8 +90,9 @@ input[type="file"]::file-selector-button {
   padding: 0 16px;
   height: 40px;
   cursor: pointer;
-  background-color: var(--color-accent);
-  border: 1px solid rgba(0, 0, 0, 0.16);
+  color:  transparent;
+  background-color:  transparent;
+  border: 3px solid var(--color-primary);
   box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
   margin-right: 16px;
   transition: background-color 200ms;
@@ -87,14 +100,19 @@ input[type="file"]::file-selector-button {
 
 /* file upload button hover state */
 input[type="file"]::file-selector-button:hover {
-  background-color: var(--color-accent);
+  background-color: var(--color-primary);
+  color:  transparent;
 }
 
 /* file upload button active state */
 input[type="file"]::file-selector-button:active {
-  background-color: var(--color-accent);
+  background-color:  transparent;
+  color: transparent;
 }
 
+label{
+  text-wrap: nowrap;
+}
 .wrapper select,
 .wrapper input,
 .wrapper textarea{

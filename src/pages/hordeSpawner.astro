@@ -13,6 +13,9 @@ import Layout from '../layouts/Layout.astro';
     translate: -1em;
     padding-left: 1em;
   }
+  .wrapper .category input {
+    width: 5em;
+  }
   .category > div:hover label,
   .category input:focus ~ label {
     --tw-bg-opacity: 1;
@@ -29,7 +32,7 @@ import Layout from '../layouts/Layout.astro';
       <header>
         <h2 class='font-bold text-2xl text-center'>Horde Spawner</h2>
       </header>
-      <div class='md:flex flex-col gap-2'>
+      <div class='w-full md:flex flex-col gap-2'>
         <label class='block text-lg font-bold' for='coordinates'>
           Coordinates
         </label>
@@ -38,7 +41,7 @@ import Layout from '../layouts/Layout.astro';
           id='coordinates'
           name='coordinates'
           required
-          class='border rounded w-full py-2 px-3 mb-2 leading-tight'
+          class='border rounded py-2 px-3 mb-2 leading-tight'
         />
       </div>
 
@@ -213,9 +216,9 @@ import Layout from '../layouts/Layout.astro';
             value='0'
             min='0'
             max='50'
-            class= 'border rounded w-16 py-2 px-3 leading-tight'
+            class= 'border rounded py-2 px-3 leading-tight'
           />
-          <label class='rounded w-full py-1 px-2' for='${option.id}'>${option.name}</label>
+          <label class='rounded py-1 px-2' for='${option.id}'>${option.name}</label>
         `;
 
             categoryDiv.appendChild(inputField);

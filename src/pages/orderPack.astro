@@ -3,13 +3,8 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <style is:inline>
-
   .wrapper {
-    margin: 1em auto;
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
-    max-width: 120ch;
+    width: 120ch;
   }
 </style>
 
@@ -18,37 +13,31 @@ import Layout from '../layouts/Layout.astro';
   <div class='wrapper'>
     <form class='w-full flex flex-col item-center'>
       <div class='flex items-center justify-center mb-6'>
-        <div class=''>
-          <label
-            for='playerIDSelect'
-            class='block font-bold md:text-right pr-4'
-            for='inline-full-name'
-          >
-            Player Name
-          </label>
-        </div>
-        <div class=''>
-          <select id='playerIDSelect'>
-            <option value='76561198187036603'>...loading data</option>
-          </select>
-        </div>
+        <label
+          for='playerIDSelect'
+          class='block font-bold md:text-right pr-4'
+          for='inline-full-name'
+        >
+          Player Name
+        </label>
+
+        <select id='playerIDSelect'>
+          <option value='76561198187036603'>...loading data</option>
+        </select>
       </div>
 
       <div class='flex items-center justify-center mb-6'>
-        <div class=''>
-          <label
-            for='packNameSelect'
-            class='block font-bold md:text-right mb-1 md:mb-0 pr-4'
-            for='inline-full-name'
-          >
-            Pack Name
-          </label>
-        </div>
-        <div class=''>
-          <select id='packNameSelect'>
-            <option value='170270'>...loading data</option>
-          </select>
-        </div>
+        <label
+          for='packNameSelect'
+          class='block font-bold md:text-right mb-1 md:mb-0 pr-4'
+          for='inline-full-name'
+        >
+          Pack Name
+        </label>
+
+        <select id='packNameSelect'>
+          <option value='170270'>...loading data</option>
+        </select>
       </div>
 
       <div class='flex items-center justify-center mb-6'>
@@ -122,16 +111,14 @@ import Layout from '../layouts/Layout.astro';
             );
             console.log('Player data:', data); // Check the structure of data.players
             const playerSelect = document.getElementById('playerIDSelect');
-            playerSelect.innerHTML = '<option value="">Select a player</option>';
+            playerSelect.innerHTML =
+              '<option value="">Select a player</option>';
 
-          // Populate table with JSON data
-          data.forEach((player) => 
-          {
-            const option = new Option(player.playerName, player.steamID);
-            playerSelect.appendChild(option);
-          });
-            
-
+            // Populate table with JSON data
+            data.forEach((player) => {
+              const option = new Option(player.playerName, player.steamID);
+              playerSelect.appendChild(option);
+            });
           } catch (error) {
             console.error('Error populating player select: ', error);
           }
