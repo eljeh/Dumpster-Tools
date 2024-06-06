@@ -15,7 +15,8 @@
     justify-content: center;
     display: flex;
     flex-direction: column;
-    /* width: 120ch; */
+    align-items: center;
+    max-width: 90vw;
   }
   .wrapper button {
     margin-top: 1em;
@@ -29,38 +30,43 @@
 
   .wrapper table {
     border-collapse: collapse;
-    width: 100%;
-    margin-top: 20px;
     border-radius: 0.5em;
     text-align: left;
-    display: grid;
+    background: var(--color-accent);
   }
   thead {
     margin-top: 0.5em;
     cursor: pointer;
-    /* background: #173C25;
-    color: #d1d1d1; */
     padding: 0.75em 1.25em;
   }
   tr {
     padding: 0.75em 1.25em;
     justify-content: space-between;
-    display: grid;
     grid-template-columns: repeat(12, 1fr);
-    /* color: #d1d1d1; */
+    background: var(--color-tertiary);
+    color: var(--color-secondary);
+    border-bottom: 0.25em solid var(--color-tertiary);
+
   }
   td {
+    background: var(--color-accent);
+    color: var(--color-secondary);
     padding: 0.75em 1.25em;
-    /* text-wrap: nowrap; */
-    /* background: #46805C;
-    color: #d1d1d1; */
+    text-wrap: nowrap;
   }
-  thead tr{
-    
+  th {
+    background: var(--color-accent);
+    color: var(--color-secondary);
+    padding: 1em 1.25em;
   }
+  th:has(> .clickable) {
+    background: var(--color-accent);
+    color: var(--color-secondary);
+    padding: 0;
+  }
+
   tbody tr {
-    border-bottom: 0.25em solid var(--color-accent);
-    /* background: #46805C; */
+    border-bottom: 0.25em solid var(--color-tertiary);
   }
   .hidden {
     display: none;
@@ -99,3 +105,18 @@ input[type="file"]::file-selector-button:active {
   border-radius: 0.5em;
   width: 100%;
 }
+
+  /* Add this style for highlighting on click */
+  tr.highlight {
+    background: var(--color-primary);
+    color: var(--color-secondary);
+  }
+
+  .clickable {
+    cursor: pointer;
+    padding: 1em 1.25em;
+  }
+  .clickable:hover {
+    background: var(--color-primary);
+    color: var(--color-secondary);
+  }

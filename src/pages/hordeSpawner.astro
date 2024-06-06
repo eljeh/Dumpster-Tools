@@ -3,13 +3,8 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <style is:inline>
-
-  .wrapper {
-    margin: 1em 1.5em;
-  }
   #result {
     resize: both;
-    width: 100%;
   }
   #zombieOptionsForm > * {
     flex: 1 1 48%;
@@ -21,8 +16,10 @@ import Layout from '../layouts/Layout.astro';
   .category > div:hover label,
   .category input:focus ~ label {
     --tw-bg-opacity: 1;
-    /* background-color: #313338; */
     cursor: pointer;
+  }
+  footer {
+    width: 100%;
   }
 </style>
 
@@ -157,7 +154,7 @@ import Layout from '../layouts/Layout.astro';
         <label class='block text-md font-bold'>Script</label>
         <button
           id='copyButton'
-          class='absolute right-0 mr-6  text-xs font-bold py-1 px-1 my-2 rounded'
+          class='absolute right-0 mr-6 text-xs font-bold py-1 px-1 my-2 rounded'
         >
           Copy All
         </button>
@@ -169,7 +166,7 @@ import Layout from '../layouts/Layout.astro';
         ></textarea>
 
         <button
-          class='shadow  focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded'
+          class='shadow focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded'
           id='sendButton'>Send</button
         >
       </footer>
