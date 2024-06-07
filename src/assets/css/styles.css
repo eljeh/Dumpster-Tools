@@ -17,6 +17,9 @@
     flex-direction: column;
     align-items: center;
     max-width: 90vw;
+    background-color: hsl(0deg 0% 0% / 25%);
+    padding: 2em 3em;
+    border-radius: 2em;
   }
   .wrapper button {
     margin-top: 1em;

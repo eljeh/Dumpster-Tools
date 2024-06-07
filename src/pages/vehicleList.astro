@@ -3,10 +3,11 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <style is:inline>
+  /* .wrapper {
+    width: 92ch;
+  } */
   .wrapper form {
-    width: 120ch;
-    min-width: 90vw;
-    max-width: 90vw;
+    width: 100%;
   }
   .wrapper textarea {
     height: 18em;
@@ -28,8 +29,8 @@ import Layout from '../layouts/Layout.astro';
 </style>
 
 <Layout title='Vehicle List '>
-  <h2 class='text-2xl text-center'>Vehicle List Converter</h2>
-  <div class='wrapper'>
+  <div class='wrapper shadow-md'>
+    <h2 class='text-2xl text-center'>Vehicle List Converter</h2>
     <form>
       <textarea
         id='inputString'

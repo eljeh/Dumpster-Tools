@@ -5,25 +5,19 @@ import BunkerButtons from '../components/BunkerButtons.astro';
 
 <style is:inline>
   .wrapper {
-    margin: 1em 1.5em;
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
+    width: 92ch;
+  }
+  .wrapper form {
+    width: 100%;
   }
   .wrapper textarea {
-    background: #313338;
-    color: #d1d1d1;
-    border: none;
-    padding: 1em 1.25em;
-    border-radius: 0.5em;
     height: 18em;
-    width: 95vw;
-    text-wrap: nowrap;
+    white-space: nowrap;
   }
   .wrapper .flex button {
     margin-top: 1em;
-    background: #2b2d30;
-    color: #d1d1d1;
+    background: var(--color-accent);
+    color: var(--color-secondary);
     border: none;
     padding: 1em 1.25em;
     border-radius: 0.5em;
@@ -31,7 +25,7 @@ import BunkerButtons from '../components/BunkerButtons.astro';
   }
 
   .wrapper button.nonab {
-    border: 3px solid #448544;
+    border: 3px solid var(--color-primary);
   }
 
   .wrapper table {
@@ -51,10 +45,8 @@ import BunkerButtons from '../components/BunkerButtons.astro';
     border-bottom: 0.25em solid #1e1f22;
   }
   td {
-    /* background: #313338;
-    color: #d1d1d1; */
     padding: 0.75em 1.25em;
-    text-wrap: nowrap;
+    white-space: nowrap;
   }
 
   th {
@@ -72,7 +64,6 @@ import BunkerButtons from '../components/BunkerButtons.astro';
     margin-top: 20px;
   }
 
-  /* Add this style for highlighting on click */
   tr.highlight {
     background: #2b2d31;
     color: #d1d1d1;
@@ -88,9 +79,9 @@ import BunkerButtons from '../components/BunkerButtons.astro';
   }
 </style>
 
-<Layout title='Bunker List '>
-  <h2 class='text-2xl text-center'>Bunker List</h2>
-  <div class='wrapper'>
+<Layout title='Bunker List - Dumpster Tools'>
+  <div class='wrapper shadow-md'>
+    <h2 class='mb-8 text-2xl text-center'>Bunker List</h2>
     <form>
       <textarea
         id='inputString'
@@ -101,19 +92,19 @@ import BunkerButtons from '../components/BunkerButtons.astro';
       <button
         type='button'
         onclick='convertToTable()'
-        class='shadow bg-green-800 hover:bg-green-900 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
-        >Convert</button
+        class='shadow focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded'
       >
+        Convert
+      </button>
     </form>
     <BunkerButtons />
   </div>
 
-  <script is='inline'>
+  <script is:inline>
     function teleportTo(element) {
       var teleportToText = element.getAttribute('title');
-      teleportToText = '#Teleport ' + teleportToText; // Prepend "#TeleportToVehicle "
+      teleportToText = '#Teleport ' + teleportToText;
 
-      // Create a temporary textarea to copy the modified text to the clipboard
       var tempText = document.createElement('textarea');
       tempText.value = teleportToText;
       document.body.appendChild(tempText);
@@ -123,38 +114,30 @@ import BunkerButtons from '../components/BunkerButtons.astro';
     }
 
     function convertToTable() {
-      var inputString = document.getElementById('inputString').value; // Get the input string from the textarea
-      var lines = inputString.split('\n'); // Split the input string into lines
+      var inputString = document.getElementById('inputString').value;
+      var lines = inputString.split('\n');
 
-      // Define arrays to store active and locked bunker IDs
       var activeBunkers = [];
       var lockedBunkers = [];
 
-      // Iterate through each line to parse bunker status
       lines.forEach(function (line) {
-        // Check if the line indicates a bunker activation or locking
         if (line.includes('is Active')) {
-          // Extract the bunker ID from the line
           var bunkerID = line.split(' ')[0];
           activeBunkers.push(bunkerID);
         } else if (line.includes('is Locked')) {
-          // Extract the bunker ID from the line
           var bunkerID = line.split(' ')[0];
           lockedBunkers.push(bunkerID);
         }
       });
 
-      console.log(activeBunkers);
-      // Iterate through each button and style it based on active or locked status
-      var buttons = document.querySelectorAll('button');
+      var buttons = document.querySelectorAll('.wrapper button');
       buttons.forEach(function (button) {
         var buttonID = button.id;
-        console.log(buttonID);
+        button.classList.remove('active', 'locked');
+
         if (activeBunkers.includes(buttonID)) {
-          // If the button ID is active, apply active styles
           button.classList.add('active');
-        } else {
-          // If neither active nor locked, remove both styles
+        } else if (lockedBunkers.includes(buttonID)) {
           button.classList.add('locked');
         }
       });
