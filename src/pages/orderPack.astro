@@ -43,6 +43,7 @@ import Layout from '../layouts/Layout.astro';
       <div class='flex items-center justify-center mb-6'>
         <div class=''>
           <button
+            id='orderButton'
             class='shadow focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
           >
             Order Pack
@@ -53,88 +54,110 @@ import Layout from '../layouts/Layout.astro';
 
     <div>
       <script>
-        const heresMYAuth = 'WhalleyBotAPI_F935H3ucUJRv7g==';
-        const orderButton = document.querySelector('button');
-        orderButton.addEventListener('click', async () => {
+        // Get the order button element
+        const orderButton = document.getElementById('orderButton');
+
+        // Add event listener to handle button click
+        orderButton.addEventListener('click', async (event) => {
+          event.preventDefault();
+          console.log('Ordering pack...');
+
+          // Get the selected player and pack elements
           const playerIDSelect = document.getElementById('playerIDSelect');
           const packNameSelect = document.getElementById('packNameSelect');
 
+          // Check if both player and pack are selected
           if (playerIDSelect.value && packNameSelect.value) {
             try {
+              // Send a POST request to order the pack
               const response = await fetch(
-                `https://api.whalleybot.com/bot/afd0a027/SendPack/${playerIDSelect.value}/${packNameSelect.value}/1`,
+                `https://api.whalleybot.com/bot/7ac35e92/SendPack/${playerIDSelect.value}/${packNameSelect.value}/1`,
                 {
                   method: 'POST',
                   headers: {
                     Accept: '*/*',
-                    Authorization: heresMYAuth,
+                    Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
                   },
                 },
               );
+
+              // Check if the response is okay
               if (!response.ok) {
                 throw new Error('Network response was not ok');
               }
+
+              // Parse the response data
               const data = await response.json();
-              console.log('Order pack response: ', data);
+              console.log('Order pack response:', data);
             } catch (error) {
-              console.error('Error ordering pack: ', error);
+              console.error('Error ordering pack:', error);
             }
           } else {
             console.error('Please select a player and pack');
           }
         });
 
+        // Fetch data from the given URL
         async function fetchData(url) {
           try {
             const response = await fetch(url, {
               method: 'GET',
               headers: {
                 Accept: '*/*',
-                Authorization: heresMYAuth,
+                Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
               },
             });
+
+            // Check if the response is okay
             if (!response.ok) {
               throw new Error('Network response was not ok');
             }
+
+            // Parse the response data
             const data = await response.json();
             return data;
           } catch (error) {
-            console.error('Error fetching or parsing data: ', error);
+            console.error('Error fetching or parsing data:', error);
             throw error;
           }
         }
 
+        // Populate the player select dropdown
         async function populatePlayerSelect() {
           try {
             const data = await fetchData(
               `https://api.whalleybot.com/bot/7ac35e92/PlayerLocations`,
             );
-            console.log('Player data:', data); // Check the structure of data.players
+            console.log('Player data:', data); // Log the fetched player data
+
             const playerSelect = document.getElementById('playerIDSelect');
             playerSelect.innerHTML =
               '<option value="">Select a player</option>';
 
-            // Populate table with JSON data
+            // Add options to the player select dropdown
             data.forEach((player) => {
               const option = new Option(player.playerName, player.steamID);
               playerSelect.appendChild(option);
             });
           } catch (error) {
-            console.error('Error populating player select: ', error);
+            console.error('Error populating player select:', error);
           }
         }
 
+        // Populate the pack select dropdown
         async function populatePackSelect() {
           try {
             let allPacks = [];
             let pageNumber = 1;
             let nextPageExists = true;
 
+            // Fetch all packs until no more pages exist
             while (nextPageExists) {
               const data = await fetchData(
                 `https://api.whalleybot.com/bot/7ac35e92/GetPacks/${pageNumber}`,
               );
 
+              // Check if there are packs in the current page
               if (data && data.packData && data.packData.length > 0) {
                 allPacks = allPacks.concat(data.packData);
                 pageNumber++;
@@ -146,15 +169,18 @@ import Layout from '../layouts/Layout.astro';
             const packSelect = document.getElementById('packNameSelect');
             packSelect.innerHTML =
               '<option value="">Select a pack name</option>';
+
+            // Add options to the pack select dropdown
             allPacks.forEach((pack) => {
               const option = new Option(pack.name, pack.packID);
               packSelect.add(option);
             });
           } catch (error) {
-            console.error('Error populating pack select: ', error);
+            console.error('Error populating pack select:', error);
           }
         }
 
+        // Populate the dropdowns when the page loads
         populatePlayerSelect();
         populatePackSelect();
       </script>
