@@ -6,7 +6,10 @@ import Layout from '../layouts/Layout.astro';
   main .wrapper {
     align-items: unset;
   }
-
+  #uploadBtnPlayers,
+  #uploadBtnCoords {
+    margin-top: 0;
+  }
   .wrapper hr {
     border: 1px solid var(--color-accent);
     margin: 3em 1em 1em;
@@ -24,6 +27,7 @@ import Layout from '../layouts/Layout.astro';
     zoom: 2;
     width: unset;
   }
+
 </style>
 
 <Layout title='Teleporter'>
@@ -63,7 +67,7 @@ import Layout from '../layouts/Layout.astro';
               type='file'
               id='csvFilePlayers'
               accept='.csv'
-              class='border rounded py-4 px-5 leading-tight w-full'
+              class='border rounded w-full'
             />
 
             <button
@@ -102,7 +106,7 @@ import Layout from '../layouts/Layout.astro';
           id='coordinates'
           name='coordinates'
           required
-          class='border rounded py-4 px-5 mb-2 leading-tight'
+          class='border rounded mb-2'
         />
       </div>
 
@@ -123,12 +127,12 @@ import Layout from '../layouts/Layout.astro';
               type='file'
               id='csvFileCoords'
               accept='.csv'
-              class='border rounded py-4 px-5 leading-tight w-full'
+              class='border rounded w-full'
             />
 
             <button
               id='uploadBtnCoords'
-              class='font-bold py-4 px-5 rounded focus:outline-none'
+              class='font-bold rounded focus:outline-none'
             >
               Upload
             </button>

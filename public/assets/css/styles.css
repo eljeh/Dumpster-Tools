@@ -17,6 +17,9 @@
     flex-direction: column;
     align-items: center;
     max-width: 90vw;
+    background: rgba(16,34,23, 0.25);
+    padding: 2em 3em;
+    border-radius: 2em;
   }
   .wrapper button {
     margin-top: 1em;
@@ -71,11 +74,17 @@
   .hidden {
     display: none;
   }
+
+  .wrapper input[type="file"]{
+    padding: 0.4em 0.5em;
+  }
+
+
   input[type='file']::after {
     position: absolute;
      pointer-events: none;
-     top: 1.6em;
-     left: 40px;
+     top: 1.2em;
+     left: 1.75em;
      color: var(--color-primary);
      content: 'Upload File'; 
      font-weight: bold;
@@ -88,7 +97,7 @@
 input[type="file"]::file-selector-button {
   border-radius: 4px;
   padding: 0 16px;
-  height: 40px;
+  height: 3em;
   cursor: pointer;
   color:  transparent;
   background-color:  transparent;

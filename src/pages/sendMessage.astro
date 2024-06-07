@@ -4,38 +4,36 @@ import Layout from '../layouts/Layout.astro';
 
 <style is:inline>
   .wrapper {
-    max-width: 120ch;
+    width: 120ch;
   }
 </style>
 
 <Layout title='BOT API'>
-  <h2 class='my-8 text-2xl text-center'>Send Message</h2>
+  <h2 class='text-2xl text-center'>Send Message</h2>
   <div class='wrapper'>
     <form class='w-full flex flex-col item-center'>
       <div class='flex items-center justify-center mb-6'>
+        <label
+          for='messageInput'
+          class='block font-bold md:text-right mb-1 md:mb-0 pr-4'
+          for='inline-full-name'
+        >
+          message Input
+        </label>
 
-          <label
-            for='messageInput'
-            class='block font-bold md:text-right mb-1 md:mb-0 pr-4'
-            for='inline-full-name'
-          >
-            message Input
-          </label>
-
-          <input
-            id='messageInput'
-            class='border rounded w-full py-2 px-3 mb-2 leading-tight'
-          />
-
+        <input
+          id='messageInput'
+          class='border rounded w-full py-2 px-3 mb-2 leading-tight'
+        />
       </div>
 
       <div class='flex items-center justify-center mb-6'>
-          <button
-            class='shadow focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded'
-            type='button'
-          >
-            Send Message
-          </button>
+        <button
+          class='shadow focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded'
+          type='button'
+        >
+          Send Message
+        </button>
       </div>
     </form>
 
