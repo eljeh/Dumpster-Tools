@@ -27,9 +27,9 @@ import Layout from '../layouts/Layout.astro';
         />
       </div>
 
-      <div class='flex items-center justify-center mb-6'>
+      <div class='flex items-center justify-end mb-6'>
         <button
-          class='shadow focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded'
+          class='shadow focus:shadow-outline focus:outline-none'
           type='button'
         >
           Send Message
@@ -63,6 +63,7 @@ import Layout from '../layouts/Layout.astro';
               if (!response.ok) {
                 throw new Error('Network response was not ok');
               }
+              alert(`Message: ${message.value} sent successfully!`);
               const data = await response.json();
               console.log('Message: ', data);
             } catch (error) {

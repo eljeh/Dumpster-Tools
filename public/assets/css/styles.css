@@ -31,6 +31,12 @@
     cursor: pointer;
   }
 
+  .wrapper button:hover {
+    background: transparent;
+    outline: 0.25em solid var(--color-primary);
+    outline-offset: -0.25em;
+  }
+
   .wrapper table {
     border-collapse: collapse;
     border-radius: 0.5em;
@@ -78,7 +84,6 @@
   .wrapper input[type="file"]{
     padding: 0.4em 0.5em;
   }
-
 
   input[type='file']::after {
     position: absolute;

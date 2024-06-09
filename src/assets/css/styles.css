@@ -30,6 +30,10 @@
     border-radius: 0.5em;
     cursor: pointer;
   }
+  .wrapper button:hover {
+    background: var(--color-accent);
+    color: var(--color-secondary);
+  }
 
   .wrapper table {
     border-collapse: collapse;
