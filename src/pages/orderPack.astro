@@ -12,10 +12,10 @@ import Layout from '../layouts/Layout.astro';
   <div class='wrapper'>
     <h2 class='mb-8 text-2xl text-center'>Order Pack</h2>
     <form class='w-full flex flex-col item-center'>
-      <div class='flex items-center justify-center mb-6'>
+      <div class='flex flex-col items-start justify-center mb-6'>
         <label
           for='playerIDSelect'
-          class='block font-bold md:text-right pr-4'
+          class='block font-bold pr-4 mb-2'
           for='inline-full-name'
         >
           Player Name
@@ -26,10 +26,10 @@ import Layout from '../layouts/Layout.astro';
         </select>
       </div>
 
-      <div class='flex items-center justify-center mb-6'>
+      <div class='flex flex-col items-start justify-center mb-6'>
         <label
           for='packNameSelect'
-          class='block font-bold md:text-right mb-1 md:mb-0 pr-4'
+          class='block font-bold pr-4 mb-2'
           for='inline-full-name'
         >
           Pack Name
@@ -39,15 +39,15 @@ import Layout from '../layouts/Layout.astro';
           <option value='170270'>...loading data</option>
         </select>
       </div>
-
-      <div class='flex items-center justify-end mb-6'>
+      <hr class='my-4' />
+      <footer class='flex items-center justify-end mb-6'>
         <button
           id='orderButton'
           class='shadow focus:shadow-outline focus:outline-none'
         >
           Order Pack
         </button>
-      </div>
+      </footer>
     </form>
   </div>
 

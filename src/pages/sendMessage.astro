@@ -9,16 +9,16 @@ import Layout from '../layouts/Layout.astro';
 </style>
 
 <Layout title='Send Message - Dumpster Tools'>
-  <div class='wrapper shadow-md'>
+  <div class='wrapper'>
     <h2 class='mb-8 text-2xl text-center'>Send Message</h2>
     <form class='w-full flex flex-col item-center'>
-      <div class='flex items-center justify-center mb-6'>
+      <div class='flex flex-col items-start justify-center mb-6'>
         <label
           for='messageInput'
-          class='block font-bold md:text-right mb-1 md:mb-0 pr-4'
+          class='block font-bold pr-4 mb-2'
           for='inline-full-name'
         >
-          message Input
+          Command Message
         </label>
 
         <input
@@ -27,14 +27,15 @@ import Layout from '../layouts/Layout.astro';
         />
       </div>
 
-      <div class='flex items-center justify-end mb-6'>
+      <hr class='my-4' />
+      <footer class='flex items-center justify-end mb-6'>
         <button
           class='shadow focus:shadow-outline focus:outline-none'
           type='button'
         >
           Send Message
         </button>
-      </div>
+      </footer>
     </form>
 
     <div>

@@ -11,10 +11,7 @@ import Layout from '../layouts/Layout.astro';
   #uploadBtnCoords {
     margin-top: 0;
   }
-  .wrapper hr {
-    border: 1px solid var(--color-accent);
-    margin: 3em 1em 1em;
-  }
+
   .playersList {
     display: flex;
     flex-direction: column;
@@ -28,16 +25,18 @@ import Layout from '../layouts/Layout.astro';
     zoom: 2;
     width: unset;
   }
+  .wrapper hr {
+    margin-top: 3em;
+    margin-bottom: 1em;
+  }
 </style>
 
 <Layout title='Teleporter - Dumpster Tools'>
-  <div class='wrapper shadow-md'>
+  <div class='wrapper'>
     <h2 class='text-2xl text-center'>Teleporter</h2>
     <!--  IG Players -->
-    <div class='flex flex-col my-8'>
-      <label class='block text-lg font-bold mb-2' for='players'>
-        IG Players
-      </label>
+    <div class='flex flex-col my-2'>
+      <label class='font-bold mb-2' for='players'> IG Players </label>
 
       <div class='flex'>
         <ul id='players' class='playersList'>
@@ -47,8 +46,8 @@ import Layout from '../layouts/Layout.astro';
     </div>
 
     <!-- List of Players -->
-    <div class='flex flex-col my-8'>
-      <label class='block text-lg font-bold mb-2' for='listofPlayers'>
+    <div class='flex flex-col my-2'>
+      <label class='block font-bold pr-4 mb-2' for='listofPlayers'>
         List of Players
       </label>
 
@@ -92,8 +91,8 @@ import Layout from '../layouts/Layout.astro';
     <hr />
 
     <!-- Coordinates -->
-    <div class='flex flex-col my-8'>
-      <label class='block text-lg font-bold' for='coordinates'>
+    <div class='flex flex-col my-2'>
+      <label class='block font-bold pr-4 mb-2' for='coordinates'>
         Coordinates
       </label>
       <input
@@ -106,8 +105,8 @@ import Layout from '../layouts/Layout.astro';
     </div>
 
     <!-- List of Coords -->
-    <div class='flex flex-col my-8'>
-      <label class='block text-lg font-bold' for='listofCoords'>
+    <div class='flex flex-col my-2'>
+      <label class='block font-bold pr-4 mb-2' for='listofCoords'>
         List of Coords
       </label>
 
@@ -144,9 +143,9 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </div>
 
-    <hr class='m-4' />
+    <hr />
 
-    <footer class='relative mt-4'>
+    <footer class='relative'>
       <div class='flex items-center justify-end mb-6'>
         <button
           class='shadow focus:shadow-outline focus:outline-none'
