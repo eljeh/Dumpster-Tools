@@ -3,9 +3,10 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <style is:inline>
-  /* .wrapper {
-    width: 92ch;
-  } */
+  main .wrapper {
+    width: 200ch;
+    align-items: start;
+  }
   .wrapper form {
     width: 100%;
   }
@@ -16,15 +17,18 @@ import Layout from '../layouts/Layout.astro';
 
   #bpcCounts {
     margin-top: 20px;
-    width: 120ch;
-    min-width: 90vw;
-    max-width: 90vw;
   }
   #tableContainer {
-    margin-top: 20px;
-    width: 120ch;
-    min-width: 90vw;
-    max-width: 90vw;
+    margin-top: 2em;
+    max-width: 100%;
+    overflow-x: scroll;
+    background: var(--color-tertiary);
+  }
+  .wrapper #tableContainer table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em;
+    background-color: transparent;
   }
 </style>
 
@@ -77,8 +81,7 @@ import Layout from '../layouts/Layout.astro';
       var tableHTML = '<table class="table-auto">';
       var cellID = '';
       for (var type in data) {
-        tableHTML +=
-          '<thead><tr><th colspan="100%">' + type + '</th></tr></thead>';
+        tableHTML += '<thead><tr><th>' + type + '</th></tr></thead>';
         tableHTML += '<tbody>';
 
         // Assuming index 1 contains the date & time
@@ -163,7 +166,7 @@ import Layout from '../layouts/Layout.astro';
       tableContainer.textContent = '';
       tableContainer.insertAdjacentHTML('beforeend', tableHTML);
 
-      // Display the count of each BPC type
+      // Display the count of each type
       var countsHTML = '<h3>Vehicle Type Counts</h3>';
       var total = 0; // Initialize total to zero
       countsHTML += '<ul>';

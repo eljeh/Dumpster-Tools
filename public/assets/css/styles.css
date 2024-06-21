@@ -134,7 +134,6 @@ input[type="file"]::file-selector-button:active {
   tr {
     padding: 0.75em 1.25em;
     justify-content: space-between;
-    grid-template-columns: repeat(12, 1fr);
   }
   td {
     padding: 0.75em 1.25em;
