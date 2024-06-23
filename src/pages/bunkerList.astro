@@ -5,13 +5,15 @@ import BunkerButtons from '../components/BunkerButtons.astro';
 
 <style is:inline>
   .wrapper {
-    width: 92ch;
+    /* width: 92ch; */
+    width: 65em;
   }
   .wrapper form {
     width: 100%;
   }
   .wrapper textarea {
-    height: 18em;
+    height: 32em;
+    width: 60em;
     white-space: nowrap;
   }
   .wrapper .flex button {
@@ -28,63 +30,14 @@ import BunkerButtons from '../components/BunkerButtons.astro';
     border: 3px solid var(--color-primary);
   }
   .wrapper button.active {
-    background: #448544;
-    color: #d1d1d1;
-  }
-  .wrapper table {
-    border-collapse: collapse;
-    width: 100%;
-    margin-top: 20px;
-    border-radius: 0.5em;
-    text-align: left;
-    display: grid;
-  }
-  thead {
-    margin-top: 0.5em;
-  }
-  tr {
-    background: #313338;
-    color: #d1d1d1;
-    border-bottom: 0.25em solid #1e1f22;
-  }
-  td {
-    padding: 0.75em 1.25em;
-    white-space: nowrap;
-  }
-
-  th {
-    /* background: #2b2d31;
-    color: #d1d1d1; */
-    padding: 1em 1.25em;
-  }
-  th:has(> .clickable) {
-    /* background: #2b2d31;
-    color: #d1d1d1; */
-    padding: 0;
-  }
-
-  #bpcCounts {
-    margin-top: 20px;
-  }
-
-  tr.highlight {
-    /* background: #2b2d31;
-    color: #d1d1d1; */
-  }
-
-  .clickable {
-    cursor: pointer;
-    padding: 1em 1.25em;
-  }
-  .clickable:hover {
-    /* background: #1e1f22;
-    color: #d1d1d1; */
+    background: var(--color-primary);
+    color: var(--color-secondary);
   }
 </style>
 
-<Layout title='Bunker List '>
-  <h2 class='my-8 text-2xl text-center'>Bunker List</h2>
+<Layout title='Bunker List - Dumpster Tools'>
   <div class='wrapper'>
+    <h2 class='mb-8 text-2xl text-center'>Bunker List</h2>
     <form>
       <textarea
         id='inputString'
@@ -304,6 +257,7 @@ import BunkerButtons from '../components/BunkerButtons.astro';
       document.body.appendChild(tempText);
       tempText.select();
       document.execCommand('copy');
+      alert(teleportToText);
       document.body.removeChild(tempText);
     }
 
