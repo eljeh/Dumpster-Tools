@@ -7,79 +7,14 @@ import Layout from '../layouts/Layout.astro';
     width: 92ch;
     margin: 1em 1.5em;
   }
-  .wrapper textarea {
-    background: #313338;
-    color: #d1d1d1;
-    border: none;
-    padding: 1em 1.25em;
-    border-radius: 0.5em;
-    height: 18em;
-    width: 95vw;
-    text-wrap: nowrap;
-    margin: 0 auto;
-  }
-  .wrapper button {
-    margin-top: 1em;
-    background: #2b2d31;
-    color: #d1d1d1;
-    border: none;
-    padding: 1em 1.25em;
-    border-radius: 0.5em;
+  .wrapper .flex button {
+    background: var(--color-tertiary);
+    color: var(--color-secondary);
     cursor: pointer;
-    aspect-ratio: 2/1;
+    border: 2px solid var(--color-primary);
   }
-
-  .wrapper table {
-    border-collapse: collapse;
-    width: 100%;
-    margin-top: 20px;
-    border-radius: 0.5em;
-    text-align: left;
-    display: grid;
-  }
-  thead {
-    margin-top: 0.5em;
-  }
-  tr {
-    background: #313338;
-    color: #d1d1d1;
-    border-bottom: 0.25em solid #1e1f22;
-  }
-  td {
-    /* background: #313338;
-    color: #d1d1d1; */
-    padding: 0.75em 1.25em;
-    text-wrap: nowrap;
-  }
-
-  th {
-    background: #2b2d31;
-    color: #d1d1d1;
-    padding: 1em 1.25em;
-  }
-  th:has(> .clickable) {
-    background: #2b2d31;
-    color: #d1d1d1;
-    padding: 0;
-  }
-
-  #bpcCounts {
-    margin-top: 20px;
-  }
-
-  /* Add this style for highlighting on click */
-  tr.highlight {
-    background: #2b2d31;
-    color: #d1d1d1;
-  }
-
-  .clickable {
-    cursor: pointer;
-    padding: 1em 1.25em;
-  }
-  button:hover {
-    background: #1e1f22;
-    color: #d1d1d1;
+  .wrapper .flex button:hover {
+    background: var(--color-primary);
   }
 </style>
 

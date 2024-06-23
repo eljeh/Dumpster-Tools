@@ -373,7 +373,6 @@ import Layout from '../layouts/Layout.astro';
       alert('Content copied to clipboard!');
     });
 
-    const heresMYAuth = 'WhalleyBotAPI_F935H3ucUJRv7g==';
     const sendButton = document.getElementById('sendButton');
 
     sendButton.addEventListener('click', async () => {
@@ -390,7 +389,7 @@ import Layout from '../layouts/Layout.astro';
               method: 'POST',
               headers: {
                 Accept: '*/*',
-                Authorization: heresMYAuth,
+                Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
               },
             },
           );
