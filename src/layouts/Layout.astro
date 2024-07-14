@@ -32,6 +32,12 @@ const { title } = Astro.props;
       h1 {
         font-size: 4rem;
       }
+      header {
+        --tw-shadow: 0 25px 50px 18px rgb(0 0 0 / 0.5);
+        --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
+        box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+          var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+      }
     </style>
     <script
       type='text/javascript'

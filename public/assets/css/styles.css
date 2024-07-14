@@ -8,7 +8,9 @@
   
   body {
     background: var(--color-tertiary);
-    background: linear-gradient(180deg, var(--color-accent) 20em, var(--color-tertiary) 20em);
+    /* background: linear-gradient(180deg, var(--color-accent) 20em, var(--color-tertiary) 20em); */
+    background: radial-gradient(circle, var(--color-tertiary) 30%, var(--color-accent) 90%), no-repeat;
+    background: radial-gradient(circle, var(--color-accent) 30%, var(--color-tertiary) 90%), no-repeat;
     color: var(--color-secondary);
   }
   header {
@@ -220,10 +222,10 @@ label{
       filter: blur(15px);
       background: linear-gradient(
         -15deg,
-        hsla(0, 0%, 100%, 0.2) 0%,
+        hsla(0, 0%, 45%, 0.1) 0%,
         hsla(0, 0%, 45%, 0.05) 35%,
         hsla(0, 0%, 26%, 0.05) 65%,
-        hsla(0, 0%, 53%, 0.4) 100%
+        hsla(0, 0%, 53%, 0.1) 100%
       );
     }
   }
