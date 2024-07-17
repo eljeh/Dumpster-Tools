@@ -114,19 +114,6 @@ const { title } = Astro.props;
         inherits: false;
         initial-value: 0.0001px;
       }
-
-      .noise {
-        mask: repeating-radial-gradient(
-          circle at center,
-          #000,
-          var(--lines),
-          #000,
-          0,
-          #0000,
-          calc(var(--lines) * 2),
-          #0000 0
-        );
-      }
     </style>
     <script
       type='text/javascript'
@@ -146,7 +133,7 @@ const { title } = Astro.props;
     <main id='main'>
       <slot />
     </main>
-    <div class='backDrop noise' id='backDrop'>
+    <div class='backDrop' id='backDrop'>
       <span></span>
       <span></span>
       <span></span>
