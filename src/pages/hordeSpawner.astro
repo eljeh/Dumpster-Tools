@@ -28,7 +28,7 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title='Horde Spawns - Dumpster Tools'>
   <div class='min-w-min max-w-4xl m-auto gap-'>
-    <div class='wrapper'>
+    <div class='wrapper glassmorphism'>
       <h2 class='mb-8 text-2xl text-center'>Horde Spawner</h2>
       <div class='w-full md:flex flex-col gap-2'>
         <label class='block text-lg font-bold' for='coordinates'>
@@ -132,7 +132,7 @@ import Layout from '../layouts/Layout.astro';
 
       <div class='flex'>
         <button
-          class='font-bold py-2 px-4 mt-6 mr-6 rounded'
+          class='glassmorphism py-2 px-4 mt-6 mr-6'
           type='button'
           onclick='
           scattered()
@@ -141,7 +141,7 @@ import Layout from '../layouts/Layout.astro';
           Scattered
         </button>
         <button
-          class='font-bold py-2 px-4 mt-6 rounded focus:outline-none'
+          class='glassmorphism py-2 px-4 mt-6'
           type='button'
           onclick='
           circleSpawner()
@@ -166,10 +166,7 @@ import Layout from '../layouts/Layout.astro';
           class='border rounded w-full py-2 px-4 leading-tight focus:outline-none focus:shadow-outline'
         ></textarea>
 
-        <button
-          class='shadow focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded'
-          id='sendButton'>Send</button
-        >
+        <button class='glassmorphism py-2 px-4' id='sendButton'>Send</button>
       </footer>
     </div>
   </div>

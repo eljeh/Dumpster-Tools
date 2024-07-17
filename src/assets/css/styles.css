@@ -23,7 +23,7 @@
   }
   .wrapper button {
     margin-top: 1em;
-    background: var(--color-primary);
+    background: hsl(from var(--color-accent) h s l / .5);
     color: var(--color-secondary);
     border: none;
     padding: 1em 1.25em;

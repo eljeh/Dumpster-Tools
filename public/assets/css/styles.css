@@ -13,6 +13,13 @@
     background: radial-gradient(circle, var(--color-accent) 30%, var(--color-tertiary) 90%), no-repeat;
     color: var(--color-secondary);
   }
+  body:before {
+      content: '';
+      background: #0000009c;
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+  }
   header {
     background: var(--color-accent);
   }
@@ -26,7 +33,7 @@
     border: 1px solid var(--color-tertiary);
   }
   .wrapper button {
-    background: var(--color-primary);
+    background: hsl(from var(--color-accent) h s 24 );
     color: var(--color-secondary);
   }
 
@@ -204,28 +211,28 @@ label{
 
   .glassmorphism {
     backdrop-filter: blur(0.25em);
-    background: transparent; /* (207deg 100% 30% / 60%) !important; */
+    background: #173c2538; /* (207deg 100% 30% / 60%) !important; */
     text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.75), -2px -2px 10px rgba(0, 0, 0, 0.75);
     box-shadow: -1px 1px 13px 3px #00000042;
     border-top: 1px solid hsla(0, 0%, 90%, 20%);
     border-left: 1px solid hsla(0, 0%, 70%, 40%);
     border-right: 1px solid hsla(0, 0%, 30%, 40%);
     border-bottom: 1px solid hsla(0, 0%, 20%, 50%);
-  
-    &:before {
-      content: ' ';
-      border-radius: 8px;
-      display: block;
-      position: absolute;
-      inset: 0.25em;
-      z-index: -1;
-      filter: blur(15px);
-      background: linear-gradient(
-        -15deg,
-        hsla(0, 0%, 45%, 0.1) 0%,
-        hsla(0, 0%, 45%, 0.05) 35%,
-        hsla(0, 0%, 26%, 0.05) 65%,
-        hsla(0, 0%, 53%, 0.1) 100%
-      );
-    }
+  }
+
+  .glassmorphism:before {
+    content: ' ';
+    border-radius: 8px;
+    display: block;
+    position: absolute;
+    inset: 0.25em;
+    z-index: -1;
+    filter: blur(15px);
+    background: linear-gradient(
+      -15deg,
+      hsla(0, 0%, 45%, 0.1) 0%,
+      hsla(0, 0%, 45%, 0.05) 35%,
+      hsla(0, 0%, 26%, 0.05) 65%,
+      hsla(0, 0%, 53%, 0.1) 100%
+    );
   }
