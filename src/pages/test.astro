@@ -261,7 +261,7 @@ import Layout from '../layouts/Layout.astro';
 
   <script>
     function populateIGPlayers() {
-      const url = 'https://api.whalleybot.com/bot/7ac35e92/PlayerLocations';
+      const url = 'https://api.whalleybot.com/bot/217fc652/PlayerLocations';
       fetch(url, {
         method: 'GET',
         headers: {
@@ -371,7 +371,7 @@ import Layout from '../layouts/Layout.astro';
         const encodedMessage = encodeURIComponent(
           `#teleport ${x} ${y} ${z} ${playerID}`,
         );
-        const url = `https://api.whalleybot.com/bot/7ac35e92/GlobalMessage/Send?message=${encodedMessage}`;
+        const url = `https://api.whalleybot.com/bot/217fc652/GlobalMessage/Send?message=${encodedMessage}`;
         fetch(url, {
           method: 'POST',
           headers: {

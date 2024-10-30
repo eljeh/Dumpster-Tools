@@ -35,7 +35,7 @@ import BunkerButtons from '../components/BunkerButtons.astro';
 </style>
 
 <Layout title='Bunker List - Dumpster Tools'>
-  <div class='wrapper glassmorphism'>
+  <div class='wrapper glassmorphism' transition:name='wrapper'>
     <h2 class='mb-8 text-2xl text-center'>Bunker List</h2>
     <form>
       <textarea
@@ -47,7 +47,9 @@ import BunkerButtons from '../components/BunkerButtons.astro';
       <button type='button' onclick='convertToTable()'>Convert</button>
     </form>
 
-    <div class='flex gap-2 justify-center'>
+    <BunkerButtons />
+
+    <!-- <div class='flex gap-2 justify-center'>
       <button
         id='D4'
         onclick='teleportTo(this)'
@@ -242,7 +244,7 @@ import BunkerButtons from '../components/BunkerButtons.astro';
       >
         Z0
       </button>
-    </div>
+    </div> -->
   </div>
 
   <script is='inline'>

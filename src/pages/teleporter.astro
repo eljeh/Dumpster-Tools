@@ -32,7 +32,7 @@ import Layout from '../layouts/Layout.astro';
 </style>
 
 <Layout title='Teleporter - Dumpster Tools'>
-  <div class='wrapper glassmorphism'>
+  <div class='wrapper glassmorphism' transition:name='wrapper'>
     <h2 class='mb-8 text-2xl text-center'>Teleporter</h2>
     <!--  IG Players -->
     <div class='flex flex-col my-2'>
@@ -149,7 +149,7 @@ import Layout from '../layouts/Layout.astro';
 
   <script>
     function populateIGPlayers() {
-      const url = 'https://api.whalleybot.com/bot/7ac35e92/PlayerLocations';
+      const url = 'https://api.whalleybot.com/bot/217fc652/PlayerLocations';
       fetch(url, {
         method: 'GET',
         headers: {
@@ -260,7 +260,7 @@ import Layout from '../layouts/Layout.astro';
         const encodedMessage = encodeURIComponent(
           `#teleport ${x} ${y} ${z} ${playerID}`,
         );
-        const url = `https://api.whalleybot.com/bot/7ac35e92/GlobalMessage/Send?message=${encodedMessage}`;
+        const url = `https://api.whalleybot.com/bot/217fc652/GlobalMessage/Send?message=${encodedMessage}`;
         fetch(url, {
           method: 'POST',
           headers: {

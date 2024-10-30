@@ -1,0 +1,147 @@
+---
+
+---
+
+<form class='w-full flex flex-col item-center'>
+	<div class='flex flex-col items-start justify-center mb-6'>
+		<!-- coordinates -->
+		<label class='block font-bold pr-4 mb-2' for='coordinates'>
+			Coordinates
+		</label>
+		<input
+			type='text'
+			id='coordinates'
+			name='coordinates'
+			required
+			class='border rounded mb-2'
+		/>
+	</div>
+
+	<div class='flex flex-col items-start justify-center mb-6'>
+		<!-- packNameSelect -->
+		<label
+			for='packNameSelect-sp'
+			class='block font-bold pr-4 mb-2'
+			for='inline-full-name'
+		>
+			Pack Name
+		</label>
+
+		<select id='packNameSelect-sp'>
+			<option value='170270'>...loading data</option>
+		</select>
+	</div>
+
+	<!-- <hr class='my-4' /> -->
+
+	<footer class='flex items-center justify-end mb-6'>
+		<button id='orderButton' class='glassmorphism'> Send Pack </button>
+	</footer>
+</form>
+
+<script>
+	// Get the order button element
+	const orderButton = document.getElementById('orderButton');
+
+	// Add event listener to handle button click
+	orderButton.addEventListener('click', async (event) => {
+		event.preventDefault();
+
+		// Get the selected player and pack elements
+		const coordinates = document.getElementById('coordinates');
+		const packNameSelect = document.getElementById('packNameSelect-sp');
+
+		// Check if both player and pack are selected
+		if (coordinates.value && packNameSelect.value) {
+			try {
+				// Send a POST request to order the pack
+				const response = await fetch(
+					`https://api.whalleybot.com/bot/217fc652/SendPack/${packNameSelect.value}/${coordinates.value}`,
+					{
+						method: 'POST',
+						headers: {
+							Accept: '*/*',
+							Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+						},
+					},
+				);
+
+				// Check if the response is okay
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+				alert(`Ordering ${packNameSelect.value} for ${coordinates.value}`);
+				// Parse the response data
+				const data = await response.json();
+				console.log('Order pack response:', data);
+			} catch (error) {
+				console.error('Error ordering pack:', error);
+			}
+		} else {
+			console.error('Please select a player and pack');
+		}
+	});
+
+	// Fetch data from the given URL
+	async function fetchData(url) {
+		try {
+			const response = await fetch(url, {
+				method: 'GET',
+				headers: {
+					Accept: '*/*',
+					Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+				},
+			});
+
+			// Check if the response is okay
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+
+			// Parse the response data
+			const data = await response.json();
+			return data;
+		} catch (error) {
+			console.error('Error fetching or parsing data:', error);
+			throw error;
+		}
+	}
+
+	// Populate the pack select dropdown
+	async function populatePackSelect() {
+		try {
+			let allPacks = [];
+			let pageNumber = 1;
+			let nextPageExists = true;
+
+			// Fetch all packs until no more pages exist
+			while (nextPageExists) {
+				const data = await fetchData(
+					`https://api.whalleybot.com/bot/217fc652/GetPacks/${pageNumber}`,
+				);
+
+				// Check if there are packs in the current page
+				if (data && data.packData && data.packData.length > 0) {
+					allPacks = allPacks.concat(data.packData);
+					pageNumber++;
+				} else {
+					nextPageExists = false;
+				}
+			}
+
+			const packSelect = document.getElementById('packNameSelect');
+			packSelect.innerHTML = '<option value="">Select a pack name</option>';
+
+			// Add options to the pack select dropdown
+			allPacks.forEach((pack) => {
+				const option = new Option(pack.name, pack.packID);
+				packSelect.add(option);
+			});
+		} catch (error) {
+			console.error('Error populating pack select:', error);
+		}
+	}
+
+	// Populate the dropdowns when the page loads
+	populatePackSelect();
+</script>

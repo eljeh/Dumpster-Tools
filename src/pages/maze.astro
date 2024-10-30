@@ -5,7 +5,8 @@ import Layout from '../layouts/Layout.astro';
 <style is:inline>
   .wrapper {
     width: 92ch;
-    margin: 1em 1.5em;
+    align-items: center;
+    /* margin: 1em 1.5em; */
   }
   .wrapper .flex button {
     background: var(--color-tertiary);
@@ -19,8 +20,10 @@ import Layout from '../layouts/Layout.astro';
 </style>
 
 <Layout title='Maze - Dumpster Tools'>
-  <div class='wrapper glassmorphism'>
-    <h2 class='mb-8 text-2xl text-center'>Maze Teleports</h2>
+  <div class='wrapper glassmorphism' transition:name='wrapper'>
+    <h2 class='mb-8 text-2xl text-center'>
+      Maze Teleports
+    </h2>
     <div class='flex gap-2 justify-center'>
       <button
         onclick='teleportTo(this)'

@@ -5,7 +5,7 @@ import Layout from '../layouts/Layout.astro';
 <style is:inline>
   main .wrapper {
     width: 200ch;
-    align-items: start;
+    align-items: center;
   }
   .wrapper form {
     width: 100%;
@@ -52,11 +52,15 @@ import Layout from '../layouts/Layout.astro';
   tbody td:nth-of-type(4) {
     padding: 0.75em 0;
   }
+
+
 </style>
 
 <Layout title='Vehicle List '>
-  <div class='wrapper glassmorphism'>
-    <h2 class='mb-8 text-2xl text-center'>Vehicle List Converter</h2>
+  <div class='wrapper glassmorphism' transition:name='wrapper'>
+    <h2 class='mb-8 text-2xl text-center'>
+      Vehicle List Converter
+    </h2>
     <form>
       <textarea
         id='inputString'
