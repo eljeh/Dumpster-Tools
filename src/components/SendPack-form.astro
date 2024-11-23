@@ -56,7 +56,7 @@
 			try {
 				// Send a POST request to order the pack
 				const response = await fetch(
-					`https://api.whalleybot.com/bot/217fc652/SendPack/${packNameSelect.value}/${coordinates.value}`,
+					`https://api.whalleybot.com/bot/217fc652/SendPack/${packNameSelect.value}/${coordinates.value}/1`,
 					{
 						method: 'POST',
 						headers: {
@@ -129,7 +129,7 @@
 				}
 			}
 
-			const packSelect = document.getElementById('packNameSelect');
+			const packSelect = document.getElementById('packNameSelect-sp');
 			packSelect.innerHTML = '<option value="">Select a pack name</option>';
 
 			// Add options to the pack select dropdown

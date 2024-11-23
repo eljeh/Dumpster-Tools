@@ -26,7 +26,7 @@
 			Pack Name
 		</label>
 
-		<select id='packNameSelect'>
+		<select id='packNameSelect-op'>
 			<option value='170270'>...loading data</option>
 		</select>
 	</div>
@@ -114,7 +114,7 @@
 			);
 			console.log('Player data:', data); // Log the fetched player data
 
-			const playerSelect = document.getElementById('playerIDSelect');
+			const playerSelect = document.getElementById('playerIDSelect-op');
 			playerSelect.innerHTML = '<option value="">Select a player</option>';
 
 			// Add options to the player select dropdown
@@ -149,7 +149,7 @@
 				}
 			}
 
-			const packSelect = document.getElementById('packNameSelect');
+			const packSelect = document.getElementById('packNameSelect-op');
 			packSelect.innerHTML = '<option value="">Select a pack name</option>';
 
 			// Add options to the pack select dropdown
