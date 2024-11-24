@@ -60,8 +60,10 @@ const currentPath = pathname.slice(1);
       '<a class={currentPath === "maze" ? "active" : ""} href="/maze">Maze</a>';
     //navBarList.innerHTML +=
     //   '<a class={currentPath === "econfile" ? "active" : ""} href="/econfile">Economy Override</a>';
-    // navBarList.innerHTML +=
-    //   '<a class={currentPath === "apis" ? "active" : ""} href="/apis">APIs</a>';
+    navBarList.innerHTML +=
+      '<a class={currentPath === "GetPlayerInfo" ? "active" : ""} href="/getPlayerInfo">Get Player Info</a>';
+    navBarList.innerHTML +=
+      '<a class={currentPath === "apis" ? "active" : ""} href="/apis">APIs</a>';
   }
 
   function removeNavBar() {

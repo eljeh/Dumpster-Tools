@@ -1,0 +1,121 @@
+<form class='w-full flex flex-col item-center'>
+	<div class='flex flex-col items-start justify-center mb-6'>
+		<!-- playerIDgp -->
+		<label class='block font-bold pr-4 mb-2' for='playerIDgp'>
+			Player Id (Discord/Steam)
+		</label>
+		<input
+			type='text'
+			id='playerIDgp'
+			name='playerIDgp'
+			required
+			class='border rounded mb-2'
+		/>
+	</div>
+
+	<footer class='flex items-center justify-end mb-6'>
+		<button id='getPlayerButton' class='glassmorphism'>
+			Get Player Info
+		</button>
+	</footer>
+</form>
+
+<script>
+	// Get the order button element
+	const getPlayerButton = document.getElementById('getPlayerButton');
+
+	// Add event listener to handle button click
+	getPlayerButton.addEventListener('click', async (event) => {
+		event.preventDefault();
+
+		// Get the selected player and pack elements
+		const playerID = document.getElementById('playerIDgp');
+
+		// Check if both player and pack are selected
+		if (playerID.value) {
+			try {
+				// Send a POST request to order the pack
+				const response = await fetch(
+					`https://api.whalleybot.com/bot/217fc652/GetPlayer/${playerID.value}/`,
+					//`https://api.whalleybot.com/bot/217fc652/GetPlayer/76561198187036603`,
+					{
+						method: 'GET',
+						headers: {
+							Accept: '*/*',
+							Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+						},
+					},
+				);
+
+				// Check if the response is okay
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+				alert(`Getting info for ${playerID.value}`);
+				// Parse the response data
+				const data = await response.json();
+				console.log('Response:', data);
+				console.log('Player info:', data.Player);
+				console.log('Squad info:', data.SquadInfo);
+			} catch (error) {
+				console.error('Error Player info:', error);
+			}
+		} else {
+			console.error('Please provide a player ID');
+		}
+	});
+
+	// Fetch data from the given URL
+	async function fetchData(url) {
+		try {
+			const response = await fetch(url, {
+				method: 'GET',
+				headers: {
+					Accept: '*/*',
+					Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+				},
+			});
+
+			// Check if the response is okay
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+
+			// Parse the response data
+			const data = await response.json();
+			return data;
+		} catch (error) {
+			console.error('Error fetching or parsing data:', error);
+			throw error;
+		}
+	}
+
+	// Populate the pack select dropdown
+	async function getPlayerInfo() {
+		try {
+			let allPacks = [];
+			let pageNumber = 1;
+			let nextPageExists = true;
+
+			// Fetch all packs until no more pages exist
+			while (nextPageExists) {
+				const data = await fetchData(
+					`https://api.whalleybot.com/bot/217fc652/GetPacks/${pageNumber}`,
+				);
+
+				// Check if there are packs in the current page
+				if (data && data.packData && data.packData.length > 0) {
+					allPacks = allPacks.concat(data.packData);
+					pageNumber++;
+				} else {
+					nextPageExists = false;
+				}
+			}
+		} catch (error) {
+			console.error('Error populating pack select:', error);
+		}
+	}
+
+	// Populate the dropdowns when the page loads
+	getPlayerInfo();
+</script>
