@@ -20,6 +20,8 @@
 	</footer>
 </form>
 
+<div id='playerInfo'></div>
+
 <script>
 	// Get the order button element
 	const getPlayerButton = document.getElementById('getPlayerButton');
@@ -30,6 +32,7 @@
 
 		// Get the selected player and pack elements
 		const playerID = document.getElementById('playerIDgp');
+		console.log('playerID', playerID);
 
 		// Check if both player and pack are selected
 		if (playerID.value) {
@@ -37,7 +40,6 @@
 				// Send a POST request to order the pack
 				const response = await fetch(
 					`https://api.whalleybot.com/bot/217fc652/GetPlayer/${playerID.value}/`,
-					//`https://api.whalleybot.com/bot/217fc652/GetPlayer/76561198187036603`,
 					{
 						method: 'GET',
 						headers: {
@@ -51,12 +53,27 @@
 				if (!response.ok) {
 					throw new Error('Network response was not ok');
 				}
-				alert(`Getting info for ${playerID.value}`);
+				//alert(`Getting info for ${playerID.value}`);
+				const playerInfo = document.getElementById('playerInfo');
+				playerInfo.innerHTML = `Getting info for ${playerID.value}`;
+
 				// Parse the response data
 				const data = await response.json();
-				console.log('Response:', data);
-				console.log('Player info:', data.Player);
-				console.log('Squad info:', data.SquadInfo);
+
+				playerInfo.innerHTML = `Player info: ${data.Player.PlayerName}`;
+				playerInfo.innerHTML += `<br>Discord ID: ${data.Player.DiscordID}`;
+				playerInfo.innerHTML += `<br>Steam ID: ${data.Player.SteamID}`;
+				playerInfo.innerHTML += `<br>IP Address: ${data.Player.IP}`;
+				playerInfo.innerHTML += `<br>------------------------------------------------------------------------`;
+				playerInfo.innerHTML += `<br>Account Number: ${data.Player.AccountNumber}`;
+				playerInfo.innerHTML += `<br>Coins: ${data.Player.Coins.toLocaleString()}`;
+				playerInfo.innerHTML += `<br>Credit Balance: ${data.Player.CreditBalance.toLocaleString()}`;
+				playerInfo.innerHTML += `<br>Gold Balance: ${data.Player.GoldBalance.toLocaleString()}`;
+				playerInfo.innerHTML += `<br>------------------------------------------------------------------------`;
+
+				getFlagData(data.Player.SteamID, data.SquadInfo.ID);
+				getSquadData(data.SquadInfo.ID);
+				getVehicleInfo(data.Player.SteamID, data.SquadInfo.ID);
 			} catch (error) {
 				console.error('Error Player info:', error);
 			}
@@ -113,6 +130,225 @@
 			}
 		} catch (error) {
 			console.error('Error populating pack select:', error);
+		}
+	}
+
+	async function getFlagData(PlayerSteamID, PlayersSquadID) {
+		const response = await fetch(
+			`https://api.whalleybot.com/bot/217fc652/FlagLocations`,
+			{
+				method: 'GET',
+				headers: {
+					Accept: '*/*',
+					Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+				},
+			},
+		);
+
+		// Check if the response is okay
+		if (!response.ok) {
+			throw new Error('Network response was not ok');
+		}
+
+		const playerInfo = document.getElementById('playerInfo');
+		const dataP = await response.json();
+		const FlagData = Object.values(dataP);
+		console.log('FlagData', FlagData);
+
+		// get list of sqaudmembers
+		const squadResponse = await fetch(
+			`https://api.whalleybot.com/bot/217fc652/GetSquad?SquadID=${PlayersSquadID}`,
+			{
+				method: 'GET',
+				headers: {
+					Accept: '*/*',
+					Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+				},
+			},
+		);
+		const dataS = await squadResponse.json();
+		const SquadData = dataS[0];
+
+		const squadMembers = Object.values(SquadData.squadMember);
+
+
+
+
+		// find all flags owened by squadMembers
+		const flags = FlagData.filter((flag) => squadMembers.includes(flag.ownerID));
+		console.log('flags', flags);
+		playerInfo.innerHTML += `<br>${flags.length} Flag(s): `;
+
+		const PVP = {
+			topLeftX: '-297316.625',
+			topLeftY: '619200.000',
+			topRightX: '-297316.625',
+			topRightY: '619200.000',
+			bottomLeftX: '-904795.125',
+			bottomLeftY: '-904795.125',
+			bottomRightX: '-904795.125',
+			bottomRightY: '-904795.125',
+		};
+
+		flags.forEach((flag) => {
+			const flagLocation = flag.location;
+			const flagLocationX = flagLocation.split(' ')[0];
+			const flagLocationY = flagLocation.split(' ')[1];
+
+			// is Flag Loccation inbetween PVP then the flag is in PVP
+			console.log(
+				`bottomLeftX ${flagLocationX <= PVP.bottomLeftX} | ${flagLocationX} > ${PVP.bottomLeftX}`,
+			); // true
+			console.log(
+				`topRightX ${flagLocationX >= PVP.topRightX} | ${flagLocationX} < ${PVP.topRightX}`,
+			); // true
+			console.log(
+				`bottomLeftY ${flagLocationY >= PVP.bottomLeftY} | ${flagLocationY} > ${PVP.bottomLeftY}`,
+			); // true
+			console.log(
+				`topRightY ${flagLocationY <= PVP.topRightY} | ${flagLocationY} < ${PVP.topRightY}`,
+			); // true
+			console.log(`--------------------------------`);
+
+			if (
+				flagLocationX <= PVP.bottomLeftX &&
+				flagLocationX >= PVP.topRightX &&
+				flagLocationY >= PVP.bottomLeftY &&
+				flagLocationY <= PVP.topRightY
+			) {
+				playerInfo.innerHTML += `<br>- ${flag.location} (PVP)`;
+			} else {
+				playerInfo.innerHTML += `<br>- ${flag.location}`;
+			}
+		});
+	}
+
+	async function getSquadData(PlayersSquadID) {
+		const response = await fetch(
+			`https://api.whalleybot.com/bot/217fc652/GetSquad?SquadID=${PlayersSquadID}`,
+			{
+				method: 'GET',
+				headers: {
+					Accept: '*/*',
+					Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+				},
+			},
+		);
+
+		console.log(
+			`https://api.whalleybot.com/bot/217fc652/GetSquad?SquadID=${PlayersSquadID}`,
+		);
+
+		// Check if the response is okay
+		if (!response.ok) {
+			throw new Error('Network response was not ok');
+		}
+		//alert(`Getting info for ${playerID.value}`);
+		const playerInfo = document.getElementById('playerInfo');
+
+		// Parse the response data
+		const data = await response.json();
+		const SquadData = data[0];
+		console.log('squadData', SquadData);
+		playerInfo.innerHTML += `<br>------------------------------------------------------------------------`;
+		playerInfo.innerHTML += `<br>Squad: ${SquadData.squadName} (${SquadData.id})`;
+
+		console.log('SquadData.squadMember', SquadData.squadMember);
+
+		const squadMembers = Object.values(SquadData.squadMember);
+
+		const numMembers = squadMembers.length;
+		playerInfo.innerHTML += `<br> ${numMembers} Members`;
+
+		//Calculate the total creditBalance and goldBalance of the squad
+		let totalCreditBalance = 0;
+		let totalGoldBalance = 0;
+		let totalCoins = 0;
+
+		squadMembers.forEach((member) => {
+			if (member.playerData !== null) {
+				totalCreditBalance += member.playerData.creditBalance;
+				totalGoldBalance += member.playerData.goldBalance;
+				totalCoins += member.playerData.coins;
+			}
+		});
+
+		playerInfo.innerHTML += `<br>Squad Coins: ${totalCoins.toLocaleString()}`;
+		playerInfo.innerHTML += `<br>Squad Credits: ${totalCreditBalance.toLocaleString()}`;
+		playerInfo.innerHTML += `<br>Squad Gold: ${totalGoldBalance.toLocaleString()}`;
+
+		// Rank is a string 1-4 so sort by rank
+		squadMembers.sort((a, b) => parseInt(b.rank) - parseInt(a.rank));
+		playerInfo.innerHTML += `<br>------------------------------------------------------------------------`;
+		playerInfo.innerHTML += `<br>Members:`;
+		squadMembers.forEach((member) => {
+			console.log('member', member.playerData);
+			if (member.playerData === null) {
+				playerInfo.innerHTML += `<br>- Unknown`;
+				playerInfo.innerHTML += `<br>------------------------------------------------------------------------`;
+			} else {
+				playerInfo.innerHTML += `<br>- ${member.playerData.playerName} ${member.rank === '4' ? '👑' : ''} (${member.steamID}) `;
+				playerInfo.innerHTML += `<br>    🪙 ${member.playerData.coins.toLocaleString()}  | 💵 ${member.playerData.creditBalance.toLocaleString()}  | 🧈 ${member.playerData.goldBalance.toLocaleString()}  | ⚔️ ${member.playerData.totalDeaths}/${member.playerData.totalKills}`;
+				playerInfo.innerHTML += `<br>------------------------------------------------------------------------`;
+			}
+		});
+	}
+
+
+	async function getVehicleInfo(steamID, squadMembers) {
+		try {
+			// Fetch the list of vehicles
+			const vehiclesResponse = await fetch(
+				`https://api.whalleybot.com/bot/217fc652/VehicleLocations`,
+				{
+					method: 'GET',
+					headers: {
+						Accept: '*/*',
+						Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+					},
+				},
+			);
+
+			if (!vehiclesResponse.ok) {
+				throw new Error('Failed to fetch vehicle data');
+			}
+
+			const vehiclesData = await vehiclesResponse.json();
+
+			// Filter vehicles owned by the player or squad members
+			const ownedVehicles = vehiclesData.filter((vehicle) => {
+				const regInfo = vehicle.value.reg;
+				const ownerSteamID = regInfo.match(/STEAMID:(\d+)/)?.[1];
+				return (
+					ownerSteamID &&
+					(ownerSteamID === steamID ||
+						(squadMembers && squadMembers.includes(ownerSteamID)))
+				);
+			});
+
+			let messages = [];
+			for (const vehicle of ownedVehicles) {
+				const steamIDMatch = vehicle.value.reg.match(/STEAMID:(\d+)/);
+				const vidMatch = vehicle.value.reg.match(/VID:(\d+)/);
+				const coords = vehicle.value.coords.split(' ').map(Number);
+				const type = vehicle.value.type.replace('BPC_', '').trim();
+				const internalStatus = vehicle.value.internalStatus;
+				const status = internalStatus ? internalStatus : 'In Game';
+
+				// Construct the message for each vehicle
+				messages.push(
+					`[${type} - ${vidMatch ? vidMatch[1] : 'Unknown'} ` +
+						`${status !== 'In Game' ? ` [${status}]` : ''}` +
+						`](https://scum-map.com/en/map/place/${coords[0]},${coords[1]},${coords[2]})`,
+				);
+			}
+
+			// Display the vehicle information
+			const playerInfo = document.getElementById('playerInfo');
+			playerInfo.innerHTML += `<br>------------------------------------------------------------------------`;
+			playerInfo.innerHTML += `<br>Owned Vehicles: <br>${messages.join('<br>')}`;
+		} catch (error) {
+			console.error('Error fetching or displaying vehicle data:', error);
 		}
 	}
 
