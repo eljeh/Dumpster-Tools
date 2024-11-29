@@ -22,6 +22,11 @@
 <div>
 	<div id='playerInfo'></div>
 	<div id='squadInfo'></div>
+	<div id='squadCounts'>
+		<span id='memberCount'></span>
+		<span id='flagCount'></span>
+		<span id='vehicleCount'></span>
+	</div>
 	<div id='details'></div>
 </div>
 
@@ -31,11 +36,19 @@
 
 	const playerInfo = document.getElementById('playerInfo');
 	const squadInfo = document.getElementById('squadInfo');
+	const squadCounts = document.getElementById('squadCounts');
 	const details = document.getElementById('details');
+
+	const memberCount = document.getElementById('memberCount');
+	const flagCount = document.getElementById('flagCount');
+	const vehicleCount = document.getElementById('vehicleCount');
 
 	// Add event listener to handle button click
 	getPlayerButton.addEventListener('click', async (event) => {
 		event.preventDefault();
+		playerInfo.innerHTML = ``;
+		squadInfo.innerHTML = ``;
+		details.innerHTML = ``;
 
 		// Get the selected player and pack elements
 		const playerID = document.getElementById('playerIDgp');
@@ -69,8 +82,8 @@
 				playerInfo.innerHTML += `<br>Steam ID: ${data.Player.SteamID}`;
 				playerInfo.innerHTML += `<br>IP Address: ${data.Player.IP}`;
 				playerInfo.innerHTML += `<br>`;
-				playerInfo.innerHTML += `<br>Account Number: ${data.Player.AccountNumber}`;
-				playerInfo.innerHTML += `<br>🪙 ${data.Player.Coins.toLocaleString()} | 💵  ${data.Player.Coins.toLocaleString()} | 🧈  ${data.Player.Coins.toLocaleString()}`;
+				playerInfo.innerHTML += `<br>Account: ${data.Player.AccountNumber}`;
+				playerInfo.innerHTML += `<br>🪙 ${data.Player.Coins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${data.Player.CreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 🧈  ${data.Player.GoldBalance.toLocaleString()}`;
 
 				const PlayersSquadID = data.SquadInfo.ID;
 
@@ -95,7 +108,7 @@
 					}
 				});
 
-				console.log('activeMembers', activeMembers);
+				//console.log('activeMembers', activeMembers);
 
 				getFlagData(activeMembers);
 				getSquadData(data.SquadInfo.ID);
@@ -147,24 +160,44 @@
 			}
 		});
 
-		squadInfo.innerHTML += `<br>Squad Totals: 🪙 ${totalCoins.toLocaleString()} | 💵  ${totalCreditBalance.toLocaleString()} | 🧈  ${totalGoldBalance.toLocaleString()}<br>`;
+		squadInfo.innerHTML += `<br>🪙 ${totalCoins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${totalCreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 🧈  ${totalGoldBalance.toLocaleString()}<br>`;
 
 		// Rank is a string 1-4 so sort by rank
 		squadMembers.sort((a, b) => parseInt(b.rank) - parseInt(a.rank));
 		details.innerHTML += `<br>`;
 		const numMembers = squadMembers.length;
-		squadInfo.innerHTML += `🪖 Members: ${numMembers} |`;
+		memberCount.innerHTML = `🪖 Members: ${numMembers} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;`;
 		details.innerHTML += `<br> ${numMembers} Members`;
 		squadMembers.forEach((member) => {
 			if (member.playerData === null) {
-				details.innerHTML += `<br><strong>Unknown</strong>`;
+				details.innerHTML += `<br><strong>Unknown</strong> (${member.steamID}) `;
 				details.innerHTML += `<br>`;
 			} else {
 				details.innerHTML += `<br><strong>${member.playerData.playerName}</strong> ${member.rank === '4' ? '👑' : ''} (${member.steamID}) `;
-				details.innerHTML += `<br>🪙 ${member.playerData.coins.toLocaleString()}  | 💵 ${member.playerData.creditBalance.toLocaleString()}  | 🧈 ${member.playerData.goldBalance.toLocaleString()}  | ⚔️ ${member.playerData.totalDeaths}/${member.playerData.totalKills}`;
+				details.innerHTML += `<br>🪙 ${member.playerData.coins.toLocaleString()}  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵 ${member.playerData.creditBalance.toLocaleString()}  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 🧈 ${member.playerData.goldBalance.toLocaleString()}  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; ⚔️ ${member.playerData.totalDeaths}/${member.playerData.totalKills}`;
 				details.innerHTML += `<br>`;
 			}
 		});
+	}
+
+	function isWithinPVP(flagLocationX, flagLocationY) {
+		const PVP = {
+			topLeftX: '-297316.625',
+			topLeftY: '619200.000',
+			topRightX: '-297316.625',
+			topRightY: '619200.000',
+			bottomLeftX: '-904795.125',
+			bottomLeftY: '-904795.125',
+			bottomRightX: '-904795.125',
+			bottomRightY: '-904795.125',
+		};
+
+		return (
+			flagLocationX <= PVP.bottomLeftX &&
+			flagLocationX >= PVP.topRightX &&
+			flagLocationY >= PVP.bottomLeftY &&
+			flagLocationY <= PVP.topRightY
+		);
 	}
 
 	async function getFlagData(squadMembers) {
@@ -187,21 +220,29 @@
 		//const playerInfo = document.getElementById('playerInfo');
 		const dataP = await response.json();
 		const FlagData = Object.values(dataP);
-		//console.log('FlagData', FlagData);
 
 		// find all flags owened by squadMembers
 		const flags = FlagData.filter((flag) =>
 			squadMembers.map((member) => member).includes(flag.ownerID),
 		);
 
-		squadInfo.innerHTML += ` 🚩 Flags:${flags.length}`;
+		flagCount.innerHTML = ` 🚩 Flags:${flags.length} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;`;
 
 		details.innerHTML += `<br>------------------------------------------------------------------------`;
 		details.innerHTML += `<br>${flags.length} Flag(s): `;
 
 		flags.forEach((flag) => {
-			details.innerHTML += `<br>${flag.location}`;
-			details.innerHTML += `<br>`;
+			//details.innerHTML += `<br>${flag.location}`;
+
+			const flagLocation = flag.location;
+			const flagLocationX = flagLocation.split(' ')[0];
+			const flagLocationY = flagLocation.split(' ')[1];
+
+			if (isWithinPVP(flagLocationX, flagLocationY)) {
+				details.innerHTML += `<br> 🟥 ${flagLocation}`;
+			} else {
+				details.innerHTML += `<br> 🟩 ${flagLocation}`;
+			}
 
 			// const PVP = {
 			// 	topLeftX: '-297316.625',
@@ -222,10 +263,12 @@
 			// 	flagLocationY >= PVP.bottomLeftY &&
 			// 	flagLocationY <= PVP.topRightY
 			// ) {
-			// 	playerInfo.innerHTML += `<br>- ${flag.location} (PVP)`;
+			// 	details.innerHTML += `<br> 🟥 ${flag.location}`;
 			// } else {
-			// 	playerInfo.innerHTML += `<br>- ${flag.location}`;
+			// 	details.innerHTML += `<br> 🟩 ${flag.location}`;
 			// }
+
+			details.innerHTML += `<br>`;
 		});
 	}
 
@@ -264,24 +307,36 @@
 					}
 				}
 			});
-			squadInfo.innerHTML += ` 🚗 Vehicle: ${ownedVehicles.length} |`;
+			vehicleCount.innerHTML = ` 🚗 Vehicle: ${ownedVehicles.length}`;
 
 			// Display the vehicle information
-			//const playerInfo = document.getElementById('playerInfo');
 			details.innerHTML += `<br>------------------------------------------------------------------------`;
 			details.innerHTML += `<br>${ownedVehicles.length} Vehicle(s):`;
 
 			ownedVehicles.forEach((vehicle) => {
 				const vidMatch = vehicle.value.reg.match(/VID:(\d+)/);
-				const coords = vehicle.value.coords.split(' ').map(Number);
+				const coords = vehicle.value.coords;
 				const type = vehicle.value.type.replace('BPC_', '').trim();
 				const internalStatus = vehicle.value.internalStatus;
 				const status = internalStatus ? internalStatus : 'In Game';
 
-				details.innerHTML += `<br>${type} - ${vidMatch ? vidMatch[1] : 'Unknown'} ${status !== 'In Game' ? ` [${status}]` : ''} ${coords[0]}, ${coords[1]}, ${coords[2]}`;
-				// `[${type} - ${vidMatch ? vidMatch[1] : 'Unknown'} ` +
-				// `${status !== 'In Game' ? ` [${status}]` : ''}` +
-				// `](https://scum-map.com/en/map/place/${coords[0]},${coords[1]},${coords[2]})`;
+				const vehicleLocationX = coords.split(' ')[0];
+				const vehicleLocationY = coords.split(' ')[1];
+
+				let zone = ``;
+
+				if (isWithinPVP(vehicleLocationX, vehicleLocationY)) {
+					zone = `🟥`;
+				} else {
+					zone = `🟩`;
+				}
+
+
+				details.innerHTML += 
+				`<br>${type} - ${vidMatch ? vidMatch[1] : 'Unknown'}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;`+
+				`${status !== 'In Game' ? ` [${status}]` : ''} ${zone} ${coords}`;
+
+
 				details.innerHTML += `<br>`;
 			});
 		} catch (error) {
