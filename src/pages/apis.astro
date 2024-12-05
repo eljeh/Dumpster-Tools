@@ -6,6 +6,13 @@ import PlayerLocations from '../components/PlayerLocations.astro';
 import GetPacks from '../components/GetPacks.astro';
 ---
 
+<Layout title='APIs List '>
+  <PlayerLocations />
+  <GetPlayers />
+  <GetPacks />
+  <GetVehicles />
+</Layout>
+
 <style is:inline>
   .wrapper {
     margin: 1em auto;
@@ -70,10 +77,3 @@ import GetPacks from '../components/GetPacks.astro';
     display: none;
   }
 </style>
-
-<Layout title='APIs List '>
-  <PlayerLocations />
-  <GetPlayers />
-  <GetPacks />
-  <GetVehicles />
-</Layout>

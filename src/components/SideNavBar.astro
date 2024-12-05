@@ -1,0 +1,118 @@
+---
+const pathname = new URL(Astro.request.url).pathname;
+const currentPath = pathname.slice(1);
+---
+
+<nav id='navBar'>
+
+</nav>
+
+<script>
+  const navBarList = document.getElementById('navBar');
+  const netlifyIdentity = window.netlifyIdentity;
+  renderNavBar();
+  // if not logged in,remove the slot
+  netlifyIdentity.on('logout', () => {
+    removeNavBar();
+    window.location.href = '/';
+  });
+
+  if (netlifyIdentity) {
+    // netlifyIdentity.on('login', (user) => {
+    //   renderNavBar();
+    // });
+    // // Redirect to the main page after a successful login
+    netlifyIdentity.on('init', (user) => {
+      if (!user) {
+        netlifyIdentity.on('login', () => {
+          renderNavBar();
+        });
+      }
+    });
+  }
+
+  // Function to render NavBar component
+  function renderNavBar() {
+    navBarList.innerHTML = `<a class="sideNavLink" href="/orderPack"><span class="material-symbols-outlined" >Home</span><span class="sideNavLinkText">Game</span></a>`;
+    navBarList.innerHTML +=
+      '<hr style="opacity: 0.5;margin: 0.25em 0; width: 100%;"/>';
+    navBarList.innerHTML += `<a class="sideNavLink" href="/playerInfo"><span class="material-symbols-outlined">person</span><span class="sideNavLinkText">Player Info</span></a>`;
+    navBarList.innerHTML +=
+      '<hr style="opacity: 0.5;margin: 0.25em 0; width: 100%;"/>';
+    navBarList.innerHTML += `<a class="sideNavLink" href="/vehicleInfo"><span class="material-symbols-outlined" >Directions_Car</span><span class="sideNavLinkText">Vehicle Info</span></a>`;
+    navBarList.innerHTML +=
+      '<hr style="opacity: 0.5;margin: 0.25em 0; width: 100%;"/>';
+    navBarList.innerHTML += `<a class="sideNavLink" href="/flagInfo"><span class="material-symbols-outlined" >Flag</span><span class="sideNavLinkText">Flag Info</span></a>`;
+    navBarList.innerHTML +=
+      '<hr style="opacity: 0.5;margin: 0.25em 0; width: 100%;"/>';
+    navBarList.innerHTML += `<a class="sideNavLink" href="/bunkerList"><span class="material-symbols-outlined" >Garage_Door</span><span class="sideNavLinkText">Bunker list</span></a>`;
+    navBarList.innerHTML +=
+      '<hr style="opacity: 0.5;margin: 0.25em 0; width: 100%;"/>';
+    navBarList.innerHTML += `<a class="sideNavLink" href="/hordeSpawner"><span class="material-symbols-outlined">Groups</span><span class="sideNavLinkText">Horde Spawner</span></a>`;
+    navBarList.innerHTML +=
+      '<hr style="opacity: 0.5;margin: 0.25em 0; width: 100%;"/>';
+    navBarList.innerHTML += `<a class="sideNavLink" href="/maze"><span class="material-symbols-outlined" >Explore</span><span class="sideNavLinkText">Maze</span></a>`;
+    navBarList.innerHTML += '<hr style="opacity: 0.5;margin: 0.5em 0; width: 100%;"/>';
+
+    navBarList.innerHTML +=
+      '<a class="sideNavLink " href="/orderPack"><span class="material-symbols-outlined" >Block</span><span class="sideNavLinkText">Order Pack</span></a>';
+    navBarList.innerHTML +=
+      '<a class="sideNavLink" href="/sendMessage"><span class="material-symbols-outlined" >Block</span><span class="sideNavLinkText">Send Message</span></a>';
+    navBarList.innerHTML +=
+      '<a class="sideNavLink" href="/teleporter"><span class="material-symbols-outlined" >Block</span><span class="sideNavLinkText">Teleporter</span></a>';
+    //navBarList.innerHTML +=
+    //   '<a class="sideNavLink" href="/econfile">Economy Override</a>';
+    navBarList.innerHTML +=
+      '<a class="sideNavLink" href="/apis"><span class="material-symbols-outlined" >Block</span><span class="sideNavLinkText">APIs</span></a>';
+  }
+
+  function removeNavBar() {
+    navBarList.innerHTML = '';
+  }
+</script>
+
+<style is:inline>
+  nav {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+    gap: 0 1em;
+    align-items: start;
+    justify-content: flex-start;
+    margin-bottom: 1em;
+    flex-wrap: wrap;
+    background-color: var(--color-accent);
+    padding: 1em 1em;
+    z-index: 1000;
+    height: 100%;
+  }
+  a.netlify-identity-button {
+    text-wrap: nowrap;
+  }
+  .sideNavLink {
+    display: flex;
+    align-items: center;
+    text-wrap: nowrap;
+    position: relative;
+  }
+
+  a .material-symbols-outlined {
+    font-size: 2.5em;
+  }
+  .sideNavLinkText {
+    font-size: 0;
+    margin-left: 1em;
+    transition: font-size 0.5s ease-in-out;
+    position: absolute;
+    left: 2em;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out; */ 
+  }
+  .sideNavLink:hover .sideNavLinkText {
+    background-color: var(--color-accent);
+    padding: 0.5em;
+    border-radius: 0.5em;
+    opacity: 1;
+    font-size: 1em;
+  }
+</style>

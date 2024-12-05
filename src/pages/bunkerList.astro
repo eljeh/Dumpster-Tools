@@ -3,37 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import BunkerButtons from '../components/BunkerButtons.astro';
 ---
 
-<style is:inline>
-  .wrapper {
-    width: 65em;
-  }
-  .wrapper form {
-    width: 100%;
-  }
-  .wrapper textarea {
-    height: 32em;
-    width: 60em;
-    white-space: nowrap;
-  }
-  .wrapper .flex button {
-    margin-top: 1em;
-    background: var(--color-tertiary);
-    color: var(--color-secondary);
-    border: none;
-    padding: 1em 1.25em;
-    border-radius: 0.5em;
-    cursor: pointer;
-  }
-
-  .wrapper button.nonab {
-    border: 3px solid var(--color-primary);
-  }
-  .wrapper button.active {
-    background: var(--color-primary);
-    color: var(--color-secondary);
-  }
-</style>
-
 <Layout title='Bunker List - Dumpster Tools'>
   <div class='wrapper glassmorphism' transition:name='wrapper'>
     <h2 class='mb-8 text-2xl text-center'>Bunker List</h2>
@@ -301,3 +270,34 @@ import BunkerButtons from '../components/BunkerButtons.astro';
     }
   </script>
 </Layout>
+
+<style is:inline>
+  .wrapper {
+    width: 65em;
+  }
+  .wrapper form {
+    width: 100%;
+  }
+  .wrapper textarea {
+    height: 32em;
+    width: 60em;
+    white-space: nowrap;
+  }
+  .wrapper .flex button {
+    margin-top: 1em;
+    background: var(--color-tertiary);
+    color: var(--color-secondary);
+    border: none;
+    padding: 1em 1.25em;
+    border-radius: 0.5em;
+    cursor: pointer;
+  }
+
+  .wrapper button.nonab {
+    border: 3px solid var(--color-primary);
+  }
+  .wrapper button.active {
+    background: var(--color-primary);
+    color: var(--color-secondary);
+  }
+</style>

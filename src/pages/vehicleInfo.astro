@@ -2,59 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<style is:inline>
-  main .wrapper {
-    width: 200ch;
-    align-items: center;
-  }
-  .wrapper form {
-    width: 100%;
-  }
-  .wrapper textarea {
-    height: 18em;
-    text-wrap: nowrap;
-  }
-
-  #bpcCounts {
-    margin-top: 20px;
-  }
-  #tableContainer {
-    margin-top: 2em;
-    max-width: 100%;
-    overflow-x: scroll;
-    background: var(--color-tertiary);
-  }
-  .wrapper #tableContainer table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1em;
-    background-color: transparent;
-  }
-  thead {
-    display: block;
-    margin-top: 1em;
-  }
-  thead th {
-    display: block;
-    width: max-content;
-    padding: 1em 1.5em;
-    background-color: var(--color-primary);
-  }
-  tbody tr {
-    display: flex;
-  }
-  tbody td {
-    text-align: left;
-  }
-  tbody td:nth-of-type(1) {
-    padding: 0.75em 0;
-  }
-  tbody td:nth-of-type(4) {
-    padding: 0.75em 0;
-  }
-
-
-</style>
 
 <Layout title='Vehicle List '>
   <div class='wrapper glassmorphism' transition:name='wrapper'>
@@ -282,3 +229,58 @@ import Layout from '../layouts/Layout.astro';
     }
   </script>
 </Layout>
+
+
+<style is:inline>
+  main .wrapper {
+    width: 200ch;
+    align-items: center;
+  }
+  .wrapper form {
+    width: 100%;
+  }
+  .wrapper textarea {
+    height: 18em;
+    text-wrap: nowrap;
+  }
+
+  #bpcCounts {
+    margin-top: 20px;
+  }
+  #tableContainer {
+    margin-top: 2em;
+    max-width: 100%;
+    overflow-x: scroll;
+    background: var(--color-tertiary);
+  }
+  .wrapper #tableContainer table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em;
+    background-color: transparent;
+  }
+  thead {
+    display: block;
+    margin-top: 1em;
+  }
+  thead th {
+    display: block;
+    width: max-content;
+    padding: 1em 1.5em;
+    background-color: var(--color-primary);
+  }
+  tbody tr {
+    display: flex;
+  }
+  tbody td {
+    text-align: left;
+  }
+  tbody td:nth-of-type(1) {
+    padding: 0.75em 0;
+  }
+  tbody td:nth-of-type(4) {
+    padding: 0.75em 0;
+  }
+
+
+</style>

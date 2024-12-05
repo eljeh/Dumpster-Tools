@@ -1,6 +1,7 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+// import { ViewTransitions } from 'astro:transitions';
 import NavBar from '../components/Navbar.astro';
+import SideNavBar from '../components/SideNavBar.astro';
 interface Props {
   title: string;
 }
@@ -19,12 +20,16 @@ const { title } = Astro.props;
       href='https://fonts.googleapis.com/css2?family=Special+Elite&display=swap'
       rel='stylesheet'
     />
+    <link
+      href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined'
+      rel='stylesheet'
+    />
     <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
     <link href='/assets/css/styles.css' rel='stylesheet' type='text/css' />
     <!-- <link href='@css/styles.css' rel='stylesheet' type='text/css' /> -->
     <meta name='generator' content={Astro.generator} />
     <title>{title}</title>
-    <ViewTransitions />
+    <!-- <ViewTransitions /> -->
     <style>
       .specialElite {
         font-family: 'Special Elite', system-ui;
@@ -123,20 +128,16 @@ const { title } = Astro.props;
   </head>
   <body>
     <header transition:persist>
-      <h1 class='text-center'>
+      <h1 class='pageTitle text-center'>
         <span class='flex justify-center specialElite'>Dumpster Tools</span>
       </h1>
       <!-- <div data-netlify-identity-button class='mb-8 text-center'></div> -->
-      <div class='flex justify-center gap-5 my-1' id='navBarContainer'>
-        <NavBar transition:persist />
-        <div
-          data-netlify-identity-button
-          class='text-nowrap mr-4'
-          transition:persist
-        >
-        </div>
+      <div class='navigation' id='navBarContainer'>
+        <SideNavBar transition:persist />
+        <div data-netlify-identity-button transition:persist></div>
       </div>
     </header>
+
     <main id='main'>
       <slot />
     </main>
@@ -175,3 +176,23 @@ const { title } = Astro.props;
     main.innerHTML = '';
   }
 </script>
+
+<style>
+  .pageTitle {
+    font-size: 3em;
+  }
+  main {
+    margin: 1em 1em 1em 6em;
+  }
+  .navigation {
+    position: fixed;
+    top: 0;
+    background-color: var(--color-accent);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1em;
+    height: calc(100vh);
+    z-index: 1000;
+  }
+</style>

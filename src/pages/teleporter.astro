@@ -2,34 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<style is:inline>
-  main .wrapper {
-    align-items: unset;
-    width: 92ch;
-  }
-  #uploadBtnPlayers,
-  #uploadBtnCoords {
-    margin-top: 0;
-  }
-
-  .playersList {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-    max-height: 40em;
-    overflow-y: auto;
-    width: 100%;
-  }
-
-  .wrapper [type='checkbox'] {
-    zoom: 2;
-    width: unset;
-  }
-  .wrapper hr {
-    margin-top: 3em;
-    margin-bottom: 1em;
-  }
-</style>
 
 <Layout title='Teleporter - Dumpster Tools'>
   <div class='wrapper glassmorphism' transition:name='wrapper'>
@@ -304,3 +276,33 @@ import Layout from '../layouts/Layout.astro';
     }
   </script>
 </Layout>
+
+
+<style is:inline>
+  main .wrapper {
+    align-items: unset;
+    width-max: 92ch;
+  }
+  #uploadBtnPlayers,
+  #uploadBtnCoords {
+    margin-top: 0;
+  }
+
+  .playersList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    max-height: 40em;
+    overflow-y: auto;
+    width: 100%;
+  }
+
+  .wrapper [type='checkbox'] {
+    zoom: 2;
+    width: unset;
+  }
+  .wrapper hr {
+    margin-top: 3em;
+    margin-bottom: 1em;
+  }
+</style>

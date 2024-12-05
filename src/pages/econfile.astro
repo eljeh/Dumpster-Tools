@@ -2,6 +2,59 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
+
+
+<Layout title='Econ file - Dumpster Tools'>
+  <div class='wrapper'>
+    <h2 class='text-2xl text-center'>Econ File</h2>
+    <div id='tableContainer'></div>
+  </div>
+  <script is='inline'>
+    function displayJsonAsTable() {
+      fetch('../data/economyOverride.json')
+        .then((response) => response.json())
+        .then((jsonData) => {
+          const economyOverride = jsonData['economy-override'];
+          const tableContainer = document.getElementById('tableContainer');
+
+          let tableHTML = '<table>';
+          for (const trader in economyOverride.traders) {
+            tableHTML += `<thead><tr><th colspan="6" class="trader-header">${trader}</th></tr></thead>`;
+            tableHTML += '<tbody class="trader-body hidden">';
+            economyOverride.traders[trader].forEach((item) => {
+              tableHTML += '<tr>';
+              for (const key in item) {
+                tableHTML += `<td>${item[key]}</td>`;
+              }
+              tableHTML += '</tr>';
+            });
+            tableHTML += '</tbody>';
+          }
+          tableHTML += '</table>';
+
+          tableContainer.innerHTML = tableHTML;
+
+          // Add functionality to toggle the visibility of each trader's items
+          const traderHeaders = document.querySelectorAll('thead');
+          traderHeaders.forEach((traderHeader) => {
+            traderHeader.addEventListener('click', () => {
+              console.log('click');
+              const traderBody = traderHeader.nextSibling;
+              console.log(traderBody);
+              traderBody.classList.toggle('hidden');
+            });
+          });
+        })
+        .catch((error) =>
+          console.error('Error fetching or parsing data: ', error),
+        );
+    }
+
+    // Call the function to display JSON data as a table
+    displayJsonAsTable();
+  </script>
+</Layout>
+
 <style is:inline>
 
   .wrapper {
@@ -63,54 +116,3 @@ import Layout from '../layouts/Layout.astro';
     display: none;
   }
 </style>
-
-<Layout title='Econ file - Dumpster Tools'>
-  <div class='wrapper'>
-    <h2 class='text-2xl text-center'>Econ File</h2>
-    <div id='tableContainer'></div>
-  </div>
-  <script is='inline'>
-    function displayJsonAsTable() {
-      fetch('../data/economyOverride.json')
-        .then((response) => response.json())
-        .then((jsonData) => {
-          const economyOverride = jsonData['economy-override'];
-          const tableContainer = document.getElementById('tableContainer');
-
-          let tableHTML = '<table>';
-          for (const trader in economyOverride.traders) {
-            tableHTML += `<thead><tr><th colspan="6" class="trader-header">${trader}</th></tr></thead>`;
-            tableHTML += '<tbody class="trader-body hidden">';
-            economyOverride.traders[trader].forEach((item) => {
-              tableHTML += '<tr>';
-              for (const key in item) {
-                tableHTML += `<td>${item[key]}</td>`;
-              }
-              tableHTML += '</tr>';
-            });
-            tableHTML += '</tbody>';
-          }
-          tableHTML += '</table>';
-
-          tableContainer.innerHTML = tableHTML;
-
-          // Add functionality to toggle the visibility of each trader's items
-          const traderHeaders = document.querySelectorAll('thead');
-          traderHeaders.forEach((traderHeader) => {
-            traderHeader.addEventListener('click', () => {
-              console.log('click');
-              const traderBody = traderHeader.nextSibling;
-              console.log(traderBody);
-              traderBody.classList.toggle('hidden');
-            });
-          });
-        })
-        .catch((error) =>
-          console.error('Error fetching or parsing data: ', error),
-        );
-    }
-
-    // Call the function to display JSON data as a table
-    displayJsonAsTable();
-  </script>
-</Layout>

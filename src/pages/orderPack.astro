@@ -4,20 +4,18 @@ import OrderPackForm from '../components/OrderPack-form.astro';
 import SendPackForm from '../components/SendPack-form.astro';
 ---
 
-<style is:inline>
-  .wrapper {
-    width: 92ch;
-  }
-</style>
-
 <Layout title='Order Pack - Dumpster Tools'>
   <div class='wrapper glassmorphism' transition:name='wrapper'>
-    <h2 class='mb-8 text-2xl text-center'>
-      Order Pack
-    </h2>
+    <h2 class='mb-8 text-2xl text-center'>Order Pack</h2>
     <OrderPackForm />
     <hr class='w-full my-4' />
     <h2 class='m-4 text-2xl text-center'>Send Pack</h2>
     <SendPackForm />
   </div>
 </Layout>
+
+<style is:inline>
+  .wrapper {
+    width-max: 92ch;
+  }
+</style>

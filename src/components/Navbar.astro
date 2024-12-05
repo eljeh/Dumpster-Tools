@@ -3,25 +3,12 @@ const pathname = new URL(Astro.request.url).pathname;
 const currentPath = pathname.slice(1);
 ---
 
-<style is:inline>
-  nav {
-    display: flex;
-    gap: 0 1em;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1em;
-    flex-wrap: wrap;
-  }
-  a.netlify-identity-button {
-    text-wrap: nowrap;
-  }
-</style>
 <nav id='navBar'></nav>
 
 <script>
   const navBarList = document.getElementById('navBar');
   const netlifyIdentity = window.netlifyIdentity;
-
+  renderNavBar();
   // if not logged in,remove the slot
   netlifyIdentity.on('logout', () => {
     removeNavBar();
@@ -32,7 +19,7 @@ const currentPath = pathname.slice(1);
     netlifyIdentity.on('login', (user) => {
       renderNavBar();
     });
-    // Redirect to the main page after a successful login
+    // // Redirect to the main page after a successful login
     netlifyIdentity.on('init', (user) => {
       if (!user) {
         netlifyIdentity.on('login', () => {
@@ -70,3 +57,17 @@ const currentPath = pathname.slice(1);
     navBarList.innerHTML = '';
   }
 </script>
+
+<style is:inline>
+  nav {
+    display: flex;
+    gap: 0 1em;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1em;
+    flex-wrap: wrap;
+  }
+  a.netlify-identity-button {
+    text-wrap: nowrap;
+  }
+</style>
