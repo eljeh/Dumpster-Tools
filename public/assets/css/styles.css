@@ -12,6 +12,7 @@
     background: radial-gradient(circle, var(--color-tertiary) 30%, var(--color-accent) 90%), no-repeat;
     background: radial-gradient(circle, var(--color-accent) 30%, var(--color-tertiary) 90%), no-repeat;
     color: var(--color-secondary);
+    font-size: clamp(16px, .94vw, 18px);
   }
   body:before {
       content: '';
