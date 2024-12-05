@@ -34,24 +34,25 @@ const currentPath = pathname.slice(1);
 
 
   function renderNavBar() {
-    navBarList.innerHTML = `<a class="sideNavLink" href="/orderPack"><i class="fi fi-ss-house-user"></i><span class="sideNavLinkText">Game</span></a>`;
+    navBarList.innerHTML = '<hr style="opacity: 0.5;margin: 0 0 0.5em -0.5em; width: 150%;"/>';
+    navBarList.innerHTML += `<a class="sideNavLink" href="/orderPack"><i class="fi fi-ss-house-user"></i><span class="sideNavLinkText">Game</span></a>`;
     navBarList.innerHTML +=
-      '<hr style="opacity: 0.5;margin: 0.25em 0; width: 100%;"/>';
+      '<hr style="opacity: 0.25;margin: 0 0 0.5em 0; width: 100%;"/>';
     navBarList.innerHTML += `<a class="sideNavLink" href="/playerInfo"><i class="fi fi-ss-user"></i><span class="sideNavLinkText">Player Info</span></a>`;
     navBarList.innerHTML +=
-      '<hr style="opacity: 0.5;margin: 0.25em 0; width: 100%;"/>';
+      '<hr style="opacity: 0.25;margin: 0 0 0.5em 0; width: 100%;"/>';
     navBarList.innerHTML += `<a class="sideNavLink" href="/vehicleInfo"><i class="fi fi-ss-car-rear"></i><span class="sideNavLinkText">Vehicle Info</span></a>`;
     navBarList.innerHTML +=
-      '<hr style="opacity: 0.5;margin: 0.25em 0; width: 100%;"/>';
+      '<hr style="opacity: 0.25;margin: 0 0 0.5em 0; width: 100%;"/>';
     navBarList.innerHTML += `<a class="sideNavLink" href="#"><i class="fi fi-ss-flag"></i><span class="sideNavLinkText">Flag Info</span></a>`;
     navBarList.innerHTML +=
-      '<hr style="opacity: 0.5;margin: 0.25em 0; width: 100%;"/>';
+      '<hr style="opacity: 0.25;margin: 0 0 0.5em 0;width: 100%;"/>';
     navBarList.innerHTML += `<a class="sideNavLink" href="/bunkerList"><i class="fi fi-ss-cabin"></i><span class="sideNavLinkText">Bunker list</span></a>`;
     navBarList.innerHTML +=
-      '<hr style="opacity: 0.5;margin: 0.25em 0; width: 100%;"/>';
+      '<hr style="opacity: 0.25;margin: 0 0 0.5em 0; width: 100%;"/>';
     navBarList.innerHTML += `<a class="sideNavLink" href="/hordeSpawner"><i class="fi fi-ss-users"></i><span class="sideNavLinkText">Horde Spawner</span></a>`;
     navBarList.innerHTML +=
-      '<hr style="opacity: 0.5;margin: 0.25em 0; width: 100%;"/>';
+      '<hr style="opacity: 0.25;margin: 0 0 0.5em 0;width: 100%;"/>';
     navBarList.innerHTML += `<a class="sideNavLink" href="/maze"><i class="fi fi-ss-compass-alt"></i><span class="sideNavLinkText">Maze</span></a>`;
   
   
@@ -70,9 +71,9 @@ const currentPath = pathname.slice(1);
 
   }
 
-  function removeNavBar() {
-    navBarList.innerHTML = '';
-  }
+  // function removeNavBar() {
+  //   navBarList.innerHTML = '';
+  // }
 </script>
 
 <style is:inline>
