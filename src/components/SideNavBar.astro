@@ -3,38 +3,16 @@ const pathname = new URL(Astro.request.url).pathname;
 const currentPath = pathname.slice(1);
 ---
 
-<nav id='navBar' transition:name='navBar'></nav>
+<nav id='navBar' transition:persist='navBar'></nav>
 
 <script>
   const navBarList = document.getElementById('navBar');
-  //const netlifyIdentity = window.netlifyIdentity;
   renderNavBar();
-  // if not logged in,remove the slot
-  // netlifyIdentity.on('<i class="fi fi-bs-exit"></i><br/>logout', () => {
-  //   removeNavBar();
-  //   window.location.href = '/';
-  // });
-
-  // if (netlifyIdentity) {
-  //   netlifyIdentity.on('<i class="fi fi-bs-enter"></i><br/>login', (user) => {
-  //     renderNavBar();
-  //   });
-  //   // // Redirect to the main page after a successful login
-  //   netlifyIdentity.on('init', (user) => {
-  //     if (!user) {
-  //       netlifyIdentity.on('login', () => {
-  //         renderNavBar();
-  //       });
-  //     }
-  //   });
-  // }
 
   // Function to render NavBar component
-
-
-
   function renderNavBar() {
-    navBarList.innerHTML = '<hr style="opacity: 0.5;margin: 0 0 0.5em -0.5em; width: 150%;"/>';
+    navBarList.innerHTML =
+      '<hr style="opacity: 0.5;margin: 0 0 0.5em -0.5em; width: 150%;"/>';
     navBarList.innerHTML += `<a class="sideNavLink" href="/orderPack"><i class="fi fi-ss-house-user"></i><span class="sideNavLinkText">Game</span></a>`;
     navBarList.innerHTML +=
       '<hr style="opacity: 0.25;margin: 0 0 0.5em 0; width: 100%;"/>';
@@ -54,26 +32,18 @@ const currentPath = pathname.slice(1);
     navBarList.innerHTML +=
       '<hr style="opacity: 0.25;margin: 0 0 0.5em 0;width: 100%;"/>';
     navBarList.innerHTML += `<a class="sideNavLink" href="/maze"><i class="fi fi-ss-compass-alt"></i><span class="sideNavLinkText">Maze</span></a>`;
-  
-  
-  //  navBarList.innerHTML += '<hr style="opacity: 0.5;margin: 0.5em 0; width: 100%;"/>';
-  //   navBarList.innerHTML +=
-  //     '<a class="sideNavLink " href="/orderPack"><i class="fi fi-ss-ban"></i><span class="sideNavLinkText">Order Pack</span></a>';
-  //   navBarList.innerHTML +=
-  //     '<a class="sideNavLink" href="/sendMessage"><i class="fi fi-ss-ban"></i><span class="sideNavLinkText">Send Message</span></a>';
-  //   navBarList.innerHTML +=
-  //     '<a class="sideNavLink" href="/teleporter"><i class="fi fi-ss-ban"></i><span class="sideNavLinkText">Teleporter</span></a>';
-  //   // navBarList.innerHTML +=
-  //   //   '<a class="sideNavLink" href="/econfile">Economy Override</a>';
-  //   navBarList.innerHTML +=
-  //     '<a class="sideNavLink" href="/apis"><i class="fi fi-ss-ban"></i><span class="sideNavLinkText">APIs</span></a>';
- 
-
+    //  navBarList.innerHTML += '<hr style="opacity: 0.5;margin: 0.5em 0; width: 100%;"/>';
+    //   navBarList.innerHTML +=
+    //     '<a class="sideNavLink " href="/orderPack"><i class="fi fi-ss-ban"></i><span class="sideNavLinkText">Order Pack</span></a>';
+    //   navBarList.innerHTML +=
+    //     '<a class="sideNavLink" href="/sendMessage"><i class="fi fi-ss-ban"></i><span class="sideNavLinkText">Send Message</span></a>';
+    //   navBarList.innerHTML +=
+    //     '<a class="sideNavLink" href="/teleporter"><i class="fi fi-ss-ban"></i><span class="sideNavLinkText">Teleporter</span></a>';
+    //   // navBarList.innerHTML +=
+    //   //   '<a class="sideNavLink" href="/econfile">Economy Override</a>';
+    //   navBarList.innerHTML +=
+    //     '<a class="sideNavLink" href="/apis"><i class="fi fi-ss-ban"></i><span class="sideNavLinkText">APIs</span></a>';
   }
-
-  // function removeNavBar() {
-  //   navBarList.innerHTML = '';
-  // }
 </script>
 
 <style is:inline>
@@ -89,11 +59,8 @@ const currentPath = pathname.slice(1);
     background-color: var(--color-accent);
     padding: 5em 1.25em 0;
     z-index: 1000;
-    height: 100%;
   }
-  a.netlify-identity-button {
-    text-wrap: nowrap;
-  }
+
   .sideNavLink {
     display: flex;
     align-items: center;

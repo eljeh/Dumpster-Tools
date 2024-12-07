@@ -9,6 +9,7 @@
   body {
     background: var(--color-tertiary);
     color: var(--color-secondary);
+    font-size: clamp(16px, 1vw, 18px);
   }
   .wrapper {
     margin: 1em auto;
