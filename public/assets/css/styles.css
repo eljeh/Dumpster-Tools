@@ -1,17 +1,37 @@
 :root {
   /* Global colors */
-  --color-primary:#166534; /*#173C25*/
-  --color-accent: #0b1a10; /*#102217*/
-  --color-secondary: hsla(0, 0%, 100%, 0.7);
-  --color-tertiary: #102217;  /*#173C25*/
+  --color-primary:hsl(143, 64%, 24%);
+  --color-accent:  #0b1a10;
+  --color-secondary: #c2c2c2;
+  --color-tertiary: #0e2618; 
+
+  /* --color-grey: hsl(225, 7%, 24%); 
+  --color-grey-dark: #313338;
+  --color-grey-darker: hsl(220, 7%, 18%);
+  --color-grey-darkest: hsl(225, 6%, 13%); */
+
+  --color-grey: hsl(143, 64%, 24%); 
+  --color-grey-dark: hsl(143, 64%, 21%);
+  --color-grey-darker: hsl(143, 64%, 18%);
+  --color-grey-darkest: hsl(143, 64%, 13%);
+
+
+  --color-primary: var(--color-grey-dark);
+  --color-accent:  var(--color-grey-darker);
+  --color-secondary: var(--color-grey);
+  --color-tertiary: var(--color-grey-darkest); 
+
+
+
+  --font-color: rgb(246, 246, 246);
   }
   
   body {
-    background: var(--color-tertiary);
+    background: var(--color-secondary);
     /* background: linear-gradient(180deg, var(--color-accent) 20em, var(--color-tertiary) 20em); */
     background: radial-gradient(circle, var(--color-tertiary) 30%, var(--color-accent) 90%), no-repeat;
     background: radial-gradient(circle, var(--color-accent) 30%, var(--color-tertiary) 90%), no-repeat;
-    color: var(--color-secondary);
+    color: var(--font-color);
     font-size: clamp(16px, 1vw, 18px);
   }
   body:before {
@@ -22,7 +42,7 @@
       z-index: -1;
   }
   header {
-    background: var(--color-accent);
+    background: var(--color-tertiary);
   }
   .wrapper {
     background: var(--color-accent);
@@ -35,7 +55,7 @@
   }
   .wrapper button {
     background: hsl(from var(--color-accent) h s 24 );
-    color: var(--color-secondary);
+    color: var(--font-color);
   }
 
   .wrapper button:hover {
@@ -47,20 +67,20 @@
   }
   tr {
     background: var(--color-tertiary);
-    color: var(--color-secondary);
+    color: var(--font-color);
     border-bottom: 0.25em solid var(--color-tertiary);
   }
   td {
     background: var(--color-accent);
-    color: var(--color-secondary);
+    color: var(--font-color);
   }
   th {
     background: var(--color-accent);
-    color: var(--color-secondary);
+    color: var(--font-color);
   }
   th:has(> .clickable) {
     background: var(--color-accent);
-    color: var(--color-secondary);
+    color: var(--font-color);
   }
 
   tbody tr {
@@ -93,16 +113,13 @@ input[type="file"]::file-selector-button:active {
   .wrapper input,
   .wrapper textarea{
     background: var(--color-tertiary);
-    color: var(--color-secondary);
+    color: var(--font-color);
   }
 
-  /* tr.highlight {
-    background: var(--color-primary);
-    color: var(--color-secondary);
-  } */
+
   .clickable:hover {
     background: var(--color-primary);
-    color: var(--color-secondary);
+    color: var(--font-color);
   }
   main{
     min-height: 100vh;
@@ -213,14 +230,13 @@ label{
 
   .glassmorphism {
     backdrop-filter: blur(0.25em);
-    background: #0010066d; /* (207deg 100% 30% / 60%) !important; */
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.75), -2px -2px 10px rgba(0, 0, 0, 0.75);
-    box-shadow: -1px 1px 13px 3px #00000042;
-
-    border-top: 3px solid hsla(130, 60%, 60%, 20%);
-    border-left: 3px solid hsla(130, 60%, 30%, 40%);
-    border-right: 3px solid hsla(130, 60%, 20%, 40%);
-    border-bottom: 3px solid hsla(130, 60%, 10%, 50%);
+    background: var(--color-accent); /* (207deg 100% 30% / 60%) !important; */
+    /* text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.75), -2px -2px 10px rgba(0, 0, 0, 0.75); */
+    /* box-shadow: -1px 1px 13px 3px #00000042; */
+    border-top: 3px solid var(--color-tertiary);/*  hsla(130, 60%, 60%, 20%);  */
+    border-left: 3px solid var(--color-tertiary);/*hsla(130, 60%, 30%, 40%); /* #d60000 */
+    border-right: 3px solid var(--color-tertiary);/*hsla(130, 60%, 20%, 40%); /* #760404 */
+    border-bottom: 3px solid var(--color-tertiary);/*hsla(130, 60%, 10%, 50%); /* #370909 */
   }
 
   .glassmorphism:before {
