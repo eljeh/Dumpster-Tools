@@ -40,6 +40,7 @@
 </form>
 
 <script>
+	document.addEventListener('astro:page-load', () => {
 	// Get the order button element
 	const orderButton = document.getElementById('orderButton');
 
@@ -144,4 +145,5 @@
 
 	// Populate the dropdowns when the page loads
 	populatePackSelect();
+	});
 </script>

@@ -1,4 +1,4 @@
-<form class='w-full flex flex-col item-center' >
+<form class='w-full flex flex-col item-center'>
 	<div class='flex flex-col items-start justify-center mb-6'>
 		<!-- playerIDgp -->
 		<label class='block font-bold pr-4 mb-2' for='playerIDgp'>
@@ -32,253 +32,101 @@
 </div>
 
 <script>
-	// Get the order button element
-	const getPlayerButton = document.getElementById('getPlayerButton');
+	document.addEventListener('astro:page-load', () => {
+		// Get the order button element
+		const getPlayerButton = document.getElementById('getPlayerButton');
 
-	const playerInfo = document.getElementById('playerInfo');
-	const squadInfo = document.getElementById('squadInfo');
-	const squadCounts = document.getElementById('squadCounts');
-	const details = document.getElementById('details');
+		const playerInfo = document.getElementById('playerInfo');
+		const squadInfo = document.getElementById('squadInfo');
+		const squadCounts = document.getElementById('squadCounts');
+		const details = document.getElementById('details');
 
-	const memberCount = document.getElementById('memberCount');
-	const flagCount = document.getElementById('flagCount');
-	const vehicleCount = document.getElementById('vehicleCount');
+		const memberCount = document.getElementById('memberCount');
+		const flagCount = document.getElementById('flagCount');
+		const vehicleCount = document.getElementById('vehicleCount');
 
-	// Add event listener to handle button click
-	getPlayerButton.addEventListener('click', async (event) => {
-		event.preventDefault();
+		// Add event listener to handle button click
+		getPlayerButton.addEventListener('click', async (event) => {
+			event.preventDefault();
 
-		playerInfo.innerHTML = ``;
-		squadInfo.innerHTML = ``;
-		details.innerHTML = ``;
+			playerInfo.innerHTML = ``;
+			squadInfo.innerHTML = ``;
+			details.innerHTML = ``;
 
-		// Get the selected player and pack elements
-		const playerID = document.getElementById('playerIDgp');
+			// Get the selected player and pack elements
+			const playerID = document.getElementById('playerIDgp');
 
-		// Check if both player and pack are selected
-		if (playerID.value) {
-			try {
-				// Send a POST request to order the pack
-				const response = await fetch(
-					`https://api.whalleybot.com/bot/217fc652/GetPlayer/${playerID.value}/`,
-					{
-						method: 'GET',
-						headers: {
-							Accept: '*/*',
-							Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+			// Check if both player and pack are selected
+			if (playerID.value) {
+				try {
+					// Send a POST request to order the pack
+					const response = await fetch(
+						`https://api.whalleybot.com/bot/217fc652/GetPlayer/${playerID.value}/`,
+						{
+							method: 'GET',
+							headers: {
+								Accept: '*/*',
+								Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+							},
 						},
-					},
-				);
+					);
 
-				// Check if the response is okay
-				if (!response.ok) {
-					throw new Error('Network response was not ok');
-				}
-				playerInfo.innerHTML = `Getting info for ${playerID.value}`;
-
-				// Parse the response data
-				const data = await response.json();
-
-				playerInfo.innerHTML = `Player info: <strong>${data.Player.PlayerName}</strong>`;
-				playerInfo.innerHTML += `<br>Discord ID: ${data.Player.DiscordID}`;
-				playerInfo.innerHTML += `<br>Steam ID: ${data.Player.SteamID}`;
-				playerInfo.innerHTML += `<br>IP Address: ${data.Player.IP}`;
-				playerInfo.innerHTML += `<br>`;
-				playerInfo.innerHTML += `<br>Account: ${data.Player.AccountNumber}`;
-				playerInfo.innerHTML += `<br>🪙 ${data.Player.Coins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${data.Player.CreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 🧈  ${data.Player.GoldBalance.toLocaleString()}`;
-
-				const PlayersSquadID = data.SquadInfo.ID;
-
-				// get list of sqaudmembers
-				const squadResponse = await fetch(
-					`https://api.whalleybot.com/bot/217fc652/GetSquad?SquadID=${PlayersSquadID}`,
-					{
-						method: 'GET',
-						headers: {
-							Accept: '*/*',
-							Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
-						},
-					},
-				);
-				const dataS = await squadResponse.json();
-				const SquadData = dataS[0];
-				const squadMembers = Object.values(SquadData.squadMember);
-				const activeMembers = [];
-				squadMembers.forEach((member) => {
-					if (member.playerData !== null) {
-						activeMembers.push(member.playerData.steamID);
+					// Check if the response is okay
+					if (!response.ok) {
+						throw new Error('Network response was not ok');
 					}
-				});
+					playerInfo.innerHTML = `Getting info for ${playerID.value}`;
 
-				//console.log('activeMembers', activeMembers);
+					// Parse the response data
+					const data = await response.json();
 
-				getFlagData(activeMembers);
-				getSquadData(data.SquadInfo.ID);
-				getVehicleInfo(squadMembers);
-			} catch (error) {
-				console.error('Error Player info:', error);
-			}
-		} else {
-			console.error('Please provide a player ID');
-		}
-	});
+					playerInfo.innerHTML = `Player info: <strong>${data.Player.PlayerName}</strong>`;
+					playerInfo.innerHTML += `<br>Discord ID: ${data.Player.DiscordID}`;
+					playerInfo.innerHTML += `<br>Steam ID: ${data.Player.SteamID}`;
+					playerInfo.innerHTML += `<br>IP Address: ${data.Player.IP}`;
+					playerInfo.innerHTML += `<br>`;
+					playerInfo.innerHTML += `<br>Account: ${data.Player.AccountNumber}`;
+					playerInfo.innerHTML += `<br>🪙 ${data.Player.Coins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${data.Player.CreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 🧈  ${data.Player.GoldBalance.toLocaleString()}`;
 
-	async function getSquadData(PlayersSquadID) {
-		const response = await fetch(
-			`https://api.whalleybot.com/bot/217fc652/GetSquad?SquadID=${PlayersSquadID}`,
-			{
-				method: 'GET',
-				headers: {
-					Accept: '*/*',
-					Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
-				},
-			},
-		);
+					const PlayersSquadID = data.SquadInfo.ID;
 
-		// Check if the response is okay
-		if (!response.ok) {
-			throw new Error('Network response was not ok');
-		}
+					// get list of sqaudmembers
+					const squadResponse = await fetch(
+						`https://api.whalleybot.com/bot/217fc652/GetSquad?SquadID=${PlayersSquadID}`,
+						{
+							method: 'GET',
+							headers: {
+								Accept: '*/*',
+								Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+							},
+						},
+					);
+					const dataS = await squadResponse.json();
+					const SquadData = dataS[0];
+					const squadMembers = Object.values(SquadData.squadMember);
+					const activeMembers = [];
+					squadMembers.forEach((member) => {
+						if (member.playerData !== null) {
+							activeMembers.push(member.playerData.steamID);
+						}
+					});
 
-		// Parse the response data
-		const data = await response.json();
-		const SquadData = data[0];
+					//console.log('activeMembers', activeMembers);
 
-		squadInfo.innerHTML += `<br>------------------------------------------------------------------------`;
-		squadInfo.innerHTML += `<br>Squad: ${SquadData.squadName} (${SquadData.id})`;
-
-		const squadMembers = Object.values(SquadData.squadMember);
-
-		//Calculate the total creditBalance and goldBalance of the squad
-		let totalCreditBalance = 0;
-		let totalGoldBalance = 0;
-		let totalCoins = 0;
-
-		squadMembers.forEach((member) => {
-			if (member.playerData !== null) {
-				totalCreditBalance += member.playerData.creditBalance;
-				totalGoldBalance += member.playerData.goldBalance;
-				totalCoins += member.playerData.coins;
-			}
-		});
-
-		squadInfo.innerHTML += `<br>🪙 ${totalCoins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${totalCreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 🧈  ${totalGoldBalance.toLocaleString()}<br>`;
-
-		// Rank is a string 1-4 so sort by rank
-		squadMembers.sort((a, b) => parseInt(b.rank) - parseInt(a.rank));
-		details.innerHTML += `<br>`;
-		const numMembers = squadMembers.length;
-		memberCount.innerHTML = `🪖 Members: ${numMembers} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;`;
-		details.innerHTML += `<br> ${numMembers} Members`;
-		squadMembers.forEach((member) => {
-			if (member.playerData === null) {
-				details.innerHTML += `<br><strong>Unknown</strong> (${member.steamID}) `;
-				details.innerHTML += `<br>`;
+					getFlagData(activeMembers);
+					getSquadData(data.SquadInfo.ID);
+					getVehicleInfo(squadMembers);
+				} catch (error) {
+					console.error('Error Player info:', error);
+				}
 			} else {
-				details.innerHTML += `<br><strong>${member.playerData.playerName}</strong> ${member.rank === '4' ? '👑' : ''} (${member.steamID}) `;
-				details.innerHTML += `<br>🪙 ${member.playerData.coins.toLocaleString()}  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵 ${member.playerData.creditBalance.toLocaleString()}  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 🧈 ${member.playerData.goldBalance.toLocaleString()}  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; ⚔️ ${member.playerData.totalDeaths}/${member.playerData.totalKills}`;
-				details.innerHTML += `<br>`;
+				console.error('Please provide a player ID');
 			}
 		});
-	}
 
-	function isWithinPVP(flagLocationX, flagLocationY) {
-		const PVP = {
-			topLeftX: '-297316.625',
-			topLeftY: '619200.000',
-			topRightX: '-297316.625',
-			topRightY: '619200.000',
-			bottomLeftX: '-904795.125',
-			bottomLeftY: '-904795.125',
-			bottomRightX: '-904795.125',
-			bottomRightY: '-904795.125',
-		};
-
-		return (
-			flagLocationX <= PVP.bottomLeftX &&
-			flagLocationX >= PVP.topRightX &&
-			flagLocationY >= PVP.bottomLeftY &&
-			flagLocationY <= PVP.topRightY
-		);
-	}
-
-	async function getFlagData(squadMembers) {
-		const response = await fetch(
-			`https://api.whalleybot.com/bot/217fc652/FlagLocations`,
-			{
-				method: 'GET',
-				headers: {
-					Accept: '*/*',
-					Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
-				},
-			},
-		);
-
-		// Check if the response is okay
-		if (!response.ok) {
-			throw new Error('Network response was not ok');
-		}
-
-		//const playerInfo = document.getElementById('playerInfo');
-		const dataP = await response.json();
-		const FlagData = Object.values(dataP);
-
-		// find all flags owened by squadMembers
-		const flags = FlagData.filter((flag) =>
-			squadMembers.map((member) => member).includes(flag.ownerID),
-		);
-
-		flagCount.innerHTML = ` 🚩 Flags:${flags.length} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;`;
-
-		details.innerHTML += `<br>------------------------------------------------------------------------`;
-		details.innerHTML += `<br>${flags.length} Flag(s): `;
-
-		flags.forEach((flag) => {
-			//details.innerHTML += `<br>${flag.location}`;
-
-			const flagLocation = flag.location;
-			const flagLocationX = flagLocation.split(' ')[0];
-			const flagLocationY = flagLocation.split(' ')[1];
-
-			if (isWithinPVP(flagLocationX, flagLocationY)) {
-				details.innerHTML += `<br> 🟥 ${flagLocation}`;
-			} else {
-				details.innerHTML += `<br> 🟩 ${flagLocation}`;
-			}
-
-			// const PVP = {
-			// 	topLeftX: '-297316.625',
-			// 	topLeftY: '619200.000',
-			// 	topRightX: '-297316.625',
-			// 	topRightY: '619200.000',
-			// 	bottomLeftX: '-904795.125',
-			// 	bottomLeftY: '-904795.125',
-			// 	bottomRightX: '-904795.125',
-			// 	bottomRightY: '-904795.125',
-			// };
-			// const flagLocation = flag.location;
-			// const flagLocationX = flagLocation.split(' ')[0];
-			// const flagLocationY = flagLocation.split(' ')[1];
-			// if (
-			// 	flagLocationX <= PVP.bottomLeftX &&
-			// 	flagLocationX >= PVP.topRightX &&
-			// 	flagLocationY >= PVP.bottomLeftY &&
-			// 	flagLocationY <= PVP.topRightY
-			// ) {
-			// 	details.innerHTML += `<br> 🟥 ${flag.location}`;
-			// } else {
-			// 	details.innerHTML += `<br> 🟩 ${flag.location}`;
-			// }
-
-			details.innerHTML += `<br>`;
-		});
-	}
-
-	async function getVehicleInfo(squadMembers) {
-		try {
-			// Fetch the list of vehicles
+		async function getSquadData(PlayersSquadID) {
 			const response = await fetch(
-				`https://api.whalleybot.com/bot/217fc652/VehicleLocations`,
+				`https://api.whalleybot.com/bot/217fc652/GetSquad?SquadID=${PlayersSquadID}`,
 				{
 					method: 'GET',
 					headers: {
@@ -288,61 +136,213 @@
 				},
 			);
 
+			// Check if the response is okay
 			if (!response.ok) {
-				throw new Error('Failed to fetch vehicle data');
+				throw new Error('Network response was not ok');
 			}
 
-			const dataV = await response.json();
-			const vehiclesData = Object.values(dataV);
+			// Parse the response data
+			const data = await response.json();
+			const SquadData = data[0];
 
-			// Filter vehicles owned by the player or squad members
-			const ownedVehicles = vehiclesData.filter((vehicle) => {
-				const regInfo = vehicle.value.reg;
-				const ownerSteamID = regInfo.match(/STEAMID:(\d+)/)?.[1];
-				if (ownerSteamID && ownerSteamID !== '0') {
-					// check if ownerSteamID is one of the squadMembers
-					const isSquadMember = squadMembers
-						.map((member) => member.steamID)
-						.includes(ownerSteamID);
-					if (isSquadMember) {
-						return vehicle;
-					}
+			squadInfo.innerHTML += `<br>------------------------------------------------------------------------`;
+			squadInfo.innerHTML += `<br>Squad: ${SquadData.squadName} (${SquadData.id})`;
+
+			const squadMembers = Object.values(SquadData.squadMember);
+
+			//Calculate the total creditBalance and goldBalance of the squad
+			let totalCreditBalance = 0;
+			let totalGoldBalance = 0;
+			let totalCoins = 0;
+
+			squadMembers.forEach((member) => {
+				if (member.playerData !== null) {
+					totalCreditBalance += member.playerData.creditBalance;
+					totalGoldBalance += member.playerData.goldBalance;
+					totalCoins += member.playerData.coins;
 				}
 			});
-			vehicleCount.innerHTML = ` 🚗 Vehicle: ${ownedVehicles.length}`;
 
-			// Display the vehicle information
-			details.innerHTML += `<br>------------------------------------------------------------------------`;
-			details.innerHTML += `<br>${ownedVehicles.length} Vehicle(s):`;
+			squadInfo.innerHTML += `<br>🪙 ${totalCoins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${totalCreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 🧈  ${totalGoldBalance.toLocaleString()}<br>`;
 
-			ownedVehicles.forEach((vehicle) => {
-				const vidMatch = vehicle.value.reg.match(/VID:(\d+)/);
-				const coords = vehicle.value.coords;
-				const type = vehicle.value.type.replace('BPC_', '').trim();
-				const internalStatus = vehicle.value.internalStatus;
-				const status = internalStatus ? internalStatus : 'In Game';
-
-				const vehicleLocationX = coords.split(' ')[0];
-				const vehicleLocationY = coords.split(' ')[1];
-
-				let zone = ``;
-
-				if (isWithinPVP(vehicleLocationX, vehicleLocationY)) {
-					zone = `🟥`;
+			// Rank is a string 1-4 so sort by rank
+			squadMembers.sort((a, b) => parseInt(b.rank) - parseInt(a.rank));
+			details.innerHTML += `<br>`;
+			const numMembers = squadMembers.length;
+			memberCount.innerHTML = `🪖 Members: ${numMembers} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;`;
+			details.innerHTML += `<br> ${numMembers} Members`;
+			squadMembers.forEach((member) => {
+				if (member.playerData === null) {
+					details.innerHTML += `<br><strong>Unknown</strong> (${member.steamID}) `;
+					details.innerHTML += `<br>`;
 				} else {
-					zone = `🟩`;
+					details.innerHTML += `<br><strong>${member.playerData.playerName}</strong> ${member.rank === '4' ? '👑' : ''} (${member.steamID}) `;
+					details.innerHTML += `<br>🪙 ${member.playerData.coins.toLocaleString()}  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵 ${member.playerData.creditBalance.toLocaleString()}  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 🧈 ${member.playerData.goldBalance.toLocaleString()}  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; ⚔️ ${member.playerData.totalDeaths}/${member.playerData.totalKills}`;
+					details.innerHTML += `<br>`;
+				}
+			});
+		}
+
+		function isWithinPVP(flagLocationX, flagLocationY) {
+			const PVP = {
+				topLeftX: '-297316.625',
+				topLeftY: '619200.000',
+				topRightX: '-297316.625',
+				topRightY: '619200.000',
+				bottomLeftX: '-904795.125',
+				bottomLeftY: '-904795.125',
+				bottomRightX: '-904795.125',
+				bottomRightY: '-904795.125',
+			};
+
+			return (
+				flagLocationX <= PVP.bottomLeftX &&
+				flagLocationX >= PVP.topRightX &&
+				flagLocationY >= PVP.bottomLeftY &&
+				flagLocationY <= PVP.topRightY
+			);
+		}
+
+		async function getFlagData(squadMembers) {
+			const response = await fetch(
+				`https://api.whalleybot.com/bot/217fc652/FlagLocations`,
+				{
+					method: 'GET',
+					headers: {
+						Accept: '*/*',
+						Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+					},
+				},
+			);
+
+			// Check if the response is okay
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+
+			//const playerInfo = document.getElementById('playerInfo');
+			const dataP = await response.json();
+			const FlagData = Object.values(dataP);
+
+			// find all flags owened by squadMembers
+			const flags = FlagData.filter((flag) =>
+				squadMembers.map((member) => member).includes(flag.ownerID),
+			);
+
+			flagCount.innerHTML = ` 🚩 Flags:${flags.length} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;`;
+
+			details.innerHTML += `<br>------------------------------------------------------------------------`;
+			details.innerHTML += `<br>${flags.length} Flag(s): `;
+
+			flags.forEach((flag) => {
+				//details.innerHTML += `<br>${flag.location}`;
+
+				const flagLocation = flag.location;
+				const flagLocationX = flagLocation.split(' ')[0];
+				const flagLocationY = flagLocation.split(' ')[1];
+
+				if (isWithinPVP(flagLocationX, flagLocationY)) {
+					details.innerHTML += `<br> 🟥 ${flagLocation}`;
+				} else {
+					details.innerHTML += `<br> 🟩 ${flagLocation}`;
 				}
 
-
-				details.innerHTML += 
-				`<br>${type} - ${vidMatch ? vidMatch[1] : 'Unknown'}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;`+
-				`${status !== 'In Game' ? ` [${status}]` : ''} ${zone} ${coords}`;
-
+				// const PVP = {
+				// 	topLeftX: '-297316.625',
+				// 	topLeftY: '619200.000',
+				// 	topRightX: '-297316.625',
+				// 	topRightY: '619200.000',
+				// 	bottomLeftX: '-904795.125',
+				// 	bottomLeftY: '-904795.125',
+				// 	bottomRightX: '-904795.125',
+				// 	bottomRightY: '-904795.125',
+				// };
+				// const flagLocation = flag.location;
+				// const flagLocationX = flagLocation.split(' ')[0];
+				// const flagLocationY = flagLocation.split(' ')[1];
+				// if (
+				// 	flagLocationX <= PVP.bottomLeftX &&
+				// 	flagLocationX >= PVP.topRightX &&
+				// 	flagLocationY >= PVP.bottomLeftY &&
+				// 	flagLocationY <= PVP.topRightY
+				// ) {
+				// 	details.innerHTML += `<br> 🟥 ${flag.location}`;
+				// } else {
+				// 	details.innerHTML += `<br> 🟩 ${flag.location}`;
+				// }
 
 				details.innerHTML += `<br>`;
 			});
-		} catch (error) {
-			console.error('Error fetching or displaying vehicle data:', error);
 		}
-	}
+
+		async function getVehicleInfo(squadMembers) {
+			try {
+				// Fetch the list of vehicles
+				const response = await fetch(
+					`https://api.whalleybot.com/bot/217fc652/VehicleLocations`,
+					{
+						method: 'GET',
+						headers: {
+							Accept: '*/*',
+							Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+						},
+					},
+				);
+
+				if (!response.ok) {
+					throw new Error('Failed to fetch vehicle data');
+				}
+
+				const dataV = await response.json();
+				const vehiclesData = Object.values(dataV);
+
+				// Filter vehicles owned by the player or squad members
+				const ownedVehicles = vehiclesData.filter((vehicle) => {
+					const regInfo = vehicle.value.reg;
+					const ownerSteamID = regInfo.match(/STEAMID:(\d+)/)?.[1];
+					if (ownerSteamID && ownerSteamID !== '0') {
+						// check if ownerSteamID is one of the squadMembers
+						const isSquadMember = squadMembers
+							.map((member) => member.steamID)
+							.includes(ownerSteamID);
+						if (isSquadMember) {
+							return vehicle;
+						}
+					}
+				});
+				vehicleCount.innerHTML = ` 🚗 Vehicle: ${ownedVehicles.length}`;
+
+				// Display the vehicle information
+				details.innerHTML += `<br>------------------------------------------------------------------------`;
+				details.innerHTML += `<br>${ownedVehicles.length} Vehicle(s):`;
+
+				ownedVehicles.forEach((vehicle) => {
+					const vidMatch = vehicle.value.reg.match(/VID:(\d+)/);
+					const coords = vehicle.value.coords;
+					const type = vehicle.value.type.replace('BPC_', '').trim();
+					const internalStatus = vehicle.value.internalStatus;
+					const status = internalStatus ? internalStatus : 'In Game';
+
+					const vehicleLocationX = coords.split(' ')[0];
+					const vehicleLocationY = coords.split(' ')[1];
+
+					let zone = ``;
+
+					if (isWithinPVP(vehicleLocationX, vehicleLocationY)) {
+						zone = `🟥`;
+					} else {
+						zone = `🟩`;
+					}
+
+					details.innerHTML +=
+						`<br>${type} - ${vidMatch ? vidMatch[1] : 'Unknown'}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;` +
+						`${status !== 'In Game' ? ` [${status}]` : ''} ${zone} ${coords}`;
+
+					details.innerHTML += `<br>`;
+				});
+			} catch (error) {
+				console.error('Error fetching or displaying vehicle data:', error);
+			}
+		}
+	});
 </script>

@@ -22,9 +22,10 @@
   </table>
 </div>
 <script>
-  async function fetchData(url) {
-    try {
-      const response = await fetch(url, {
+  document.addEventListener('astro:page-load', () => {
+    async function fetchData(url) {
+      try {
+        const response = await fetch(url, {
         method: 'GET',
         headers: {
           Accept: '*/*',
@@ -92,5 +93,6 @@
   }
 
   // Call the function to display JSON data as a table
-  displayJsonAsTable();
+    displayJsonAsTable();
+  });
 </script>

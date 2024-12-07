@@ -6,6 +6,7 @@ const currentPath = pathname.slice(1);
 <nav id='navBar' transition:persist='navBar'></nav>
 
 <script>
+  document.addEventListener('astro:page-load', () => {
   const navBarList = document.getElementById('navBar');
   renderNavBar();
 
@@ -44,6 +45,7 @@ const currentPath = pathname.slice(1);
     //   navBarList.innerHTML +=
     //     '<a class="sideNavLink" href="/apis"><i class="fi fi-ss-ban"></i><span class="sideNavLinkText">APIs</span></a>';
   }
+  });
 </script>
 
 <style is:inline>
@@ -68,7 +70,7 @@ const currentPath = pathname.slice(1);
     position: relative;
   }
 
-  a .fi {
+  .sideNavLink .fi {
     font-size: 2em;
   }
   .sideNavLinkText {

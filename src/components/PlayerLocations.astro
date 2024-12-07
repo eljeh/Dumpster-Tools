@@ -13,6 +13,7 @@
   </table>
 </div>
 <script>
+  document.addEventListener('astro:page-load', () => {
   function displayJsonAsTable() {
     const url = 'https://api.whalleybot.com/bot/217fc652/PlayerLocations';
     fetch(url, {
@@ -51,5 +52,6 @@
   }
 
   // Call the function to display JSON data as a table
-  displayJsonAsTable();
+    displayJsonAsTable();
+  });
 </script>

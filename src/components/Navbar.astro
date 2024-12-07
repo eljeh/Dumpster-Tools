@@ -6,6 +6,7 @@ const currentPath = pathname.slice(1);
 <nav id='navBar'></nav>
 
 <script>
+  document.addEventListener('astro:page-load', () => {
   const navBarList = document.getElementById('navBar');
   const netlifyIdentity = window.netlifyIdentity;
   renderNavBar();
@@ -56,6 +57,7 @@ const currentPath = pathname.slice(1);
   function removeNavBar() {
     navBarList.innerHTML = '';
   }
+  });
 </script>
 
 <style is:inline>
@@ -70,4 +72,5 @@ const currentPath = pathname.slice(1);
   a.netlify-identity-button {
     text-wrap: nowrap;
   }
+
 </style>

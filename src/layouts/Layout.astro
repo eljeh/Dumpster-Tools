@@ -139,7 +139,9 @@ const { title } = Astro.props;
       <div class='navigation' id='navBarContainer'>
         <Logo />
         <SideNavBar />
-        <div data-netlify-identity-button></div>
+        <div data-netlify-identity-button class='netlifyButton'>
+          <i class='fi fi-ss-door-closed'></i>
+        </div>
       </div>
     </header>
 
@@ -169,7 +171,7 @@ const { title } = Astro.props;
     } else {
       console.log('user not logged in');
       removeSlot();
-      removeNavBar()
+      removeNavBar();
     }
   });
 
@@ -177,7 +179,7 @@ const { title } = Astro.props;
   netlifyIdentity.on('logout!!!', () => {
     console.log('logout!!!!');
     removeSlot();
-    removeNavBar()
+    removeNavBar();
     window.location.href = '/';
   });
 
@@ -209,5 +211,19 @@ const { title } = Astro.props;
     gap: 1em;
     height: calc(100vh);
     z-index: 1000;
+  }
+
+  .netlifyButton {
+    display: flex;
+    align-items: center;
+    text-wrap: nowrap;
+    position: absolute;
+    bottom: 2em;
+    left: 1em;
+    flex-direction: column;
+  }
+  .netlifyButton .fi {
+    font-size: 2em;
+    margin-bottom: -0.25em;
   }
 </style>
