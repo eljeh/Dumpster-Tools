@@ -14,14 +14,14 @@
 	</div>
 	<!--  IG Players -->
 	<div class='flex flex-col my-2'>
-		<label class='font-bold mb-2' for='playersSelected'>
+		<label class='font-bold mb-2' for='playerIDSelect'>
 			In Game Players
 		</label>
 
 		<div class='flex'>
-			<fieldset id='playersSelected' class='playersList'>
-				<legend>No one in game</legend>
-			</fieldset>
+			<select id='playerIDSelect'>
+				<option value=''>...loading data</option>
+			</select>
 		</div>
 	</div>
 
@@ -57,46 +57,38 @@
 		const flagCount = document.getElementById('flagCount');
 		const vehicleCount = document.getElementById('vehicleCount');
 
-		function populateIGPlayers() {
-			const url = 'https://api.whalleybot.com/bot/217fc652/PlayerLocations';
-			fetch(url, {
-				method: 'GET',
-				headers: {
-					Accept: '*/*',
-					Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
-				},
-			})
-				.then((response) => {
-					if (!response.ok) {
-						throw new Error('Network response was not ok');
-					}
-					return response.json();
-				})
-				.then((data) => {
-					// Clear existing table rows
-					const playersList = document.getElementById('playersSelected');
-					playersList.innerHTML = '';
 
-					// Populate table with JSON data
-					data.forEach((player) => {
-						const row = document.createElement('li');
-						row.classList.add('flex', 'gap-4');
-						row.innerHTML = `
-            <input type="radio" id="${player.steamID}" name="selectedPlayers" value="${player.steamID}">
-						<label for="${player.steamID}">
-            	<span>${player.playerName}</span>
-            	<span>${player.lastKnownLocation}</span>
-						</label>
-          `;
-						playersList.appendChild(row);
-					});
-				})
-				.catch((error) => {
-					console.error('Error fetching or parsing data: ', error);
+		async function populatePlayerSelect() {
+			try {
+				const url = 'https://api.whalleybot.com/bot/217fc652/PlayerLocations';
+				const response = await fetch(url, {
+					method: 'GET',
+					headers: {
+						Accept: '*/*',
+						Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+					},
 				});
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+				const playerData = await response.json(); // Correctly assign the fetched data
+
+				//console.log('Player data:', playerData); // Log the fetched player data
+
+				const playerSelect = document.getElementById('playerIDSelect');
+				playerSelect.innerHTML = '<option value="">Select a player</option>';
+
+
+				playerData.forEach((player) => {
+					const option = new Option(player.playerName, player.steamID);
+					playerSelect.appendChild(option);
+				});
+			} catch (error) {
+				console.error('Error populating player select:', error);
+			}
 		}
-		// Call the function to display JSON data as a table
-		populateIGPlayers();
+
+		populatePlayerSelect();
 
 		// Add event listener to handle button click
 		getPlayerButton.addEventListener('click', async (event) => {
@@ -107,14 +99,12 @@
 			squadInfo.innerHTML = ``;
 			details.innerHTML = ``;
 
-			const selectedPlayer = document.querySelector(
-				'input[name="selectedPlayers"]:checked',
-			);
+			const selectedPlayer = document.getElementById('playerIDSelect');
 			// Get the selected player and pack elements
 			const playerID = document.getElementById('playerIDgp');
 			// if playerID is empty, use the selected player
 			if (!playerID.value) {
-				playerID.value = selectedPlayer.id;
+				playerID.value = selectedPlayer.value;
 			}
 
 			if (playerID.value) {
