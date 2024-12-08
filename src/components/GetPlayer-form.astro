@@ -208,7 +208,7 @@
 			const data = await response.json();
 			const SquadData = data[0];
 
-			squadInfo.innerHTML += `<br>------------------------------------------------------------------------`;
+			squadInfo.innerHTML += `<hr class="infoHr"/>`;
 			squadInfo.innerHTML += `<br>Squad: ${SquadData.squadName} (${SquadData.id})`;
 
 			const squadMembers = Object.values(SquadData.squadMember);
@@ -291,7 +291,7 @@
 
 			flagCount.innerHTML = ` 🚩 Flags:${flags.length} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;`;
 
-			details.innerHTML += `<br>------------------------------------------------------------------------`;
+			details.innerHTML += `<hr class="infoHr"/>`;
 			details.innerHTML += `<br>${flags.length} Flag(s): `;
 
 			flags.forEach((flag) => {
@@ -348,7 +348,7 @@
 				vehicleCount.innerHTML = ` 🚗 Vehicle: ${ownedVehicles.length}`;
 
 				// Display the vehicle information
-				details.innerHTML += `<br>------------------------------------------------------------------------`;
+				details.innerHTML += `<hr class="infoHr"/>`;
 				details.innerHTML += `<br>${ownedVehicles.length} Vehicle(s):`;
 
 				ownedVehicles.forEach((vehicle) => {
@@ -399,11 +399,17 @@
 	.wrapper [type='radio'] {
 		zoom: 2;
 		width: unset;
-		accent-color: var(--color-accent);
+		accent-color: var(--color-primary);
 	}
+
 	.wrapper hr {
 		margin-top: 3em;
 		margin-bottom: 1em;
+	}
+
+	.wrapper hr.infoHr {
+		border: 0.25em solid var(--color-accent);
+		border-radius: 0.5em;
 	}
 
 	.playerInfoWrapper.panel {
