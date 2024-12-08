@@ -12,6 +12,18 @@
 			class='border rounded mb-2'
 		/>
 	</div>
+	<!--  IG Players -->
+	<div class='flex flex-col my-2'>
+		<label class='font-bold mb-2' for='playersSelected'>
+			In Game Players
+		</label>
+
+		<div class='flex'>
+			<fieldset id='playersSelected' class='playersList'>
+				<legend>No one in game</legend>
+			</fieldset>
+		</div>
+	</div>
 
 	<footer class='flex items-center justify-end mb-6'>
 		<button id='getPlayerButton' class='glassmorphism'>
@@ -45,6 +57,47 @@
 		const flagCount = document.getElementById('flagCount');
 		const vehicleCount = document.getElementById('vehicleCount');
 
+		function populateIGPlayers() {
+			const url = 'https://api.whalleybot.com/bot/217fc652/PlayerLocations';
+			fetch(url, {
+				method: 'GET',
+				headers: {
+					Accept: '*/*',
+					Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+				},
+			})
+				.then((response) => {
+					if (!response.ok) {
+						throw new Error('Network response was not ok');
+					}
+					return response.json();
+				})
+				.then((data) => {
+					// Clear existing table rows
+					const playersList = document.getElementById('playersSelected');
+					playersList.innerHTML = '';
+
+					// Populate table with JSON data
+					data.forEach((player) => {
+						const row = document.createElement('li');
+						row.classList.add('flex', 'gap-4');
+						row.innerHTML = `
+            <input type="radio" id="${player.steamID}" name="selectedPlayers" value="${player.steamID}">
+						<label for="${player.steamID}">
+            	<span>${player.playerName}</span>
+            	<span>${player.lastKnownLocation}</span>
+						</label>
+          `;
+						playersList.appendChild(row);
+					});
+				})
+				.catch((error) => {
+					console.error('Error fetching or parsing data: ', error);
+				});
+		}
+		// Call the function to display JSON data as a table
+		populateIGPlayers();
+
 		// Add event listener to handle button click
 		getPlayerButton.addEventListener('click', async (event) => {
 			event.preventDefault();
@@ -53,10 +106,16 @@
 			squadInfo.innerHTML = ``;
 			details.innerHTML = ``;
 
+			const selectedPlayer = document.querySelector(
+				'input[name="selectedPlayers"]:checked',
+			);
 			// Get the selected player and pack elements
 			const playerID = document.getElementById('playerIDgp');
+			// if playerID is empty, use the selected player
+			if (!playerID.value) {
+				playerID.value = selectedPlayer.id;
+			}
 
-			// Check if both player and pack are selected
 			if (playerID.value) {
 				try {
 					// Send a POST request to order the pack
@@ -122,6 +181,9 @@
 			} else {
 				console.error('Please provide a player ID');
 			}
+
+			// reset form
+			document.getElementById('playerIDgp').value = '';
 		});
 
 		async function getSquadData(PlayersSquadID) {
@@ -185,21 +247,18 @@
 
 		function isWithinPVP(flagLocationX, flagLocationY) {
 			const PVP = {
-				topLeftX: '-297316.625',
-				topLeftY: '619200.000',
-				topRightX: '-297316.625',
-				topRightY: '619200.000',
-				bottomLeftX: '-904795.125',
-				bottomLeftY: '-904795.125',
-				bottomRightX: '-904795.125',
-				bottomRightY: '-904795.125',
+				topLeftX: -904795.125, // Left-most X
+				topLeftY: 619200.0, // Top-most Y
+				bottomRightX: -297316.625, // Right-most X
+				bottomRightY: -904795.125, // Bottom-most Y
 			};
 
+			// Check if the flag location is within the PVP zone
 			return (
-				flagLocationX <= PVP.bottomLeftX &&
-				flagLocationX >= PVP.topRightX &&
-				flagLocationY >= PVP.bottomLeftY &&
-				flagLocationY <= PVP.topRightY
+				flagLocationX >= PVP.topLeftX && // Right of left edge
+				flagLocationX <= PVP.bottomRightX && // Left of right edge
+				flagLocationY <= PVP.topLeftY && // Below top edge
+				flagLocationY >= PVP.bottomRightY // Above bottom edge
 			);
 		}
 
@@ -238,39 +297,14 @@
 				//details.innerHTML += `<br>${flag.location}`;
 
 				const flagLocation = flag.location;
-				const flagLocationX = flagLocation.split(' ')[0];
-				const flagLocationY = flagLocation.split(' ')[1];
+				const flagLocationX = flagLocation.split(' ')[0]; // -894859.312
+				const flagLocationY = flagLocation.split(' ')[1]; // -276433.656
 
 				if (isWithinPVP(flagLocationX, flagLocationY)) {
-					details.innerHTML += `<br> 🟥 ${flagLocation}`;
+					details.innerHTML += `<br> 🟥 ${flagLocation}`; // 🟥 -894859.312 -276433.656 22457.848
 				} else {
-					details.innerHTML += `<br> 🟩 ${flagLocation}`;
+					details.innerHTML += `<br> 🟩 ${flagLocation}`; // 🟩 -894859.312 -276433.656 22457.848
 				}
-
-				// const PVP = {
-				// 	topLeftX: '-297316.625',
-				// 	topLeftY: '619200.000',
-				// 	topRightX: '-297316.625',
-				// 	topRightY: '619200.000',
-				// 	bottomLeftX: '-904795.125',
-				// 	bottomLeftY: '-904795.125',
-				// 	bottomRightX: '-904795.125',
-				// 	bottomRightY: '-904795.125',
-				// };
-				// const flagLocation = flag.location;
-				// const flagLocationX = flagLocation.split(' ')[0];
-				// const flagLocationY = flagLocation.split(' ')[1];
-				// if (
-				// 	flagLocationX <= PVP.bottomLeftX &&
-				// 	flagLocationX >= PVP.topRightX &&
-				// 	flagLocationY >= PVP.bottomLeftY &&
-				// 	flagLocationY <= PVP.topRightY
-				// ) {
-				// 	details.innerHTML += `<br> 🟥 ${flag.location}`;
-				// } else {
-				// 	details.innerHTML += `<br> 🟩 ${flag.location}`;
-				// }
-
 				details.innerHTML += `<br>`;
 			});
 		}
@@ -346,3 +380,27 @@
 		}
 	});
 </script>
+
+<style is:inline>
+	#uploadBtnPlayers {
+		margin-top: 0;
+	}
+
+	.playersList {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5em;
+		max-height: 15em;
+		overflow-y: auto;
+		width: 100%;
+	}
+
+	.wrapper [type='radio'] {
+		zoom: 2;
+		width: unset;
+	}
+	.wrapper hr {
+		margin-top: 3em;
+		margin-bottom: 1em;
+	}
+</style>
