@@ -8,27 +8,7 @@ const currentPath = pathname.slice(1);
 <script>
   document.addEventListener('astro:page-load', () => {
   const navBarList = document.getElementById('navBar');
-  const netlifyIdentity = window.netlifyIdentity;
   renderNavBar();
-  // if not logged in,remove the slot
-  netlifyIdentity.on('logout', () => {
-    removeNavBar();
-    window.location.href = '/';
-  });
-
-  if (netlifyIdentity) {
-    netlifyIdentity.on('login', (user) => {
-      renderNavBar();
-    });
-    // // Redirect to the main page after a successful login
-    netlifyIdentity.on('init', (user) => {
-      if (!user) {
-        netlifyIdentity.on('login', () => {
-          renderNavBar();
-        });
-      }
-    });
-  }
 
   // Function to render NavBar component
   function renderNavBar() {
@@ -54,9 +34,7 @@ const currentPath = pathname.slice(1);
       '<a class={currentPath === "apis" ? "active" : ""} href="/apis">APIs</a>';
   }
 
-  function removeNavBar() {
-    navBarList.innerHTML = '';
-  }
+
   });
 </script>
 

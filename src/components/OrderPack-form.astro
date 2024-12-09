@@ -113,7 +113,6 @@
 				const data = await fetchData(
 					`https://api.whalleybot.com/bot/217fc652/PlayerLocations`,
 				);
-				console.log('Player data:', data); // Log the fetched player data
 
 				const playerSelect = document.getElementById('playerIDSelect-op');
 				playerSelect.innerHTML = '<option value="">Select a player</option>';

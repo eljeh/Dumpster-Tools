@@ -1,6 +1,18 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import BunkerButtons from '../components/BunkerButtons.astro';
+
+// import { netlifyIdentity } from 'netlify-identity-widget';
+// const user = netlifyIdentity.currentUser();
+// let LayoutFile;
+// if (user) {
+//   LayoutFile = '../layouts/Layout.astro';
+// } else {
+//   LayoutFile = '../layouts/Layout-loggedPut.astro';
+// }
+
+// import  Layout from LayoutFile;
+
+
 ---
 
 <Layout title='Bunker List - Dumpster Tools'>
@@ -31,7 +43,7 @@ import BunkerButtons from '../components/BunkerButtons.astro';
 
         const dataB = await response.json();
         bunkers = dataB;
-        console.log(bunkers);
+        //console.log(bunkers);
         const buttonPanel = document.getElementById('buttonPanel');
 
         const normalBunkers = [
@@ -111,8 +123,8 @@ import BunkerButtons from '../components/BunkerButtons.astro';
             let totalSeconds = Math.floor(
               (bunker.nextAcivationTime || 0) / 10000,
             );
-            console.log('bunker.nextAcivationTime', bunker.nextAcivationTime);
-            console.log('totalSeconds', totalSeconds);
+            //console.log('bunker.nextAcivationTime', bunker.nextAcivationTime);
+            //console.log('totalSeconds', totalSeconds);
             // subtract from 24 hour
 
             const hours = Math.floor(totalSeconds / 3600);

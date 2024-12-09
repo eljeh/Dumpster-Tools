@@ -1,10 +1,14 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../layouts/Layout-loggedPut.astro';
+import netlifyIdentity from 'netlify-identity-widget';
+const user = netlifyIdentity.currentUser();
+// if user is logged in, redirect to /inGame
+if (user) {
+	console.log('user-loggedIn: ', user);
+	Astro.redirect('/inGame');
+}
 ---
 
-<Layout title='Dumpster Tools'>
-</Layout>
+<Layout title='Dumpster Tools' />
 
-
-<style is:inline>
-</style>
+<style is:inline></style>

@@ -1,16 +1,17 @@
 ---
+import netlifyIdentity from 'netlify-identity-widget';
 const pathname = new URL(Astro.request.url).pathname;
 const currentPath = pathname.slice(1);
-const user = Astro.props.user;
 ---
 
-<!-- <nav id='navBar' style={user ? '' : 'background-color: red;'}></nav> -->
 <nav id='navBar'></nav>
 
+
 <script>
-  document.addEventListener('astro:page-load', () => {
-    const navBarList = document.getElementById('navBar');
-    renderNavBar();
+
+document.addEventListener('astro:page-load', () => {
+  const navBarList = document.getElementById('navBar');
+  renderNavBar();
 
     // Function to render NavBar component
     function renderNavBar() {
