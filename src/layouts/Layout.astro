@@ -178,7 +178,7 @@ const { title } = Astro.props;
         console.log('init');
         if (!user) {
           window.netlifyIdentity.on("login", () => {
-            document.location.href = "/inGame";
+            document.location.href = "/playerInfo";
             console.log('admin');
           });
         }
@@ -188,7 +188,7 @@ const { title } = Astro.props;
 
     netlifyIdentity.on('login', user => {
       console.log('login', user);
-      document.location.href = "/admin/";
+      document.location.href = "/playerInfo";
     });
     netlifyIdentity.on('logout', () => {
       console.log('Logged out');

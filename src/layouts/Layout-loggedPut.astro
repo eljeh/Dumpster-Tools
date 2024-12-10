@@ -162,7 +162,7 @@ const { title } = Astro.props;
       console.log('checkUser', user);
       if (user) {
         console.log('Logged In');
-        document.location.href = "/inGame";
+        document.location.href = "/playerInfo";
       } else {
         console.log('Not Logged In');
       }
@@ -173,7 +173,7 @@ const { title } = Astro.props;
 
         if (!user) {
           window.netlifyIdentity.on("login", () => {
-            document.location.href = "/inGame";
+            document.location.href = "/playerInfo";
           });
         }
         
@@ -182,7 +182,7 @@ const { title } = Astro.props;
 
     netlifyIdentity.on('login', user => {
       console.log('login', user);
-      document.location.href = "/inGame";
+      document.location.href = "/playerInfo";
     });
     netlifyIdentity.on('logout', () => {
       console.log('Logged out');
