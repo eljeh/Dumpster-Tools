@@ -137,14 +137,14 @@ input[type="file"]::file-selector-button:active {
     
   }
   .wrapper button {
-    margin-top: 1.25em;
     border: none;
     padding: 0.88em 1.25em;
     border-radius: 0.5em;
     cursor: pointer;
     min-width: max-content;
-    margin-top: 2em;
     height: 3em;
+    align-self: flex-end;
+    margin-bottom: 0.8em;
   }
 
   .wrapper button:hover {
