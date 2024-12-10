@@ -2,36 +2,36 @@
 import { WhAuthKey } from '../../data/config.js';
 ---
 
-<form class='w-full flex flex-col item-center'>
-	<div class='flex flex-col items-start justify-center mb-6'>
-		<!-- playerIDgp -->
-		<label class='block font-bold pr-4 mb-2' for='playerIDgp'>
-			Player Id (Discord/Steam)
-		</label>
-		<input
-			type='text'
-			id='playerIDgp'
-			name='playerIDgp'
-			required
-			class='border rounded mb-2'
-		/>
-	</div>
-	<!--  IG Players -->
-	<div class='flex flex-col my-2'>
-		<label class='font-bold mb-2' for='playerIDSelect'> In Game Players </label>
+<form class='w-full flex  flex-col row item-center'>
+		<!--  IG Players -->
+		<div class='playerIDSelect-container'>
+			<label class='block font-bold mb-2' for='playerIDSelect'> In Game Players </label>
 
-		<div class='flex'>
-			<select id='playerIDSelect'>
-				<option value=''>...loading data</option>
-			</select>
+			<div class='flex'>
+				<select id='playerIDSelect'>
+					<option value=''>...loading data</option>
+				</select>
+			</div>
 		</div>
-	</div>
 
-	<footer class='flex items-center justify-end mb-6'>
-		<button id='getPlayerButton' class='glassmorphism'>
+		<div class='playerIDgp-container'>
+			<!-- playerIDgp -->
+			<label class='block font-bold mb-2' for='playerIDgp'>
+				Player Id (Discord/Steam)
+			</label>
+			<input
+				type='text'
+				id='playerIDgp'
+				name='playerIDgp'
+				required
+				class='border rounded mb-2'
+			/>
+		</div>
+
+		<button id='getPlayerButton'>
 			Get Player Info
 		</button>
-	</footer>
+
 </form>
 
 <div class='playerInfoWrapper'>
@@ -373,9 +373,7 @@ import { WhAuthKey } from '../../data/config.js';
 </script>
 
 <style is:inline>
-	#uploadBtnPlayers {
-		margin-top: 0;
-	}
+
 
 	.playersList {
 		display: flex;
@@ -410,4 +408,13 @@ import { WhAuthKey } from '../../data/config.js';
 		display: flex;
 		flex-direction: column;
 	}
+	.row {
+		display: flex;
+		flex-direction: row;
+		gap: 1em;
+	}
+
+.playerIDSelect-container{ flex:1}
+.playerIDgp-container{flex:1}
+
 </style>

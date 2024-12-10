@@ -220,6 +220,10 @@ label{
   border-radius: 0.5em;
   width: 100%;
 }
+.wrapper input{
+  padding: 0.95em 1.25em;
+
+}
 
  
   .clickable {
