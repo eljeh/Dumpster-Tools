@@ -118,6 +118,7 @@
 				playerSelect.innerHTML = '<option value="">Select a player</option>';
 
 				// Add options to the player select dropdown
+				data.sort((a, b) => a.playerName.localeCompare(b.playerName));
 				data.forEach((player) => {
 					const option = new Option(player.playerName, player.steamID);
 					playerSelect.appendChild(option);
@@ -152,7 +153,8 @@
 				const packSelect = document.getElementById('packNameSelect-op');
 				packSelect.innerHTML = '<option value="">Select a pack name</option>';
 
-				// Add options to the pack select dropdown
+				// sort alphabetically
+				allPacks.sort((a, b) => a.name.localeCompare(b.name));
 				allPacks.forEach((pack) => {
 					const option = new Option(pack.name, pack.packID);
 					packSelect.add(option);

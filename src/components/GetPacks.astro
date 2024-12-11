@@ -68,7 +68,8 @@
       const tableBody = document.getElementById('GetPacksTable');
       tableBody.innerHTML = '';
 
-      // Populate table with JSON data
+      // sort alphabetically
+      allPacks.sort((a, b) => a.name.localeCompare(b.name));
       allPacks.forEach((packData) => {
         const row = document.createElement('tr');
         row.innerHTML = `

@@ -133,7 +133,8 @@
 			const packSelect = document.getElementById('packNameSelect-sp');
 			packSelect.innerHTML = '<option value="">Select a pack name</option>';
 
-			// Add options to the pack select dropdown
+			// sort alphabetically
+			allPacks.sort((a, b) => a.name.localeCompare(b.name));
 			allPacks.forEach((pack) => {
 				const option = new Option(pack.name, pack.packID);
 				packSelect.add(option);
