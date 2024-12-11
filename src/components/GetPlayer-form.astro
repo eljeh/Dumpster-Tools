@@ -2,36 +2,35 @@
 import { WhAuthKey } from '../../data/config.js';
 ---
 
-<form class='w-full flex  flex-col row item-center'>
-		<!--  IG Players -->
-		<div class='playerIDSelect-container'>
-			<label class='block font-bold mb-2' for='playerIDSelect'> In Game Players </label>
+<form class='w-full flex flex-col row item-center'>
+	<!--  IG Players -->
+	<div class='playerIDSelect-container'>
+		<label class='block font-bold mb-2' for='playerIDSelect'>
+			In Game Players
+		</label>
 
-			<div class='flex'>
-				<select id='playerIDSelect'>
-					<option value=''>...loading data</option>
-				</select>
-			</div>
+		<div class='flex'>
+			<select id='playerIDSelect'>
+				<option value=''>...loading data</option>
+			</select>
 		</div>
+	</div>
 
-		<div class='playerIDgp-container'>
-			<!-- playerIDgp -->
-			<label class='block font-bold mb-2' for='playerIDgp'>
-				Player Id (Discord/Steam)
-			</label>
-			<input
-				type='text'
-				id='playerIDgp'
-				name='playerIDgp'
-				required
-				class='border rounded mb-2'
-			/>
-		</div>
+	<div class='playerIDgp-container'>
+		<!-- playerIDgp -->
+		<label class='block font-bold mb-2' for='playerIDgp'>
+			Player Id (Discord/Steam)
+		</label>
+		<input
+			type='text'
+			id='playerIDgp'
+			name='playerIDgp'
+			required
+			class='border rounded mb-2'
+		/>
+	</div>
 
-		<button id='getPlayerButton'>
-			Get Player Info
-		</button>
-
+	<button id='getPlayerButton'> Get Player Info </button>
 </form>
 
 <div class='playerInfoWrapper'>
@@ -74,11 +73,10 @@ import { WhAuthKey } from '../../data/config.js';
 				}
 				const playerData = await response.json(); // Correctly assign the fetched data
 
-				//console.log('Player data:', playerData); // Log the fetched player data
-
 				const playerSelect = document.getElementById('playerIDSelect');
 				playerSelect.innerHTML = '<option value="">Select a player</option>';
 
+				playerData.sort((a, b) => a.playerName.localeCompare(b.playerName));
 				playerData.forEach((player) => {
 					const option = new Option(player.playerName, player.steamID);
 					playerSelect.appendChild(option);
@@ -136,7 +134,7 @@ import { WhAuthKey } from '../../data/config.js';
 					playerInfo.innerHTML += `<br>IP Address: ${data.Player.IP}`;
 					playerInfo.innerHTML += `<br>`;
 					playerInfo.innerHTML += `<br>Account: ${data.Player.AccountNumber}`;
-					playerInfo.innerHTML += `<br>🪙 ${data.Player.Coins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${data.Player.CreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 🧈  ${data.Player.GoldBalance.toLocaleString()}`;
+					playerInfo.innerHTML += `<br>🪙 ${data.Player.Coins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${data.Player.CreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰  ${data.Player.GoldBalance.toLocaleString()}`;
 
 					const PlayersSquadID = data.SquadInfo.ID;
 
@@ -216,7 +214,7 @@ import { WhAuthKey } from '../../data/config.js';
 				}
 			});
 
-			squadInfo.innerHTML += `<br>🪙 ${totalCoins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${totalCreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 🧈  ${totalGoldBalance.toLocaleString()}<br>`;
+			squadInfo.innerHTML += `<br>🪙 ${totalCoins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${totalCreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰  ${totalGoldBalance.toLocaleString()}<br>`;
 
 			// Rank is a string 1-4 so sort by rank
 			squadMembers.sort((a, b) => parseInt(b.rank) - parseInt(a.rank));
@@ -230,7 +228,7 @@ import { WhAuthKey } from '../../data/config.js';
 					details.innerHTML += `<br>`;
 				} else {
 					details.innerHTML += `<br><strong>${member.playerData.playerName}</strong> ${member.rank === '4' ? '👑' : ''} (${member.steamID}) `;
-					details.innerHTML += `<br>🪙 ${member.playerData.coins.toLocaleString()}  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵 ${member.playerData.creditBalance.toLocaleString()}  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 🧈 ${member.playerData.goldBalance.toLocaleString()}  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; ⚔️ ${member.playerData.totalDeaths}/${member.playerData.totalKills}`;
+					details.innerHTML += `<br>🪙 ${member.playerData.coins.toLocaleString()}  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵 ${member.playerData.creditBalance.toLocaleString()}  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰 ${member.playerData.goldBalance.toLocaleString()}  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; ⚔️ ${member.playerData.totalDeaths}/${member.playerData.totalKills}`;
 					details.innerHTML += `<br>`;
 				}
 			});
@@ -373,8 +371,6 @@ import { WhAuthKey } from '../../data/config.js';
 </script>
 
 <style is:inline>
-
-
 	.playersList {
 		display: flex;
 		flex-direction: column;
@@ -404,7 +400,7 @@ import { WhAuthKey } from '../../data/config.js';
 		border-radius: 0.5em;
 		border: 3px solid var(--color-tertiary);
 		background: var(--color-tertiary);
-		padding: 2em;
+		padding: 2em 15%;
 		display: flex;
 		flex-direction: column;
 		width: 100%;
@@ -416,7 +412,10 @@ import { WhAuthKey } from '../../data/config.js';
 		flex-wrap: wrap;
 	}
 
-.playerIDSelect-container{ flex:1}
-.playerIDgp-container{flex:1}
-
+	.playerIDSelect-container {
+		flex: 1;
+	}
+	.playerIDgp-container {
+		flex: 1;
+	}
 </style>
