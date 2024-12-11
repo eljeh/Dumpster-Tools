@@ -1,0 +1,47 @@
+---
+  import Logo from './Logo.astro';
+  import SideNavBar from './SideNavBar.astro';
+---
+
+<div class='navigation' id='navBarContainer'>
+  <Logo />
+  <SideNavBar />
+  <div data-netlify-identity-button class='netlifyButton'>
+    <i class='fi fi-ss-door-closed'></i>
+  </div>
+</div>
+
+<style>
+    .navigation {
+    position: fixed;
+    top: 0;
+    background-color: var(--color-tertiary);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1em;
+    height: calc(100vh);
+    min-width: 4.5em;
+    z-index: 1000;
+  }
+
+  .netlifyButton {
+    display: flex;
+    align-items: center;
+    text-wrap: nowrap;
+    position: absolute;
+    bottom: 2em;
+    left: 0.75em;
+    flex-direction: column;
+  }
+  .netlifyButton .fi {
+    font-size: 2em;
+    margin-bottom: -0.25em;
+  }
+  a.netlify-identity-button {
+    height: 4em;
+    align-items: flex-end;
+    display: flex;
+    margin-top: -2.5em;
+  }
+</style>

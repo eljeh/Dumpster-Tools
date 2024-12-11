@@ -262,3 +262,23 @@ label{
       hsla(0, 0%, 53%, 0.1) 100%
     );
   }
+  .netlifyButton {
+    display: flex;
+    align-items: center;
+    text-wrap: nowrap;
+    position: absolute;
+    bottom: 3em;
+    left: 1.25em;
+    flex-direction: column;
+  }
+  .netlifyButton .fi {
+    font-size: 2em;
+    margin-bottom: -0.25em;
+  }
+
+  
+
+  a.netlify-identity-button {
+    padding-top: 2.5em;
+    position: absolute;
+}
