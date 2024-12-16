@@ -1,5 +1,5 @@
 ---
-import { WhAuthKey } from '../../data/config.js';
+import NotesDialog from './NotesDialog.vue';
 ---
 
 <form class='w-full flex flex-col row item-center'>
@@ -15,9 +15,8 @@ import { WhAuthKey } from '../../data/config.js';
 			</select>
 		</div>
 	</div>
-
+	<!-- playerIDgp -->
 	<div class='playerIDgp-container'>
-		<!-- playerIDgp -->
 		<label class='block font-bold mb-2' for='playerIDgp'>
 			Player Id (Discord/Steam)
 		</label>
@@ -44,6 +43,8 @@ import { WhAuthKey } from '../../data/config.js';
 	<div id='details'></div>
 </div>
 
+<NotesDialog />
+
 <script>
 	document.addEventListener('astro:page-load', () => {
 		// Get the order button element
@@ -53,6 +54,8 @@ import { WhAuthKey } from '../../data/config.js';
 		const squadInfo = document.getElementById('squadInfo');
 		const squadCounts = document.getElementById('squadCounts');
 		const details = document.getElementById('details');
+
+		const notesDialog = document.getElementById('notesDialog');
 
 		const memberCount = document.getElementById('memberCount');
 		const flagCount = document.getElementById('flagCount');
@@ -127,18 +130,55 @@ import { WhAuthKey } from '../../data/config.js';
 
 					// Parse the response data
 					const data = await response.json();
-
-					playerInfo.innerHTML = `Player info: <strong>${data.Player.PlayerName}</strong>`;
-					playerInfo.innerHTML += `<br>Discord ID: ${data.Player.DiscordID}`;
+					playerInfo.innerHTML = `<button id='notes-${data.Player.SteamID}' class='notesButton hidden'>📝<span>Notes</span></button>`;
+					playerInfo.innerHTML += `<h3>${data.Player.PlayerName}</h3>`;
+					playerInfo.innerHTML += `Discord ID: ${data.Player.DiscordID}`;
 					playerInfo.innerHTML += `<br>Steam ID: ${data.Player.SteamID}`;
 					playerInfo.innerHTML += `<br>IP Address: ${data.Player.IP}`;
 					playerInfo.innerHTML += `<br>`;
 					playerInfo.innerHTML += `<br>Account: ${data.Player.AccountNumber}`;
 					playerInfo.innerHTML += `<br>🪙 ${data.Player.Coins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${data.Player.CreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰  ${data.Player.GoldBalance.toLocaleString()}`;
 
+					const notesButton = document.getElementsByClassName('notesButton')[0];
+					//notesDialog.setAttribute('data-player-id', data.Player.SteamID);
+					const notesTitle = document.getElementById('noteTitle');
+
+					notesTitle.innerHTML = `Notes - ${data.Player.PlayerName} <small>(${playerID.value})</small>`;
+
+					// fuction that gets the notes from the playerNotes.json file
+					async function getNotes(playerID) {
+						const response = await fetch(`data/playerNotes.json`);
+						const dataN = await response.json();
+						const noteData = Object.values(dataN);
+						const notesList = document.getElementById('notesList');
+
+						console.log('playerID', playerID);
+						notesList.innerHTML = ``;
+						noteData.map((note) => {
+							if (note.id === playerID) {
+								// format this day 2024-12-01T12:10:00.000Z to 12/01/2024 12:10
+								let date = new Date(note.date);
+								let formattedDate = date.toLocaleDateString('en-US', {
+									month: '2-digit',
+									day: '2-digit',
+									year: 'numeric',
+									hour: '2-digit',
+									minute: '2-digit',
+								});
+
+								notesList.innerHTML += `<li><div class="dateTime">${formattedDate}</div><div class="note">${note.entry}</div></li>`;
+							}
+						});
+					}
+
+					notesButton.addEventListener('click', () => {
+						notesDialog.showModal();
+						getNotes(data.Player.SteamID);
+					});
+
 					const PlayersSquadID = data.SquadInfo.ID;
 
-					// get list of sqaudmembers
+					// get list of squadmembers
 					const squadResponse = await fetch(
 						`https://api.whalleybot.com/bot/217fc652/GetSquad?SquadID=${PlayersSquadID}`,
 						{
@@ -158,8 +198,6 @@ import { WhAuthKey } from '../../data/config.js';
 							activeMembers.push(member.playerData.steamID);
 						}
 					});
-
-					//console.log('activeMembers', activeMembers);
 
 					getFlagData(activeMembers);
 					getSquadData(data.SquadInfo.ID);
@@ -277,7 +315,7 @@ import { WhAuthKey } from '../../data/config.js';
 				squadMembers.map((member) => member).includes(flag.ownerID),
 			);
 
-			flagCount.innerHTML = ` 🚩 Flags:${flags.length} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;`;
+			flagCount.innerHTML = ` 🚩 Flags: ${flags.length} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;`;
 
 			details.innerHTML += `<hr class="infoHr"/>`;
 			details.innerHTML += `<br>${flags.length} Flag(s): `;
@@ -334,7 +372,6 @@ import { WhAuthKey } from '../../data/config.js';
 					}
 				});
 				vehicleCount.innerHTML = ` 🚗 Vehicle: ${ownedVehicles.length}`;
-
 				// Display the vehicle information
 				details.innerHTML += `<hr class="infoHr"/>`;
 				details.innerHTML += `<br>${ownedVehicles.length} Vehicle(s):`;
@@ -380,19 +417,13 @@ import { WhAuthKey } from '../../data/config.js';
 		width: 100%;
 	}
 
-	.wrapper [type='radio'] {
-		zoom: 2;
-		width: unset;
-		accent-color: var(--color-primary);
-	}
-
 	.wrapper hr {
 		margin-top: 3em;
 		margin-bottom: 1em;
 	}
 
 	.wrapper hr.infoHr {
-		border: 0.25em solid var(--color-accent);
+		border: 0.25em solid var(--color-secondary);
 		border-radius: 0.5em;
 	}
 
@@ -400,16 +431,22 @@ import { WhAuthKey } from '../../data/config.js';
 		border-radius: 0.5em;
 		border: 3px solid var(--color-tertiary);
 		background: var(--color-tertiary);
-		padding: 2em 15%;
+		padding: 2em 1.5em;
 		display: flex;
 		flex-direction: column;
 		width: 100%;
 	}
+	.playerInfoWrapper h3 {
+		font-size: 1.5em;
+		line-height: 2;
+	}
+
 	.row {
 		display: flex;
 		flex-direction: row;
 		gap: 1em;
 		flex-wrap: wrap;
+		align-items: flex-start;
 	}
 
 	.playerIDSelect-container {
@@ -417,5 +454,35 @@ import { WhAuthKey } from '../../data/config.js';
 	}
 	.playerIDgp-container {
 		flex: 1;
+	}
+
+	.playerInfoWrapper > * {
+		position: relative;
+	}
+	.dateTime {
+		font-size: 0.8em;
+		opacity: 0.75;
+	}
+	.notesButton {
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+	.notesDialog footer {
+		padding: 0 1em 1em;
+	}
+	.notesDialog footer ul {
+		list-style: none;
+		padding: 0;
+	}
+	.notesDialog footer li {
+		padding: 1em;
+		border-top: 0.25em solid var(--color-tertiary);
+	}
+	.notesDialog footer li h2 {
+		margin: 0;
+	}
+	.notesDialog footer li h2 span {
+		font-size: 0.8em;
 	}
 </style>

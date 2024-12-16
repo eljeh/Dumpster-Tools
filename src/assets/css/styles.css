@@ -5,15 +5,15 @@
   --color-secondary: #c2c2c2;
   --color-tertiary: #0e2618; 
 
-  /* --color-grey: hsl(225, 7%, 24%); 
+  --color-grey: hsl(225, 7%, 24%); 
   --color-grey-dark: #313338;
   --color-grey-darker: hsl(220, 7%, 18%);
-  --color-grey-darkest: hsl(225, 6%, 13%); */
+  --color-grey-darkest: hsl(225, 6%, 13%);
 
-  --color-grey: hsl(143, 64%, 24%); 
+  /* --color-grey: hsl(143, 64%, 24%); 
   --color-grey-dark: hsl(143, 64%, 21%);
   --color-grey-darker: hsl(143, 64%, 18%);
-  --color-grey-darkest: hsl(143, 64%, 13%);
+  --color-grey-darkest: hsl(143, 64%, 13%); */
 
 
   --color-primary: var(--color-grey-dark);
@@ -23,7 +23,7 @@
 
 
 
-  --font-color: rgb(246, 246, 246);
+  --font-color: rgba(246, 246, 246, 0.8);
   }
   
   body {
@@ -280,6 +280,6 @@ label{
   }
 
   a.netlify-identity-button {
-     padding-top: 2.5em;
+    padding-top: 2.5em;
     position: absolute;
 }

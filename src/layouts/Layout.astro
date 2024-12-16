@@ -146,7 +146,6 @@ const { title } = Astro.props;
     </header>
 
     <main id='main'>
-
       <slot />
     </main>
     <div class='backDrop' id='backDrop'>
@@ -164,43 +163,40 @@ const { title } = Astro.props;
     const user = netlifyIdentity.currentUser();
 
     function checkUser() {
-      console.log('checkUser', user);
+      //console.log('checkUser', user);
       if (user) {
-        console.log('Logged In');
+        //console.log('Logged In');
       } else {
-        console.log('Not Logged In');
-        document.location.href = "/";
+        //console.log('Not Logged In');
+        document.location.href = '/';
       }
     }
 
     if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", (user) => {
-        console.log('init');
+      window.netlifyIdentity.on('init', (user) => {
+        //console.log('init');
         if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            document.location.href = "/playerInfo";
-            console.log('admin');
+          window.netlifyIdentity.on('login', () => {
+            document.location.href = '/playerInfo';
+            //console.log('admin');
           });
         }
-        
       });
     }
 
-    netlifyIdentity.on('login', user => {
-      console.log('login', user);
-      document.location.href = "/playerInfo";
+    netlifyIdentity.on('login', (user) => {
+      //console.log('login', user);
+      document.location.href = '/playerInfo';
     });
     netlifyIdentity.on('logout', () => {
-      console.log('Logged out');
-      document.location.href = "/";
+      //console.log('Logged out');
+      document.location.href = '/';
     });
-
-
 
     checkUser(user);
 
     netlifyIdentity.on('close', () => {
-      console.log('Netlify Identity Closed');
+      //console.log('Netlify Identity Closed');
       checkUser(user);
     });
   });
@@ -227,6 +223,4 @@ const { title } = Astro.props;
     min-width: 4.5em;
     z-index: 1000;
   }
-
-
 </style>

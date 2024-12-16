@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+const  WBAuth = process.env.WBAuth
 ---
 
 <Layout title='Send Message - Dumpster Tools'>
@@ -29,7 +30,6 @@ import Layout from '../layouts/Layout.astro';
 
     <div>
       <script>
-        const heresMYAuth = 'WhalleyBotAPI_F935H3ucUJRv7g=='; //'WhalleyBotAPI_rtTECwgxKLKy9Q==',
         const sendButton = document.querySelector('button');
 
         sendButton.addEventListener('click', async () => {
@@ -46,7 +46,7 @@ import Layout from '../layouts/Layout.astro';
                   method: 'POST',
                   headers: {
                     Accept: '*/*',
-                    Authorization: heresMYAuth,
+                    Authorization: WBAuth,
                   },
                 },
               );

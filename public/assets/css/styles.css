@@ -1,29 +1,29 @@
 :root {
   /* Global colors */
   --color-primary:hsl(143, 64%, 24%);
-  --color-accent:  #0b1a10;
+  --color-accent:  hsl(143, 64%, 18%);
   --color-secondary: #c2c2c2;
   --color-tertiary: #0e2618; 
 
-  /* --color-grey: hsl(225, 7%, 24%); 
+  --color-grey: hsl(225, 7%, 24%); 
   --color-grey-dark: #313338;
   --color-grey-darker: hsl(220, 7%, 18%);
-  --color-grey-darkest: hsl(225, 6%, 13%); */
+  --color-grey-darkest: hsl(225, 6%, 13%);
 
-  --color-grey: hsl(143, 64%, 24%); 
-  --color-grey-dark: hsl(143, 64%, 21%);
-  --color-grey-darker: hsl(143, 64%, 18%);
-  --color-grey-darkest: hsl(143, 64%, 13%);
-
-
-  --color-primary: var(--color-grey-dark);
-  --color-accent:  var(--color-grey-darker);
-  --color-secondary: var(--color-grey);
-  --color-tertiary: var(--color-grey-darkest); 
+  /* --color-grey: hsl(143, 64%, 24%);  */
+  /* --color-grey-dark: hsl(143, 64%, 21%); */
+  /* --color-grey-darker: hsl(143, 64%, 18%); */
+  /* --color-grey-darkest: hsl(143, 64%, 13%); */
 
 
+  --color-primary: var(--color-grey-dark); 
+  /* --color-accent:  var(--color-grey-darker); */
+ --color-secondary: var(--color-grey); 
+  --color-tertiary: var(--color-grey-darkest);
 
-  --font-color: rgb(246, 246, 246);
+
+
+  --font-color: rgba(246, 246, 246, 0.8);
   }
   
   body {
@@ -45,22 +45,28 @@
     background: var(--color-tertiary);
   }
   .wrapper {
-    background: var(--color-accent);
+    background: var(--color-grey-darker);
     --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.5);
     --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  }
+  .wrapper.glassmorphism{
+    background: var(--color-grey-darker);
   }
   .wrapper hr {
     border: 1px solid var(--color-tertiary);
   }
   .wrapper button {
-    background: hsl(from var(--color-accent) h s 24 );
+    background: var(--color-accent);
+    border: 0.25em solid var(--color-accent);
+    /* outline: 0.25em solid var(--color-accent); */
     color: var(--font-color);
     min-width: max-content;
   }
 
   .wrapper button:hover {
-    outline: 0.25em solid var(--color-primary);
+    /* background: var(--color-accent); */
+    outline: 0.25em solid var(--color-accent);
   }
 
   .wrapper table {
@@ -133,7 +139,7 @@ input[type="file"]::file-selector-button:active {
     align-items: center;
     max-width: 90vw;
     padding: 1em 1.5em;
-    border-radius: 1em;
+    border-radius: 0.5em;
     
   }
   .wrapper button {
@@ -262,6 +268,8 @@ label{
       hsla(0, 0%, 53%, 0.1) 100%
     );
   }
+
+
   .netlifyButton {
     display: flex;
     align-items: center;
@@ -270,13 +278,12 @@ label{
     bottom: 3em;
     left: 1.25em;
     flex-direction: column;
+    z-index: 9999;
   }
   .netlifyButton .fi {
     font-size: 2em;
     margin-bottom: -0.25em;
   }
-
-  
 
   a.netlify-identity-button {
     padding-top: 2.5em;
