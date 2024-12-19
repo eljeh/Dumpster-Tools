@@ -4,7 +4,7 @@ import NotesForm from './NotesForm.vue';
 
 <dialog
 	id='notesDialog'
-	data-player-id='76561198187036603'
+	data-playerID='player'
 	class='notesDialog glassmorphism'
 >
 	<header>
@@ -12,9 +12,7 @@ import NotesForm from './NotesForm.vue';
 		<button id='closeNotesButton'>X</button>
 	</header>
 
-	<!-- <NotesForm playerID="76561198187036603"/> -->
 	<div id="notesFormContainer"></div>
-
 	
 </dialog>
 
@@ -34,11 +32,8 @@ import NotesForm from './NotesForm.vue';
 		});
 		app.mount('#notesFormContainer');
 
-		console.log(notesDialog.dataset.playerId);
-
 		closeNotesButton.addEventListener('click', () => {
 			notesDialog.close();
-			//notesList.innerHTML = `<li>No Notes</li>`;
 		});
 
 	});

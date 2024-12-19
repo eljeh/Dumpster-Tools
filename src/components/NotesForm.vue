@@ -9,12 +9,13 @@
 	</form>
 
   <footer>
-    <ul id='notesList'></ul>
+    <ul id='notesList'><li>No notes</li></ul>
   </footer>
 </template>
 
 <script>
-  import data from '../data2/playerNotes.json';
+  import data from '../../data/playerNotes.json';
+
 	console.log(data);
 
   export default {
@@ -33,17 +34,33 @@
       };
     },
 		methods: {
-			addNote(e) {
+			async addNote(e) {
 				e.preventDefault();
-				console.log('saveNoteToDatabase');
-        const newNote = {
-          id: this.playerID, 
-          entry: this.entry,  
-          date: new Date().toISOString(),
-        };
-				console.log('newNote', newNote);
-				this.notes.push(newNote);
-				this.entry = '';
+				const newNote = {
+					id: this.playerID,
+					entry: this.entry,
+					date: new Date().toISOString(),
+				};
+				
+				try {
+					const response = await fetch('data/api/saveNote.js', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify(newNote)
+					});
+
+					if (!response.ok) {
+						throw new Error('Failed to save note');
+					}
+
+					this.notes.push(newNote);
+					this.entry = '';
+				} catch (error) {
+					console.error('Error saving note:', error);
+				}
+				
 				return false;
 			}
 		},

@@ -71,7 +71,7 @@ import NotesDialog from './NotesDialog.astro';
 						Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
 					},
 				});
-				
+
 				// Add explicit check for 403
 				if (response.status === 403) {
 					throw new Error('Authorization failed - please check your API key');
@@ -79,7 +79,7 @@ import NotesDialog from './NotesDialog.astro';
 				if (!response.ok) {
 					throw new Error(`HTTP error! status: ${response.status}`);
 				}
-				
+
 				const playerData = await response.json();
 
 				const playerSelect = document.getElementById('playerIDSelect');
@@ -93,7 +93,8 @@ import NotesDialog from './NotesDialog.astro';
 			} catch (error) {
 				console.error('Error populating player select:', error);
 				const playerSelect = document.getElementById('playerIDSelect');
-				playerSelect.innerHTML = '<option value="">Error loading players</option>';
+				playerSelect.innerHTML =
+					'<option value="">Error loading players</option>';
 			}
 		}
 
@@ -152,9 +153,9 @@ import NotesDialog from './NotesDialog.astro';
 					playerInfo.innerHTML += `<br>🪙 ${data.Player.Coins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${data.Player.CreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰  ${data.Player.GoldBalance.toLocaleString()}`;
 
 					const notesButton = document.getElementsByClassName('notesButton')[0];
-					notesDialog.setAttribute('data-player-id', data.Player.SteamID);
+					notesDialog.setAttribute('data-playerID', data.Player.SteamID);
 					const notesForm = document.getElementById('notesForm');
-					notesForm.setAttribute('data-player-id', data.Player.SteamID);
+					notesForm.setAttribute('data-playerID', data.Player.SteamID);
 					const notesTitle = document.getElementById('noteTitle');
 
 					notesTitle.innerHTML = `Notes - ${data.Player.PlayerName} <small>(${playerID.value})</small>`;
@@ -165,11 +166,10 @@ import NotesDialog from './NotesDialog.astro';
 						const dataN = await response.json();
 						const noteData = Object.values(dataN);
 						const notesList = document.getElementById('notesList');
-
-						notesList.innerHTML = ``;
+						notesList.innerHTML = '';
 						noteData.map((note) => {
-							if (note.id === playerID) {
 
+							if (note.id === playerID) {
 								let date = new Date(note.date);
 								let formattedDate = date.toLocaleDateString('en-US', {
 									month: '2-digit',
@@ -189,8 +189,6 @@ import NotesDialog from './NotesDialog.astro';
 						//notesDialog.setAttribute('data-player-id', data.Player.SteamID);
 						getNotes(data.Player.SteamID);
 					});
-
-
 
 					const PlayersSquadID = data.SquadInfo.ID;
 
@@ -421,7 +419,6 @@ import NotesDialog from './NotesDialog.astro';
 				console.error('Error fetching or displaying vehicle data:', error);
 			}
 		}
-
 	});
 </script>
 
