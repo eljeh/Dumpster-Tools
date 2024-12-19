@@ -1,6 +1,10 @@
+---
+import NotesForm from './NotesForm.vue';
+---
+
 <dialog
 	id='notesDialog'
-	data-player-id='playerID'
+	data-player-id='76561198187036603'
 	class='notesDialog glassmorphism'
 >
 	<header>
@@ -8,73 +12,33 @@
 		<button id='closeNotesButton'>X</button>
 	</header>
 
-	<form id='notesForm'>
-		<textarea
-			id='notesTextarea'
-			aria-label='Insert Note'
-			placeholder='Insert Note'></textarea>
-		<button id='saveNotesButton'>Save</button>
-	</form>
+	<!-- <NotesForm playerID="76561198187036603"/> -->
+	<div id="notesFormContainer"></div>
 
-	<footer>
-		<ul id='notesList'>
-			<li>No Notes</li>
-		</ul>
-	</footer>
+	
 </dialog>
 
 <script>
+	import { createApp } from 'vue';
+	import NotesForm from './NotesForm.vue';
+
 	document.addEventListener('astro:page-load', () => {
 		const notesDialog = document.getElementById('notesDialog');
 		const notesList = document.getElementById('notesList');
 		const closeNotesButton = document.getElementById('closeNotesButton');
+		const container = document.getElementById('notesFormContainer');
+
+		// Mount Vue component with the correct playerID
+		const app = createApp(NotesForm, {
+			playerID: notesDialog.dataset.playerId
+		});
+		app.mount('#notesFormContainer');
+
 		closeNotesButton.addEventListener('click', () => {
 			notesDialog.close();
 			notesList.innerHTML = `<li>No Notes</li>`;
 		});
 
-		const notesForm = document.getElementById('notesForm');
-		notesForm.addEventListener('submit', async (event) => {
-			event.preventDefault();
-			const entry = document.getElementById('notesTextarea').value;
-			const id = notesDialog.getAttribute('data-player-id');
-			const dateTime = new Date().toISOString();
-
-			try {
-
-				console.log('entry', entry);
-				console.log('id', id);
-				console.log('dateTime', dateTime);
-				const response = await fetch('../data/api/saveNote.js', {
-
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({ id, dateTime, entry }),
-				});
-
-
-				console.log('response', response);
-
-
-				if (!response.ok) {
-					throw new Error('Failed to save note');
-				}
-
-
-
-				
-				// Clear the textarea after successful save
-				document.getElementById('notesTextarea').value = '';
-			} catch (error) {
-				console.error('Error saving note:', error);
-			}
-
-
-
-			
-		});
 	});
 </script>
 
@@ -82,13 +46,20 @@
 	.notesDialog {
 		max-width: 73ch;
 		width: 80%;
-		background-color: var(--color-accent);
+		background-color: var(--color-secondary);
 		color: var(--font-color);
 		border-radius: 0.5rem;
 	}
-
+	.notesDialog form {
+		align-items: self-end;
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
+		padding: 1em;
+	}
 	.notesDialog::backdrop {
 		background-color: rgba(0, 0, 0, 0.5);
+		backdrop-filter: blur(10px);
 	}
 
 	.notesDialog header {
@@ -109,6 +80,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1em;
+		padding: 0 0 1em 0;
 	}
 	button {
 		margin-bottom: 0;

@@ -1,12 +1,13 @@
+import type { APIRoute } from 'astro';
 import fs from 'fs/promises';
 import path from 'path';
 
 const NOTES_FILE_PATH = path.join(process.cwd(), 'data', '../playerNotes.json');
 
-export async function POST({ request }) {
-	console.log('saveNote.js');
+export const POST: APIRoute = async ({ request }) => {
+	console.log('saveNotes.ts');
 	try {
-		console.log('saveNote.js try');
+		console.log('saveNotes.ts try');
 		// Read existing notes
 		const fileContent = await fs.readFile(NOTES_FILE_PATH, 'utf8');
 		const notes = JSON.parse(fileContent);

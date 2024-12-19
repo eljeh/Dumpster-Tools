@@ -10,7 +10,7 @@
         "./src/components/*"
       ],
       "@data/*": [
-        "./src/data/*"
+        "src/data2/*"
       ],
       "@layouts/*": [
         "./src/layouts/*"

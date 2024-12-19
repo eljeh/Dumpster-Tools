@@ -5,7 +5,7 @@ import SendPackForm from '../components/SendPack-form.astro';
 ---
 
 <Layout title='In Game - Dumpster Tools'>
-	<div class='wrapper glassmorphism' transition:name='wrapper'>
+	<div class='wrapper' transition:name='wrapper'>
 		<h2 class='mb-8 text-2xl text-center'>Teleporter</h2>
 		<!--  IG Players -->
 		<div class='flex flex-col my-2'>
@@ -118,20 +118,14 @@ import SendPackForm from '../components/SendPack-form.astro';
 				<button class='glassmorphism' id='sendButton'> Send Teleport </button>
 			</div>
 		</footer>
-	
+
 		<hr class='w-full my-4' />
 		<h2 class='mb-8 text-2xl text-center'>Order Pack</h2>
 		<OrderPackForm />
 		<hr class='w-full my-4' />
 		<h2 class='m-4 text-2xl text-center'>Send Pack</h2>
 		<SendPackForm />
-	
-
-
-
-
 	</div>
-
 
 	<script>
 		function populateIGPlayers() {

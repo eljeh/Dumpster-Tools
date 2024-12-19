@@ -145,13 +145,6 @@ const { title } = Astro.props;
 
     <main id='main'></main>
 
-    <div class='backDrop' id='backDrop'>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
   </body>
 </html>
 <script is:inline>
@@ -199,7 +192,7 @@ const { title } = Astro.props;
 
 <style>
   .pageTitle {
-    font-size: 3em;
+    font-size: 4em;
     padding: 0.25em 0.25em 0.25em 1.75em;
     line-height: 0.75;
   }
@@ -219,43 +212,12 @@ const { title } = Astro.props;
     z-index: 1000;
   }
 
-  :root {
-    /* Global colors */
-    --color-primary: hsl(143, 64%, 24%);
-    --color-accent: #0b1a10;
-    --color-secondary: #c2c2c2;
-    --color-tertiary: #0e2618;
-
-    /* --color-grey: hsl(225, 7%, 24%); 
-  --color-grey-dark: #313338;
-  --color-grey-darker: hsl(220, 7%, 18%);
-  --color-grey-darkest: hsl(225, 6%, 13%); */
-
-    --color-grey: hsl(143, 64%, 24%);
-    --color-grey-dark: hsl(143, 64%, 21%);
-    --color-grey-darker: hsl(143, 64%, 18%);
-    --color-grey-darkest: hsl(143, 64%, 13%);
-
-    --color-primary: var(--color-grey-dark);
-    --color-accent: var(--color-grey-darker);
-    --color-secondary: var(--color-grey);
-    --color-tertiary: var(--color-grey-darkest);
-
-    --font-color: rgb(246, 246, 246);
-  }
-
   body {
     background: var(--color-secondary);
     /* background: linear-gradient(180deg, var(--color-accent) 20em, var(--color-tertiary) 20em); */
     background: radial-gradient(
         circle,
-        var(--color-tertiary) 30%,
-        var(--color-accent) 90%
-      ),
-      no-repeat;
-    background: radial-gradient(
-        circle,
-        var(--color-accent) 30%,
+        var(--color-secondary) 30%,
         var(--color-tertiary) 90%
       ),
       no-repeat;

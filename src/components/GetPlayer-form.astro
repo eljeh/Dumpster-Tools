@@ -1,5 +1,5 @@
 ---
-import NotesDialog from './NotesDialog.vue';
+import NotesDialog from './NotesDialog.astro';
 ---
 
 <form class='w-full flex flex-col row item-center'>
@@ -71,10 +71,16 @@ import NotesDialog from './NotesDialog.vue';
 						Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
 					},
 				});
-				if (!response.ok) {
-					throw new Error('Network response was not ok');
+				
+				// Add explicit check for 403
+				if (response.status === 403) {
+					throw new Error('Authorization failed - please check your API key');
 				}
-				const playerData = await response.json(); // Correctly assign the fetched data
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+				
+				const playerData = await response.json();
 
 				const playerSelect = document.getElementById('playerIDSelect');
 				playerSelect.innerHTML = '<option value="">Select a player</option>';
@@ -86,6 +92,8 @@ import NotesDialog from './NotesDialog.vue';
 				});
 			} catch (error) {
 				console.error('Error populating player select:', error);
+				const playerSelect = document.getElementById('playerIDSelect');
+				playerSelect.innerHTML = '<option value="">Error loading players</option>';
 			}
 		}
 
@@ -122,15 +130,19 @@ import NotesDialog from './NotesDialog.vue';
 						},
 					);
 
-					// Check if the response is okay
-					if (!response.ok) {
-						throw new Error('Network response was not ok');
+					// Add explicit check for 403
+					if (response.status === 403) {
+						throw new Error('Authorization failed - please check your API key');
 					}
+					if (!response.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
+					}
+
 					playerInfo.innerHTML = `Getting info for ${playerID.value}`;
 
 					// Parse the response data
 					const data = await response.json();
-					playerInfo.innerHTML = `<button id='notes-${data.Player.SteamID}' class='notesButton hidden'>📝<span>Notes</span></button>`;
+					playerInfo.innerHTML = `<button id='notes-${data.Player.SteamID}' class='notesButton'><i class="fi fi-ss-notebook"></i><span>Notes</span></button>`;
 					playerInfo.innerHTML += `<h3>${data.Player.PlayerName}</h3>`;
 					playerInfo.innerHTML += `Discord ID: ${data.Player.DiscordID}`;
 					playerInfo.innerHTML += `<br>Steam ID: ${data.Player.SteamID}`;
@@ -140,7 +152,9 @@ import NotesDialog from './NotesDialog.vue';
 					playerInfo.innerHTML += `<br>🪙 ${data.Player.Coins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${data.Player.CreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰  ${data.Player.GoldBalance.toLocaleString()}`;
 
 					const notesButton = document.getElementsByClassName('notesButton')[0];
-					//notesDialog.setAttribute('data-player-id', data.Player.SteamID);
+					notesDialog.setAttribute('data-player-id', data.Player.SteamID);
+					const notesForm = document.getElementById('notesForm');
+					notesForm.setAttribute('data-player-id', data.Player.SteamID);
 					const notesTitle = document.getElementById('noteTitle');
 
 					notesTitle.innerHTML = `Notes - ${data.Player.PlayerName} <small>(${playerID.value})</small>`;
@@ -152,11 +166,10 @@ import NotesDialog from './NotesDialog.vue';
 						const noteData = Object.values(dataN);
 						const notesList = document.getElementById('notesList');
 
-						console.log('playerID', playerID);
 						notesList.innerHTML = ``;
 						noteData.map((note) => {
 							if (note.id === playerID) {
-								// format this day 2024-12-01T12:10:00.000Z to 12/01/2024 12:10
+
 								let date = new Date(note.date);
 								let formattedDate = date.toLocaleDateString('en-US', {
 									month: '2-digit',
@@ -173,8 +186,11 @@ import NotesDialog from './NotesDialog.vue';
 
 					notesButton.addEventListener('click', () => {
 						notesDialog.showModal();
+						//notesDialog.setAttribute('data-player-id', data.Player.SteamID);
 						getNotes(data.Player.SteamID);
 					});
+
+
 
 					const PlayersSquadID = data.SquadInfo.ID;
 
@@ -203,7 +219,8 @@ import NotesDialog from './NotesDialog.vue';
 					getSquadData(data.SquadInfo.ID);
 					getVehicleInfo(squadMembers);
 				} catch (error) {
-					console.error('Error Player info:', error);
+					console.error('Error fetching player info:', error);
+					playerInfo.innerHTML = `Error: ${error.message}`;
 				}
 			} else {
 				console.error('Please provide a player ID');
@@ -404,6 +421,7 @@ import NotesDialog from './NotesDialog.vue';
 				console.error('Error fetching or displaying vehicle data:', error);
 			}
 		}
+
 	});
 </script>
 
@@ -431,7 +449,7 @@ import NotesDialog from './NotesDialog.vue';
 		border-radius: 0.5em;
 		border: 3px solid var(--color-tertiary);
 		background: var(--color-tertiary);
-		padding: 2em 1.5em;
+		padding: 0.5em 1.5em;
 		display: flex;
 		flex-direction: column;
 		width: 100%;
@@ -463,10 +481,37 @@ import NotesDialog from './NotesDialog.vue';
 		font-size: 0.8em;
 		opacity: 0.75;
 	}
-	.notesButton {
+	.wrapper .notesButton {
 		position: absolute;
 		top: 0;
-		right: 0;
+		right: -1.5em;
+		background: transparent;
+		height: 4em;
+		display: grid;
+		place-items: center;
+		margin-bottom: 0;
+	}
+	.wrapper .notesButton:hover {
+		outline: none;
+	}
+
+	.notesButton i {
+		font-size: 2em;
+	}
+	.notesButton span {
+		background-color: var(--color-accent);
+		box-shadow: -1px 1px 13px 3px #00000042;
+		padding: 0.5em;
+		border-radius: 0.5em;
+		opacity: 0;
+		font-size: 0.8em;
+		margin-top: -10em;
+	}
+	.notesButton:hover i {
+		/* color: var(--color-accent); */
+	}
+	.notesButton:hover span {
+		opacity: 1;
 	}
 	.notesDialog footer {
 		padding: 0 1em 1em;
@@ -484,5 +529,12 @@ import NotesDialog from './NotesDialog.vue';
 	}
 	.notesDialog footer li h2 span {
 		font-size: 0.8em;
+	}
+	form {
+		align-items: self-end;
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
+		padding: 0 0 1em 0;
 	}
 </style>
