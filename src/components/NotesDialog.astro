@@ -34,9 +34,11 @@ import NotesForm from './NotesForm.vue';
 		});
 		app.mount('#notesFormContainer');
 
+		console.log(notesDialog.dataset.playerId);
+
 		closeNotesButton.addEventListener('click', () => {
 			notesDialog.close();
-			notesList.innerHTML = `<li>No Notes</li>`;
+			//notesList.innerHTML = `<li>No Notes</li>`;
 		});
 
 	});

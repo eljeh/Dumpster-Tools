@@ -1,5 +1,5 @@
 <template>
-	<form id='notesForm' data-player-id='playerID' @submit.prevent="addNote" method="post">
+	<form id='notesForm' :data-player-id='playerID' @submit.prevent="addNote" method="post">
 		<textarea
 			id='notesTextarea'
 			v-model="entry"
@@ -9,8 +9,7 @@
 	</form>
 
   <footer>
-    <ul id='notesList'>
-    </ul>
+    <ul id='notesList'></ul>
   </footer>
 </template>
 
@@ -18,15 +17,19 @@
   import data from '../data2/playerNotes.json';
 	console.log(data);
 
-	const playerID = '76561198187036603';
-
   export default {
 		name: 'NotesForm',
+		props: {
+			playerID: {
+				type: String,
+				required: true
+			}
+		},
     data() {
       return {
 				entry: '',
 				notes: data,
-				playerID: playerID,
+				playerID: this.playerID,
       };
     },
 		methods: {
