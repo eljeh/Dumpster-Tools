@@ -1,5 +1,5 @@
 ---
-import NotesDialog from './NotesDialog.astro';
+import NotesDialog from './NotesDialog.vue';
 ---
 
 <form class='w-full flex flex-col row item-center'>
@@ -33,6 +33,7 @@ import NotesDialog from './NotesDialog.astro';
 </form>
 
 <div class='playerInfoWrapper'>
+	<NotesDialog client:load playersSteam='1234' />
 	<div id='playerInfo'></div>
 	<div id='squadInfo'></div>
 	<div id='squadCounts'>
@@ -43,20 +44,15 @@ import NotesDialog from './NotesDialog.astro';
 	<div id='details'></div>
 </div>
 
-<NotesDialog />
-
 <script>
 	document.addEventListener('astro:page-load', () => {
 		// Get the order button element
 		const getPlayerButton = document.getElementById('getPlayerButton');
-
 		const playerInfo = document.getElementById('playerInfo');
 		const squadInfo = document.getElementById('squadInfo');
 		const squadCounts = document.getElementById('squadCounts');
 		const details = document.getElementById('details');
-
 		const notesDialog = document.getElementById('notesDialog');
-
 		const memberCount = document.getElementById('memberCount');
 		const flagCount = document.getElementById('flagCount');
 		const vehicleCount = document.getElementById('vehicleCount');
@@ -143,8 +139,7 @@ import NotesDialog from './NotesDialog.astro';
 
 					// Parse the response data
 					const data = await response.json();
-					playerInfo.innerHTML = `<button id='notes-${data.Player.SteamID}' class='notesButton'><i class="fi fi-ss-notebook"></i><span>Notes</span></button>`;
-					playerInfo.innerHTML += `<h3>${data.Player.PlayerName}</h3>`;
+					playerInfo.innerHTML = `<h3>${data.Player.PlayerName}</h3>`;
 					playerInfo.innerHTML += `Discord ID: ${data.Player.DiscordID}`;
 					playerInfo.innerHTML += `<br>Steam ID: ${data.Player.SteamID}`;
 					playerInfo.innerHTML += `<br>IP Address: ${data.Player.IP}`;
@@ -153,13 +148,11 @@ import NotesDialog from './NotesDialog.astro';
 					playerInfo.innerHTML += `<br>🪙 ${data.Player.Coins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${data.Player.CreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰  ${data.Player.GoldBalance.toLocaleString()}`;
 
 					const notesButton = document.getElementsByClassName('notesButton')[0];
-					notesDialog.setAttribute('data-playerID', data.Player.SteamID);
+					const closeNotesButton = document.getElementById('closeNotesButton');
 					const notesForm = document.getElementById('notesForm');
-					notesForm.setAttribute('data-playerID', data.Player.SteamID);
 					const notesTitle = document.getElementById('noteTitle');
-
 					notesTitle.innerHTML = `Notes - ${data.Player.PlayerName} <small>(${playerID.value})</small>`;
-
+					notesButton.classList.remove('hide');
 					// fuction that gets the notes from the playerNotes.json file
 					async function getNotes(playerID) {
 						const response = await fetch(`data/playerNotes.json`);
@@ -168,7 +161,6 @@ import NotesDialog from './NotesDialog.astro';
 						const notesList = document.getElementById('notesList');
 						notesList.innerHTML = '';
 						noteData.map((note) => {
-
 							if (note.id === playerID) {
 								let date = new Date(note.date);
 								let formattedDate = date.toLocaleDateString('en-US', {
@@ -185,9 +177,14 @@ import NotesDialog from './NotesDialog.astro';
 					}
 
 					notesButton.addEventListener('click', () => {
+						notesDialog.setAttribute('data-playerID', data.Player.SteamID);
+						notesForm.setAttribute('data-playerID', data.Player.SteamID);
 						notesDialog.showModal();
-						//notesDialog.setAttribute('data-player-id', data.Player.SteamID);
 						getNotes(data.Player.SteamID);
+					});
+
+					closeNotesButton.addEventListener('click', () => {
+						notesDialog.close();
 					});
 
 					const PlayersSquadID = data.SquadInfo.ID;
@@ -221,7 +218,7 @@ import NotesDialog from './NotesDialog.astro';
 					playerInfo.innerHTML = `Error: ${error.message}`;
 				}
 			} else {
-				console.error('Please provide a player ID');
+				alert('Please provide a player ID');
 			}
 
 			// reset form
@@ -336,16 +333,14 @@ import NotesDialog from './NotesDialog.astro';
 			details.innerHTML += `<br>${flags.length} Flag(s): `;
 
 			flags.forEach((flag) => {
-				//details.innerHTML += `<br>${flag.location}`;
-
 				const flagLocation = flag.location;
-				const flagLocationX = flagLocation.split(' ')[0]; // -894859.312
-				const flagLocationY = flagLocation.split(' ')[1]; // -276433.656
+				const flagLocationX = flagLocation.split(' ')[0];
+				const flagLocationY = flagLocation.split(' ')[1];
 
 				if (isWithinPVP(flagLocationX, flagLocationY)) {
-					details.innerHTML += `<br> 🟥 ${flagLocation}`; // 🟥 -894859.312 -276433.656 22457.848
+					details.innerHTML += `<br> 🟥 ${flagLocation}`;
 				} else {
-					details.innerHTML += `<br> 🟩 ${flagLocation}`; // 🟩 -894859.312 -276433.656 22457.848
+					details.innerHTML += `<br> 🟩 ${flagLocation}`;
 				}
 				details.innerHTML += `<br>`;
 			});
@@ -478,15 +473,21 @@ import NotesDialog from './NotesDialog.astro';
 		font-size: 0.8em;
 		opacity: 0.75;
 	}
+	.notesButton.show {
+		display: block !important;
+	}
+	.notesButton.hide {
+		display: none !important;
+	}
 	.wrapper .notesButton {
 		position: absolute;
-		top: 0;
-		right: -1.5em;
+		right: 2.5em;
 		background: transparent;
 		height: 4em;
 		display: grid;
 		place-items: center;
 		margin-bottom: 0;
+		z-index: 10;
 	}
 	.wrapper .notesButton:hover {
 		outline: none;
