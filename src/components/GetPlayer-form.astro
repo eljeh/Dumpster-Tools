@@ -1,5 +1,5 @@
 ---
-import NotesDialog from './NotesDialog.vue';
+import NotesDialog from './NotesDialog.astro';
 ---
 
 <form class='w-full flex flex-col row item-center'>
@@ -33,7 +33,7 @@ import NotesDialog from './NotesDialog.vue';
 </form>
 
 <div class='playerInfoWrapper'>
-	<NotesDialog client:load playersSteam='1234' />
+	<NotesDialog />
 	<div id='playerInfo'></div>
 	<div id='squadInfo'></div>
 	<div id='squadCounts'>
@@ -46,7 +46,6 @@ import NotesDialog from './NotesDialog.vue';
 
 <script>
 	document.addEventListener('astro:page-load', () => {
-		// Get the order button element
 		const getPlayerButton = document.getElementById('getPlayerButton');
 		const playerInfo = document.getElementById('playerInfo');
 		const squadInfo = document.getElementById('squadInfo');
@@ -68,7 +67,6 @@ import NotesDialog from './NotesDialog.vue';
 					},
 				});
 
-				// Add explicit check for 403
 				if (response.status === 403) {
 					throw new Error('Authorization failed - please check your API key');
 				}
@@ -96,7 +94,6 @@ import NotesDialog from './NotesDialog.vue';
 
 		populatePlayerSelect();
 
-		// Add event listener to handle button click
 		getPlayerButton.addEventListener('click', async (event) => {
 			event.preventDefault();
 			const playerInfoWrapper = document.querySelector('.playerInfoWrapper');
@@ -106,16 +103,15 @@ import NotesDialog from './NotesDialog.vue';
 			details.innerHTML = ``;
 
 			const selectedPlayer = document.getElementById('playerIDSelect');
-			// Get the selected player and pack elements
+
 			const playerID = document.getElementById('playerIDgp');
-			// if playerID is empty, use the selected player
+
 			if (!playerID.value) {
 				playerID.value = selectedPlayer.value;
 			}
 
 			if (playerID.value) {
 				try {
-					// Send a POST request to order the pack
 					const response = await fetch(
 						`https://api.whalleybot.com/bot/217fc652/GetPlayer/${playerID.value}/`,
 						{
@@ -127,7 +123,6 @@ import NotesDialog from './NotesDialog.vue';
 						},
 					);
 
-					// Add explicit check for 403
 					if (response.status === 403) {
 						throw new Error('Authorization failed - please check your API key');
 					}
@@ -137,9 +132,9 @@ import NotesDialog from './NotesDialog.vue';
 
 					playerInfo.innerHTML = `Getting info for ${playerID.value}`;
 
-					// Parse the response data
 					const data = await response.json();
-					playerInfo.innerHTML = `<h3>${data.Player.PlayerName}</h3>`;
+					playerInfo.innerHTML = `<button id='notes-${data.Player.SteamID}' class='notesButton'><i class="fi fi-ss-notebook"></i><span>Notes</span></button>`;
+					playerInfo.innerHTML += `<h3>${data.Player.PlayerName}</h3>`;
 					playerInfo.innerHTML += `Discord ID: ${data.Player.DiscordID}`;
 					playerInfo.innerHTML += `<br>Steam ID: ${data.Player.SteamID}`;
 					playerInfo.innerHTML += `<br>IP Address: ${data.Player.IP}`;
@@ -148,12 +143,12 @@ import NotesDialog from './NotesDialog.vue';
 					playerInfo.innerHTML += `<br>🪙 ${data.Player.Coins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${data.Player.CreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰  ${data.Player.GoldBalance.toLocaleString()}`;
 
 					const notesButton = document.getElementsByClassName('notesButton')[0];
-					const closeNotesButton = document.getElementById('closeNotesButton');
+					notesDialog.setAttribute('data-playersSteam', data.Player.SteamID);
 					const notesForm = document.getElementById('notesForm');
+					notesForm.setAttribute('data-playersSteam', data.Player.SteamID);
 					const notesTitle = document.getElementById('noteTitle');
 					notesTitle.innerHTML = `Notes - ${data.Player.PlayerName} <small>(${playerID.value})</small>`;
-					notesButton.classList.remove('hide');
-					// fuction that gets the notes from the playerNotes.json file
+
 					async function getNotes(playerID) {
 						const response = await fetch(`data/playerNotes.json`);
 						const dataN = await response.json();
@@ -177,14 +172,9 @@ import NotesDialog from './NotesDialog.vue';
 					}
 
 					notesButton.addEventListener('click', () => {
-						notesDialog.setAttribute('data-playerID', data.Player.SteamID);
-						notesForm.setAttribute('data-playerID', data.Player.SteamID);
+						notesDialog.setAttribute('data-playersSteam', data.Player.SteamID);
 						notesDialog.showModal();
 						getNotes(data.Player.SteamID);
-					});
-
-					closeNotesButton.addEventListener('click', () => {
-						notesDialog.close();
 					});
 
 					const PlayersSquadID = data.SquadInfo.ID;

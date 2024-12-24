@@ -4,7 +4,7 @@ import NotesForm from './NotesForm.vue';
 
 <dialog
 	id='notesDialog'
-	data-playerID='player'
+	data-playersSteam='player'
 	class='notesDialog glassmorphism'
 >
 	<header>
@@ -12,8 +12,7 @@ import NotesForm from './NotesForm.vue';
 		<button id='closeNotesButton'>X</button>
 	</header>
 
-	<div id="notesFormContainer"></div>
-	
+	<div id='notesFormContainer'></div>
 </dialog>
 
 <script>
@@ -22,20 +21,17 @@ import NotesForm from './NotesForm.vue';
 
 	document.addEventListener('astro:page-load', () => {
 		const notesDialog = document.getElementById('notesDialog');
-		const notesList = document.getElementById('notesList');
+		// const notesList = document.getElementById('notesList');
 		const closeNotesButton = document.getElementById('closeNotesButton');
-		const container = document.getElementById('notesFormContainer');
+		// const container = document.getElementById('notesFormContainer');
 
-		// Mount Vue component with the correct playerID
 		const app = createApp(NotesForm, {
-			playerID: notesDialog.dataset.playerId
+			playersSteam: notesDialog.getAttribute('data-playersSteam'),
 		});
 		app.mount('#notesFormContainer');
-
 		closeNotesButton.addEventListener('click', () => {
 			notesDialog.close();
 		});
-
 	});
 </script>
 

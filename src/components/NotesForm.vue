@@ -1,5 +1,5 @@
 <template>
-	<form id='notesForm' :data-player-id='playerID' @submit.prevent="addNote" method="post">
+	<form id='notesForm' :data-playersSteam='playersSteam' @submit.prevent="addNote" method="post">
 		<textarea
 			id='notesTextarea'
 			v-model="entry"
@@ -15,13 +15,11 @@
 
 <script>
   import data from '../../data/playerNotes.json';
-
 	console.log(data);
-
   export default {
 		name: 'NotesForm',
 		props: {
-			playerID: {
+			playersSteam: {
 				type: String,
 				required: true
 			}
@@ -30,14 +28,13 @@
       return {
 				entry: '',
 				notes: data,
-				playerID: this.playerID,
       };
     },
 		methods: {
 			async addNote(e) {
 				e.preventDefault();
 				const newNote = {
-					id: this.playerID,
+					id: this.playersSteam,
 					entry: this.entry,
 					date: new Date().toISOString(),
 				};
