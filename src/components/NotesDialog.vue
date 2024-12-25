@@ -35,6 +35,7 @@
 
 <script>
   import data from '../../data/playerNotes.json';
+  import axios from 'axios';
 
 	console.log(data);
 
@@ -64,21 +65,12 @@
 				};
 				
 				try {
-					const response = await fetch('data/api/saveNote.js', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify(newNote)
-					});
-
-					if (!response.ok) {
-						throw new Error('Failed to save note');
+					const response = await axios.post('../../data/api/saveNote.js', newNote);
+					
+					if (response.status === 200) {
+						this.notes.push(newNote);
+						this.entry = '';
 					}
-
-					this.notes.push(newNote);
-					this.entry = '';
-
 				} catch (error) {
 					console.error('Error saving note:', error);
 				}

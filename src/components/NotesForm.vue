@@ -15,7 +15,7 @@
 
 <script>
   import data from '../../data/playerNotes.json';
-	console.log(data);
+	console.log('data ',data);
   export default {
 		name: 'NotesForm',
 		props: {
@@ -33,14 +33,23 @@
 		methods: {
 			async addNote(e) {
 				e.preventDefault();
+				
+				const currentPlayersSteam = e.target.dataset.playerssteam;
+
+				console.log('Adding note for player:', currentPlayersSteam);
+				
 				const newNote = {
-					id: this.playersSteam,
-					entry: this.entry,
+					id: currentPlayersSteam,
 					date: new Date().toISOString(),
+					entry: this.entry,
 				};
 				
+				console.log('New note data:', newNote);
+				
 				try {
-					const response = await fetch('data/api/saveNote.js', {
+					console.log('Sending POST request to saveNote.js');
+					console.log('notes: ', this.notes)
+					const response = await fetch('./data/api1/saveNote.js', {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/json',
@@ -48,12 +57,17 @@
 						body: JSON.stringify(newNote)
 					});
 
+					console.log('Response status:', response.status);
+
 					if (!response.ok) {
 						throw new Error('Failed to save note');
 					}
 
+					console.log('Note saved successfully', newNote);
+
 					this.notes.push(newNote);
 					this.entry = '';
+
 				} catch (error) {
 					console.error('Error saving note:', error);
 				}

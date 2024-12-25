@@ -4,7 +4,7 @@ import path from 'path';
 const NOTES_FILE_PATH = path.join(process.cwd(), 'data', '../playerNotes.json');
 
 export async function POST({ request }) {
-	console.log('saveNote.js');
+	console.log('./data/api/saveNote.js');
 	try {
 		console.log('saveNote.js try');
 		// Read existing notes
