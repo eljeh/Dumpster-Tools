@@ -49,7 +49,7 @@
 				try {
 					console.log('Sending POST request to saveNote.js');
 					console.log('notes: ', this.notes)
-					const response = await fetch('./data/api1/saveNote.js', {
+					const response = await fetch('../../data/api1/saveNote.js', {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/json',
