@@ -14,68 +14,53 @@
 </template>
 
 <script>
-  import data from '../../data/playerNotes.json';
-	console.log('data ',data);
-  export default {
-		name: 'NotesForm',
-		props: {
-			playersSteam: {
-				type: String,
-				required: true
+import axios from 'axios';
+import data from '../../data/playerNotes.json';
+
+console.log('data ',data);
+
+export default {
+	name: 'NotesForm',
+	props: {
+		playersSteam: {
+			type: String,
+			required: true
+		}
+	},
+	data() {
+		return {
+			entry: '',
+			notes: data,
+		};
+	},
+	methods: {
+		async addNote(e) {
+			e.preventDefault();
+			
+			const currentPlayersSteam = e.target.dataset.playerssteam;
+			
+			const newNote = {
+				id: currentPlayersSteam,
+				date: new Date().toISOString(),
+				entry: this.entry,
+			};
+			
+			try {
+				const response = await axios.post('../../data/api/saveNote.js', newNote);
+
+				console.log('Note saved successfully', response.data);
+				
+				this.notes.push(newNote);
+				this.entry = '';
+
+			} catch (error) {
+				console.error('Error saving note:', error);
 			}
-		},
-    data() {
-      return {
-				entry: '',
-				notes: data,
-      };
-    },
-		methods: {
-			async addNote(e) {
-				e.preventDefault();
-				
-				const currentPlayersSteam = e.target.dataset.playerssteam;
-
-				console.log('Adding note for player:', currentPlayersSteam);
-				
-				const newNote = {
-					id: currentPlayersSteam,
-					date: new Date().toISOString(),
-					entry: this.entry,
-				};
-				
-				console.log('New note data:', newNote);
-				
-				try {
-					console.log('Sending POST request to saveNote.js');
-					console.log('notes: ', this.notes)
-					const response = await fetch('../../data/api1/saveNote.js', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify(newNote)
-					});
-
-					console.log('Response status:', response.status);
-
-					if (!response.ok) {
-						throw new Error('Failed to save note');
-					}
-
-					console.log('Note saved successfully', newNote);
-
-					this.notes.push(newNote);
-					this.entry = '';
-
-				} catch (error) {
-					console.error('Error saving note:', error);
-				}
-				
-				return false;
-			}
-		},
-	};
+			
+			return false;
+		}
+	},
+};
 </script>
 
 <style>

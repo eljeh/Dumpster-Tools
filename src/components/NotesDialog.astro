@@ -22,7 +22,7 @@ import NotesForm from './NotesForm.vue';
 		console.log('NotesDialog: Page load event triggered');
 
 		const notesDialog = document.getElementById('notesDialog');
-		// const notesList = document.getElementById('notesList');
+
 		const closeNotesButton = document.getElementById('closeNotesButton');
 
 		console.log('NotesDialog elements:', {
@@ -30,18 +30,6 @@ import NotesForm from './NotesForm.vue';
 			closeButton: closeNotesButton,
 			playersSteam: notesDialog?.getAttribute('data-playersSteam'),
 		});
-
-		// const app = createApp(NotesForm, {
-		// 	playersSteam: notesDialog.getAttribute('data-playersSteam'),
-		// });
-
-		// console.log('NotesDialog: Creating Vue app with props', {
-		// 	playersSteam: notesDialog.getAttribute('data-playersSteam'),
-		// });
-
-		// app.mount('#notesFormContainer');
-
-		console.log('NotesDialog: Vue app mounted');
 
 		closeNotesButton.addEventListener('click', () => {
 			console.log('NotesDialog: Close button clicked');
