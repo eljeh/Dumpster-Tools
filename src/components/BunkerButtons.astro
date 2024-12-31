@@ -4,18 +4,21 @@
 
 <div id='buttonPanel' class='flex flex-col gap-2 justify-center'></div>
 
-<script is='inline'>
+<script>
+	import { PUBLIC_WBAUTH, PUBLIC_WBBOTID } from 'astro:env/client';
+	const WBAuth = PUBLIC_WBAUTH;
+	const WBBotID = PUBLIC_WBBOTID;
 	let bunkers = [];
 
 	async function getBunkerList() {
 		try {
 			const response = await fetch(
-				`https://api.whalleybot.com/bot/217fc652/GetBunkers`,
+				`https://api.whalleybot.com/bot/${WBBotID}/GetBunkers`,
 				{
 					method: 'GET',
 					headers: {
 						Accept: '*/*',
-						Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+						Authorization: WBAuth,
 					},
 				},
 			);
@@ -26,7 +29,7 @@
 
 			const dataB = await response.json();
 			bunkers = dataB;
-			//console.log(bunkers);
+
 			const buttonPanel = document.getElementById('buttonPanel');
 
 			const normalBunkers = [
@@ -102,14 +105,8 @@
 					let totalSeconds = Math.floor(
 						(bunker.nextAcivationTime || 0) / 10000,
 					);
-					// console.log('bunker.nextAcivationTime', bunker.nextAcivationTime);
-					// console.log('totalSeconds', totalSeconds);
-					// subtract from 24 hour
-
-					const hours = Math.floor(totalSeconds / 3600);
-					const minutes = Math.floor((totalSeconds % 3600) / 60);
-					const seconds = totalSeconds % 60;
-					const formattedTime = `${hours}h ${minutes}m ${seconds}s`;
+					let hours = Math.floor(totalSeconds / 3600);
+					const formattedTime = `Next Acivation: ${hours}hrs`;
 
 					div.onclick = () => teleportTo(bunker.location); // Keep the click event
 					div.className = `btn ${bunker.status.toLowerCase()}`; // Retain the status class

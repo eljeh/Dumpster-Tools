@@ -47,6 +47,10 @@ import NotesDialog from './NotesDialog.astro';
 <script>
 	import { createApp } from 'vue';
 	import NotesForm from './NotesForm.vue';
+	import { PUBLIC_WBAUTH, PUBLIC_WBBOTID } from 'astro:env/client';
+	const WBAuth = PUBLIC_WBAUTH;
+	const WBBotID = PUBLIC_WBBOTID;
+
 	document.addEventListener('astro:page-load', () => {
 		const getPlayerButton = document.getElementById('getPlayerButton');
 		const playerInfo = document.getElementById('playerInfo');
@@ -60,12 +64,12 @@ import NotesDialog from './NotesDialog.astro';
 
 		async function populatePlayerSelect() {
 			try {
-				const url = 'https://api.whalleybot.com/bot/217fc652/PlayerLocations';
+				const url = `https://api.whalleybot.com/bot/${WBBotID}/PlayerLocations`;
 				const response = await fetch(url, {
 					method: 'GET',
 					headers: {
 						Accept: '*/*',
-						Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+						Authorization: WBAuth,
 					},
 				});
 
@@ -115,12 +119,12 @@ import NotesDialog from './NotesDialog.astro';
 			if (playerID.value) {
 				try {
 					const response = await fetch(
-						`https://api.whalleybot.com/bot/217fc652/GetPlayer/${playerID.value}/`,
+						`https://api.whalleybot.com/bot/${WBBotID}/GetPlayer/${playerID.value}/`,
 						{
 							method: 'GET',
 							headers: {
 								Accept: '*/*',
-								Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+								Authorization: WBAuth,
 							},
 						},
 					);
@@ -186,12 +190,12 @@ import NotesDialog from './NotesDialog.astro';
 
 					// get list of squadmembers
 					const squadResponse = await fetch(
-						`https://api.whalleybot.com/bot/217fc652/GetSquad?SquadID=${PlayersSquadID}`,
+						`https://api.whalleybot.com/bot/${WBBotID}/GetSquad?SquadID=${PlayersSquadID}`,
 						{
 							method: 'GET',
 							headers: {
 								Accept: '*/*',
-								Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+								Authorization: WBAuth,
 							},
 						},
 					);
@@ -235,12 +239,12 @@ import NotesDialog from './NotesDialog.astro';
 		async function getSquadData(PlayersSquadID) {
 			console.log('getSquadData', PlayersSquadID);
 			const response = await fetch(
-				`https://api.whalleybot.com/bot/217fc652/GetSquad?SquadID=${PlayersSquadID}`,
+				`https://api.whalleybot.com/bot/${WBBotID}/GetSquad?SquadID=${PlayersSquadID}`,
 				{
 					method: 'GET',
 					headers: {
 						Accept: '*/*',
-						Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+						Authorization: WBAuth,
 					},
 				},
 			);
@@ -315,7 +319,7 @@ import NotesDialog from './NotesDialog.astro';
 					method: 'GET',
 					headers: {
 						Accept: '*/*',
-						Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+						Authorization: WBAuth,
 					},
 				},
 			);
@@ -356,12 +360,12 @@ import NotesDialog from './NotesDialog.astro';
 			try {
 				// Fetch the list of vehicles
 				const response = await fetch(
-					`https://api.whalleybot.com/bot/217fc652/VehicleLocations`,
+					`https://api.whalleybot.com/bot/${WBBotID}/VehicleLocations`,
 					{
 						method: 'GET',
 						headers: {
 							Accept: '*/*',
-							Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+							Authorization: WBAuth,
 						},
 					},
 				);

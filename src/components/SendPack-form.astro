@@ -57,7 +57,7 @@
 			try {
 				// Send a POST request to order the pack
 				const response = await fetch(
-					`https://api.whalleybot.com/bot/217fc652/SendPack/${packNameSelect.value}/${coordinates.value}/1`,
+					`https://api.whalleybot.com/bot/${WBBotID}/SendPack/${packNameSelect.value}/${coordinates.value}/1`,
 					{
 						method: 'POST',
 						headers: {

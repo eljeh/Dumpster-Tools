@@ -15,7 +15,7 @@
 <script>
   document.addEventListener('astro:page-load', () => {
   function displayJsonAsTable() {
-    const url = 'https://api.whalleybot.com/bot/217fc652/VehicleLocations';
+    const url = 'https://api.whalleybot.com/bot/${WBBotID}/VehicleLocations';
     fetch(url, {
       method: 'GET',
       headers: {

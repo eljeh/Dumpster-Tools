@@ -22,6 +22,9 @@
   </table>
 </div>
 <script>
+  import { PUBLIC_WBAUTH, PUBLIC_WBBOTID } from 'astro:env/client';
+	const WBAuth = PUBLIC_WBAUTH;
+	const WBBotID = PUBLIC_WBBOTID;
   document.addEventListener('astro:page-load', () => {
     async function fetchData(url) {
       try {
@@ -29,7 +32,7 @@
         method: 'GET',
         headers: {
           Accept: '*/*',
-          Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+          Authorization: WBAuth,
         },
       });
       if (!response.ok) {
@@ -52,7 +55,7 @@
       while (nextPageExists) {
         // Fetch data for the current page
         const data = await fetchData(
-          `https://api.whalleybot.com/bot/217fc652/GetPacks/${pageNumber}`, //afd0a027
+          `https://api.whalleybot.com/bot/${WBBotID}/GetPacks/${pageNumber}`, //afd0a027
         );
 
         if (data && data.packData && data.packData.length > 0) {
