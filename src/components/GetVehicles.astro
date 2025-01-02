@@ -27,6 +27,22 @@
       countsHTML = 'Total Registered Vehicles: ' + regCount + ' / ' + total;
       bpcCountsContainer.innerHTML = countsHTML;
     }
+    function isWithinPVP(flagLocationX, flagLocationY) {
+      const PVP = {
+        topLeftX: -904795.125, // Left-most X
+        topLeftY: 619200.0, // Top-most Y
+        bottomRightX: -297316.625, // Right-most X
+        bottomRightY: -904795.125, // Bottom-most Y
+      };
+
+      // Check if the flag location is within the PVP zone
+      return (
+        flagLocationX >= PVP.topLeftX && // Right of left edge
+        flagLocationX <= PVP.bottomRightX && // Left of right edge
+        flagLocationY <= PVP.topLeftY && // Below top edge
+        flagLocationY >= PVP.bottomRightY // Above bottom edge
+      );
+    }
 
     function displayApiAsTable() {
       const url = `https://api.whalleybot.com/bot/${WBBotID}/VehicleLocations`;
@@ -42,10 +58,6 @@
             throw new Error('Network response was not ok');
           }
           return response.json();
-        })
-        .then((data) => {
-          displayCounts(data);
-          return data;
         })
         .then((data) => {
           // Clear existing table rows
@@ -97,10 +109,21 @@
                 const steamID = record.value.reg.split(' ')[0];
                 let vID = record.value.reg.replace(steamID, '');
 
+                const vehicleLocationX = record.value.coords.split(' ')[0];
+                const vehicleLocationY = record.value.coords.split(' ')[1];
+
+                let zone = ``;
+
+                if (isWithinPVP(vehicleLocationX, vehicleLocationY)) {
+                  zone = `🟥`;
+                } else {
+                  zone = `🟩`;
+                }
+
                 row.innerHTML = `
                   <span class="clickable" title="#TeleportToVehicle ${record.key}">${record.key}</span>
                   <span>${record.value.type}</span>
-                  <span class="clickable" title="#Teleport ${record.value.coords}">${record.value.coords}</span>
+                  <span class="clickable" title="#Teleport ${record.value.coords}">${zone} ${record.value.coords}</span>
                   ${record.value.reg ? `<span class="clickable" title="${steamID.replace(/^STEAMID:/, '')}">${steamID}</span>` : '<span></span>'}
                   ${record.value.reg ? `<span class="clickable" title="#RenameVehicle ${record.key} 'VID:${record.key}'">${vID}</span>` : '<span>Unregistered</span>'}
               `;
@@ -109,6 +132,10 @@
               }
             });
           }
+        })
+        .then((data) => {
+          displayCounts(data);
+          return data;
         })
         .catch((error) => {
           console.error('Error fetching or parsing data: ', error);
