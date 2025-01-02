@@ -102,7 +102,7 @@
                   <span>${record.value.type}</span>
                   <span class="clickable" title="#Teleport ${record.value.coords}">${record.value.coords}</span>
                   ${record.value.reg ? `<span class="clickable" title="${steamID.replace(/^STEAMID:/, '')}">${steamID}</span>` : '<span></span>'}
-                  ${record.value.reg ? `<span class="clickable" title="#rename ${record.key} 'VID: ${record.key}'">${vID}</span>` : '<span>Unregistered</span>'}
+                  ${record.value.reg ? `<span class="clickable" title="#RenameVehicle ${record.key} 'VID:${record.key}'">${vID}</span>` : '<span>Unregistered</span>'}
               `;
                 list.appendChild(row);
                 VehicleContainer.appendChild(list);
@@ -120,20 +120,16 @@
     // Clipboard function moved here
     function copyToClipboard(element) {
       const text = element.title;
-      navigator.clipboard
-        .writeText(text)
-        .then(() => {
-          alert('Copied to clipboard: ' + text);
-        })
-        .catch((err) => {
-          console.error('Failed to copy:', err);
-        });
+      navigator.clipboard.writeText(text).catch((err) => {
+        console.error('Failed to copy:', err);
+      });
     }
 
     // Add click handlers once
     document.addEventListener('click', (e) => {
       if (e.target.classList.contains('clickable')) {
         copyToClipboard(e.target);
+        alert('Copied to clipboard: ' + e.target.title);
       }
     });
 
