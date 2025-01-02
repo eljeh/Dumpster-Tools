@@ -1,21 +1,34 @@
+import type { APIRoute } from 'astro';
 import fs from 'fs/promises';
 import path from 'path';
 
-const NOTES_FILE_PATH = path.join(process.cwd(), 'data', '../playerNotes.json');
+const NOTES_FILE_PATH = path.join(process.cwd(), 'data', 'playerNotes.json');
 
-export async function POST({ request }) {
-	console.log('./src/data/api/saveNote.js');
+export const POST: APIRoute = async ({ request }) => {
 	try {
 		console.log('saveNote.js try');
-		// Read existing notes
-		const fileContent = await fs.readFile(NOTES_FILE_PATH, 'utf8');
-		const notes = JSON.parse(fileContent);
 
-		// With Axios, the data is already parsed as JSON
-		const newNote = request.body;
+		// Parse the request body
+		const newNote = await request.json();
+
+		// Read existing notes
+		let notes = [];
+		try {
+			const fileContent = await fs.readFile(NOTES_FILE_PATH, 'utf8');
+			notes = JSON.parse(fileContent);
+		} catch (error) {
+			// If file doesn't exist, start with empty array
+			if (error.code === 'ENOENT') {
+				await fs.mkdir(path.dirname(NOTES_FILE_PATH), { recursive: true });
+			} else {
+				throw error;
+			}
+		}
+
+		// Add new note
 		notes.push(newNote);
 
-		// Sort by date (optional)
+		// Sort by date
 		notes.sort((a, b) => new Date(b.date) - new Date(a.date));
 
 		// Write back to file
@@ -45,4 +58,4 @@ export async function POST({ request }) {
 			}
 		);
 	}
-}
+};	

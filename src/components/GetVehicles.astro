@@ -1,56 +1,165 @@
-<div class='wrapper'>
-  <h2 class='my-8 text-2xl text-center'>Get Vehicles</h2>
-  <table class='table-auto'>
-    <thead>
-      <tr>
-        <th>Vehicle ID</th>
-        <th>Type</th>
-        <th>Coordinates</th>
-        <th>Registration</th>
-      </tr>
-    </thead>
-    <tbody id='VehicleTable'> </tbody>
-  </table>
-</div>
-<script>
-  document.addEventListener('astro:page-load', () => {
-  function displayJsonAsTable() {
-    const url = 'https://api.whalleybot.com/bot/${WBBotID}/VehicleLocations';
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        Accept: '*/*',
-        Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==', //'WhalleyBotAPI_rtTECwgxKLKy9Q==',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // Clear existing table rows
-        const tableBody = document.getElementById('VehicleTable');
-        tableBody.innerHTML = '';
-        // Populate table with JSON data
-        data.forEach((record) => {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-              <td>${record.key}</td>
-              <td>${record.value.type}</td>
-              <td>${record.value.coords}</td>
-              <td>${record.value.reg}</td>
-            `;
-          tableBody.appendChild(row);
-        });
-      })
-      .catch((error) => {
-        console.error('Error fetching or parsing data: ', error);
-      });
-  }
+<h2 id='bpcCounts' class='mb-8 text-2xl text-center'></h2>
+<div id='VehicleContainer'></div>
 
-  // Call the function to display JSON data as a table
+<script>
+  import { PUBLIC_WBAUTH, PUBLIC_WBBOTID } from 'astro:env/client';
+  const WBAuth = PUBLIC_WBAUTH;
+  const WBBotID = PUBLIC_WBBOTID;
+  const bpcCountsContainer = document.getElementById('bpcCounts');
+  document.addEventListener('astro:page-load', () => {
+    function displayCounts(data) {
+      // Display the count of each type
+      var countsHTML = '';
+      var total = 0;
+      var counts = {};
+      data.forEach((record) => {
+        counts[record.value.type] = (counts[record.value.type] || 0) + 1;
+      });
+      // display the counts
+      for (var type in counts) {
+        total += counts[type];
+      }
+      countsHTML = '<div>Total Vehicle Count: ' + total + '</div>';
+      bpcCountsContainer.innerHTML = countsHTML;
+    }
+
+    function displayJsonAsTable() {
+      const url = `https://api.whalleybot.com/bot/${WBBotID}/VehicleLocations`;
+      fetch(url, {
+        method: 'GET',
+        headers: {
+          Accept: '*/*',
+          Authorization: WBAuth,
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          displayCounts(data);
+          return data;
+        })
+        .then((data) => {
+          // Clear existing table rows
+          const VehicleContainer = document.getElementById('VehicleContainer');
+          VehicleContainer.innerHTML = '';
+
+          var counts = {};
+          data.forEach((record) => {
+            // count how many of each type there are
+            counts[record.value.type] = (counts[record.value.type] || 0) + 1;
+          });
+
+          // display the counts
+          for (var type in counts) {
+            VehicleContainer.innerHTML +=
+              '<label for="type-' +
+              type.toLowerCase().trim() +
+              '" class="listTitle">' +
+              type.trim() +
+              ': ' +
+              counts[type] +
+              '</label>';
+            VehicleContainer.innerHTML +=
+              '<input type="checkbox" id="type-' +
+              type.toLowerCase().trim() +
+              '">';
+            const list = document.createElement('ul');
+            list.id = 'list-' + type.toLowerCase().trim();
+            list.classList.add('vehicleList');
+            // add type to tbody
+            data.forEach((record) => {
+              if (record.value.type === type) {
+                const row = document.createElement('li');
+                // remove everything after the first space in the steamID
+                const steamID = record.value.reg.split(' ')[0];
+
+                const vID = record.value.reg.replace(steamID, '');
+
+                row.innerHTML = `
+                  <span title="#TeleportToVehicle ${record.key}">${record.key}</span>
+                  <span>${record.value.type}</span>
+                  <span title="#Teleport ${record.value.coords}">${record.value.coords}</span>
+                  <span title="${steamID}">${steamID}</span>
+                  <span title="Reg: ${vID}">${vID}</span>
+              `;
+                list.appendChild(row);
+                VehicleContainer.appendChild(list);
+              }
+            });
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching or parsing data: ', error);
+        });
+    }
+
+    // Call the function to display JSON data as a table
     displayJsonAsTable();
   });
 </script>
+
+<style is:inline>
+  .listTitle {
+    font-size: 1.25em;
+    font-weight: bold;
+    cursor: pointer;
+    background: var(--color-secondary);
+    padding: 0.25em 0.5em;
+    border-radius: 0.25em;
+  }
+  .listTitle:hover {
+    background: var(--color-accent);
+  }
+  ul.vehicleList {
+    display: none;
+  }
+  input[type='checkbox']:checked + .listTitle {
+    background: var(--color-accent);
+  }
+  input[type='checkbox'] {
+    display: none;
+    visibility: hidden;
+  }
+
+  input[type='checkbox']:checked + ul.vehicleList {
+    display: block;
+  }
+  .vehicleList li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0 1.5em;
+    flex-wrap: wrap;
+    border-bottom: 0.25em solid var(--color-primary);
+  }
+  .vehicleList li:hover {
+    background: var(--color-primary);
+  }
+  .vehicleList li span {
+    padding: 0.25em 0.5em;
+    border-radius: 0.25em;
+  }
+  .vehicleList li span:hover {
+    background: var(--color-accent);
+    cursor: pointer;
+  }
+  .vehicleList li span:nth-child(1) {
+    flex: 0 1 10ch;
+  }
+  .vehicleList li span:nth-child(2) {
+    flex: 0 1 10ch;
+  }
+  .vehicleList li span:nth-child(3) {
+    flex: 1 0 32ch;
+  }
+  .vehicleList li span:nth-child(4) {
+    flex: 1 1 28ch;
+  }
+  .vehicleList li span:nth-child(5) {
+    flex: 1 1 20ch;
+  }
+</style>
