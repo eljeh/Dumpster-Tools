@@ -1,4 +1,4 @@
-<h2 id='bpcCounts' class='mb-8 text-2xl text-center'></h2>
+<h2 id='bpcCounts' class='mb-8 text-center'></h2>
 <div id='VehicleContainer'></div>
 
 <script>
@@ -10,20 +10,25 @@
     function displayCounts(data) {
       // Display the count of each type
       var countsHTML = '';
+      var regCount = 0;
       var total = 0;
       var counts = {};
       data.forEach((record) => {
         counts[record.value.type] = (counts[record.value.type] || 0) + 1;
+        if (record.value.reg) {
+          regCount++;
+        }
       });
       // display the counts
       for (var type in counts) {
         total += counts[type];
       }
-      countsHTML = '<div>Total Vehicle Count: ' + total + '</div>';
+
+      countsHTML = 'Total Registered Vehicles: ' + regCount + ' / ' + total;
       bpcCountsContainer.innerHTML = countsHTML;
     }
 
-    function displayJsonAsTable() {
+    function displayApiAsTable() {
       const url = `https://api.whalleybot.com/bot/${WBBotID}/VehicleLocations`;
       fetch(url, {
         method: 'GET',
@@ -52,39 +57,52 @@
             // count how many of each type there are
             counts[record.value.type] = (counts[record.value.type] || 0) + 1;
           });
+          var regCount = {};
+          data.forEach((record) => {
+            if (record.value.reg) {
+              regCount[record.value.type] =
+                (regCount[record.value.type] || 0) + 1;
+            }
+          });
 
           // display the counts
           for (var type in counts) {
+            const typeId = type.toLowerCase().trim();
             VehicleContainer.innerHTML +=
               '<label for="type-' +
-              type.toLowerCase().trim() +
+              typeId +
               '" class="listTitle">' +
               type.trim() +
               ': ' +
+              (regCount[type] || 0) +
+              ' / ' +
               counts[type] +
               '</label>';
-            VehicleContainer.innerHTML +=
-              '<input type="checkbox" id="type-' +
-              type.toLowerCase().trim() +
-              '">';
+
             const list = document.createElement('ul');
-            list.id = 'list-' + type.toLowerCase().trim();
+            list.id = 'list-' + typeId;
             list.classList.add('vehicleList');
-            // add type to tbody
+
+            // Create checkbox after label but before list
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = 'type-' + typeId;
+            VehicleContainer.appendChild(checkbox);
+
+            // add type to list
             data.forEach((record) => {
               if (record.value.type === type) {
                 const row = document.createElement('li');
                 // remove everything after the first space in the steamID
                 const steamID = record.value.reg.split(' ')[0];
-
-                const vID = record.value.reg.replace(steamID, '');
+                let vID = record.value.reg.replace(steamID, '');
 
                 row.innerHTML = `
-                  <span title="#TeleportToVehicle ${record.key}">${record.key}</span>
+                  <span class="clickable" title="#TeleportToVehicle ${record.key}">${record.key}</span>
                   <span>${record.value.type}</span>
-                  <span title="#Teleport ${record.value.coords}">${record.value.coords}</span>
-                  <span title="${steamID}">${steamID}</span>
-                  <span title="Reg: ${vID}">${vID}</span>
+                  <span class="clickable" title="#Teleport ${record.value.coords}">${record.value.coords}</span>
+                  ${record.value.reg ? `<span class="clickable" title="${steamID.replace(/^STEAMID:/, '')}">${steamID}</span>` : '<span></span>'}
+                  ${record.value.reg ? `<span class="clickable" title="#rename ${record.key} 'VID: ${record.key}'">${vID}</span>` : '<span>Unregistered</span>'}
               `;
                 list.appendChild(row);
                 VehicleContainer.appendChild(list);
@@ -95,10 +113,31 @@
         .catch((error) => {
           console.error('Error fetching or parsing data: ', error);
         });
+
+      // Move clipboard function outside of displayApiAsTable
     }
 
-    // Call the function to display JSON data as a table
-    displayJsonAsTable();
+    // Clipboard function moved here
+    function copyToClipboard(element) {
+      const text = element.title;
+      navigator.clipboard
+        .writeText(text)
+        .then(() => {
+          alert('Copied to clipboard: ' + text);
+        })
+        .catch((err) => {
+          console.error('Failed to copy:', err);
+        });
+    }
+
+    // Add click handlers once
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('clickable')) {
+        copyToClipboard(e.target);
+      }
+    });
+
+    displayApiAsTable();
   });
 </script>
 
@@ -117,15 +156,12 @@
   ul.vehicleList {
     display: none;
   }
-  input[type='checkbox']:checked + .listTitle {
-    background: var(--color-accent);
-  }
   input[type='checkbox'] {
     display: none;
     visibility: hidden;
   }
 
-  input[type='checkbox']:checked + ul.vehicleList {
+  input[type='checkbox']:checked + .vehicleList {
     display: block;
   }
   .vehicleList li {
@@ -135,6 +171,7 @@
     gap: 0 1.5em;
     flex-wrap: wrap;
     border-bottom: 0.25em solid var(--color-primary);
+    justify-content: flex-start;
   }
   .vehicleList li:hover {
     background: var(--color-primary);
