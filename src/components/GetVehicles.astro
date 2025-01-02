@@ -64,6 +64,8 @@
           const VehicleContainer = document.getElementById('VehicleContainer');
           VehicleContainer.innerHTML = '';
 
+          displayCounts(data);
+
           var counts = {};
           data.forEach((record) => {
             // count how many of each type there are
@@ -81,14 +83,8 @@
           for (var type in counts) {
             const typeId = type.toLowerCase().trim();
             VehicleContainer.innerHTML +=
-              '<label for="type-' +
-              typeId +
-              '" class="listTitle">' +
-              type.trim() +
-              ': ' +
-              (regCount[type] || 0) +
-              ' / ' +
-              counts[type] +
+              '<label for="type-' + typeId + '" class="listTitle">' +
+                type.trim() + ': ' + (regCount[type] || 0) +' / ' + counts[type] +
               '</label>';
 
             const list = document.createElement('ul');
@@ -132,10 +128,6 @@
               }
             });
           }
-        })
-        .then((data) => {
-          displayCounts(data);
-          return data;
         })
         .catch((error) => {
           console.error('Error fetching or parsing data: ', error);
@@ -221,5 +213,9 @@
   }
   .vehicleList li span:nth-child(5) {
     flex: 1 1 20ch;
+  }
+
+  #VehicleContainer > div {
+    margin-bottom: 1em;
   }
 </style>

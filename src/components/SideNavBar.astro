@@ -6,12 +6,10 @@ const currentPath = pathname.slice(1);
 
 <nav id='navBar'></nav>
 
-
 <script>
-
-document.addEventListener('astro:page-load', () => {
-  const navBarList = document.getElementById('navBar');
-  renderNavBar();
+  document.addEventListener('astro:page-load', () => {
+    const navBarList = document.getElementById('navBar');
+    renderNavBar();
 
     // Function to render NavBar component
     function renderNavBar() {
@@ -21,10 +19,6 @@ document.addEventListener('astro:page-load', () => {
       // navBarList.innerHTML +=
       //   '<hr style="opacity: 0.25;margin: 0 0 0.5em 0; width: 100%;"/>';
       navBarList.innerHTML += `<a class="sideNavLink" href="/playerInfo"><i class="fi fi-ss-user"></i><span class="sideNavLinkText">Player Info</span></a>`;
-      navBarList.innerHTML +=
-        '<hr style="opacity: 0.25;margin: 0 0 0.5em 0; width: 100%;"/>';
-      navBarList.innerHTML +=
-        '<a class="sideNavLink" href="/sendMessage"><i class="fi fi-ss-comment-alt-dots"></i><span class="sideNavLinkText">Send Message</span></a>';
       navBarList.innerHTML +=
         '<hr style="opacity: 0.25;margin: 0 0 0.5em 0; width: 100%;"/>';
       navBarList.innerHTML += `<a class="sideNavLink" href="/vehicleInfo2"><i class="fi fi-ss-car-rear"></i><span class="sideNavLinkText">Vehicle Info</span></a>`;
@@ -48,6 +42,10 @@ document.addEventListener('astro:page-load', () => {
         '<hr style="opacity: 0.25;margin: 0 0 0.5em 0;width: 100%;"/>';
       navBarList.innerHTML +=
         '<a class="sideNavLink" href="/teleporter"><i class="fi fi-ss-portal-enter"></i><span class="sideNavLinkText">Teleporter</span></a>';
+      navBarList.innerHTML +=
+        '<hr style="opacity: 0.25;margin: 0 0 0.5em 0;width: 100%;"/>';
+      navBarList.innerHTML +=
+        '<a class="sideNavLink" href="/sendMessage"><i class="fi fi-ss-comment-alt-dots"></i><span class="sideNavLinkText">Send Message</span></a>';
       //   // navBarList.innerHTML +=
       //   //   '<a class="sideNavLink" href="/econfile">Economy Override</a>';
       // navBarList.innerHTML +=
