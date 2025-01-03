@@ -126,7 +126,7 @@ input[type="file"]::file-selector-button:active {
     min-height: 100vh;
   }
   .wrapper {
-    margin: 1em auto;
+    margin: 0 auto;
     justify-content: center;
     display: flex;
     flex-direction: column;

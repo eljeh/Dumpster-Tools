@@ -191,8 +191,8 @@ const { title } = Astro.props;
 
 <style>
   .pageTitle {
-    font-size: 3em;
-    padding: 0.25em 0.25em 0.25em 1.75em;
+    font-size: clamp(2em, 10vw, 3em);
+    padding: 0.25em 0.25em 0.25em 2em;
     line-height: 0.75;
   }
   main {
@@ -314,7 +314,7 @@ const { title } = Astro.props;
     min-height: 100vh;
   }
   .wrapper {
-    margin: 1em auto;
+    margin: 0 auto;
     justify-content: center;
     display: flex;
     flex-direction: column;

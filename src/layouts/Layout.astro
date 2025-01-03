@@ -198,9 +198,9 @@ const { title } = Astro.props;
 
 <style>
   .pageTitle {
-    font-size: 3em;
-    padding: 0.25em 0.25em 0.25em 0.75em;
-    line-height: 0.75;
+    font-size: clamp(2em, 10vw, 3em);
+    padding: .25em .25em .25em 2em;
+    line-height: .75;
   }
   main {
     padding: 1em 1em 1em 4em;
