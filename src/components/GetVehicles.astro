@@ -82,16 +82,24 @@
           // display the counts
           for (var type in counts) {
             const typeId = type.toLowerCase().trim();
+
+            // add label
             VehicleContainer.innerHTML +=
-              '<label for="type-' + typeId + '" class="listTitle">' +
-                type.trim() + ': ' + (regCount[type] || 0) +' / ' + counts[type] +
+              '<label for="type-' +
+              typeId +
+              '" class="listTitle">' +
+              type.replace('_', ' ').split(' ')[1].replace('_', ' ') +
+              ': ' +
+              (regCount[type] || 0) +
+              ' / ' +
+              counts[type] +
               '</label>';
 
             const list = document.createElement('ul');
             list.id = 'list-' + typeId;
             list.classList.add('vehicleList');
 
-            // Create checkbox after label but before list
+            // Create checkbox
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.id = 'type-' + typeId;
@@ -132,8 +140,6 @@
         .catch((error) => {
           console.error('Error fetching or parsing data: ', error);
         });
-
-      // Move clipboard function outside of displayApiAsTable
     }
 
     // Clipboard function moved here
@@ -195,7 +201,7 @@
     padding: 0.25em 0.5em;
     border-radius: 0.25em;
   }
-  .vehicleList li span:hover {
+  .vehicleList li .clickable:hover {
     background: var(--color-accent);
     cursor: pointer;
   }
@@ -206,10 +212,10 @@
     flex: 0 1 10ch;
   }
   .vehicleList li span:nth-child(3) {
-    flex: 1 0 32ch;
+    flex: 0 1 36ch;
   }
   .vehicleList li span:nth-child(4) {
-    flex: 1 1 28ch;
+    flex: 0 1 28ch;
   }
   .vehicleList li span:nth-child(5) {
     flex: 1 1 20ch;
