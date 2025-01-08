@@ -2,10 +2,12 @@ import { defineConfig, envField } from 'astro/config';
 import tailwind from "@astrojs/tailwind";
 import vue from '@astrojs/vue';
 
+import svelte from "@astrojs/svelte";
+
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
-  integrations: [tailwind(), vue()],
+  integrations: [tailwind(), vue(), svelte()],
   env: {
     schema: {
       SECRET_WBBOTID: envField.string({
