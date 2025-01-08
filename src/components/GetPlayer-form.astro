@@ -1,5 +1,8 @@
 ---
-import NotesDialog from './NotesDialog.astro';
+import NotesDialog from './_playerNotes/NotesDialog.astro';
+// Add prop definition
+const { SteamId = '' } = Astro.props;
+//const SteamId = '76561198187036603';
 ---
 
 <form class='w-full flex flex-col row item-center'>
@@ -33,7 +36,7 @@ import NotesDialog from './NotesDialog.astro';
 </form>
 
 <div class='playerInfoWrapper'>
-	<NotesDialog />
+	<NotesDialog SteamId={SteamId}/> 
 	<div id='playerInfo'></div>
 	<div id='squadInfo'></div>
 	<div id='squadCounts'>
@@ -45,8 +48,6 @@ import NotesDialog from './NotesDialog.astro';
 </div>
 
 <script>
-	import { createApp } from 'vue';
-	import NotesForm from './NotesForm.vue';
 	import { PUBLIC_WBAUTH, PUBLIC_WBBOTID } from 'astro:env/client';
 	const WBAuth = PUBLIC_WBAUTH;
 	const WBBotID = PUBLIC_WBBOTID;
@@ -139,7 +140,7 @@ import NotesDialog from './NotesDialog.astro';
 					playerInfo.innerHTML = `Getting info for ${playerID.value}`;
 
 					const data = await response.json();
-					playerInfo.innerHTML = `<button id='notes-${data.Player.SteamID}' class='notesButton hide'><i class="fi fi-ss-notebook"></i><span>Notes</span></button>`;
+					playerInfo.innerHTML = `<button id='openNotes-${data.Player.SteamID}' class='notesButton'><i class="fi fi-ss-notebook"></i><span>Notes</span></button>`;
 					playerInfo.innerHTML += `<h3>${data.Player.PlayerName}</h3>`;
 					playerInfo.innerHTML += `Discord ID: ${data.Player.DiscordID}`;
 					playerInfo.innerHTML += `<br>Steam ID: ${data.Player.SteamID}`;
@@ -148,47 +149,19 @@ import NotesDialog from './NotesDialog.astro';
 					playerInfo.innerHTML += `<br>Account: ${data.Player.AccountNumber}`;
 					playerInfo.innerHTML += `<br>🪙 ${data.Player.Coins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${data.Player.CreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰  ${data.Player.GoldBalance.toLocaleString()}`;
 
-					const notesButton = document.getElementsByClassName('notesButton')[0];
-					notesDialog.setAttribute('data-playersSteam', data.Player.SteamID);
-					console.log('notesDialog setAttribute', data.Player.SteamID);
-					const notesForm = document.getElementById('notesForm');
-					//notesForm.setAttribute('data-playersSteam', data.Player.SteamID);
-					console.log('notesForm setAttribute', data.Player.SteamID);
+					const notesSteamID = document.getElementById(`notesSteamID`);
+					notesSteamID.setAttribute('value', data.Player.SteamID);
+					const notesButton = document.getElementById(`openNotes-${data.Player.SteamID}`);
+					notesButton.setAttribute('data-playersSteam', data.Player.SteamID);
 					const notesTitle = document.getElementById('noteTitle');
 					notesTitle.innerHTML = `Notes - ${data.Player.PlayerName} <small>(${playerID.value})</small>`;
 
-					async function getNotes(playerID) {
-						const response = await fetch(`data/playerNotes.json`);
-						const dataN = await response.json();
-						const noteData = Object.values(dataN);
-						const notesList = document.getElementById('notesList');
-						notesList.innerHTML = '';
-						noteData.map((note) => {
-							if (note.id === playerID) {
-								let date = new Date(note.date);
-								let formattedDate = date.toLocaleDateString('en-US', {
-									month: '2-digit',
-									day: '2-digit',
-									year: 'numeric',
-									hour: '2-digit',
-									minute: '2-digit',
-								});
-
-								notesList.innerHTML += `<li><div class="dateTime">${formattedDate}</div><div class="note">${note.entry}</div></li>`;
-							}
-						});
-					}
-
 					notesButton.addEventListener('click', () => {
-						notesDialog.setAttribute('data-playersSteam', data.Player.SteamID);
-						console.log('notesDialog setAttribute', data.Player.SteamID);
 						notesDialog.showModal();
-						getNotes(data.Player.SteamID);
 					});
 
 					const PlayersSquadID = data.SquadInfo.ID;
 
-					// get list of squadmembers
 					const squadResponse = await fetch(
 						`https://api.whalleybot.com/bot/${WBBotID}/GetSquad?SquadID=${PlayersSquadID}`,
 						{
@@ -220,19 +193,6 @@ import NotesDialog from './NotesDialog.astro';
 				alert('Please provide a player ID');
 			}
 
-			const app = createApp(NotesForm, {
-				playersSteam: notesDialog.getAttribute('data-playersSteam'),
-			});
-
-			console.log('NotesDialog: Creating Vue app with props', {
-				playersSteam: notesDialog.getAttribute('data-playersSteam'),
-			});
-
-			app.mount('#notesFormContainer');
-
-			console.log('NotesDialog: Vue app mounted');
-
-			// reset form
 			document.getElementById('playerIDgp').value = '';
 		});
 

@@ -1,40 +1,26 @@
 ---
-import NotesForm from './NotesForm.vue';
+import NotesForm from './NotesForm.astro';
+const { SteamId } = Astro.props;
 ---
 
-<dialog
-	id='notesDialog'
-	class='notesDialog glassmorphism'
->
+<dialog id='notesDialog' class='notesDialog glassmorphism'>
 	<header>
-		<h3 id='noteTitle' class='title text-2xl'>Notes</h3>
+		<h3 id='noteTitle' class='title text-2xl'>Notes Dialog astro</h3>
 		<button id='closeNotesButton'>X</button>
 	</header>
 
-	<div id='notesFormContainer'></div>
+	<div id='notesFormContainer'>
+		<NotesForm SteamId={SteamId} /> 
+	</div>
+	
 </dialog>
 
 <script>
-	import { createApp } from 'vue';
-	import NotesForm from './NotesForm.vue';
+	const notesDialog = document.getElementById('notesDialog');
+	const closeNotesButton = document.getElementById('closeNotesButton');
 
-	document.addEventListener('astro:page-load', () => {
-		console.log('NotesDialog: Page load event triggered');
-
-		const notesDialog = document.getElementById('notesDialog');
-
-		const closeNotesButton = document.getElementById('closeNotesButton');
-
-		console.log('NotesDialog elements:', {
-			dialog: notesDialog,
-			closeButton: closeNotesButton,
-			playersSteam: notesDialog?.getAttribute('data-playersSteam'),
-		});
-
-		closeNotesButton.addEventListener('click', () => {
-			console.log('NotesDialog: Close button clicked');
-			notesDialog.close();
-		});
+	closeNotesButton.addEventListener('click', () => {
+		notesDialog.close();
 	});
 </script>
 

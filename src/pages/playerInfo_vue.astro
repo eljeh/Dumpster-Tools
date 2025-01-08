@@ -1,0 +1,17 @@
+---
+import Layout from '../layouts/Layout.astro';
+import GetPlayerForm from '../components/GetPlayer-form_vue.astro';
+---
+
+<Layout title='Get Player Info - Dumpster Tools'>
+  <div class='wrapper' transition:name='wrapper'>
+    <h2 class='mb-8 text-2xl text-center'>Get Player Info - vue</h2>
+    <GetPlayerForm />
+  </div>
+</Layout>
+
+<style is:inline>
+  .wrapper {
+    max-width: 82ch;
+  }
+</style>

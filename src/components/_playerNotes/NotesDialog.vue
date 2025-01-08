@@ -1,6 +1,6 @@
 <template>
 
-	<button class='notesButton hide'>
+	<button class='notesButton'>
 		<i class="fi fi-ss-notebook"></i>
 		<span>Notes</span>
 	</button>
@@ -26,7 +26,7 @@
 			</form>
 
 		<footer>
-			<ul id='notesList'><li>No notes</li></ul>
+			<ul id='notesList'><li>No notes!</li></ul>
 		</footer>
 		</div>
 	</dialog>

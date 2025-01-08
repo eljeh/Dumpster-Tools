@@ -1,0 +1,41 @@
+---
+import notes from '../../data/playerNotes.json';
+const { SteamId } = Astro.props;
+---
+
+<footer class='notesPanel'>
+	<ul id='notesList'>
+		{
+			notes
+			.filter((note) => note.id === SteamId)
+			.sort((a, b) => new Date(b.date) - new Date(a.date))
+			.map((note) => (
+				<li>
+					<div class='dateTime'>{note.date}</div>
+					<div class='note'>{note.entry}</div>
+				</li>
+			))
+		}
+	</ul>
+</footer>
+
+<style is:inline>
+	.notesDialog footer {
+		padding: 0 1em 1em;
+	}
+	.notesDialog footer ul {
+		list-style: none;
+		padding: 0;
+	}
+	.notesDialog footer li {
+		padding: 1em;
+		border-top: 0.25em solid var(--color-tertiary);
+	}
+	.notesDialog footer li h2 {
+		margin: 0;
+	}
+	.notesDialog footer li h2 span {
+		font-size: 0.8em;
+	}
+
+</style>

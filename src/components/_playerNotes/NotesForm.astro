@@ -1,0 +1,85 @@
+---
+import NotesList from './NotesList.astro';
+const { SteamId } = Astro.props;
+//const SteamId = '';
+---
+
+<form id={`notesForm-${SteamId}`}>
+	<input id='notesSteamID' type='text' name='SteamId' placeholder='ID' value={SteamId} class='hidden'/>
+	<textarea
+		id='notesTextarea'
+		name='entry'
+		v-model='entry'
+		aria-label='Insert Note'
+		placeholder='Insert Note'></textarea>
+	<button id='saveNotesButton' type='submit'>Save</button>
+</form>
+<NotesList SteamId={SteamId} />
+
+<script define:vars={{ SteamId }}>
+	document.addEventListener('DOMContentLoaded', () => {
+		const notesForm = document.getElementById(`notesForm-${SteamId}`);
+		const saveNotesButton = document.getElementById('saveNotesButton');
+		notesForm.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			const formData = new FormData(notesForm);
+			try {
+				const response = await fetch('/api/saveNote', {
+					method: 'POST',
+					body: formData,
+				});
+				const result = await response.json();
+				if (result.success) {
+					const notesList = document.getElementById('notes-' + SteamId);
+					if (notesList) {
+						notesForm.querySelector('#notesTextarea').value = '';
+					}
+				} else {
+					console.error('Failed to save note:', result.error);
+				}
+			} catch (error) {
+				console.error('Failed to save note:', error);
+			}
+		});
+	});
+</script>
+
+<style is:inline>
+	.notesDialog {
+		max-width: 73ch;
+		width: 80%;
+		background-color: var(--color-accent);
+		color: var(--font-color);
+		border-radius: 0.5rem;
+	}
+
+	.notesDialog::backdrop {
+		background-color: rgba(0, 0, 0, 0.5);
+		filter: blur(10px);
+	}
+	.notesDialog form {
+		align-items: self-end;
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
+		padding: 1em;
+	}
+
+	.notesDialog header {
+		padding: 0 1em;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.notesDialog header .title {
+		margin: 0;
+		font-size: 1.25em;
+	}
+	.notesDialog header button {
+		margin: 0.5em 0;
+	}
+
+	button {
+		margin-bottom: 0;
+	}
+</style>
