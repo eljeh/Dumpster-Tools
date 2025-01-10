@@ -5,14 +5,13 @@ const { SteamId } = Astro.props;
 
 <dialog id='notesDialog' class='notesDialog glassmorphism'>
 	<header>
-		<h3 id='noteTitle' class='title text-2xl'>Notes Dialog astro</h3>
+		<h3 id='noteTitle' class='title text-2xl'></h3>
 		<button id='closeNotesButton'>X</button>
 	</header>
 
 	<div id='notesFormContainer'>
-		<NotesForm SteamId={SteamId} /> 
+		<NotesForm SteamId={SteamId} />
 	</div>
-	
 </dialog>
 
 <script>

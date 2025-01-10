@@ -1,13 +1,13 @@
 import { defineConfig, envField } from 'astro/config';
 import tailwind from "@astrojs/tailwind";
 import vue from '@astrojs/vue';
-
-import svelte from "@astrojs/svelte";
+import netlify from "@astrojs/netlify";
 
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
-  integrations: [tailwind(), vue(), svelte()],
+  integrations: [tailwind(), vue()],
+
   env: {
     schema: {
       SECRET_WBBOTID: envField.string({
@@ -27,5 +27,7 @@ export default defineConfig({
         access: "public"
       }),
     }
-  }
+  },
+
+  adapter: netlify()
 });
