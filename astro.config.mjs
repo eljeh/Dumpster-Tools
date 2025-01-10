@@ -7,7 +7,6 @@ import netlify from "@astrojs/netlify";
 export default defineConfig({
   output: 'server',
   integrations: [tailwind(), vue()],
-
   env: {
     schema: {
       SECRET_WBBOTID: envField.string({
@@ -29,5 +28,7 @@ export default defineConfig({
     }
   },
 
-  adapter: netlify()
+  adapter: netlify({
+    edgeMiddleware: true
+  }),
 });
