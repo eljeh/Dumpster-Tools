@@ -2,9 +2,10 @@
 <div id='VehicleContainer'></div>
 
 <script>
-  import { PUBLIC_WBAUTH, PUBLIC_WBBOTID } from 'astro:env/client';
+  import { PUBLIC_WBAUTH, PUBLIC_WBBOTID, PUBLIC_ROOT } from 'astro:env/client';
   const WBAuth = PUBLIC_WBAUTH;
   const WBBotID = PUBLIC_WBBOTID;
+  const Root = PUBLIC_ROOT;
   const bpcCountsContainer = document.getElementById('bpcCounts');
   document.addEventListener('astro:page-load', () => {
     function displayCounts(data) {
@@ -44,7 +45,9 @@
       );
     }
 
-    function displayApiAsTable() {
+    function displayVehicleInfo() {
+      const playerNames = [];
+
       const url = `https://api.whalleybot.com/bot/${WBBotID}/VehicleLocations`;
       fetch(url, {
         method: 'GET',
@@ -53,13 +56,13 @@
           Authorization: WBAuth,
         },
       })
-        .then((response) => {
+        .then(async (response) => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
           return response.json();
         })
-        .then((data) => {
+        .then(async (data) => {
           // Clear existing table rows
           const VehicleContainer = document.getElementById('VehicleContainer');
           VehicleContainer.innerHTML = '';
@@ -106,35 +109,35 @@
             VehicleContainer.appendChild(checkbox);
 
             // add type to list
-            data.forEach((record) => {
+            for (const record of data) {
               if (record.value.type === type) {
                 const row = document.createElement('li');
-                // remove everything after the first space in the steamID
-                const steamID = record.value.reg.split(' ')[0];
+                let steamID = record.value.reg.split(' ')[0];
                 let vID = record.value.reg.replace(steamID, '');
 
                 const vehicleLocationX = record.value.coords.split(' ')[0];
                 const vehicleLocationY = record.value.coords.split(' ')[1];
 
-                let zone = ``;
-
-                if (isWithinPVP(vehicleLocationX, vehicleLocationY)) {
-                  zone = `🟥`;
-                } else {
-                  zone = `🟩`;
-                }
+                let zone = isWithinPVP(vehicleLocationX, vehicleLocationY)
+                  ? '🟥'
+                  : '🟩';
 
                 row.innerHTML = `
                   <span class="clickable" title="#TeleportToVehicle ${record.key}">${record.key}</span>
                   <span>${record.value.type}</span>
                   <span class="clickable" title="#Teleport ${record.value.coords}">${zone} ${record.value.coords}</span>
-                  ${record.value.reg ? `<span class="clickable" title="${steamID.replace(/^STEAMID:/, '')}">${steamID}</span>` : '<span></span>'}
-                  ${record.value.reg ? `<span class="clickable" title="#RenameVehicle ${record.key} 'VID:${record.key}'">${vID}</span>` : '<span>Unregistered</span>'}
+
+                  ${
+                    record.value.reg
+                      ? `<a class="" href="${Root}/playerInfo?playerid=${steamID.replace(/^STEAMID:/, '')}" title="${steamID.replace(/^STEAMID:/, '')}">${steamID}</a>
+                       <span class="clickable" title="#RenameVehicle ${record.key} 'VID:${record.key}'">${vID}</span>`
+                      : `<span></span><span>Unregistered</span>`
+                  }
               `;
                 list.appendChild(row);
                 VehicleContainer.appendChild(list);
               }
-            });
+            }
           }
         })
         .catch((error) => {
@@ -158,7 +161,7 @@
       }
     });
 
-    displayApiAsTable();
+    displayVehicleInfo();
   });
 </script>
 
@@ -197,11 +200,13 @@
   .vehicleList li:hover {
     background: var(--color-primary);
   }
-  .vehicleList li span {
+  .vehicleList li span,
+  .vehicleList li a {
     padding: 0.25em 0.5em;
     border-radius: 0.25em;
   }
-  .vehicleList li .clickable:hover {
+  .vehicleList li .clickable:hover,
+  .vehicleList li a:hover {
     background: var(--color-accent);
     cursor: pointer;
   }
@@ -214,7 +219,8 @@
   .vehicleList li span:nth-child(3) {
     flex: 0 1 36ch;
   }
-  .vehicleList li span:nth-child(4) {
+  .vehicleList li span:nth-child(4),
+  .vehicleList li a {
     flex: 0 1 28ch;
   }
   .vehicleList li span:nth-child(5) {

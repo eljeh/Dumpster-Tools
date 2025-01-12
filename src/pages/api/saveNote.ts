@@ -1,13 +1,15 @@
 import type { APIRoute } from 'astro';
 import fs from 'fs/promises';
 import path from 'path';
+import { PUBLIC_ROOT } from 'astro:env/client';
+const Root = PUBLIC_ROOT;
 
 export const POST: APIRoute = async ({ request }) => {
 	try {
 		const formData = await request.formData();
 		const id = formData.get('SteamId');
 		const entry = formData.get('entry');
-		const notesPath = path.join(process.cwd(), 'src/data/playerNotes.json');
+		const notesPath = path.join(process.cwd(), 'http://localhost:4321/data/playerNotes.json');
 		const notesContent = await fs.readFile(notesPath, 'utf-8');
 		const notes = JSON.parse(notesContent);
 		const newNote = {id,date: new Date().toISOString(),entry};
