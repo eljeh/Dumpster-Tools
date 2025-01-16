@@ -146,13 +146,17 @@ import Layout from '../layouts/Layout.astro';
   </div>
 
   <script>
+  import { PUBLIC_WBAUTH, PUBLIC_WBBOTID, PUBLIC_ROOT } from 'astro:env/client';
+  const WBAuth = PUBLIC_WBAUTH;
+  const WBBotID = PUBLIC_WBBOTID;
+  const Root = PUBLIC_ROOT;
     function populateIGPlayers() {
-      const url = 'https://api.whalleybot.com/bot/217fc652/PlayerLocations';
+      const url = 'https://api.whalleybot.com/bot/${WBBotID}/PlayerLocations';
       fetch(url, {
         method: 'GET',
         headers: {
           Accept: '*/*',
-          Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+          Authorization: WBAuth,
         },
       })
         .then((response) => {
