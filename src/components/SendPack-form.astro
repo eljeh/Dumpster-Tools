@@ -40,6 +40,10 @@
 </form>
 
 <script>
+	import { PUBLIC_WBAUTH, PUBLIC_WBBOTID, PUBLIC_ROOT } from 'astro:env/client';
+	const WBAuth = PUBLIC_WBAUTH;
+	const WBBotID = PUBLIC_WBBOTID;
+	const Root = PUBLIC_ROOT;
 	document.addEventListener('astro:page-load', () => {
 	// Get the order button element
 	const orderButton = document.getElementById('orderButton');
@@ -62,7 +66,7 @@
 						method: 'POST',
 						headers: {
 							Accept: '*/*',
-							Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+							Authorization: WBAuth,
 						},
 					},
 				);
@@ -90,7 +94,7 @@
 				method: 'GET',
 				headers: {
 					Accept: '*/*',
-					Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
+					Authorization: WBAuth,
 				},
 			});
 
@@ -118,7 +122,7 @@
 			// Fetch all packs until no more pages exist
 			while (nextPageExists) {
 				const data = await fetchData(
-					`https://api.whalleybot.com/bot/217fc652/GetPacks/${pageNumber}`,
+					`https://api.whalleybot.com/bot/${WBBotID}/GetPacks/${pageNumber}`,
 				);
 
 				// Check if there are packs in the current page

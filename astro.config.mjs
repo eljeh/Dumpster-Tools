@@ -9,14 +9,14 @@ export default defineConfig({
   integrations: [tailwind(), vue()],
   env: {
     schema: {
-      SECRET_WBBOTID: envField.string({
-        context: "server",
-        access: "public"
-      }),
-      SECRET_WBAUTH: envField.string({
-        context: "server",
-        access: "public"
-      }),
+      // SECRET_WBBOTID: envField.string({
+      //   context: "server",
+      //   access: "public"
+      // }),
+      // SECRET_WBAUTH: envField.string({
+      //   context: "server",
+      //   access: "public"
+      // }),
       PUBLIC_WBBOTID: envField.string({
         context: "client",
         access: "public"
