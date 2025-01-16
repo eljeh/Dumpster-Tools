@@ -151,7 +151,7 @@ import Layout from '../layouts/Layout.astro';
   const WBBotID = PUBLIC_WBBOTID;
   const Root = PUBLIC_ROOT;
     function populateIGPlayers() {
-      const url = 'https://api.whalleybot.com/bot/${WBBotID}/PlayerLocations';
+      const url = `https://api.whalleybot.com/bot/${WBBotID}/PlayerLocations`;
       fetch(url, {
         method: 'GET',
         headers: {
