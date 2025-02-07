@@ -1,0 +1,309 @@
+---
+import zones from '../data/zones.json';
+
+// Find the min and max coordinates to set up the viewport
+let minX = Infinity;
+let maxX = -Infinity;
+let minY = Infinity;
+let maxY = -Infinity;
+
+Object.entries(zones).forEach(([_, zoneArray]) => {
+	zoneArray.forEach((zone) => {
+		if (!zone.TopLeft || !zone.BottomRight) return;
+
+		// Parse coordinates, removing "X=" and "Y=" prefixes\
+
+		const topLeft = {
+			x: parseFloat(zone.TopLeft.split(' ')[0].replace('X=', '')),
+			y: parseFloat(zone.TopLeft.split(' ')[1].replace('Y=', '')),
+		};
+
+		const bottomRight = {
+			x: parseFloat(zone.BottomRight.split(' ')[0].replace('X=', '')),
+			y: parseFloat(zone.BottomRight.split(' ')[1].replace('Y=', '')),
+		};
+
+		minX = Math.min(minX, topLeft.x, bottomRight.x);
+		maxX = Math.max(maxX, topLeft.x, bottomRight.x);
+		minY = Math.min(minY, topLeft.y, bottomRight.y);
+		maxY = Math.max(maxY, topLeft.y, bottomRight.y);
+	});
+});
+
+// Add some padding
+const padding = (maxX - minX) * 0.05;
+minX -= padding;
+maxX += padding;
+minY -= padding;
+maxY += padding;
+
+// Function to convert game coordinates to SVG coordinates
+const toSvgX = (x: number) => ((x - minX) / (maxX - minX)) * 1000;
+const toSvgY = (y: number) => 1000 - ((y - minY) / (maxY - minY)) * 1000; // Flip Y axis
+---
+
+<h2 class='pageTitle text-center'>Map Zones</h2>
+<div class='overlay-controls'>
+	<label><input type='checkbox' checked id='sectors-toggle' />Sectors</label>
+	<label><input type='checkbox' checked id='pvp-toggle' />PVP</label>
+	<label><input type='checkbox' checked id='pve-toggle' />PVE</label>
+	<label><input type='checkbox' checked id='pois-toggle' />POIs</label>
+	<label><input type='checkbox' checked id='warzones-toggle' />Warzones</label>
+</div>
+<div class='map-container'>
+	<svg viewBox='170 0 1000 1000' class='map'>
+		<image
+			href='../assets/images/map.png'
+			width='1000'
+			height='1000'
+			x='170'
+			y='0'
+		/>
+		{
+			Object.entries(zones).map(([zoneName, zoneArray]) =>
+				zoneArray.map((zone) => {
+					if (!zone.TopLeft || !zone.BottomRight) return null;
+
+					const topLeft = {
+						x: parseFloat(zone.TopLeft.split(' ')[0].replace('X=', '')),
+						y: parseFloat(zone.TopLeft.split(' ')[1].replace('Y=', '')),
+					};
+
+					const bottomRight = {
+						x: parseFloat(zone.BottomRight.split(' ')[0].replace('X=', '')),
+						y: parseFloat(zone.BottomRight.split(' ')[1].replace('Y=', '')),
+					};
+
+					const width = Math.abs(toSvgX(topLeft.x) - toSvgX(bottomRight.x));
+					const height = Math.abs(toSvgY(topLeft.y) - toSvgY(bottomRight.y));
+
+					// flip left to right all the coordinates
+					topLeft.x = -topLeft.x;
+					bottomRight.x = -bottomRight.x;
+
+					// if zoneName starts with Sector_, add zone-Sector_ to the class
+					const sector = zoneName.startsWith('Sector_')
+						? `${zoneName.replace('Sector_', '')}`
+						: zoneName.startsWith('POI_')
+							? `${zoneName.replace('POI_', '')}`
+							: `${zoneName}`;
+
+					return (
+						<g class={`zone-${zoneName}`}>
+							<title>
+								{`${sector}\nTop Left: (${topLeft.x.toFixed(2)}, ${topLeft.y.toFixed(2)})\nBottom Right: (${bottomRight.x.toFixed(2)}, ${bottomRight.y.toFixed(2)})`}
+							</title>
+							<rect
+								x={toSvgX(Math.min(topLeft.x, bottomRight.x))}
+								y={toSvgY(Math.max(topLeft.y, bottomRight.y))}
+								width={width}
+								height={height}
+								class='zone-rect'
+							/>
+							<text
+								x={toSvgX(Math.min(topLeft.x, bottomRight.x)) + width / 2}
+								y={toSvgY(Math.max(topLeft.y, bottomRight.y)) + height / 2}
+								class='zone-label'>
+								{sector}
+							</text>
+						</g>
+					);
+				}),
+			)
+		}
+	</svg>
+</div>
+
+<script>
+	// Get all toggle checkboxes
+	const sectorsToggle = document.getElementById('sectors-toggle');
+	const pvpToggle = document.getElementById('pvp-toggle');
+	const pveToggle = document.getElementById('pve-toggle');
+	const warzonesToggle = document.getElementById('warzones-toggle');
+	const poisToggle = document.getElementById('pois-toggle');
+
+	// Function to toggle visibility
+	function updateVisibility(toggleElement, selector) {
+		if (!toggleElement) return;
+
+		const zones = document.querySelectorAll(selector);
+		toggleElement.addEventListener('change', (e) => {
+			zones.forEach((zone) => {
+				zone.style.display = e.target.checked ? 'block' : 'none';
+			});
+		});
+	}
+
+	// Set up toggle handlers
+	updateVisibility(sectorsToggle, '[class^="zone-Sector_"]');
+	updateVisibility(pvpToggle, '.zone-PVP');
+	updateVisibility(pveToggle, '.zone-PVE');
+	updateVisibility(warzonesToggle, '.zone-WarZoneDrops');
+	updateVisibility(poisToggle, '[class^="zone-POI_"]');
+
+
+	// Add zoom functionality
+	const svg = document.querySelector('.map');
+	const mapContainer = document.querySelector('.map-container');
+	let isZoomed = false;
+	let currentZoom = null;
+
+	// Function to handle zoom
+	function zoomToElement(element) {
+		if (!svg || !element) return;
+
+		const rect = element.querySelector('.zone-rect');
+		if (!rect) return;
+
+		const bbox = rect.getBBox();
+		const padding = 50; // Padding around the zoomed area
+
+		// Calculate zoom parameters
+		const viewBox = {
+			x: bbox.x - padding,
+			y: bbox.y - padding,
+			width: bbox.width + padding * 2,
+			height: bbox.height + padding * 2,
+		};
+
+		if (isZoomed && currentZoom === element) {
+			// Reset zoom
+			svg.setAttribute('viewBox', '170 0 1000 1000');
+			isZoomed = false;
+			currentZoom = null;
+		} else {
+			// Zoom to element
+			svg.setAttribute(
+				'viewBox',
+				`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`,
+			);
+			isZoomed = true;
+			currentZoom = element;
+		}
+	}
+
+	// Add click handlers to sector zones
+	document.querySelectorAll('[class^="zone-Sector_"]').forEach((zone) => {
+		zone.style.cursor = 'pointer';
+		zone.addEventListener('click', () => zoomToElement(zone));
+	});
+
+	// Add reset zoom on map container double click
+	mapContainer.addEventListener('dblclick', (e) => {
+		if (e.target === mapContainer || e.target === svg) {
+			svg.setAttribute('viewBox', '170 0 1000 1000');
+			isZoomed = false;
+			currentZoom = null;
+		}
+	});
+</script>
+
+<style is:inline>
+	h2.pageTitle {
+		font-size: 1.5em;
+		margin: 1em 0 -1.5em;
+	}
+	.overlay-controls {
+		position: absolute;
+		top: 5em;
+		right: 1em;
+		z-index: 1000;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.5em;
+		padding: 1em 1.5em;
+		border-radius: 0.5em;
+		background: var(--color-grey-darker);
+		box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+			var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+		label {
+			display: flex;
+			flex-direction: row;
+			gap: 0.5em;
+			align-items: center;
+		}
+		input[type='checkbox'] {
+			zoom: 1.5;
+		}
+	}
+
+	.wrapper {
+		width: calc(100vh - 8em);
+		padding: 0;
+	}
+
+	.map-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+	}
+
+
+	.map {
+		max-width: 100vw;
+		max-height: 100vh;
+
+		image {
+			translate: 60px 45px;
+			scale: 0.91;
+		}
+	}
+
+	.zone-rect {
+		fill: rgba(70, 130, 180, 0.02);
+		stroke: rgba(70, 130, 180, 0.02);
+		stroke-width: 1;
+	}
+
+	.zone-rect:hover {
+		fill: rgba(70, 130, 180, 0.4);
+	}
+
+	.zone-PVE .zone-rect {
+		fill: rgba(0, 255, 4, 0.009);
+		stroke: rgb(0, 255, 4);
+		stroke-width: 1;
+		&:hover {
+			fill: rgba(0, 255, 4, 0.04);
+		}
+	}
+
+	.zone-PVP .zone-rect {
+		fill: rgba(180, 70, 70, 0.2);
+		stroke: rgba(180, 70, 70, 1);
+		stroke-width: 1;
+	}
+
+	.zone-label {
+		fill: #fff;
+		font-size: 12px;
+		text-anchor: middle;
+		dominant-baseline: middle;
+		pointer-events: none;
+		text-shadow: 2px 2px 8px black;
+	}
+
+	.zone-WarZoneDrops {
+		.zone-rect {
+			fill: rgba(165, 180, 70, 0.2);
+			stroke: rgb(165, 180, 70);
+			stroke-width: 1;
+		}
+		text {
+			transform: translate(0, 1em);
+		}
+	}
+
+	[class^='zone-Sector_'] {
+		.zone-rect {
+			stroke: rgba(255, 255, 255, 0.1);
+			stroke-width: 1;
+			cursor: pointer;
+		}
+		text {
+			translate: -75px -75px;
+		}
+	}
+</style>
