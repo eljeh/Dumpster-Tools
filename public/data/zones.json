@@ -165,103 +165,103 @@
             "BottomRight": "X=314398.375 Y=-904795.125"
         }
     ],
-    "POI_AirportB2": [
+    "POI_custom_AirportB2": [
         {
             "TopLeft": "X=-176504.328 Y=31344.752",
             "BottomRight": "X=-352579.688 Y=-85133.078"
         }
     ],
-    "POI_BrickYard": [
+    "POI_custom_BrickYard": [
         {
             "TopLeft": "X=-766321.125 Y=-273100.594",
             "BottomRight": "X=-799536.562 Y=-294348.688"
         }
     ],
-    "POI_CementFactory": [
+    "POI_custom_CementFactory": [
         {
             "TopLeft": "X=-390450.000 Y=12775.000",
             "BottomRight": "X=-423262.594 Y=-24266.750"
         }
     ],
-    "POI_CoalMine": [
+    "POI_custom_CoalMine": [
         {
             "TopLeft": "X=-444421.906 Y=438232.312",
             "BottomRight": "X=-466634.969 Y=411954.969"
         }
     ],
-    "POI_CommunityCenter": [
+    "POI_custom_CommunityCenter": [
         {
             "TopLeft": "X=182772.42 Y=57584.63",
             "BottomRight": "X=148236.92 Y=21730.98"
         }
     ],
-    "POI_Hospital": [
+    "POI_custom_Hospital": [
         {
             "TopLeft": "X=-611478.875 Y=-99940.992",
             "BottomRight": "X=-655928.875 Y=-195923.688"
         }
     ],
-    "POI_MechFactory": [
+    "POI_custom_MechFactory": [
         {
             "TopLeft": "X=-416551.375 Y=-658164.500",
             "BottomRight": "X=-459235.406 Y=-716178.688"
         }
     ],
-    "POI_Mirkovci": [
+    "POI_custom_Mirkovci": [
         {
             "TopLeft": "X=309241.281 Y=-156663.906",
             "BottomRight": "X=264562.531 Y=-202506.281"
         }
     ],
-    "POI_NavalBase": [
+    "POI_custom_NavalBase": [
         {
             "TopLeft": "X=532989.607 Y=-504735.4323",
             "BottomRight": "X=458687.531 Y=-588262.8977"
         }
     ],
-    "POI_Novigrad": [
+    "POI_custom_Novigrad": [
         {
             "TopLeft": "X=-137546.172 Y=-658548.625",
             "BottomRight": "X=-186394.938 Y=-710344.563"
         }
     ],
-    "POI_NuclearPowerPlant": [
+    "POI_custom_NuclearPowerPlant": [
         {
             "TopLeft": "X=-669521.125 Y=243415.000",
             "BottomRight": "X=-751730.000 Y=183879.453"
         }
     ],
-    "POI_Quarry": [
+    "POI_custom_Quarry": [
         {
             "TopLeft": "X=173626.625 Y=-251815.703",
             "BottomRight": "X=104838.109 Y=-388328.312"
         }
     ],
-    "POI_Samobor": [
+    "POI_custom_Samobor": [
         {
             "TopLeft": "X=401577.344 Y=437500.906",
             "BottomRight": "X=224053.797 Y=269610.656"
         }
     ],
-    "POI_ScrapYard": [
+    "POI_custom_ScrapYard": [
         {
             "TopLeft": "X=-854244.250 Y=-163196.766",
             "BottomRight": "X=-879888.438 Y=-208867.906"
         }
     ],
-    "POI_Spickovina": [
+    "POI_custom_Spickovina": [
         {
             "TopLeft": "X=-30912.904 Y=-73909.492",
             "BottomRight": "X=-79165.945 Y=-100700.492"
         }
     ],
-    "POI_Tisno": [
+    "POI_custom_Tisno": [
         {
             "TopLeft": "X=-17658.209 Y=-470713.938",
             "BottomRight": "X=-51762.984 Y=-503011.969"
         }
     ],
-    "POI_TrainYard": [
+    "POI_custom_TrainYard": [
         {
             "TopLeft": "X=-248945.188 Y=-709153.813",
             "BottomRight": "X=-394300.031 Y=-799647.875"
@@ -309,12 +309,12 @@
             "BottomRight": "X=-394300.031 Y=-799647.875"
         },
         {
-            "TopLeft": "-323141.812 Y=-331494.188",
-            "BottomRight": "-365438.156 -387142.875"
+            "TopLeft": "X=-323141.812 Y=-331494.188",
+            "BottomRight": "X=-365438.156 Y=-387142.875"
         },
         {
-            "TopLeft": "-41496.875 165005.750",
-            "BottomRight": "-79346.375 130495.812"
+            "TopLeft": "X=-41496.875 Y=165005.750",
+            "BottomRight": "X=-79346.375 Y=130495.812"
         }
     ]
 }

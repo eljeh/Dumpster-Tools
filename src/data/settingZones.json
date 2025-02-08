@@ -1,0 +1,98 @@
+{
+    "Outpost_A0": [
+        {
+            "Center": "-610000 -510000",
+            "Radius": "0.9"
+        }
+    ],
+    "Outpost_B4": [
+        {
+            "Center": "570000 -210000",
+            "Radius": "0.35"
+        }
+    ],
+    "Outpost_C2": [
+        {
+            "Center": "-147000 275000",
+            "Radius": "0.35"
+        }
+    ],
+    "Outpost_Z3": [
+        {
+            "Center": "12820 -678344",
+            "Radius": "0.35"
+        }
+    ],
+    "POI_PVE_CommunityCenter": [
+        {
+            "Center": "170000 35000",
+            "size": "0.32 0.250"
+        }
+    ],
+    "POI_PVE_D4Airfield": [
+        {
+            "Center": "489000 570000",
+            "Radius": "0.8"
+        }
+    ],
+    "POI_PVE_A4Airfield": [
+        {
+            "Center": "362000 -528000",
+            "Radius": "0.25"
+        }
+    ],
+    "POI_PVE_BootCamp": [
+        {
+            "Center": "250731 -35000",
+            "Radius": "0.25"
+        }
+    ],
+    "POI_PVE_C4Hospital": [
+        {
+            "Center": "385000 295000",
+            "Radius": "0.25"
+        }
+    ],
+    "POI_PVE_Dam": [
+        {
+            "Center": "-10000 255000",
+            "size": "0.22 0.35"
+        }
+    ],
+    "POI_PVE_Factory": [
+        {
+            "Center": "-407571 -5833",
+            "Radius": "0.3"
+        }
+    ],
+    "POI_PVP_Samobor": [
+        {
+            "Center": "330000 350000",
+            "Radius": "0.85"
+        }
+    ],
+    "POI_PVP_CoalMine": [
+        {
+            "Center": "-453870 422430",
+            "Radius": "0.4"
+        }
+    ],
+    "POI_PVP_RadioTower": [
+        {
+            "Center": "-862601 328386",
+            "size": "0.300 0.200"
+        }
+    ],
+    "POI_PVP_NavalBase": [
+        {
+            "Center": "490000 -540000",
+            "Radius": "0.5"
+        }
+    ],
+    "POI_PVP_Z4Island": [
+        {
+            "Center": "430000 -830000",
+            "Radius": "0.45"
+        }
+    ]
+}
