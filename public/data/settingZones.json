@@ -94,5 +94,38 @@
             "Center": "430000 -830000",
             "Radius": "0.45"
         }
+    ],
+    "POI_PVP_FishPlant": [
+        {
+            "Center": "-360000 -360000",
+            "size": "0.300 0.220"
+        }
+    ],
+    "POI_PVP_KingOfTheCastle": [
+        {
+            "Center": "-180000 -170000",
+            "Radius": "0.500 "
+        }
+    ],
+    "POI_PVP_MurderousMazeOfMayhem": [
+        {
+            "Center": "-330000 -140000",
+            "Radius": "0.200"
+        }
+    ],
+    "POI_PVP_CastleB3": [
+        {
+            "Center": "48000 4000",
+            "Radius": "0.200"
+        }
+    ],
+    "POI_PVP_SawMillD2": [
+        {
+            "Center": "-91690 491553",
+            "Radius": "0.300"
+        }
     ]
 }
+
+
+
