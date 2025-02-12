@@ -80,7 +80,7 @@
     "POI_PVP_RadioTower": [
         {
             "Center": "-862601 328386",
-            "size": "0.300 0.200"
+            "size": "0.3 0.2"
         }
     ],
     "POI_PVP_NavalBase": [
@@ -98,74 +98,191 @@
     "POI_PVP_FishPlant": [
         {
             "Center": "-360000 -360000",
-            "size": "0.300 0.220"
+            "size": "0.3 0.22"
         }
     ],
     "POI_Event_KingOfTheCastle": [
         {
             "Center": "-180000 -170000",
-            "Radius": "0.500 "
+            "Radius": "0.5"
         }
     ],
     "POI_Event_Maze": [
         {
             "Center": "-330000 -140000",
-            "Radius": "0.200"
+            "Radius": "0.2"
         }
     ],
-    "POI_PVE_CastleB3": [
+    "POI_PVE_Castle": [
         {
             "Center": "48000 4000",
-            "Radius": "0.200"
+            "Radius": "0.2"
         }
     ],
-    "POI_PVP_SawMillD2": [
+    "POI_PVP_SawMill": [
         {
             "Center": "-91690 491553",
-            "Radius": "0.300"
+            "Radius": "0.3"
         }
     ],
-    "POI_PVP_CompoundD0": [
+    "POI_PVP_Compound": [
         {
-            "Center": "-660000 538000",
-            "Radius": "0.350"
+            "Center": "-860000 538000",
+            "Radius": "0.35"
         }
     ],
-    "POI_PVP_HospitalB0": [
+    "POI_PVP_Hospital": [
         {
             "Center": "-631830 -149000",
-            "Radius": "0.300"
+            "Radius": "0.3"
         }
     ],
-    "POI_PVP_ScrapYardB0": [
+    "POI_PVP_ScrapYard": [
         {
             "Center": "-872000 -180000",
-            "size": "0.200 0.400"
+            "size": "0.2 0.4"
         }
     ],
-    "POI_PVP_BrickYardB0": [
+    "POI_PVP_BrickYard": [
         {
             "Center": "-775650 -283392",
-            "Radius": "0.250"
+            "Radius": "0.25"
         }
     ],
-    "POI_PVP_NovigradZ2": [
+    "POI_PVP_Novigrad": [
         {
             "Center": "-165949 -680058",
-            "Radius": "0.300"
+            "Radius": "0.3"
         }
     ],
-    "POI_PVP_TrainYardZ1": [
+    "POI_PVP_TrainYard": [
         {
             "Center": "-315697 -747336",
-            "size": "0.600 0.300"
+            "size": "0.6 0.3"
         }
     ],
-    "POI_PVP_MechFactoryZ1": [
+    "POI_PVP_MechFactory": [
         {
             "Center": "-445000 -683000",
-            "Radius": "0.300"
+            "Radius": "0.3"
+        }
+    ],
+    "POI_PVP_Airport": [
+        {
+            "Center": "-256124 -25000",
+            "size": "0.8 0.4"
+        }
+    ],
+    "POI_PVP_RaceTrack": [
+        {
+            "Center": "265000 -755000",
+            "Radius": "0.25"
+        }
+    ],
+    "POI_PVP_Airfield": [
+        {
+            "Center": "-761000 -665000",
+            "Radius": "0.25"
+        }
+    ],
+    "PVP_Bunkers": [
+        {
+            "Center": "404833 563102",
+            "Radius": "0.2"
+        },
+        {
+            "Center": "-543962 544754",
+            "Radius": "0.2"
+        },
+        {
+            "Center": "-877950 600319",
+            "Radius": "0.15"
+        },
+        {
+            "Center": "197318 298341",
+            "Radius": "0.2"
+        },
+        {
+            "Center": "-227439 190236",
+            "Radius": "0.2"
+        },
+        {
+            "Center": "231948 -95276",
+            "Radius": "0.2"
+        },
+        {
+            "Center": "-593077 -263944",
+            "Radius": "0.15"
+        },
+        {
+            "Center": "-804825 -96579",
+            "Radius": "0.15"
+        },
+        {
+            "Center": "-892169 234230",
+            "Radius": "0.15"
+        },
+        {
+            "Center": "456833 -398520",
+            "Radius": "0.2"
+        },
+        {
+            "Center": "-46162 -320954",
+            "Radius": "0.2"
+        },
+        {
+            "Center": "-770771 -346401",
+            "Radius": "0.15"
+        },
+        {
+            "Center": "522746 -828626",
+            "Radius": "0.15"
+        },
+        {
+            "Center": "23910 -810361",
+            "Radius": "0.15"
+        },
+        {
+            "Center": "-198553 -652737",
+            "Radius": "0.15"
+        },
+        {
+            "Center": "-570347 -729824",
+            "Radius": "0.15"
+        }
+    ],
+    "PVE_Bunker": [
+        {
+            "Center": "138515 543463",
+            "Radius": "0.15"
+        },
+        {
+            "Center": "-250255 572698",
+            "Radius": "0.15"
+        },
+        {
+            "Center": "448395 270475",
+            "Radius": "0.15"
+        },
+        {
+            "Center": "-385899 217199",
+            "Radius": "0.15"
+        },
+        {
+            "Center": "449382 -12773",
+            "Radius": "0.15"
+        },
+        {
+            "Center": "-44256 -189750",
+            "Radius": "0.15"
+        },
+        {
+            "Center": "226753 -440273",
+            "Radius": "0.15"
+        },
+        {
+            "Center": "-341031 -470960",
+            "Radius": "0.15"
         }
     ]
- 
 }

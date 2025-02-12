@@ -47,6 +47,12 @@
             "Radius": "0.25"
         }
     ],
+    "POI_PVP_Samobor": [
+        {
+            "Center": "330000 350000",
+            "Radius": "0.85"
+        }
+    ],
     "POI_PVE_C4Hospital": [
         {
             "Center": "385000 295000",
@@ -63,12 +69,6 @@
         {
             "Center": "-407571 -5833",
             "Radius": "0.3"
-        }
-    ],
-    "POI_PVP_Samobor": [
-        {
-            "Center": "330000 350000",
-            "Radius": "0.85"
         }
     ],
     "POI_PVP_CoalMine": [
@@ -101,19 +101,19 @@
             "size": "0.300 0.220"
         }
     ],
-    "POI_PVP_KingOfTheCastle": [
+    "POI_Event_KingOfTheCastle": [
         {
             "Center": "-180000 -170000",
             "Radius": "0.500 "
         }
     ],
-    "POI_PVP_MurderousMazeOfMayhem": [
+    "POI_Event_Maze": [
         {
             "Center": "-330000 -140000",
             "Radius": "0.200"
         }
     ],
-    "POI_PVP_CastleB3": [
+    "POI_PVE_CastleB3": [
         {
             "Center": "48000 4000",
             "Radius": "0.200"
@@ -124,8 +124,59 @@
             "Center": "-91690 491553",
             "Radius": "0.300"
         }
+    ],
+    "POI_PVP_CompoundD0": [
+        {
+            "Center": "-860000 538000",
+            "Radius": "0.350"
+        }
+    ],
+    "POI_PVP_HospitalB0": [
+        {
+            "Center": "-631830 -149000",
+            "Radius": "0.300"
+        }
+    ],
+    "POI_PVP_ScrapYardB0": [
+        {
+            "Center": "-872000 -180000",
+            "size": "0.200 0.400"
+        }
+    ],
+    "POI_PVP_BrickYardB0": [
+        {
+            "Center": "-775650 -283392",
+            "Radius": "0.250"
+        }
+    ],
+    "POI_PVP_NovigradZ2": [
+        {
+            "Center": "-165949 -680058",
+            "Radius": "0.300"
+        }
+    ],
+    "POI_PVP_TrainYardZ1": [
+        {
+            "Center": "-315697 -747336",
+            "size": "0.600 0.300"
+        }
+    ],
+    "POI_PVP_MechFactoryZ1": [
+        {
+            "Center": "-445000 -683000",
+            "Radius": "0.300"
+        }
+    ],
+    "POI_PVP_Airport B2": [
+        {
+            "Center": "-256124 -25000",
+            "size": "0.800 0.400"
+        }
+    ],
+    "POI_PVP_Airfield Z0": [
+        {
+            "Center": "-761000 -665000",
+            "Radius": "0.250"
+        }
     ]
 }
-
-
-

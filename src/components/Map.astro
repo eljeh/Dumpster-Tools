@@ -36,11 +36,30 @@ maxY += padding;
 // Function to convert game coordinates to SVG coordinates
 const toSvgX = (x: number) => ((x - minX) / (maxX - minX)) * 1000;
 const toSvgY = (y: number) => 1000 - ((y - minY) / (maxY - minY)) * 1000; // Flip Y axis
+
+const ZONE_NAME_MAPPINGS = {
+	Sector_: (name: string) => name.replace('Sector_', ''),
+	POI_PVP_: (name: string) => name.replace('POI_PVP_', 'PvP '),
+	POI_PVE_: (name: string) => name.replace('POI_PVE_', 'PvE '),
+	POI_custom_: (name: string) => name.replace('POI_custom_', ''),
+	Bunkers_PVP: (name: string) => name.replace('Bunkers_PVP', 'PvP Bunker'),
+	Bunkers_PVE: (name: string) => name.replace('Bunkers_PVE', 'PvE Bunker'),
+	Outpost_: (name: string) => `${name.replace('Outpost_', '')} Outpost`,
+	WarZoneDrops: (name: string) => name.replace('WarZoneDrops', 'Warzone Drops'),
+} as const;
+
+const formatZoneName = (zoneName: string): string => {
+	const prefix = Object.keys(ZONE_NAME_MAPPINGS).find((key) =>
+		zoneName.startsWith(key),
+	);
+	return prefix ? ZONE_NAME_MAPPINGS[prefix](zoneName) : zoneName;
+};
 ---
 
 <div class='overlay-controls'>
 	<h2 class='pageTitle text-center'>Map Zones</h2>
 	<label><input type='checkbox' id='pois-toggle' />POIs</label>
+	<label><input type='checkbox' id='bunkers-toggle' />Bunkers</label>
 	<label><input type='checkbox' id='outposts-toggle' />Outposts</label>
 	<label><input type='checkbox' checked id='sectors-toggle' />Sectors</label>
 	<label><input type='checkbox' checked id='image-toggle' />Image</label>
@@ -92,23 +111,7 @@ const toSvgY = (y: number) => 1000 - ((y - minY) / (maxY - minY)) * 1000; // Fli
 					bottomRight.x = -bottomRight.x;
 
 					// if zoneName starts with Sector_, add zone-Sector_ to the class
-					const sector = zoneName.startsWith('Sector_')
-						? `${zoneName.replace('Sector_', '')}`
-						: zoneName.startsWith('POI_PVP')
-							? `${zoneName.replace('POI_PVP_', 'PvP ')}`
-							: zoneName.startsWith('POI_PVE')
-								? `${zoneName.replace('POI_PVE_', 'PvE ')}`
-								: zoneName.startsWith('POI_custom_')
-									? `${zoneName.replace('POI_custom_', '')}`
-									: zoneName.startsWith('Bunkers_PVP')
-										? `${zoneName.replace('Bunkers_PVP', 'PvP Bunker')}`
-										: zoneName.startsWith('Bunkers_PVE')
-											? `${zoneName.replace('Bunkers_PVE', 'PvE Bunker')}`
-											: zoneName.startsWith('Outpost_')
-												? `${zoneName.replace('Outpost_', '')} Outpost`
-												: zoneName.startsWith('WarZoneDrops')
-													? `${zoneName.replace('WarZoneDrops', 'Warzone Drops')}`
-													: `${zoneName}`;
+					const sector = formatZoneName(zoneName);
 
 					return (
 						<g
@@ -142,34 +145,31 @@ const toSvgY = (y: number) => 1000 - ((y - minY) / (maxY - minY)) * 1000; // Fli
 		{
 			Object.entries(settingZones).map(([zoneName, zoneArray]) =>
 				zoneArray.map((zone) => {
-					if (!zone.Center || !zone.Radius) return null;
+					if (!zone.Center) return null;
 
 					const center = {
 						x: -parseFloat(zone.Center.split(' ')[0]), // Flip X coordinate
 						y: parseFloat(zone.Center.split(' ')[1]),
 					};
 
-					// Convert radius to SVG scale (assuming similar scale as rectangular zones)
-					const radius = parseFloat(zone.Radius) * 100000;
+					// Handle both circular and rectangular zones
+					const isCircular = zone.Radius !== undefined;
+					let width, height, radius;
+
+					if (isCircular) {
+						radius = parseFloat(zone.Radius) * 100000;
+					} else if (zone.size) {
+						const [sizeX, sizeY] = zone.size
+							.split(' ')
+							.map((s) => parseFloat(s) * 100000);
+						width = sizeX;
+						height = sizeY;
+					} else {
+						return null;
+					}
 
 					// if zoneName starts with Sector_, add zone-Sector_ to the class
-					const sector = zoneName.startsWith('Sector_')
-						? `${zoneName.replace('Sector_', '')}`
-						: zoneName.startsWith('POI_PVP')
-							? `${zoneName.replace('POI_PVP_', 'PvP ')}`
-							: zoneName.startsWith('POI_PVE')
-								? `${zoneName.replace('POI_PVE_', 'PvE ')}`
-								: zoneName.startsWith('POI_custom_')
-									? `${zoneName.replace('POI_custom_', '')}`
-									: zoneName.startsWith('Bunkers_PVP')
-										? `${zoneName.replace('Bunkers_PVP', 'PvP Bunker')}`
-										: zoneName.startsWith('Bunkers_PVE')
-											? `${zoneName.replace('Bunkers_PVE', 'PvE Bunker')}`
-											: zoneName.startsWith('Outpost_')
-												? `${zoneName.replace('Outpost_', '')} Outpost`
-												: zoneName.startsWith('WarZoneDrops')
-													? `${zoneName.replace('WarZoneDrops', 'Warzone Drops')}`
-													: `${zoneName}`;
+					const sector = formatZoneName(zoneName);
 
 					return (
 						<g
@@ -180,20 +180,32 @@ const toSvgY = (y: number) => 1000 - ((y - minY) / (maxY - minY)) * 1000; // Fli
 									: 'display: none;'
 							}>
 							<title>
-								{`${sector}\nCenter: (${center.x.toFixed(2)}, ${center.y.toFixed(2)})\nRadius: ${zone.Radius}`}
+								{isCircular
+									? `${sector}\nCenter: (${center.x.toFixed(2)}, ${center.y.toFixed(2)})\nRadius: ${zone.Radius}`
+									: `${sector}\nCenter: (${center.x.toFixed(2)}, ${center.y.toFixed(2)})\nSize: ${zone.size}`}
 							</title>
 
-							<circle
-								cx={toSvgX(center.x)}
-								cy={toSvgY(center.y)}
-								r={(radius / (maxX - minX)) * 1000}
-								class='zone-circ'
-							/>
+							{isCircular ? (
+								<circle
+									cx={toSvgX(center.x)}
+									cy={toSvgY(center.y)}
+									r={(radius / (maxX - minX)) * 1000}
+									class='zone-circ'
+								/>
+							) : (
+								<rect
+									x={toSvgX(center.x - width)}
+									y={toSvgY(center.y + height)}
+									width={(width / (maxX - minX)) * 2000}
+									height={(height / (maxY - minY)) * 2000}
+									class='zone-rect'
+								/>
+							)}
 							<text
 								x={toSvgX(center.x)}
 								y={toSvgY(center.y)}
 								class='zone-label'>
-								{sector}
+								{sector.replace('PvP', '').replace('PvE', '')}
 							</text>
 						</g>
 					);
@@ -213,6 +225,7 @@ const toSvgY = (y: number) => 1000 - ((y - minY) / (maxY - minY)) * 1000; // Fli
 	const warzonesToggle = document.getElementById('warzones-toggle');
 	const outpostsToggle = document.getElementById('outposts-toggle');
 	const poisToggle = document.getElementById('pois-toggle');
+	const bunkersToggle = document.getElementById('bunkers-toggle');
 	const imageToggle = document.getElementById('image-toggle');
 	const customPOIToggle = document.getElementById('custom-pois-toggle');
 
@@ -232,6 +245,10 @@ const toSvgY = (y: number) => 1000 - ((y - minY) / (maxY - minY)) * 1000; // Fli
 	updateVisibility(sectorsToggle, '[class^="zone-Sector_"]');
 	updateVisibility(pvpToggle, '.zone-PVP');
 	updateVisibility(pveToggle, '.zone-PVE');
+	updateVisibility(
+		bunkersToggle,
+		'[class^="zone-PVP_Bunker"], [class^="zone-PVE_Bunker"]',
+	);
 	updateVisibility(pveBunkerToggle, '[class^="zone-Bunkers_PVE"]');
 	updateVisibility(pvpBunkerToggle, '[class^="zone-Bunkers_PVP"]');
 	updateVisibility(warzonesToggle, '.zone-WarZoneDrops');
@@ -300,7 +317,43 @@ const toSvgY = (y: number) => 1000 - ((y - minY) / (maxY - minY)) * 1000; // Fli
 </script>
 
 <style is:inline>
+	:root {
+		/* Base colors */
+		--color-white: hsl(0, 0%, 100%);
+		--color-white-40: hsla(0, 0%, 100%, 0.4);
+		--color-white-10: hsla(0, 0%, 100%, 0.1);
 
+		/* Zone colors */
+		--color-zone-default: hsl(207, 44%, 49%);
+		--color-zone-default-fill: hsla(207, 44%, 49%, 0.02);
+		--color-zone-default-hover: hsla(207, 44%, 49%, 0.4);
+
+		/* PvE colors */
+		--color-pve: hsl(121, 100%, 75%);
+		--color-pve-fill: hsla(121, 100%, 75%, 0.009);
+		--color-pve-hover: hsla(121, 100%, 50%, 0.04);
+
+		/* PvP colors */
+		--color-pvp: hsla(0, 44%, 49%, 0.75);
+		--color-pvp-fill: hsla(0, 44%, 49%, 0.5);
+
+		/* Special zone colors */
+		--color-warzone: hsla(297, 44%, 49%, 0.75);
+		--color-warzone-fill: hsla(297, 44%, 49%, 0.5);
+
+		--color-community: hsla(308, 100%, 50%, 0.75);
+		--color-community-fill: hsla(308, 100%, 50%, 0.5);
+
+		/* POI and Outpost colors */
+		--color-custom-poi: hsla(147, 41%, 41%, 0.75);
+		--color-custom-poi-fill: hsla(147, 41%, 41%, 0.5);
+
+		--color-pve-poi: hsla(200, 50% 40%, 0.75);
+		--color-pve-poi-fill: hsla(200, 50% 40%, 0.5);
+
+		--color-pvp-poi: hsla(69, 44%, 37%, 0.75);
+		--color-pvp-poi-fill: hsla(69, 44%, 37%, 0.5);
+	}
 
 	/* Page Layout */
 	h2.pageTitle {
@@ -353,8 +406,6 @@ const toSvgY = (y: number) => 1000 - ((y - minY) / (maxY - minY)) * 1000; // Fli
 		}
 	}
 
-
-
 	.modifiers-container {
 		display: flex;
 		flex-direction: column;
@@ -369,7 +420,6 @@ const toSvgY = (y: number) => 1000 - ((y - minY) / (maxY - minY)) * 1000; // Fli
 			outline-offset: 0.25em;
 			border-radius: 0.125em;
 		}
-
 	}
 
 	#modifiers-toggle {
@@ -404,8 +454,6 @@ const toSvgY = (y: number) => 1000 - ((y - minY) / (maxY - minY)) * 1000; // Fli
 		align-items: start;
 	}
 
-
-
 	/* Map Container */
 	.map-container {
 		display: flex;
@@ -416,7 +464,7 @@ const toSvgY = (y: number) => 1000 - ((y - minY) / (maxY - minY)) * 1000; // Fli
 	}
 
 	.map {
-		scale: 1.05;
+		scale: 1;
 
 		image {
 			translate: 60px 45px;
@@ -426,17 +474,17 @@ const toSvgY = (y: number) => 1000 - ((y - minY) / (maxY - minY)) * 1000; // Fli
 
 	/* Base Zone Styles */
 	.zone-rect {
-		fill: rgba(70, 130, 180, 0.02);
-		stroke: rgba(70, 130, 180, 0.02);
+		fill: var(--color-zone-default-fill);
+		stroke: var(--color-zone-default-fill);
 		stroke-width: 1;
 
 		&:hover {
-			fill: rgba(70, 130, 180, 0.4);
+			fill: var(--color-zone-default-hover);
 		}
 	}
 
 	[class^='zone-Sector_'] text {
-		fill: rgba(255, 255, 255, 0.4);
+		fill: var(--color-white-40);
 		font-size: 1em;
 		text-anchor: middle;
 		dominant-baseline: middle;
@@ -446,6 +494,8 @@ const toSvgY = (y: number) => 1000 - ((y - minY) / (maxY - minY)) * 1000; // Fli
 	}
 
 	.zone-label,
+	[class^='zone-PVP_Bunker'] text,
+	[class^='zone-PVE_Bunker'] text,
 	[class^='zone-POI_PVE'] text,
 	[class^='zone-POI_PVP'] text,
 	[class^='zone-POI_custom_'] text,
@@ -455,7 +505,7 @@ const toSvgY = (y: number) => 1000 - ((y - minY) / (maxY - minY)) * 1000; // Fli
 	[class^='zone-Outpost_'] text,
 	.zone-WarZoneDrops text,
 	.zone-CommunityCenter text {
-		fill: rgb(255, 255, 255);
+		fill: var(--color-white);
 		font-size: 0.3em;
 		text-anchor: middle;
 		dominant-baseline: middle;
@@ -467,36 +517,36 @@ const toSvgY = (y: number) => 1000 - ((y - minY) / (maxY - minY)) * 1000; // Fli
 
 	/* Zone Type Specific Styles */
 	.zone-PVE .zone-rect {
-		fill: rgba(129, 255, 131, 0.009);
-		stroke: rgb(129, 255, 131);
+		fill: var(--color-pve-fill);
+		stroke: var(--color-pve);
 		stroke-width: 1;
 		&:hover {
-			fill: rgba(0, 255, 4, 0.04);
+			fill: var(--color-pve-hover);
 		}
 	}
 
 	.zone-PVP .zone-rect {
-		fill: rgba(180, 70, 70, 0.2);
-		stroke: rgba(180, 70, 70, 1);
+		fill: var(--color-pvp-fill);
+		stroke: var(--color-pvp);
 		stroke-width: 1;
 	}
 
 	.zone-WarZoneDrops .zone-rect {
-		fill: rgba(176, 70, 180, 0.2);
-		stroke: rgb(176, 70, 180);
+		fill: var(--color-warzone-fill);
+		stroke: var(--color-warzone);
 		stroke-width: 0;
 	}
 
 	.zone-CommunityCenter .zone-rect {
-		fill: rgba(255, 0, 208, 0.5);
-		stroke: rgb(255, 0, 208);
+		fill: var(--color-community-fill);
+		stroke: var(--color-community);
 		stroke-width: 0.5;
 	}
 
 	/* Sector Styles */
 	[class^='zone-Sector_'] {
 		.zone-rect {
-			stroke: rgba(255, 255, 255, 0.1);
+			stroke: var(--color-white-10);
 			stroke-width: 1;
 			cursor: pointer;
 		}
@@ -505,28 +555,29 @@ const toSvgY = (y: number) => 1000 - ((y - minY) / (maxY - minY)) * 1000; // Fli
 	/* POI and Outpost Styles */
 	[class^='zone-Outpost_'] .zone-circ,
 	[class^='zone-POI_custom_'] .zone-circ {
-		fill: rgba(0, 255, 115, 0.5);
-		stroke: rgb(0, 255, 115);
+		fill: var(--color-custom-poi-fill);
+		stroke: var(--color-custom-poi);
 		stroke-width: 0.5;
 	}
-
+	[class^='zone-PVE_Bunker'] .zone-circ,
 	[class^='zone-POI_PVE'] .zone-rect,
 	[class^='zone-POI_PVE'] .zone-circ,
 	[class^='zone-Bunkers_PVE'] .zone-rect,
 	[class^='zone-Bunkers_PVE'] .zone-circ {
-		fill: rgba(0, 64, 255, 0.5);
-		stroke: rgb(0, 64, 255);
+		fill: var(--color-pve-poi-fill);
+		stroke: var(--color-pve-poi);
 		stroke-width: 0.5;
 	}
 
+	[class^='zone-PVP_Bunker'] .zone-circ,
 	[class^='zone-POI_PVP'] .zone-rect,
 	[class^='zone-POI_PVP'] .zone-circ,
 	.zone-Outpost_A0 .zone-rect,
 	.zone-Outpost_A0 .zone-circ,
 	[class^='zone-Bunkers_PVP'] .zone-rect,
 	[class^='zone-Bunkers_PVP'] .zone-circ {
-		fill: rgba(165, 180, 70, 0.5);
-		stroke: rgb(165, 180, 70);
+		fill: var(--color-pvp-poi-fill);
+		stroke: var(--color-pvp-poi);
 		stroke-width: 0.5;
 	}
 </style>
