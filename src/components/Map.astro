@@ -66,17 +66,37 @@ const formatZoneName = (zoneName: string): string => {
 			<span class='vehicles open'>▼ Vehicles ▼</span>
 		</label>
 		<div class='vehicle-types'>
-			<label><input type='checkbox' checked id='all-vehicles-toggle' />All Vehicles</label>
-			<label><input type='checkbox' id='rager-toggle' />Ragers</label>
+			<label
+				><input type='checkbox' checked id='all-vehicles-toggle' />All Vehicles</label
+			>
+			<label
+				><input
+					type='checkbox'
+					checked
+					id='registered-vehicles-toggle'
+				/>Registered</label
+			>
+			<label
+				><input
+					type='checkbox'
+					checked
+					id='not-registered-vehicles-toggle'
+				/>Not Registered</label
+			>
+			<!-- <label><input type='checkbox' id='rager-toggle' />Ragers</label>
 			<label><input type='checkbox' id='wolfswagen-toggle' />WolfsWagens</label>
 			<label><input type='checkbox' id='laika-toggle' />Laikas</label>
-			<label><input type='checkbox' id='kingletduster-toggle' />Kinglet Dusters</label>
+			<label
+				><input type='checkbox' id='kingletduster-toggle' />Kinglet Dusters</label
+			>
 			<label><input type='checkbox' id='barba-toggle' />Boats</label>
 			<label><input type='checkbox' id='ris-toggle' />RISs</label>
 			<label><input type='checkbox' id='dirtbike-toggle' />DirtBikes</label>
 			<label><input type='checkbox' id='cruiser-toggle' />Cruisers</label>
 			<label><input type='checkbox' id='bicycles-toggle' />Bicycles</label>
-			<label><input type='checkbox' id='wheelbarrow-toggle' />WheelBarrows</label>
+			<label
+				><input type='checkbox' id='wheelbarrow-toggle' />WheelBarrows</label
+			> -->
 		</div>
 	</div>
 	<label><input type='checkbox' id='pois-toggle' />POIs</label>
@@ -365,7 +385,6 @@ const formatZoneName = (zoneName: string): string => {
 					return response.json();
 				})
 				.then((data) => {
-
 					// Remove existing vehicle markers container
 					const existingContainer = document.querySelector(
 						'.vehicle-markers-container',
@@ -415,8 +434,10 @@ const formatZoneName = (zoneName: string): string => {
 
 						validVehicles++;
 
-						const vehicleType = vehicle.value.type.trim().replace('BPC_', '').replace('BP_', '');
-
+						const vehicleType = vehicle.value.type
+							.trim()
+							.replace('BPC_', '')
+							.replace('BP_', '');
 
 						const g = document.createElementNS(
 							'http://www.w3.org/2000/svg',
@@ -424,6 +445,12 @@ const formatZoneName = (zoneName: string): string => {
 						);
 						g.classList.add('vehicle-marker');
 						g.classList.add(`${vehicleType}`);
+						// if vehicle.value.reg is not null, add vehicle-reg to the class
+						if (!vehicle.value.reg) {
+							g.classList.add(`not-registered`);
+						} else {
+							g.classList.add(`registered`);
+						}
 
 						// Add title element for tooltip
 						const title = document.createElementNS(
@@ -487,7 +514,7 @@ const formatZoneName = (zoneName: string): string => {
 		const cruiserToggle = document.getElementById('cruiser-toggle');
 		const bicyclesToggle = document.getElementById('bicycles-toggle');
 		const wheelbarrowToggle = document.getElementById('wheelbarrow-toggle');
-		
+
 		const pvpToggle = document.getElementById('pvp-toggle');
 		const pveToggle = document.getElementById('pve-toggle');
 		const pveBunkerToggle = document.getElementById('pve-bunker-toggle');
@@ -508,11 +535,12 @@ const formatZoneName = (zoneName: string): string => {
 				elements.forEach((element) => {
 					// For vehicle markers, check both the vehicles toggle and all-vehicles toggle
 					if (selector.includes('.vehicle-marker')) {
-						element.style.display = (
-							vehicleToggle.checked && 
-							allVehiclesToggle.checked && 
+						element.style.display =
+							vehicleToggle.checked &&
+							allVehiclesToggle.checked &&
 							toggleElement.checked
-						) ? 'block' : 'none';
+								? 'block'
+								: 'none';
 					} else {
 						element.style.display = toggleElement.checked ? 'block' : 'none';
 					}
@@ -542,7 +570,10 @@ const formatZoneName = (zoneName: string): string => {
 		updateVisibility(dirtbikeToggle, '.Dirtbike');
 		updateVisibility(cruiserToggle, '.Cruiser');
 		updateVisibility(bicyclesToggle, '.MountainBike, .CityBike');
-		updateVisibility(wheelbarrowToggle, '.WheelBarrow_Improvised, .WheelBarrow_Metal');
+		updateVisibility(
+			wheelbarrowToggle,
+			'.WheelBarrow_Improvised, .WheelBarrow_Metal',
+		);
 		updateVisibility(pvpToggle, '.zone-PVP');
 		updateVisibility(pveToggle, '.zone-PVE');
 		updateVisibility(
@@ -668,13 +699,14 @@ const formatZoneName = (zoneName: string): string => {
 
 	.overlay-controls {
 		position: absolute;
-		top: 5em;
+		top: 5.2em;
 		right: 1em;
 		z-index: 1000;
 		display: flex;
 		flex-direction: column;
 		flex-wrap: wrap;
 		align-items: flex-start;
+		width: 11em;
 		gap: 0.5em;
 		padding: 1em 1.5em;
 		border-radius: 0.5em;
@@ -730,7 +762,7 @@ const formatZoneName = (zoneName: string): string => {
 	#modifiers-toggle {
 		display: none;
 	}
-	
+
 	#vehicles-toggle:checked,
 	#modifiers-toggle:checked {
 		~ label .close {
@@ -759,8 +791,7 @@ const formatZoneName = (zoneName: string): string => {
 	#modifiers-toggle:checked ~ .loot-modifiers {
 		display: flex;
 	}
-	
-	
+
 	.vehicle-types,
 	.loot-modifiers {
 		flex-direction: column;
@@ -897,11 +928,13 @@ const formatZoneName = (zoneName: string): string => {
 
 	/* Player Marker Styles */
 	.player-marker text {
-		text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8);
-		pointer-events: none;
-		text-anchor: middle;
-		fill: white;
-		font-size: 0.4em;
+		text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    text-anchor: middle;
+    fill: white;
+    font-size: 0.3em;
+    stroke: none;
+    letter-spacing: 0.05em;
 	}
 
 	.player-marker circle {
@@ -913,11 +946,16 @@ const formatZoneName = (zoneName: string): string => {
 
 	/* Vehicle Marker Styles */
 	.vehicle-marker text {
-		text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8);
-		pointer-events: none;
-		text-anchor: middle;
-		fill: white;
-		font-size: 0.4em;
+		text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    text-anchor: middle;
+    fill: white;
+    font-size: 0.3em;
+    stroke: none;
+    letter-spacing: 0.05em;
+		.not-registered {
+			fill: red;
+		}
 	}
 
 	.vehicle-marker .vehicle-icon {
@@ -925,5 +963,8 @@ const formatZoneName = (zoneName: string): string => {
 		fill: blue;
 		stroke: white;
 		stroke-width: 0.5;
+	}
+	.vehicle-marker.not-registered .vehicle-icon {
+		stroke: red;
 	}
 </style>
