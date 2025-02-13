@@ -128,7 +128,7 @@ const formatZoneName = (zoneName: string): string => {
 	data-min-y={minY}
 	data-max-y={maxY}
 >
-	<svg viewBox='170 0 1000 1000' class='map'>
+	<svg viewBox='210 30 930 930' class='map'>
 		<image
 			href='../assets/images/map.webp'
 			width='1000'
@@ -630,11 +630,11 @@ const formatZoneName = (zoneName: string): string => {
 		const svg = document.querySelector('.map');
 		let isZoomed = false;
 		let currentZoom = null;
-		const defaultViewBox = '170 0 1000 1000';
-		const imageWidth = 1000;
-		const imageHeight = 1000;
-		const imageX = 170;
-		const imageY = 0;
+		const defaultViewBox = '210 30 930 930';
+		const imageWidth = 930;
+		const imageHeight = 930;
+		const imageX = 210;
+		const imageY = 30;
 
 		// Function to handle zoom
 		function zoomToElement(element) {
@@ -644,7 +644,7 @@ const formatZoneName = (zoneName: string): string => {
 			if (!rect) return;
 
 			const bbox = rect.getBBox();
-			const padding = 50;
+			const padding = 20;
 
 			const viewBox = {
 				x: bbox.x - padding,
