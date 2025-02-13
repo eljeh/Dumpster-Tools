@@ -59,7 +59,26 @@ const formatZoneName = (zoneName: string): string => {
 <div class='overlay-controls'>
 	<h2 class='pageTitle text-center'>Map Zones</h2>
 	<label><input type='checkbox' id='players-toggle' />Players</label>
-	<label><input type='checkbox' id='vehicles-toggle' />Vehicles</label>
+	<div class='vehicle-container'>
+		<input type='checkbox' id='vehicles-toggle' />
+		<label for='vehicles-toggle'>
+			<span class='vehicles close'>▲ Vehicles ▲ </span>
+			<span class='vehicles open'>▼ Vehicles ▼</span>
+		</label>
+		<div class='vehicle-types'>
+			<label><input type='checkbox' checked id='all-vehicles-toggle' />All Vehicles</label>
+			<label><input type='checkbox' id='rager-toggle' />Ragers</label>
+			<label><input type='checkbox' id='wolfswagen-toggle' />WolfsWagens</label>
+			<label><input type='checkbox' id='laika-toggle' />Laikas</label>
+			<label><input type='checkbox' id='kingletduster-toggle' />Kinglet Dusters</label>
+			<label><input type='checkbox' id='barba-toggle' />Boats</label>
+			<label><input type='checkbox' id='ris-toggle' />RISs</label>
+			<label><input type='checkbox' id='dirtbike-toggle' />DirtBikes</label>
+			<label><input type='checkbox' id='cruiser-toggle' />Cruisers</label>
+			<label><input type='checkbox' id='bicycles-toggle' />Bicycles</label>
+			<label><input type='checkbox' id='wheelbarrow-toggle' />WheelBarrows</label>
+		</div>
+	</div>
 	<label><input type='checkbox' id='pois-toggle' />POIs</label>
 	<label><input type='checkbox' id='bunkers-toggle' />Bunkers</label>
 	<label><input type='checkbox' id='outposts-toggle' />Outposts</label>
@@ -326,7 +345,6 @@ const formatZoneName = (zoneName: string): string => {
 		}
 
 		function displayVehicleLocations() {
-			console.log('Fetching vehicle locations...');
 			const url = `https://api.whalleybot.com/bot/${WBBotID}/VehicleLocations`;
 			fetch(url, {
 				method: 'GET',
@@ -347,14 +365,12 @@ const formatZoneName = (zoneName: string): string => {
 					return response.json();
 				})
 				.then((data) => {
-					console.log('Received vehicle data:', data);
 
 					// Remove existing vehicle markers container
 					const existingContainer = document.querySelector(
 						'.vehicle-markers-container',
 					);
 					if (existingContainer) {
-						console.log('Removing existing vehicle markers');
 						existingContainer.remove();
 					}
 
@@ -377,7 +393,6 @@ const formatZoneName = (zoneName: string): string => {
 					data.forEach((vehicle) => {
 						// Skip if vehicle has no location
 						if (!vehicle.value.coords) {
-							console.log('Skipping vehicle - no location:', vehicle);
 							skippedVehicles++;
 							return;
 						}
@@ -385,7 +400,6 @@ const formatZoneName = (zoneName: string): string => {
 						const [x, y, z] = vehicle.value.coords.split(' ');
 						// Skip if we can't parse coordinates
 						if (!x || !y) {
-							console.log('Skipping vehicle - invalid coordinates:', vehicle);
 							skippedVehicles++;
 							return;
 						}
@@ -395,23 +409,21 @@ const formatZoneName = (zoneName: string): string => {
 
 						// Skip if coordinates are invalid
 						if (isNaN(vehicleX) || isNaN(vehicleY)) {
-							console.log('Skipping vehicle - NaN coordinates:', vehicle);
 							skippedVehicles++;
 							return;
 						}
 
-						console.log('Adding vehicle marker:', {
-							type: vehicle.value.type,
-							x: vehicleX,
-							y: vehicleY,
-						});
 						validVehicles++;
+
+						const vehicleType = vehicle.value.type.trim().replace('BPC_', '').replace('BP_', '');
+
 
 						const g = document.createElementNS(
 							'http://www.w3.org/2000/svg',
 							'g',
 						);
 						g.classList.add('vehicle-marker');
+						g.classList.add(`${vehicleType}`);
 
 						// Add title element for tooltip
 						const title = document.createElementNS(
@@ -438,20 +450,13 @@ const formatZoneName = (zoneName: string): string => {
 						);
 						text.setAttribute('x', toSvgX(vehicleX));
 						text.setAttribute('y', toSvgY(vehicleY) - 5);
-						text.textContent = vehicle.value.type
-							.trim()
-							.replace('BPC_', '')
-							.replace('BP', '')
-							.replace('_', ' ');
+						text.textContent = vehicleType.replace('_', ' ');
 
 						g.appendChild(circle);
 						g.appendChild(text);
 						container.appendChild(g);
 					});
 
-					console.log(
-						`Vehicle processing complete. Valid: ${validVehicles}, Skipped: ${skippedVehicles}`,
-					);
 					svg.appendChild(container);
 				})
 				.catch((error) => {
@@ -471,6 +476,18 @@ const formatZoneName = (zoneName: string): string => {
 		const sectorsToggle = document.getElementById('sectors-toggle');
 		const playersToggle = document.getElementById('players-toggle');
 		const vehicleToggle = document.getElementById('vehicles-toggle');
+		const allVehiclesToggle = document.getElementById('all-vehicles-toggle');
+		const ragerToggle = document.getElementById('rager-toggle');
+		const wolfswagenToggle = document.getElementById('wolfswagen-toggle');
+		const laikaToggle = document.getElementById('laika-toggle');
+		const kingletdusterToggle = document.getElementById('kingletduster-toggle');
+		const barbaToggle = document.getElementById('barba-toggle');
+		const risToggle = document.getElementById('ris-toggle');
+		const dirtbikeToggle = document.getElementById('dirtbike-toggle');
+		const cruiserToggle = document.getElementById('cruiser-toggle');
+		const bicyclesToggle = document.getElementById('bicycles-toggle');
+		const wheelbarrowToggle = document.getElementById('wheelbarrow-toggle');
+		
 		const pvpToggle = document.getElementById('pvp-toggle');
 		const pveToggle = document.getElementById('pve-toggle');
 		const pveBunkerToggle = document.getElementById('pve-bunker-toggle');
@@ -489,19 +506,43 @@ const formatZoneName = (zoneName: string): string => {
 			const updateElements = () => {
 				const elements = document.querySelectorAll(selector);
 				elements.forEach((element) => {
-					element.style.display = toggleElement.checked ? 'block' : 'none';
+					// For vehicle markers, check both the vehicles toggle and all-vehicles toggle
+					if (selector.includes('.vehicle-marker')) {
+						element.style.display = (
+							vehicleToggle.checked && 
+							allVehiclesToggle.checked && 
+							toggleElement.checked
+						) ? 'block' : 'none';
+					} else {
+						element.style.display = toggleElement.checked ? 'block' : 'none';
+					}
 				});
 			};
 
 			toggleElement.addEventListener('change', updateElements);
 			// Also update initial state
 			updateElements();
+
+			// For vehicle-specific toggles, also listen to all-vehicles toggle changes
+			if (selector.includes('.vehicle-marker')) {
+				allVehiclesToggle.addEventListener('change', updateElements);
+			}
 		}
 
 		// Set up toggle handlers
 		updateVisibility(sectorsToggle, '[class^="zone-Sector_"]');
 		updateVisibility(playersToggle, '.player-markers-container');
 		updateVisibility(vehicleToggle, '.vehicle-markers-container');
+		updateVisibility(ragerToggle, '.Rager');
+		updateVisibility(wolfswagenToggle, '.WolfsWagen');
+		updateVisibility(laikaToggle, '.Laika');
+		updateVisibility(kingletdusterToggle, '.Kinglet_Duster');
+		updateVisibility(barbaToggle, '.Barba, .BigRaft, .SmallRaft, .SUP');
+		updateVisibility(risToggle, '.RIS');
+		updateVisibility(dirtbikeToggle, '.Dirtbike');
+		updateVisibility(cruiserToggle, '.Cruiser');
+		updateVisibility(bicyclesToggle, '.MountainBike, .CityBike');
+		updateVisibility(wheelbarrowToggle, '.WheelBarrow_Improvised, .WheelBarrow_Metal');
 		updateVisibility(pvpToggle, '.zone-PVP');
 		updateVisibility(pveToggle, '.zone-PVE');
 		updateVisibility(
@@ -667,6 +708,7 @@ const formatZoneName = (zoneName: string): string => {
 		}
 	}
 
+	.vehicle-container,
 	.modifiers-container {
 		display: flex;
 		flex-direction: column;
@@ -676,6 +718,7 @@ const formatZoneName = (zoneName: string): string => {
 		flex-wrap: wrap;
 		flex-grow: 1;
 		&:hover,
+		&:has(#vehicles-toggle:checked),
 		&:has(#modifiers-toggle:checked) {
 			outline: 1px solid #f9f9f963;
 			outline-offset: 0.25em;
@@ -683,32 +726,42 @@ const formatZoneName = (zoneName: string): string => {
 		}
 	}
 
+	#vehicles-toggle,
 	#modifiers-toggle {
 		display: none;
 	}
+	
+	#vehicles-toggle:checked,
 	#modifiers-toggle:checked {
-		~ label .modifiers.close {
+		~ label .close {
 			display: inline;
 		}
-		~ label .modifiers.open {
+		~ label .open {
 			display: none;
 		}
 	}
+	#vehicles-toggle:not(:checked),
 	#modifiers-toggle:not(:checked) {
-		~ label .modifiers.close {
+		~ label .close {
 			display: none;
 		}
-		~ label .modifiers.open {
+		~ label .open {
 			display: inline;
 		}
 	}
 
+	#vehicles-toggle:not(:checked) ~ .vehicle-types,
 	#modifiers-toggle:not(:checked) ~ .loot-modifiers {
 		display: none;
 	}
+
+	#vehicles-toggle:checked ~ .vehicle-types,
 	#modifiers-toggle:checked ~ .loot-modifiers {
 		display: flex;
 	}
+	
+	
+	.vehicle-types,
 	.loot-modifiers {
 		flex-direction: column;
 		gap: 0.5em;
