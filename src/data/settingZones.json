@@ -95,6 +95,12 @@
             "Radius": "0.45"
         }
     ],
+    "POI_PVP_RockQuarry": [
+        {
+            "Center": "139464 -320072",
+            "size": "0.350 0.685"
+        }
+    ],
     "POI_PVP_FishPlant": [
         {
             "Center": "-360000 -360000",
