@@ -80,7 +80,9 @@ const formatZoneName = (zoneName: string): string => {
 					id='not-registered-vehicles-toggle'
 				/>Not Registered</label
 			>
-			<!-- <label><input type='checkbox' id='rager-toggle' />Ragers</label>
+
+
+			<label><input type='checkbox' id='rager-toggle' />Ragers</label>
 			<label><input type='checkbox' id='wolfswagen-toggle' />WolfsWagens</label>
 			<label><input type='checkbox' id='laika-toggle' />Laikas</label>
 			<label
@@ -93,7 +95,9 @@ const formatZoneName = (zoneName: string): string => {
 			<label><input type='checkbox' id='bicycles-toggle' />Bicycles</label>
 			<label
 				><input type='checkbox' id='wheelbarrow-toggle' />WheelBarrows</label
-			> -->
+			>
+
+
 		</div>
 	</div>
 	<label><input type='checkbox' id='pois-toggle' />POIs</label>
@@ -506,16 +510,17 @@ const formatZoneName = (zoneName: string): string => {
 		const notRegisteredVehiclesToggle = document.getElementById(
 			'not-registered-vehicles-toggle',
 		);
-		// const ragerToggle = document.getElementById('rager-toggle');
-		// const wolfswagenToggle = document.getElementById('wolfswagen-toggle');
-		// const laikaToggle = document.getElementById('laika-toggle');
-		// const kingletdusterToggle = document.getElementById('kingletduster-toggle');
-		// const barbaToggle = document.getElementById('barba-toggle');
-		// const risToggle = document.getElementById('ris-toggle');
-		// const dirtbikeToggle = document.getElementById('dirtbike-toggle');
-		// const cruiserToggle = document.getElementById('cruiser-toggle');
-		// const bicyclesToggle = document.getElementById('bicycles-toggle');
-		// const wheelbarrowToggle = document.getElementById('wheelbarrow-toggle');
+
+		const ragerToggle = document.getElementById('rager-toggle');
+		const wolfswagenToggle = document.getElementById('wolfswagen-toggle');
+		const laikaToggle = document.getElementById('laika-toggle');
+		const kingletdusterToggle = document.getElementById('kingletduster-toggle');
+		const barbaToggle = document.getElementById('barba-toggle');
+		const risToggle = document.getElementById('ris-toggle');
+		const dirtbikeToggle = document.getElementById('dirtbike-toggle');
+		const cruiserToggle = document.getElementById('cruiser-toggle');
+		const bicyclesToggle = document.getElementById('bicycles-toggle');
+		const wheelbarrowToggle = document.getElementById('wheelbarrow-toggle');
 
 		const pvpToggle = document.getElementById('pvp-toggle');
 		const pveToggle = document.getElementById('pve-toggle');
@@ -583,19 +588,19 @@ const formatZoneName = (zoneName: string): string => {
 		updateVisibility(sectorsToggle, '[class^="zone-Sector_"]');
 		updateVisibility(playersToggle, '.player-markers-container');
 		// updateVisibility(vehicleToggle, '.vehicle-markers-container');
-		// updateVisibility(ragerToggle, '.Rager');
-		// updateVisibility(wolfswagenToggle, '.WolfsWagen');
-		// updateVisibility(laikaToggle, '.Laika');
-		// updateVisibility(kingletdusterToggle, '.Kinglet_Duster');
-		// updateVisibility(barbaToggle, '.Barba, .BigRaft, .SmallRaft, .SUP');
-		// updateVisibility(risToggle, '.RIS');
-		// updateVisibility(dirtbikeToggle, '.Dirtbike');
-		// updateVisibility(cruiserToggle, '.Cruiser');
-		// updateVisibility(bicyclesToggle, '.MountainBike, .CityBike');
-		// updateVisibility(
-		// 	wheelbarrowToggle,
-		// 	'.WheelBarrow_Improvised, .WheelBarrow_Metal',
-		// );
+		updateVisibility(ragerToggle, '.Rager');
+		updateVisibility(wolfswagenToggle, '.WolfsWagen');
+		updateVisibility(laikaToggle, '.Laika');
+		updateVisibility(kingletdusterToggle, '.Kinglet_Duster');
+		updateVisibility(barbaToggle, '.Barba, .BigRaft, .SmallRaft, .SUP');
+		updateVisibility(risToggle, '.RIS');
+		updateVisibility(dirtbikeToggle, '.Dirtbike');
+		updateVisibility(cruiserToggle, '.Cruiser');
+		updateVisibility(bicyclesToggle, '.MountainBike, .CityBike');
+		updateVisibility(
+			wheelbarrowToggle,
+			'.WheelBarrow_Improvised, .WheelBarrow_Metal',
+		);
 		updateVisibility(pvpToggle, '.zone-PVP');
 		updateVisibility(pveToggle, '.zone-PVE');
 		updateVisibility(
