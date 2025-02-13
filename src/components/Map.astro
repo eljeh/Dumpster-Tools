@@ -62,8 +62,8 @@ const formatZoneName = (zoneName: string): string => {
 	<div class='vehicle-container'>
 		<input type='checkbox' id='vehicles-toggle' />
 		<label for='vehicles-toggle'>
-			<span class='vehicles close'>▲ Vehicles ▲ </span>
-			<span class='vehicles open'>▼ Vehicles ▼</span>
+			<span class='vehicles close'>Vehicles ▲ </span>
+			<span class='vehicles open'>Vehicles ▼</span>
 		</label>
 		<div class='vehicle-types'>
 			<label
@@ -710,6 +710,8 @@ const formatZoneName = (zoneName: string): string => {
 
 		--color-pvp-poi: hsla(69, 44%, 37%, 0.75);
 		--color-pvp-poi-fill: hsla(69, 44%, 37%, 0.5);
+
+		--color-selected: hsl(124deg 85.76% 35.18%);
 	}
 
 	/* Page Layout */
@@ -739,7 +741,8 @@ const formatZoneName = (zoneName: string): string => {
 			var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 
 		@media (max-width: 1024px) {
-			position: relative;
+			width: 100%;
+			position: absolute;
 			top: 0;
 			right: 0;
 			flex-direction: row;
@@ -747,22 +750,33 @@ const formatZoneName = (zoneName: string): string => {
 			padding-bottom: 0;
 			gap: 0 0.75em;
 		}
+
+		label {
+			display: flex;
+			flex-direction: row;
+			gap: 0.5em;
+			align-items: center;
+		}
+
+		input[type='checkbox'] {
+			display: none;
+			/* zoom: 1.5;
+			@media (max-width: 1024px) {
+				zoom: 1;
+			} */
+		}
+
+
+
+		label:has(input[type='checkbox']:checked),
+		input[type='checkbox']:checked ~ label {
+			color: var(--color-selected);
+		}
+
 	}
 
 	/* Form Controls */
-	label {
-		display: flex;
-		flex-direction: row;
-		gap: 0.5em;
-		align-items: center;
-	}
 
-	input[type='checkbox'] {
-		zoom: 1.5;
-		@media (max-width: 1024px) {
-			zoom: 1;
-		}
-	}
 
 	.vehicle-container,
 	.modifiers-container {
@@ -773,6 +787,7 @@ const formatZoneName = (zoneName: string): string => {
 		justify-content: center;
 		flex-wrap: wrap;
 		flex-grow: 1;
+		background: var(--color-grey-darker);
 		&:hover,
 		&:has(#vehicles-toggle:checked),
 		&:has(#modifiers-toggle:checked) {
@@ -821,6 +836,7 @@ const formatZoneName = (zoneName: string): string => {
 		flex-direction: column;
 		gap: 0.5em;
 		align-items: start;
+		background: var(--color-grey-darker);
 	}
 
 	/* Map Container */
@@ -830,7 +846,8 @@ const formatZoneName = (zoneName: string): string => {
 		align-items: center;
 		width: 100%;
 		overflow: hidden;
-	}
+
+
 
 	.map {
 		scale: 1;
