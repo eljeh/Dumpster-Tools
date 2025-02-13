@@ -13,6 +13,10 @@
   </table>
 </div>
 <script>
+  import { PUBLIC_WBAUTH, PUBLIC_WBBOTID, PUBLIC_ROOT } from 'astro:env/client';
+	const WBAuth = PUBLIC_WBAUTH;
+	const WBBotID = PUBLIC_WBBOTID;
+	const Root = PUBLIC_ROOT;
   document.addEventListener('astro:page-load', () => {
   function displayJsonAsTable() {
     const url = 'https://api.whalleybot.com/bot/${WBBotID}/PlayerLocations';
@@ -20,7 +24,7 @@
       method: 'GET',
       headers: {
         Accept: '*/*',
-        Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==', //'WhalleyBotAPI_rtTECwgxKLKy9Q==',
+        Authorization: WBAuth, //'WhalleyBotAPI_rtTECwgxKLKy9Q==',
       },
     })
       .then((response) => {

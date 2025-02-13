@@ -58,6 +58,8 @@ const formatZoneName = (zoneName: string): string => {
 
 <div class='overlay-controls'>
 	<h2 class='pageTitle text-center'>Map Zones</h2>
+	<label><input type='checkbox' id='players-toggle' />Players</label>
+	<label><input type='checkbox' id='vehicles-toggle' />Vehicles</label>
 	<label><input type='checkbox' id='pois-toggle' />POIs</label>
 	<label><input type='checkbox' id='bunkers-toggle' />Bunkers</label>
 	<label><input type='checkbox' id='outposts-toggle' />Outposts</label>
@@ -79,7 +81,13 @@ const formatZoneName = (zoneName: string): string => {
 		</div>
 	</div>
 </div>
-<div class='map-container'>
+<div
+	class='map-container'
+	data-min-x={minX}
+	data-max-x={maxX}
+	data-min-y={minY}
+	data-max-y={maxY}
+>
 	<svg viewBox='170 0 1000 1000' class='map'>
 		<image
 			href='../assets/images/map.webp'
@@ -220,103 +228,352 @@ const formatZoneName = (zoneName: string): string => {
 </div>
 
 <script>
-	// Get all toggle checkboxes
-	const sectorsToggle = document.getElementById('sectors-toggle');
-	const pvpToggle = document.getElementById('pvp-toggle');
-	const pveToggle = document.getElementById('pve-toggle');
-	const pveBunkerToggle = document.getElementById('pve-bunker-toggle');
-	const pvpBunkerToggle = document.getElementById('pvp-bunker-toggle');
-	const warzonesToggle = document.getElementById('warzones-toggle');
-	const outpostsToggle = document.getElementById('outposts-toggle');
-	const poisToggle = document.getElementById('pois-toggle');
-	const bunkersToggle = document.getElementById('bunkers-toggle');
-	const imageToggle = document.getElementById('image-toggle');
-	const customPOIToggle = document.getElementById('custom-pois-toggle');
+	import { PUBLIC_WBAUTH, PUBLIC_WBBOTID, PUBLIC_ROOT } from 'astro:env/client';
+	const WBAuth = PUBLIC_WBAUTH;
+	const WBBotID = PUBLIC_WBBOTID;
+	const Root = PUBLIC_ROOT;
 
-	// Function to toggle visibility
-	function updateVisibility(toggleElement, selector) {
-		if (!toggleElement) return;
+	document.addEventListener('astro:page-load', () => {
+		const mapContainer = document.querySelector('.map-container');
+		const minX = parseFloat(mapContainer.dataset.minX);
+		const maxX = parseFloat(mapContainer.dataset.maxX);
+		const minY = parseFloat(mapContainer.dataset.minY);
+		const maxY = parseFloat(mapContainer.dataset.maxY);
 
-		const zones = document.querySelectorAll(selector);
-		toggleElement.addEventListener('change', (e) => {
-			zones.forEach((zone) => {
-				zone.style.display = e.target.checked ? 'block' : 'none';
-			});
+		const toSvgX = (x) => ((x - minX) / (maxX - minX)) * 1000;
+		const toSvgY = (y) => 1000 - ((y - minY) / (maxY - minY)) * 1000;
+
+		function displayPlayerLocations() {
+			const url = `https://api.whalleybot.com/bot/${WBBotID}/PlayerLocations`;
+			fetch(url, {
+				method: 'GET',
+				headers: {
+					Accept: '*/*',
+					Authorization: WBAuth,
+				},
+			})
+				.then((response) => {
+					if (!response.ok) {
+						throw new Error('Network response was not ok');
+					}
+					return response.json();
+				})
+				.then((data) => {
+					// Remove existing player markers container
+					document.querySelector('.player-markers-container')?.remove();
+
+					// Create container for all player markers
+					const svg = document.querySelector('.map');
+					const container = document.createElementNS(
+						'http://www.w3.org/2000/svg',
+						'g',
+					);
+					container.classList.add('player-markers-container');
+					container.style.display = document.getElementById('players-toggle')
+						.checked
+						? 'block'
+						: 'none';
+
+					// Add new player markers
+					data.forEach((player) => {
+						const [x, y] = player.lastKnownLocation.split(' ');
+						const playerX = -parseFloat(x); // Flip X coordinate like we do for zones
+						const playerY = parseFloat(y);
+
+						const g = document.createElementNS(
+							'http://www.w3.org/2000/svg',
+							'g',
+						);
+						g.classList.add('player-marker');
+
+						// Add title element for tooltip
+						const title = document.createElementNS(
+							'http://www.w3.org/2000/svg',
+							'title',
+						);
+						title.textContent = `
+						Player: ${player.playerName}\nID: ${player.steamID}\ntype: ${player.type}\nLocation: (${playerX.toFixed(2)}, ${playerY.toFixed(2)})`;
+						g.appendChild(title);
+
+						// Create circle for player
+						const circle = document.createElementNS(
+							'http://www.w3.org/2000/svg',
+							'circle',
+						);
+						circle.setAttribute('cx', toSvgX(playerX));
+						circle.setAttribute('cy', toSvgY(playerY));
+						circle.setAttribute('r', '3');
+
+						// Create text label
+						const text = document.createElementNS(
+							'http://www.w3.org/2000/svg',
+							'text',
+						);
+						text.setAttribute('x', toSvgX(playerX));
+						text.setAttribute('y', toSvgY(playerY) - 5);
+						text.textContent = player.playerName;
+
+						g.appendChild(circle);
+						g.appendChild(text);
+						container.appendChild(g);
+					});
+
+					svg.appendChild(container);
+				})
+				.catch((error) => {
+					console.error('Error fetching player locations:', error);
+				});
+		}
+
+		function displayVehicleLocations() {
+			console.log('Fetching vehicle locations...');
+			const url = `https://api.whalleybot.com/bot/${WBBotID}/VehicleLocations`;
+			fetch(url, {
+				method: 'GET',
+				headers: {
+					Accept: '*/*',
+					Authorization: WBAuth,
+				},
+			})
+				.then((response) => {
+					if (!response.ok) {
+						console.error(
+							'API response not ok:',
+							response.status,
+							response.statusText,
+						);
+						throw new Error('Network response was not ok');
+					}
+					return response.json();
+				})
+				.then((data) => {
+					console.log('Received vehicle data:', data);
+
+					// Remove existing vehicle markers container
+					const existingContainer = document.querySelector(
+						'.vehicle-markers-container',
+					);
+					if (existingContainer) {
+						console.log('Removing existing vehicle markers');
+						existingContainer.remove();
+					}
+
+					// Create container for all vehicle markers
+					const svg = document.querySelector('.map');
+					const container = document.createElementNS(
+						'http://www.w3.org/2000/svg',
+						'g',
+					);
+					container.classList.add('vehicle-markers-container');
+					container.style.display = document.getElementById('vehicles-toggle')
+						.checked
+						? 'block'
+						: 'none';
+
+					// Add new vehicle markers
+					let validVehicles = 0;
+					let skippedVehicles = 0;
+
+					data.forEach((vehicle) => {
+						// Skip if vehicle has no location
+						if (!vehicle.value.coords) {
+							console.log('Skipping vehicle - no location:', vehicle);
+							skippedVehicles++;
+							return;
+						}
+
+						const [x, y, z] = vehicle.value.coords.split(' ');
+						// Skip if we can't parse coordinates
+						if (!x || !y) {
+							console.log('Skipping vehicle - invalid coordinates:', vehicle);
+							skippedVehicles++;
+							return;
+						}
+
+						const vehicleX = -parseFloat(x);
+						const vehicleY = parseFloat(y);
+
+						// Skip if coordinates are invalid
+						if (isNaN(vehicleX) || isNaN(vehicleY)) {
+							console.log('Skipping vehicle - NaN coordinates:', vehicle);
+							skippedVehicles++;
+							return;
+						}
+
+						console.log('Adding vehicle marker:', {
+							type: vehicle.value.type,
+							x: vehicleX,
+							y: vehicleY,
+						});
+						validVehicles++;
+
+						const g = document.createElementNS(
+							'http://www.w3.org/2000/svg',
+							'g',
+						);
+						g.classList.add('vehicle-marker');
+
+						// Add title element for tooltip
+						const title = document.createElementNS(
+							'http://www.w3.org/2000/svg',
+							'title',
+						);
+						title.textContent = `Vehicle: ${vehicle.value.type.trim()}\nLocation: (${vehicleX.toFixed(2)}, ${vehicleY.toFixed(2)})\nRegistration: ${vehicle.value.reg}`;
+						g.appendChild(title);
+
+						// Create vehicle icon (using a circle instead of triangle for simplicity)
+						const circle = document.createElementNS(
+							'http://www.w3.org/2000/svg',
+							'circle',
+						);
+						circle.setAttribute('cx', toSvgX(vehicleX));
+						circle.setAttribute('cy', toSvgY(vehicleY));
+						circle.setAttribute('r', '3');
+						circle.classList.add('vehicle-icon');
+
+						// Create text label
+						const text = document.createElementNS(
+							'http://www.w3.org/2000/svg',
+							'text',
+						);
+						text.setAttribute('x', toSvgX(vehicleX));
+						text.setAttribute('y', toSvgY(vehicleY) - 5);
+						text.textContent = vehicle.value.type
+							.trim()
+							.replace('BPC_', '')
+							.replace('BP', '')
+							.replace('_', ' ');
+
+						g.appendChild(circle);
+						g.appendChild(text);
+						container.appendChild(g);
+					});
+
+					console.log(
+						`Vehicle processing complete. Valid: ${validVehicles}, Skipped: ${skippedVehicles}`,
+					);
+					svg.appendChild(container);
+				})
+				.catch((error) => {
+					console.error('Error fetching vehicle locations:', error);
+				});
+		}
+
+		// Update player and vehicle locations every 5 minutes
+		displayPlayerLocations();
+		displayVehicleLocations();
+		setInterval(() => {
+			displayPlayerLocations();
+			displayVehicleLocations();
+		}, 300000);
+
+		// Get all toggle checkboxes
+		const sectorsToggle = document.getElementById('sectors-toggle');
+		const playersToggle = document.getElementById('players-toggle');
+		const vehicleToggle = document.getElementById('vehicles-toggle');
+		const pvpToggle = document.getElementById('pvp-toggle');
+		const pveToggle = document.getElementById('pve-toggle');
+		const pveBunkerToggle = document.getElementById('pve-bunker-toggle');
+		const pvpBunkerToggle = document.getElementById('pvp-bunker-toggle');
+		const warzonesToggle = document.getElementById('warzones-toggle');
+		const outpostsToggle = document.getElementById('outposts-toggle');
+		const poisToggle = document.getElementById('pois-toggle');
+		const bunkersToggle = document.getElementById('bunkers-toggle');
+		const imageToggle = document.getElementById('image-toggle');
+		const customPOIToggle = document.getElementById('custom-pois-toggle');
+
+		// Function to toggle visibility
+		function updateVisibility(toggleElement, selector) {
+			if (!toggleElement) return;
+
+			const updateElements = () => {
+				const elements = document.querySelectorAll(selector);
+				elements.forEach((element) => {
+					element.style.display = toggleElement.checked ? 'block' : 'none';
+				});
+			};
+
+			toggleElement.addEventListener('change', updateElements);
+			// Also update initial state
+			updateElements();
+		}
+
+		// Set up toggle handlers
+		updateVisibility(sectorsToggle, '[class^="zone-Sector_"]');
+		updateVisibility(playersToggle, '.player-markers-container');
+		updateVisibility(vehicleToggle, '.vehicle-markers-container');
+		updateVisibility(pvpToggle, '.zone-PVP');
+		updateVisibility(pveToggle, '.zone-PVE');
+		updateVisibility(
+			bunkersToggle,
+			'[class^="zone-PVP_Bunker"], [class^="zone-PVE_Bunker"]',
+		);
+		updateVisibility(pveBunkerToggle, '[class^="zone-Bunkers_PVE"]');
+		updateVisibility(pvpBunkerToggle, '[class^="zone-Bunkers_PVP"]');
+		updateVisibility(warzonesToggle, '.zone-WarZoneDrops');
+		updateVisibility(outpostsToggle, '[class^="zone-Outpost_"]');
+		updateVisibility(
+			poisToggle,
+			'[class^="zone-POI_PVP"], [class^="zone-POI_PVE"]',
+		);
+		updateVisibility(customPOIToggle, '[class^="zone-POI_custom"]');
+		updateVisibility(imageToggle, '.map image');
+
+		// Add zoom functionality
+		const svg = document.querySelector('.map');
+		let isZoomed = false;
+		let currentZoom = null;
+		const defaultViewBox = '170 0 1000 1000';
+		const imageWidth = 1000;
+		const imageHeight = 1000;
+		const imageX = 170;
+		const imageY = 0;
+
+		// Function to handle zoom
+		function zoomToElement(element) {
+			if (!svg || !element) return;
+
+			const rect = element.querySelector('.zone-rect');
+			if (!rect) return;
+
+			const bbox = rect.getBBox();
+			const padding = 50;
+
+			const viewBox = {
+				x: bbox.x - padding,
+				y: bbox.y - padding,
+				width: bbox.width + padding * 2,
+				height: bbox.height + padding * 2,
+			};
+
+			if (isZoomed && currentZoom === element) {
+				svg.setAttribute('viewBox', defaultViewBox);
+				isZoomed = false;
+				currentZoom = null;
+			} else {
+				svg.setAttribute(
+					'viewBox',
+					`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`,
+				);
+				isZoomed = true;
+				currentZoom = element;
+			}
+		}
+
+		// Add click handlers to sector zones
+		document.querySelectorAll('[class^="zone-Sector_"]').forEach((zone) => {
+			zone.style.cursor = 'pointer';
+			zone.addEventListener('click', () => zoomToElement(zone));
 		});
-	}
 
-	// Set up toggle handlers
-	updateVisibility(sectorsToggle, '[class^="zone-Sector_"]');
-	updateVisibility(pvpToggle, '.zone-PVP');
-	updateVisibility(pveToggle, '.zone-PVE');
-	updateVisibility(
-		bunkersToggle,
-		'[class^="zone-PVP_Bunker"], [class^="zone-PVE_Bunker"]',
-	);
-	updateVisibility(pveBunkerToggle, '[class^="zone-Bunkers_PVE"]');
-	updateVisibility(pvpBunkerToggle, '[class^="zone-Bunkers_PVP"]');
-	updateVisibility(warzonesToggle, '.zone-WarZoneDrops');
-	updateVisibility(outpostsToggle, '[class^="zone-Outpost_"]');
-	updateVisibility(
-		poisToggle,
-		'[class^="zone-POI_PVP"], [class^="zone-POI_PVE"]',
-	);
-	updateVisibility(customPOIToggle, '[class^="zone-POI_custom"]');
-	updateVisibility(imageToggle, '.map image');
-
-	// Add zoom functionality
-	const svg = document.querySelector('.map');
-	const mapContainer = document.querySelector('.map-container');
-	let isZoomed = false;
-	let currentZoom = null;
-
-	// Function to handle zoom
-	function zoomToElement(element) {
-		if (!svg || !element) return;
-
-		const rect = element.querySelector('.zone-rect');
-		if (!rect) return;
-
-		const bbox = rect.getBBox();
-		const padding = 50; // Padding around the zoomed area
-
-		// Calculate zoom parameters
-		const viewBox = {
-			x: bbox.x - padding,
-			y: bbox.y - padding,
-			width: bbox.width + padding * 2,
-			height: bbox.height + padding * 2,
-		};
-
-		if (isZoomed && currentZoom === element) {
-			// Reset zoom
-			svg.setAttribute('viewBox', '170 0 1000 1000');
-			isZoomed = false;
-			currentZoom = null;
-		} else {
-			// Zoom to element
-			svg.setAttribute(
-				'viewBox',
-				`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`,
-			);
-			isZoomed = true;
-			currentZoom = element;
-		}
-	}
-
-	// Add click handlers to sector zones
-	document.querySelectorAll('[class^="zone-Sector_"]').forEach((zone) => {
-		zone.style.cursor = 'pointer';
-		zone.addEventListener('click', () => zoomToElement(zone));
-	});
-
-	// Add reset zoom on map container double click
-	mapContainer.addEventListener('dblclick', (e) => {
-		if (e.target === mapContainer || e.target === svg) {
-			svg.setAttribute('viewBox', '170 0 1000 1000');
-			isZoomed = false;
-			currentZoom = null;
-		}
+		// Add reset zoom on map container double click
+		mapContainer.addEventListener('dblclick', (e) => {
+			if (e.target === mapContainer || e.target === svg) {
+				svg.setAttribute('viewBox', defaultViewBox);
+				isZoomed = false;
+				currentZoom = null;
+			}
+		});
 	});
 </script>
 
@@ -582,6 +839,38 @@ const formatZoneName = (zoneName: string): string => {
 	[class^='zone-Bunkers_PVP'] .zone-circ {
 		fill: var(--color-pvp-poi-fill);
 		stroke: var(--color-pvp-poi);
+		stroke-width: 0.5;
+	}
+
+	/* Player Marker Styles */
+	.player-marker text {
+		text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8);
+		pointer-events: none;
+		text-anchor: middle;
+		fill: white;
+		font-size: 0.4em;
+	}
+
+	.player-marker circle {
+		filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+		fill: red;
+		stroke: white;
+		stroke-width: 0.5;
+	}
+
+	/* Vehicle Marker Styles */
+	.vehicle-marker text {
+		text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8);
+		pointer-events: none;
+		text-anchor: middle;
+		fill: white;
+		font-size: 0.4em;
+	}
+
+	.vehicle-marker .vehicle-icon {
+		filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+		fill: blue;
+		stroke: white;
 		stroke-width: 0.5;
 	}
 </style>
