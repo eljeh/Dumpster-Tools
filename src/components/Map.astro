@@ -205,7 +205,11 @@ const formatZoneName = (zoneName: string): string => {
 								x={toSvgX(center.x)}
 								y={toSvgY(center.y)}
 								class='zone-label'>
-								{sector.replace('PvP', '').replace('PvE', '')}
+								{sector
+									.replace('PvP', '')
+									.replace('PvE', '')
+									.replace('PVP_', '')
+									.replace('PVE_', '')}
 							</text>
 						</g>
 					);
