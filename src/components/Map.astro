@@ -535,7 +535,13 @@ const formatZoneName = (zoneName: string): string => {
 			const updateElements = () => {
 				const elements = document.querySelectorAll(selector);
 				elements.forEach((element) => {
-					// For vehicle markers, check both the vehicles toggle and registration toggles
+					// Special handling for vehicle markers container
+					if (selector === '.vehicle-markers-container') {
+						element.style.display = toggleElement.checked ? 'block' : 'none';
+						return;
+					}
+
+					// For individual vehicle markers, check both the vehicles toggle and registration toggles
 					if (selector.includes('.vehicle-marker')) {
 						const isVehiclesEnabled = vehicleToggle.checked;
 						const isRegistered = element.classList.contains('registered');
@@ -608,7 +614,7 @@ const formatZoneName = (zoneName: string): string => {
 		updateVisibility(imageToggle, '.map image');
 
 		// Update the vehicle toggle handlers
-		// updateVisibility(vehicleToggle, '.vehicle-markers-container');
+		updateVisibility(vehicleToggle, '.vehicle-markers-container');
 		updateVisibility(registeredVehiclesToggle, '.vehicle-marker.registered');
 		updateVisibility(
 			notRegisteredVehiclesToggle,
@@ -766,17 +772,13 @@ const formatZoneName = (zoneName: string): string => {
 			} */
 		}
 
-
-
 		label:has(input[type='checkbox']:checked),
 		input[type='checkbox']:checked ~ label {
 			color: var(--color-selected);
 		}
-
 	}
 
 	/* Form Controls */
-
 
 	.vehicle-container,
 	.modifiers-container {
@@ -846,8 +848,7 @@ const formatZoneName = (zoneName: string): string => {
 		align-items: center;
 		width: 100%;
 		overflow: hidden;
-
-
+	}
 
 	.map {
 		scale: 1;
