@@ -67,9 +67,6 @@ const formatZoneName = (zoneName: string): string => {
 		</label>
 		<div class='vehicle-types'>
 			<label
-				><input type='checkbox' checked id='all-vehicles-toggle' />All Vehicles</label
-			>
-			<label
 				><input
 					type='checkbox'
 					checked
@@ -503,17 +500,22 @@ const formatZoneName = (zoneName: string): string => {
 		const sectorsToggle = document.getElementById('sectors-toggle');
 		const playersToggle = document.getElementById('players-toggle');
 		const vehicleToggle = document.getElementById('vehicles-toggle');
-		const allVehiclesToggle = document.getElementById('all-vehicles-toggle');
-		const ragerToggle = document.getElementById('rager-toggle');
-		const wolfswagenToggle = document.getElementById('wolfswagen-toggle');
-		const laikaToggle = document.getElementById('laika-toggle');
-		const kingletdusterToggle = document.getElementById('kingletduster-toggle');
-		const barbaToggle = document.getElementById('barba-toggle');
-		const risToggle = document.getElementById('ris-toggle');
-		const dirtbikeToggle = document.getElementById('dirtbike-toggle');
-		const cruiserToggle = document.getElementById('cruiser-toggle');
-		const bicyclesToggle = document.getElementById('bicycles-toggle');
-		const wheelbarrowToggle = document.getElementById('wheelbarrow-toggle');
+		const registeredVehiclesToggle = document.getElementById(
+			'registered-vehicles-toggle',
+		);
+		const notRegisteredVehiclesToggle = document.getElementById(
+			'not-registered-vehicles-toggle',
+		);
+		// const ragerToggle = document.getElementById('rager-toggle');
+		// const wolfswagenToggle = document.getElementById('wolfswagen-toggle');
+		// const laikaToggle = document.getElementById('laika-toggle');
+		// const kingletdusterToggle = document.getElementById('kingletduster-toggle');
+		// const barbaToggle = document.getElementById('barba-toggle');
+		// const risToggle = document.getElementById('ris-toggle');
+		// const dirtbikeToggle = document.getElementById('dirtbike-toggle');
+		// const cruiserToggle = document.getElementById('cruiser-toggle');
+		// const bicyclesToggle = document.getElementById('bicycles-toggle');
+		// const wheelbarrowToggle = document.getElementById('wheelbarrow-toggle');
 
 		const pvpToggle = document.getElementById('pvp-toggle');
 		const pveToggle = document.getElementById('pve-toggle');
@@ -533,14 +535,19 @@ const formatZoneName = (zoneName: string): string => {
 			const updateElements = () => {
 				const elements = document.querySelectorAll(selector);
 				elements.forEach((element) => {
-					// For vehicle markers, check both the vehicles toggle and all-vehicles toggle
+					// For vehicle markers, check both the vehicles toggle and registration toggles
 					if (selector.includes('.vehicle-marker')) {
-						element.style.display =
-							vehicleToggle.checked &&
-							allVehiclesToggle.checked &&
-							toggleElement.checked
-								? 'block'
-								: 'none';
+						const isVehiclesEnabled = vehicleToggle.checked;
+						const isRegistered = element.classList.contains('registered');
+						const isRegisteredEnabled = registeredVehiclesToggle.checked;
+						const isNotRegisteredEnabled = notRegisteredVehiclesToggle.checked;
+
+						const shouldShow =
+							isVehiclesEnabled &&
+							((isRegistered && isRegisteredEnabled) ||
+								(!isRegistered && isNotRegisteredEnabled));
+
+						element.style.display = shouldShow ? 'block' : 'none';
 					} else {
 						element.style.display = toggleElement.checked ? 'block' : 'none';
 					}
@@ -551,29 +558,38 @@ const formatZoneName = (zoneName: string): string => {
 			// Also update initial state
 			updateElements();
 
-			// For vehicle-specific toggles, also listen to all-vehicles toggle changes
+			// For vehicle-specific toggles, also listen to vehicles toggle changes
 			if (selector.includes('.vehicle-marker')) {
-				allVehiclesToggle.addEventListener('change', updateElements);
+				vehicleToggle.addEventListener('change', updateElements);
+				if (toggleElement !== registeredVehiclesToggle) {
+					registeredVehiclesToggle.addEventListener('change', updateElements);
+				}
+				if (toggleElement !== notRegisteredVehiclesToggle) {
+					notRegisteredVehiclesToggle.addEventListener(
+						'change',
+						updateElements,
+					);
+				}
 			}
 		}
 
 		// Set up toggle handlers
 		updateVisibility(sectorsToggle, '[class^="zone-Sector_"]');
 		updateVisibility(playersToggle, '.player-markers-container');
-		updateVisibility(vehicleToggle, '.vehicle-markers-container');
-		updateVisibility(ragerToggle, '.Rager');
-		updateVisibility(wolfswagenToggle, '.WolfsWagen');
-		updateVisibility(laikaToggle, '.Laika');
-		updateVisibility(kingletdusterToggle, '.Kinglet_Duster');
-		updateVisibility(barbaToggle, '.Barba, .BigRaft, .SmallRaft, .SUP');
-		updateVisibility(risToggle, '.RIS');
-		updateVisibility(dirtbikeToggle, '.Dirtbike');
-		updateVisibility(cruiserToggle, '.Cruiser');
-		updateVisibility(bicyclesToggle, '.MountainBike, .CityBike');
-		updateVisibility(
-			wheelbarrowToggle,
-			'.WheelBarrow_Improvised, .WheelBarrow_Metal',
-		);
+		// updateVisibility(vehicleToggle, '.vehicle-markers-container');
+		// updateVisibility(ragerToggle, '.Rager');
+		// updateVisibility(wolfswagenToggle, '.WolfsWagen');
+		// updateVisibility(laikaToggle, '.Laika');
+		// updateVisibility(kingletdusterToggle, '.Kinglet_Duster');
+		// updateVisibility(barbaToggle, '.Barba, .BigRaft, .SmallRaft, .SUP');
+		// updateVisibility(risToggle, '.RIS');
+		// updateVisibility(dirtbikeToggle, '.Dirtbike');
+		// updateVisibility(cruiserToggle, '.Cruiser');
+		// updateVisibility(bicyclesToggle, '.MountainBike, .CityBike');
+		// updateVisibility(
+		// 	wheelbarrowToggle,
+		// 	'.WheelBarrow_Improvised, .WheelBarrow_Metal',
+		// );
 		updateVisibility(pvpToggle, '.zone-PVP');
 		updateVisibility(pveToggle, '.zone-PVE');
 		updateVisibility(
@@ -590,6 +606,14 @@ const formatZoneName = (zoneName: string): string => {
 		);
 		updateVisibility(customPOIToggle, '[class^="zone-POI_custom"]');
 		updateVisibility(imageToggle, '.map image');
+
+		// Update the vehicle toggle handlers
+		// updateVisibility(vehicleToggle, '.vehicle-markers-container');
+		updateVisibility(registeredVehiclesToggle, '.vehicle-marker.registered');
+		updateVisibility(
+			notRegisteredVehiclesToggle,
+			'.vehicle-marker.not-registered',
+		);
 
 		// Add zoom functionality
 		const svg = document.querySelector('.map');
@@ -929,12 +953,12 @@ const formatZoneName = (zoneName: string): string => {
 	/* Player Marker Styles */
 	.player-marker text {
 		text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.8);
-    pointer-events: none;
-    text-anchor: middle;
-    fill: white;
-    font-size: 0.3em;
-    stroke: none;
-    letter-spacing: 0.05em;
+		pointer-events: none;
+		text-anchor: middle;
+		fill: white;
+		font-size: 0.3em;
+		stroke: none;
+		letter-spacing: 0.05em;
 	}
 
 	.player-marker circle {
@@ -947,12 +971,12 @@ const formatZoneName = (zoneName: string): string => {
 	/* Vehicle Marker Styles */
 	.vehicle-marker text {
 		text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.8);
-    pointer-events: none;
-    text-anchor: middle;
-    fill: white;
-    font-size: 0.3em;
-    stroke: none;
-    letter-spacing: 0.05em;
+		pointer-events: none;
+		text-anchor: middle;
+		fill: white;
+		font-size: 0.3em;
+		stroke: none;
+		letter-spacing: 0.05em;
 		.not-registered {
 			fill: red;
 		}
