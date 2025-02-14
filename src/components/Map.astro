@@ -1,6 +1,7 @@
 ---
 import zones from '../data/zones.json';
 import settingZones from '../data/settingZones.json';
+import MapControls from './MapControls.astro';
 
 // Find the min and max coordinates to set up the viewport
 let minX = Infinity;
@@ -56,71 +57,8 @@ const formatZoneName = (zoneName: string): string => {
 };
 ---
 
-<div class='overlay-controls'>
-	<h2 class='pageTitle text-center'>Map Zones</h2>
-	<label><input type='checkbox' id='players-toggle' />Players</label>
-	<div class='vehicle-container'>
-		<input type='checkbox' id='vehicles-toggle' />
-		<label for='vehicles-toggle'>
-			<span class='vehicles close'>Vehicles ▲ </span>
-			<span class='vehicles open'>Vehicles ▼</span>
-		</label>
-		<div class='vehicle-types'>
-			<label
-				><input
-					type='checkbox'
-					checked
-					id='registered-vehicles-toggle'
-				/>Registered</label
-			>
-			<label
-				><input
-					type='checkbox'
-					checked
-					id='not-registered-vehicles-toggle'
-				/>Not Registered</label
-			>
+<MapControls />
 
-
-			<label><input type='checkbox' id='rager-toggle' />Ragers</label>
-			<label><input type='checkbox' id='wolfswagen-toggle' />WolfsWagens</label>
-			<label><input type='checkbox' id='laika-toggle' />Laikas</label>
-			<label
-				><input type='checkbox' id='kingletduster-toggle' />Kinglet Dusters</label
-			>
-			<label><input type='checkbox' id='barba-toggle' />Boats</label>
-			<label><input type='checkbox' id='ris-toggle' />RISs</label>
-			<label><input type='checkbox' id='dirtbike-toggle' />DirtBikes</label>
-			<label><input type='checkbox' id='cruiser-toggle' />Cruisers</label>
-			<label><input type='checkbox' id='bicycles-toggle' />Bicycles</label>
-			<label
-				><input type='checkbox' id='wheelbarrow-toggle' />WheelBarrows</label
-			>
-
-
-		</div>
-	</div>
-	<label><input type='checkbox' id='pois-toggle' />POIs</label>
-	<label><input type='checkbox' id='bunkers-toggle' />Bunkers</label>
-	<label><input type='checkbox' id='outposts-toggle' />Outposts</label>
-	<label><input type='checkbox' checked id='sectors-toggle' />Sectors</label>
-	<label><input type='checkbox' checked id='image-toggle' />Image</label>
-	<div class='modifiers-container'>
-		<input type='checkbox' id='modifiers-toggle' />
-		<label for='modifiers-toggle'>
-			<span class='modifiers close'>Loots Modifiers ▲</span>
-			<span class='modifiers open'>Loots Modifiers ▼</span>
-		</label>
-		<div class='loot-modifiers'>
-			<label><input type='checkbox' id='pvp-toggle' />PvP</label>
-			<label><input type='checkbox' id='pve-toggle' />PvE</label>
-			<label><input type='checkbox' id='custom-pois-toggle' />POIs</label>
-			<label><input type='checkbox' id='pve-bunker-toggle' />PvE Bunkers</label>
-			<label><input type='checkbox' id='pvp-bunker-toggle' />PvP Bunkers</label>
-			<label><input type='checkbox' id='warzones-toggle' />Warzones</label>
-		</div>
-	</div>
-</div>
 <div
 	class='map-container'
 	data-min-x={minX}
@@ -493,11 +431,17 @@ const formatZoneName = (zoneName: string): string => {
 		}
 
 		// Update player and vehicle locations every 5 minutes
+		displayCurrentEvents();
 		displayPlayerLocations();
 		displayVehicleLocations();
+		displayKillPositions();
+		displayFlagLocations();
 		setInterval(() => {
+			displayCurrentEvents();
 			displayPlayerLocations();
 			displayVehicleLocations();
+			displayKillPositions();
+			displayFlagLocations();
 		}, 300000);
 
 		// Get all toggle checkboxes
@@ -510,7 +454,9 @@ const formatZoneName = (zoneName: string): string => {
 		const notRegisteredVehiclesToggle = document.getElementById(
 			'not-registered-vehicles-toggle',
 		);
-
+		const flagsToggle = document.getElementById('flags-toggle');
+		const eventsToggle = document.getElementById('events-toggle');
+		const killsToggle = document.getElementById('kills-toggle');
 		const ragerToggle = document.getElementById('rager-toggle');
 		const wolfswagenToggle = document.getElementById('wolfswagen-toggle');
 		const laikaToggle = document.getElementById('laika-toggle');
@@ -584,9 +530,318 @@ const formatZoneName = (zoneName: string): string => {
 			}
 		}
 
+		function displayCurrentEvents() {
+			const url = `https://api.whalleybot.com/bot/${WBBotID}/WorldEvent/GetCurrentEvent`;
+			fetch(url, {
+				method: 'GET',
+				headers: {
+					Accept: '*/*',
+					Authorization: WBAuth,
+				},
+			})
+				.then((response) => {
+					if (!response.ok) {
+						console.error(
+							'API response not ok:',
+							response.status,
+							response.statusText,
+						);
+						throw new Error('Network response was not ok');
+					}
+					return response.json();
+				})
+				.then((data) => {
+					// Remove existing event markers container
+					document.querySelector('.event-markers-container')?.remove();
+
+					if (!data || !data.currentZonePos) return;
+
+					// Create container for event marker
+					const svg = document.querySelector('.map');
+					const container = document.createElementNS(
+						'http://www.w3.org/2000/svg',
+						'g',
+					);
+					container.classList.add('event-markers-container');
+
+					const [x, y, z] = data.currentZonePos.split(' ');
+					const eventX = -parseFloat(x); // Flip X coordinate like we do for zones
+					const eventY = parseFloat(y);
+
+					const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+					g.classList.add('event-marker');
+
+					// Add title element for tooltip
+					const title = document.createElementNS(
+						'http://www.w3.org/2000/svg',
+						'title',
+					);
+					title.textContent = `Event: ${data.currentZone}\nLocation: (${eventX.toFixed(2)}, ${eventY.toFixed(2)})`;
+					g.appendChild(title);
+
+					// Create circle for event zone (radius of 100 units)
+					const circle = document.createElementNS(
+						'http://www.w3.org/2000/svg',
+						'circle',
+					);
+					circle.setAttribute('cx', toSvgX(eventX));
+					circle.setAttribute('cy', toSvgY(eventY));
+					circle.setAttribute('r', '50'); // Adjust this value to change zone size
+					circle.classList.add('event-zone');
+
+					// Create text label
+					const text = document.createElementNS(
+						'http://www.w3.org/2000/svg',
+						'text',
+					);
+					text.setAttribute('x', toSvgX(eventX));
+					text.setAttribute('y', toSvgY(eventY));
+					text.classList.add('event-label');
+					text.textContent = data.currentZone;
+
+					g.appendChild(circle);
+					g.appendChild(text);
+					container.appendChild(g);
+					svg.appendChild(container);
+				})
+				.catch((error) => {
+					console.error('Error fetching current events:', error);
+				});
+		}
+
+		function displayKillPositions() {
+			const url = `https://api.whalleybot.com/bot/${WBBotID}/GetKillLogs`;
+			fetch(url, {
+				method: 'GET',
+				headers: {
+					Accept: '*/*',
+					Authorization: WBAuth,
+				},
+			})
+				.then((response) => {
+					if (!response.ok) {
+						throw new Error('Network response was not ok');
+					}
+					return response.json();
+				})
+				.then((data) => {
+					// Remove existing kill markers container
+					document.querySelector('.kill-markers-container')?.remove();
+
+					// Create container for kill markers
+					const svg = document.querySelector('.map');
+					const container = document.createElementNS(
+						'http://www.w3.org/2000/svg',
+						'g',
+					);
+					container.classList.add('kill-markers-container');
+
+					Object.keys(data).forEach((key) => {
+						if (key.includes('Comitted suicide')) {
+							// Handle suicide
+							const locationMatch = key.match(
+								/X=(-?\d+\.?\d*) Y=(-?\d+\.?\d*)/,
+							);
+							if (locationMatch) {
+								const x = -parseFloat(locationMatch[1]); // Flip X coordinate
+								const y = parseFloat(locationMatch[2]);
+								const username = key.match(/User: ([^\s(]+)/)?.[1] || 'Unknown';
+
+								addKillMarker(container, x, y, 'suicide', username);
+							}
+						} else if (key.includes('Killer')) {
+							// Handle kill
+							try {
+								const killData = JSON.parse(key.substring(key.indexOf('{')));
+								const killerX = -killData.Killer.ServerLocation.X; // Flip X coordinate
+								const killerY = killData.Killer.ServerLocation.Y;
+								const victimX = -killData.Victim.ServerLocation.X; // Flip X coordinate
+								const victimY = killData.Victim.ServerLocation.Y;
+
+								// Add killer marker
+								addKillMarker(
+									container,
+									killerX,
+									killerY,
+									'killer',
+									killData.Killer.ProfileName,
+									{
+										victim: killData.Victim.ProfileName,
+										weapon: killData.Weapon,
+										time: killData.TimeOfDay,
+									},
+								);
+
+								// Add victim marker
+								addKillMarker(
+									container,
+									victimX,
+									victimY,
+									'victim',
+									killData.Victim.ProfileName,
+								);
+
+								// Add line connecting killer and victim
+								const line = document.createElementNS(
+									'http://www.w3.org/2000/svg',
+									'line',
+								);
+								line.setAttribute('x1', toSvgX(killerX));
+								line.setAttribute('y1', toSvgY(killerY));
+								line.setAttribute('x2', toSvgX(victimX));
+								line.setAttribute('y2', toSvgY(victimY));
+								line.classList.add('kill-line');
+								container.appendChild(line);
+							} catch (e) {
+								console.error('Error parsing kill data:', e);
+							}
+						}
+					});
+
+					svg.appendChild(container);
+				})
+				.catch((error) => {
+					console.error('Error fetching kill positions:', error);
+				});
+		}
+
+		function addKillMarker(container, x, y, type, username, details = null) {
+			const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+			g.classList.add('kill-marker', type);
+
+			// Add title element for tooltip
+			const title = document.createElementNS(
+				'http://www.w3.org/2000/svg',
+				'title',
+			);
+			if (type === 'killer') {
+				title.textContent = `Killer: ${username}\nVictim: ${details.victim}\nWeapon: ${details.weapon}\nTime: ${details.time}`;
+			} else if (type === 'victim') {
+				title.textContent = `Victim: ${username}`;
+			} else {
+				title.textContent = `Suicide: ${username}`;
+			}
+			g.appendChild(title);
+
+			// Create marker symbol
+			const marker = document.createElementNS(
+				'http://www.w3.org/2000/svg',
+				'circle',
+			);
+			marker.setAttribute('cx', toSvgX(x));
+			marker.setAttribute('cy', toSvgY(y));
+			marker.setAttribute('r', '1');
+			marker.classList.add('kill-icon');
+			g.appendChild(marker);
+
+			// Create text label
+			const text = document.createElementNS(
+				'http://www.w3.org/2000/svg',
+				'text',
+			);
+			text.setAttribute('x', toSvgX(x));
+			text.setAttribute('y', toSvgY(y) - 5);
+			text.textContent = username;
+			g.appendChild(text);
+
+			container.appendChild(g);
+		}
+
+		function displayFlagLocations() {
+			const url = `https://api.whalleybot.com/bot/${WBBotID}/FlagLocations`;
+			fetch(url, {
+				method: 'GET',
+				headers: {
+					Accept: '*/*',
+					Authorization: WBAuth,
+				},
+			})
+				.then((response) => {
+					if (!response.ok) {
+						throw new Error('Network response was not ok');
+					}
+					return response.json();
+				})
+				.then((data) => {
+					// Remove existing flag markers container
+					document.querySelector('.flag-markers-container')?.remove();
+
+					// Create container for flag markers
+					const svg = document.querySelector('.map');
+					const container = document.createElementNS(
+						'http://www.w3.org/2000/svg',
+						'g',
+					);
+					container.classList.add('flag-markers-container');
+
+					// Convert object to array if necessary
+					const flagsArray = Array.isArray(data) ? data : Object.values(data);
+
+					flagsArray.forEach((flag) => {
+						if (!flag.location) return; // Skip if no location data
+
+						const [x, y, z] = flag.location.split(' ');
+						const flagX = -parseFloat(x); // Flip X coordinate like we do for zones
+						const flagY = parseFloat(y);
+
+						const g = document.createElementNS(
+							'http://www.w3.org/2000/svg',
+							'g',
+						);
+						g.classList.add('flag-marker');
+
+						// Add title element for tooltip
+						const title = document.createElementNS(
+							'http://www.w3.org/2000/svg',
+							'title',
+						);
+						title.textContent = `Flag ID: ${flag.id}\nOwner: ${flag.ownerName}\nSteam ID: ${flag.ownerID}\nLocation: (${flagX.toFixed(2)}, ${flagY.toFixed(2)})`;
+						g.appendChild(title);
+
+						// Create flag icon (using a custom path for a flag shape)
+						const flagIcon = document.createElementNS(
+							'http://www.w3.org/2000/svg',
+							'path',
+						);
+						// New flag design: pole with waving flag
+						const flagPath = `
+							M ${toSvgX(flagX)},${toSvgY(flagY)} 
+							l 0,-6 
+							m 0,0 
+							l 8,-6 
+							l -8,0 
+							l 0,10
+						`;
+						flagIcon.setAttribute('d', flagPath);
+						flagIcon.classList.add('flag-icon');
+						g.appendChild(flagIcon);
+
+						// Create text label
+						const text = document.createElementNS(
+							'http://www.w3.org/2000/svg',
+							'text',
+						);
+						text.setAttribute('x', toSvgX(flagX));
+						text.setAttribute('y', toSvgY(flagY) - 15);
+						text.textContent = flag.ownerName;
+						g.appendChild(text);
+
+						container.appendChild(g);
+					});
+
+					svg.appendChild(container);
+				})
+				.catch((error) => {
+					console.error('Error fetching flag locations:', error);
+				});
+		}
+
 		// Set up toggle handlers
 		updateVisibility(sectorsToggle, '[class^="zone-Sector_"]');
 		updateVisibility(playersToggle, '.player-markers-container');
+		updateVisibility(flagsToggle, '.flag-markers-container');
+		updateVisibility(eventsToggle, '.event-markers-container');
+		updateVisibility(killsToggle, '.kill-markers-container');
 		// updateVisibility(vehicleToggle, '.vehicle-markers-container');
 		updateVisibility(ragerToggle, '.Rager');
 		updateVisibility(wolfswagenToggle, '.WolfsWagen');
@@ -1013,5 +1268,77 @@ const formatZoneName = (zoneName: string): string => {
 	}
 	.vehicle-marker.not-registered .vehicle-icon {
 		stroke: red;
+	}
+
+	/* Event Marker Styles */
+	.event-marker text {
+		text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.8);
+		pointer-events: none;
+		text-anchor: middle;
+		fill: white;
+		font-size: 0.5em;
+		stroke: none;
+		letter-spacing: 0.05em;
+	}
+
+	.event-marker .event-zone {
+		fill: hsla(60, 100%, 50%, 0.2);
+		stroke: hsl(60, 100%, 50%);
+		stroke-width: 2;
+		stroke-dasharray: 10 5;
+	}
+
+	/* Kill Marker Styles */
+	.kill-marker text {
+		text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.8);
+		pointer-events: none;
+		text-anchor: middle;
+		fill: white;
+		font-size: 0.25em;
+		stroke: none;
+		letter-spacing: 0.05em;
+	}
+
+	.kill-marker .kill-icon {
+		filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+		stroke: white;
+		stroke-width: 0.25;
+	}
+
+	.kill-marker.killer .kill-icon {
+		fill: red;
+	}
+
+	.kill-marker.victim .kill-icon {
+		fill: black;
+	}
+
+	.kill-marker.suicide .kill-icon {
+		fill: purple;
+	}
+
+	.kill-line {
+		stroke: red;
+		stroke-width: 0.25;
+		stroke-dasharray: 5, 5;
+		opacity: 0.5;
+	}
+
+	/* Flag Marker Styles */
+	.flag-marker text {
+		text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.8);
+		pointer-events: none;
+		text-anchor: middle;
+		fill: white;
+		font-size: 0.3em;
+		stroke: none;
+		letter-spacing: 0.05em;
+	}
+
+	.flag-marker .flag-icon {
+		filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+		fill: orange;
+		stroke: white;
+		stroke-width: 0.5;
 	}
 </style>
