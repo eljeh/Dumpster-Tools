@@ -29,6 +29,18 @@ export default defineConfig({
         context: "client",
         access: "public"
       }),
+      PUBLIC_FTP_HOST: envField.string({
+        context: "client",
+        access: "public"
+      }),
+      PUBLIC_FTP_USER: envField.string({
+        context: "client",
+        access: "public"
+      }),
+      PUBLIC_FTP_PASS: envField.string({
+        context: "client",
+        access: "public"
+      }),
     }
   },
 

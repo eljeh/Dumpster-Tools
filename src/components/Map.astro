@@ -2,6 +2,11 @@
 import zones from '../data/zones.json';
 import settingZones from '../data/settingZones.json';
 import MapControls from './MapControls.astro';
+import {
+	PUBLIC_FTP_HOST,
+	PUBLIC_FTP_USER,
+	PUBLIC_FTP_PASS,
+} from 'astro:env/client';
 
 // Find the min and max coordinates to set up the viewport
 let minX = Infinity;
@@ -205,11 +210,23 @@ const formatZoneName = (zoneName: string): string => {
 	</svg>
 </div>
 
+<div class='data-table-container'></div>
+
 <script>
-	import { PUBLIC_WBAUTH, PUBLIC_WBBOTID, PUBLIC_ROOT } from 'astro:env/client';
+	import {
+		PUBLIC_WBAUTH,
+		PUBLIC_WBBOTID,
+		PUBLIC_ROOT,
+		PUBLIC_FTP_HOST,
+		PUBLIC_FTP_USER,
+		PUBLIC_FTP_PASS,
+	} from 'astro:env/client';
 	const WBAuth = PUBLIC_WBAUTH;
 	const WBBotID = PUBLIC_WBBOTID;
 	const Root = PUBLIC_ROOT;
+	const FTPHost = PUBLIC_FTP_HOST;
+	const FTPUser = PUBLIC_FTP_USER;
+	const FTPPass = PUBLIC_FTP_PASS;
 
 	document.addEventListener('astro:page-load', () => {
 		const mapContainer = document.querySelector('.map-container');
@@ -297,6 +314,55 @@ const formatZoneName = (zoneName: string): string => {
 					});
 
 					svg.appendChild(container);
+
+					// Add table data
+					const tableContainer = document.querySelector(
+						'.data-table-container',
+					);
+					if (!tableContainer) return;
+
+					// Clear existing table
+					tableContainer.innerHTML = '';
+
+					// Only create and show table if players toggle is checked
+					if (document.getElementById('players-toggle').checked) {
+						// Create table
+						const table = document.createElement('table');
+						table.classList.add('player-data-table');
+
+						// Create table header
+						const thead = document.createElement('thead');
+						thead.innerHTML = `
+							<tr>
+								<th>Player Name</th>
+								<th>Steam ID</th>
+								<th>Type</th>
+								<th>Location</th>
+							</tr>
+						`;
+						table.appendChild(thead);
+
+						// Create table body
+						const tbody = document.createElement('tbody');
+						data.forEach((player) => {
+							const [x, y] = player.lastKnownLocation.split(' ');
+							const playerX = -parseFloat(x); // Flip X coordinate
+							const playerY = parseFloat(y);
+
+							const row = document.createElement('tr');
+							row.innerHTML = `
+								<td>${player.playerName}</td>
+								<td>${player.steamID}</td>
+								<td>${player.type}</td>
+								<td>(${playerX.toFixed(2)}, ${playerY.toFixed(2)})</td>
+							`;
+							tbody.appendChild(row);
+						});
+						table.appendChild(tbody);
+
+						// Add table to container
+						tableContainer.appendChild(table);
+					}
 				})
 				.catch((error) => {
 					console.error('Error fetching player locations:', error);
@@ -430,55 +496,6 @@ const formatZoneName = (zoneName: string): string => {
 				});
 		}
 
-		// Update player and vehicle locations every 5 minutes
-		displayCurrentEvents();
-		displayPlayerLocations();
-		displayVehicleLocations();
-		displayKillPositions();
-		displayFlagLocations();
-		setInterval(() => {
-			displayCurrentEvents();
-			displayPlayerLocations();
-			displayVehicleLocations();
-			displayKillPositions();
-			displayFlagLocations();
-		}, 300000);
-
-		// Get all toggle checkboxes
-		const sectorsToggle = document.getElementById('sectors-toggle');
-		const playersToggle = document.getElementById('players-toggle');
-		const vehicleToggle = document.getElementById('vehicles-toggle');
-		const registeredVehiclesToggle = document.getElementById(
-			'registered-vehicles-toggle',
-		);
-		const notRegisteredVehiclesToggle = document.getElementById(
-			'not-registered-vehicles-toggle',
-		);
-		const flagsToggle = document.getElementById('flags-toggle');
-		const eventsToggle = document.getElementById('events-toggle');
-		const killsToggle = document.getElementById('kills-toggle');
-		const ragerToggle = document.getElementById('rager-toggle');
-		const wolfswagenToggle = document.getElementById('wolfswagen-toggle');
-		const laikaToggle = document.getElementById('laika-toggle');
-		const kingletdusterToggle = document.getElementById('kingletduster-toggle');
-		const barbaToggle = document.getElementById('barba-toggle');
-		const risToggle = document.getElementById('ris-toggle');
-		const dirtbikeToggle = document.getElementById('dirtbike-toggle');
-		const cruiserToggle = document.getElementById('cruiser-toggle');
-		const bicyclesToggle = document.getElementById('bicycles-toggle');
-		const wheelbarrowToggle = document.getElementById('wheelbarrow-toggle');
-
-		const pvpToggle = document.getElementById('pvp-toggle');
-		const pveToggle = document.getElementById('pve-toggle');
-		const pveBunkerToggle = document.getElementById('pve-bunker-toggle');
-		const pvpBunkerToggle = document.getElementById('pvp-bunker-toggle');
-		const warzonesToggle = document.getElementById('warzones-toggle');
-		const outpostsToggle = document.getElementById('outposts-toggle');
-		const poisToggle = document.getElementById('pois-toggle');
-		const bunkersToggle = document.getElementById('bunkers-toggle');
-		const imageToggle = document.getElementById('image-toggle');
-		const customPOIToggle = document.getElementById('custom-pois-toggle');
-
 		// Function to toggle visibility
 		function updateVisibility(toggleElement, selector) {
 			if (!toggleElement) return;
@@ -563,6 +580,9 @@ const formatZoneName = (zoneName: string): string => {
 						'g',
 					);
 					container.classList.add('event-markers-container');
+
+					//start event-markers-container display none
+					container.style.display = 'none';
 
 					const [x, y, z] = data.currentZonePos.split(' ');
 					const eventX = -parseFloat(x); // Flip X coordinate like we do for zones
@@ -773,6 +793,7 @@ const formatZoneName = (zoneName: string): string => {
 						'g',
 					);
 					container.classList.add('flag-markers-container');
+					container.style.display = 'none';
 
 					// Convert object to array if necessary
 					const flagsArray = Array.isArray(data) ? data : Object.values(data);
@@ -835,6 +856,58 @@ const formatZoneName = (zoneName: string): string => {
 					console.error('Error fetching flag locations:', error);
 				});
 		}
+
+
+
+		// Update player and vehicle locations every 5 minutes
+		displayCurrentEvents();
+		displayPlayerLocations();
+		displayVehicleLocations();
+		displayKillPositions();
+		displayFlagLocations();
+
+		setInterval(() => {
+			displayCurrentEvents();
+			displayPlayerLocations();
+			displayVehicleLocations();
+			displayKillPositions();
+			displayFlagLocations();
+		}, 300000);
+
+		// Get all toggle checkboxes
+		const sectorsToggle = document.getElementById('sectors-toggle');
+		const playersToggle = document.getElementById('players-toggle');
+		const vehicleToggle = document.getElementById('vehicles-toggle');
+		const registeredVehiclesToggle = document.getElementById(
+			'registered-vehicles-toggle',
+		);
+		const notRegisteredVehiclesToggle = document.getElementById(
+			'not-registered-vehicles-toggle',
+		);
+		const flagsToggle = document.getElementById('flags-toggle');
+		const eventsToggle = document.getElementById('events-toggle');
+		const killsToggle = document.getElementById('kills-toggle');
+		const ragerToggle = document.getElementById('rager-toggle');
+		const wolfswagenToggle = document.getElementById('wolfswagen-toggle');
+		const laikaToggle = document.getElementById('laika-toggle');
+		const kingletdusterToggle = document.getElementById('kingletduster-toggle');
+		const barbaToggle = document.getElementById('barba-toggle');
+		const risToggle = document.getElementById('ris-toggle');
+		const dirtbikeToggle = document.getElementById('dirtbike-toggle');
+		const cruiserToggle = document.getElementById('cruiser-toggle');
+		const bicyclesToggle = document.getElementById('bicycles-toggle');
+		const wheelbarrowToggle = document.getElementById('wheelbarrow-toggle');
+
+		const pvpToggle = document.getElementById('pvp-toggle');
+		const pveToggle = document.getElementById('pve-toggle');
+		const pveBunkerToggle = document.getElementById('pve-bunker-toggle');
+		const pvpBunkerToggle = document.getElementById('pvp-bunker-toggle');
+		const warzonesToggle = document.getElementById('warzones-toggle');
+		const outpostsToggle = document.getElementById('outposts-toggle');
+		const poisToggle = document.getElementById('pois-toggle');
+		const bunkersToggle = document.getElementById('bunkers-toggle');
+		const imageToggle = document.getElementById('image-toggle');
+		const customPOIToggle = document.getElementById('custom-pois-toggle');
 
 		// Set up toggle handlers
 		updateVisibility(sectorsToggle, '[class^="zone-Sector_"]');
@@ -936,6 +1009,92 @@ const formatZoneName = (zoneName: string): string => {
 				currentZoom = null;
 			}
 		});
+
+		async function fetchLootData() {
+			try {
+				const response = await fetch(`${Root}/api/loot`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						host: FTPHost,
+						user: FTPUser,
+						password: FTPPass,
+					}),
+				});
+
+				if (!response.ok) {
+					throw new Error('Failed to fetch loot data');
+				}
+
+				const lootData = await response.json();
+				displayLootLocations(lootData);
+			} catch (error) {
+				console.error('Error fetching loot data:', error);
+			}
+		}
+
+		function displayLootLocations(lootData) {
+			// Remove existing loot markers container
+			document.querySelector('.loot-markers-container')?.remove();
+
+			// Create container for loot markers
+			const svg = document.querySelector('.map');
+			const container = document.createElementNS(
+				'http://www.w3.org/2000/svg',
+				'g',
+			);
+			container.classList.add('loot-markers-container');
+
+			lootData.forEach((loot) => {
+				const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+				g.classList.add('loot-marker');
+
+				// Add title element for tooltip
+				const title = document.createElementNS(
+					'http://www.w3.org/2000/svg',
+					'title',
+				);
+				title.textContent = `Item: ${loot.name}\nQuantity: ${loot.quantity}\nLocation: (${loot.x}, ${loot.y})`;
+				g.appendChild(title);
+
+				// Create loot icon
+				const marker = document.createElementNS(
+					'http://www.w3.org/2000/svg',
+					'circle',
+				);
+				marker.setAttribute('cx', toSvgX(-loot.x)); // Flip X coordinate
+				marker.setAttribute('cy', toSvgY(loot.y));
+				marker.setAttribute('r', '2');
+				marker.classList.add('loot-icon');
+				g.appendChild(marker);
+
+				// Create text label
+				const text = document.createElementNS(
+					'http://www.w3.org/2000/svg',
+					'text',
+				);
+				text.setAttribute('x', toSvgX(-loot.x));
+				text.setAttribute('y', toSvgY(loot.y) - 5);
+				text.textContent = loot.name;
+				g.appendChild(text);
+
+				container.appendChild(g);
+			});
+
+			svg.appendChild(container);
+		}
+
+		// // Add loot fetching to the update interval
+		// fetchLootData();
+		// setInterval(() => {
+		// 	fetchLootData();
+		// }, 300000); // Every 5 minutes
+
+		// Add loot toggle to controls
+		const lootToggle = document.getElementById('loot-toggle');
+		updateVisibility(lootToggle, '.loot-markers-container');
 	});
 </script>
 
@@ -1036,6 +1195,18 @@ const formatZoneName = (zoneName: string): string => {
 		input[type='checkbox']:checked ~ label {
 			color: var(--color-selected);
 		}
+	}
+
+	.data-table-container {
+		/* position: absolute;
+		top: calc(100vh - 10em);
+		max-width: 78em; */
+		width: 100%;
+		padding: 1em 1.5em;
+		border-radius: 0.5em;
+		background: var(--color-grey-darker);
+		box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+			var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 	}
 
 	/* Form Controls */
@@ -1340,5 +1511,47 @@ const formatZoneName = (zoneName: string): string => {
 		fill: orange;
 		stroke: white;
 		stroke-width: 0.5;
+	}
+
+	/* Loot Marker Styles */
+	.loot-marker text {
+		text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.8);
+		pointer-events: none;
+		text-anchor: middle;
+		fill: white;
+		font-size: 0.3em;
+		stroke: none;
+		letter-spacing: 0.05em;
+	}
+
+	.loot-marker .loot-icon {
+		filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+		fill: green;
+		stroke: white;
+		stroke-width: 0.5;
+	}
+
+	/* Table Styles */
+	.player-data-table {
+		width: 100%;
+		border-collapse: collapse;
+		margin-top: 1em;
+		color: var(--color-white);
+	}
+
+	.player-data-table th,
+	.player-data-table td {
+		padding: 0.5em;
+		text-align: left;
+		border-bottom: 1px solid var(--color-white-10);
+	}
+
+	.player-data-table th {
+		font-weight: bold;
+		background-color: var(--color-white-10);
+	}
+
+	.player-data-table tr:hover {
+		background-color: var(--color-white-10);
 	}
 </style>
