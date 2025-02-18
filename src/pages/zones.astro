@@ -4,9 +4,9 @@ import Map from '../components/Map.astro';
 ---
 
 <Layout title='Map Zones'>
-	<div class='wrapper' transition:name='wrapper'>
+
 		<Map />
-	</div>
+
 </Layout>
 
 <style is:inline>
@@ -66,135 +66,14 @@ import Map from '../components/Map.astro';
 		}
 	}
 
-	.overlay-controls {
-		position: absolute;
-		top: 5.2em;
-		right: 1em;
-		z-index: 1000;
-		display: flex;
-		flex-direction: column;
-		flex-wrap: wrap;
-		align-items: flex-start;
-		width: 11em;
-		gap: 0.5em;
-		padding: 1em 1.5em;
-		border-radius: 0.5em;
-		background: var(--color-grey-darker);
-		box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
-			var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+	main {
+	display: grid;
+	grid-template-areas:
+		'controls'
+		'map'
+		'data-table';
+}
 
-		@media (max-width: 1024px) {
-			width: 100%;
-			position: absolute;
-			top: 0;
-			right: 0;
-			flex-direction: row;
-			justify-content: center;
-			padding-bottom: 0;
-			gap: 0 0.75em;
-		}
-
-		label {
-			display: flex;
-			flex-direction: row;
-			gap: 0.5em;
-			align-items: center;
-		}
-
-		input[type='checkbox'] {
-			display: none;
-			/* zoom: 1.5;
-			@media (max-width: 1024px) {
-				zoom: 1;
-			} */
-		}
-
-		label:has(input[type='checkbox']:checked),
-		input[type='checkbox']:checked ~ label {
-			color: var(--color-selected);
-		}
-	}
-
-	/* Form Controls */
-
-	.vehicle-container,
-	.modifiers-container {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5em;
-		align-items: start;
-		justify-content: center;
-		flex-wrap: wrap;
-		flex-grow: 1;
-		background: var(--color-grey-darker);
-		&:hover,
-		&:has(#vehicles-toggle:checked),
-		&:has(#modifiers-toggle:checked) {
-			outline: 1px solid #f9f9f963;
-			outline-offset: 0.25em;
-			border-radius: 0.125em;
-		}
-	}
-
-	#vehicles-toggle,
-	#modifiers-toggle {
-		display: none;
-	}
-
-	#vehicles-toggle:checked,
-	#modifiers-toggle:checked {
-		~ label .close {
-			display: inline;
-		}
-		~ label .open {
-			display: none;
-		}
-	}
-	#vehicles-toggle:not(:checked),
-	#modifiers-toggle:not(:checked) {
-		~ label .close {
-			display: none;
-		}
-		~ label .open {
-			display: inline;
-		}
-	}
-
-	#vehicles-toggle:not(:checked) ~ .vehicle-types,
-	#modifiers-toggle:not(:checked) ~ .loot-modifiers {
-		display: none;
-	}
-
-	#vehicles-toggle:checked ~ .vehicle-types,
-	#modifiers-toggle:checked ~ .loot-modifiers {
-		display: flex;
-	}
-
-	.vehicle-types,
-	.loot-modifiers {
-		flex-direction: column;
-		gap: 0.5em;
-		align-items: start;
-		background: var(--color-grey-darker);
-	}
-
-	/* Map Container */
-	.map-container {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 100%;
-		overflow: hidden;
-	}
-
-	.map {
-		scale: 1;
-
-		image {
-			translate: 60px 45px;
-			scale: 0.91;
-		}
-	}
 
 	/* Base Zone Styles */
 	.zone-rect {

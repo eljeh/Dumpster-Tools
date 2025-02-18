@@ -10,6 +10,7 @@ export function displayVehicleLocations(
 	toSvgX: (x: number) => number,
 	toSvgY: (y: number) => number
 ) {
+	const radius = 3;
 	// console.log('displayVehicleLocations', toSvgX, toSvgY);
 	const url = `https://api.whalleybot.com/bot/${WBBotID}/VehicleLocations`;
 	fetch(url, {
@@ -113,7 +114,7 @@ export function displayVehicleLocations(
 				);
 				circle.setAttribute('cx', toSvgX(vehicleX));
 				circle.setAttribute('cy', toSvgY(vehicleY));
-				circle.setAttribute('r', '3');
+				circle.setAttribute('r', radius.toString());
 				circle.classList.add('vehicle-icon');
 
 				// Create text label

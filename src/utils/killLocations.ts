@@ -11,7 +11,7 @@ export function displayKillPositions(
 	toSvgX: (x: number) => number,
 	toSvgY: (y: number) => number
 ) {
-	// console.log('displayKillPositions', toSvgX, toSvgY);
+
 	// Add validation for required functions
 	if (typeof toSvgX !== 'function' || typeof toSvgY !== 'function') {
 		console.error('Invalid transformation functions provided:', { toSvgX, toSvgY });
@@ -127,6 +127,7 @@ function addKillMarker(
 	toSvgX: (x: number) => number,
 	toSvgY: (y: number) => number
 ) {
+	const markerSize = 1;
 	// Add validation for required functions
 	if (typeof toSvgX !== 'function' || typeof toSvgY !== 'function') {
 		console.error('Invalid transformation functions provided to addKillMarker:', { toSvgX, toSvgY });

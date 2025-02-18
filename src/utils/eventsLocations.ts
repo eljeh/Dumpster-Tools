@@ -6,7 +6,7 @@ const WBAuth = PUBLIC_WBAUTH;
 const WBBotID = PUBLIC_WBBOTID;
 
 export function displayCurrentEvents(toSvgX: (x: number) => number, toSvgY: (y: number) => number) {
-	// console.log('displayCurrentEvents', toSvgX, toSvgY);
+	const radiusMultiplier = 20;
 	const url = `https://api.whalleybot.com/bot/${WBBotID}/WorldEvent/GetCurrentEvent`;
 	fetch(url, {
 		method: 'GET',
@@ -46,7 +46,7 @@ export function displayCurrentEvents(toSvgX: (x: number) => number, toSvgY: (y: 
 			const [x, y, z] = data.currentZonePos.split(' ');
 			const eventX = -parseFloat(x); // Flip X coordinate like we do for zones
 			const eventY = parseFloat(y);
-			const radius = parseFloat(z) / 20;
+			const radius = parseFloat(z) / radiusMultiplier;
 
 			const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
 			g.classList.add('event-marker');
