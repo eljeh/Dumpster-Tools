@@ -232,6 +232,8 @@ const formatZoneName = (zoneName: string): string => {
 	const FTPPass = PUBLIC_FTP_PASS;
 
 	document.addEventListener('astro:page-load', () => {
+		// add 'mlf' to main tag
+
 		const mapContainer = document.querySelector('.map-container');
 		const minX = parseFloat(mapContainer.dataset.minX);
 		const maxX = parseFloat(mapContainer.dataset.maxX);
@@ -535,34 +537,66 @@ const formatZoneName = (zoneName: string): string => {
 <style is:inline>
 	/* Base Variables */
 	:root {
-		/* Consolidate color variables */
+		/* Core colors */
 		--color-white: hsl(0, 0%, 100%);
-		--color-white-alpha: {
-			--40: hsla(0, 0%, 100%, 0.4);
-			--10: hsla(0, 0%, 100%, 0.1);
-		}
-		
-		/* Zone color system */
-		--zone: {
-			--default: hsl(207, 44%, 49%);
-			--pve: hsl(121, 100%, 75%);
-			--pvp: hsl(0, 44%, 49%);
-			--warzone: hsl(297, 44%, 49%);
-			--community: hsl(308, 100%, 50%);
-			--poi: {
-				--custom: hsl(147, 41%, 41%);
-				--pve: hsl(200, 50%, 40%);
-				--pvp: hsl(69, 44%, 37%);
-			}
-		}
-	;
+		--color-white-40: hsla(0, 0%, 100%, 0.4);
+		--color-white-10: hsla(0, 0%, 100%, 0.1);
+		--color-black: hsl(0, 0%, 0%);
+		--color-grey-darker: hsla(0, 0%, 13%, 1);
+		--color-grey-dark: hsla(0, 0%, 20%, 1);
+
+		/* Zone colors */
+		--color-zone: hsla(207, 44%, 49%, 1);
+		--color-zone-fill: hsla(207, 44%, 49%, 0.2);
+		--color-zone-hover: hsla(207, 44%, 49%, 0.4);
+
+		--color-pve: hsla(121, 100%, 75%, 1);
+		--color-pve-fill: hsla(121, 100%, 75%, 0.2);
+		--color-pve-hover: hsla(121, 100%, 75%, 0.4);
+
+		--color-pvp: hsla(0, 44%, 49%, 1);
+		--color-pvp-fill: hsla(0, 44%, 49%, 0.2);
+		--color-pvp-hover: hsla(0, 44%, 49%, 0.4);
+
+		--color-warzone: hsla(297, 44%, 49%, 1);
+		--color-warzone-fill: hsla(297, 44%, 49%, 0.2);
+
+		--color-community: hsla(308, 100%, 50%, 1);
+		--color-community-fill: hsla(308, 100%, 50%, 0.2);
+
+		/* POI colors */
+		--color-custom-poi: hsla(147, 41%, 41%, 1);
+		--color-custom-poi-fill: hsla(147, 41%, 41%, 0.2);
+
+		--color-pve-poi: hsla(200, 50%, 40%, 1);
+		--color-pve-poi-fill: hsla(200, 50%, 40%, 0.2);
+
+		--color-pvp-poi: hsla(69, 44%, 37%, 1);
+		--color-pvp-poi-fill: hsla(69, 44%, 37%, 0.2);
+
+		/* Marker colors */
+		--color-player: hsla(0, 100%, 50%, 1);
+		--color-vehicle: hsla(240, 100%, 50%, 1);
+		--color-vehicle-unregistered: hsla(0, 100%, 50%, 1);
+		--color-flag: hsla(39, 100%, 50%, 1);
+		--color-loot: hsla(120, 100%, 25%, 1);
+		--color-kill-killer: hsla(0, 100%, 50%, 1);
+		--color-kill-victim: hsla(0, 0%, 0%, 1);
+		--color-kill-suicide: hsla(300, 100%, 25%, 1);
+		--color-event: hsla(60, 100%, 50%, 1);
+		--color-event-fill: hsla(60, 100%, 50%, 0.2);
+
+		/* Shadow */
+		--shadow-text: 0 0 8px hsla(0, 0%, 0%, 0.8);
+		--shadow-marker: 2px 2px 2px hsla(0, 0%, 0%, 0.5);
 	}
 
-
-.wrapper {
-	grid-area: map;
-	width: 100%;
-}
+	.wrapper {
+		grid-area: map;
+		width: 100%;
+		max-width: 66em;
+		aspect-ratio: 1/1;
+	}
 
 	/* Consolidated zone styles */
 	.zone-rect {
@@ -614,14 +648,16 @@ const formatZoneName = (zoneName: string): string => {
 
 	.overlay-controls {
 		grid-area: controls;
-		position: absolute;
+		/* position: absolute;
 		top: 5.2em;
-		right: 1em;
+		right: 1em; */
 		z-index: 1000;
 		display: flex;
 		flex-direction: column;
 		flex-wrap: wrap;
 		align-items: flex-start;
+		justify-content: flex-start;
+		height: fit-content;
 		width: 11em;
 		gap: 0.5em;
 		padding: 1em 1.5em;
@@ -663,12 +699,15 @@ const formatZoneName = (zoneName: string): string => {
 	}
 
 	.data-table-container {
+		overflow-y: scroll;
+		max-height: 91vh;
+		width: 97ch;
 		grid-area: data-table;
 		/* position: absolute;
 		top: calc(100vh - 10em);
 		max-width: 78em; */
 		/* width: 100%; */
-		margin: 3em 1em 0em 3em;
+		margin: 0 1em 0 1.5em;
 		padding: 1em 1.5em;
 		border-radius: 0.5em;
 		background: var(--color-grey-darker);
@@ -677,7 +716,6 @@ const formatZoneName = (zoneName: string): string => {
 	}
 
 	/* Form Controls */
-
 	.vehicle-container,
 	.modifiers-container {
 		display: flex;
@@ -868,9 +906,9 @@ const formatZoneName = (zoneName: string): string => {
 	}
 
 	.player-marker circle {
-		filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
-		fill: red;
-		stroke: white;
+		filter: drop-shadow(var(--shadow-marker));
+		fill: var(--color-player);
+		stroke: var(--color-white);
 		stroke-width: 0.5;
 	}
 
@@ -1012,7 +1050,4 @@ const formatZoneName = (zoneName: string): string => {
 	.player-data-table tbody tr:hover {
 		background-color: var(--color-white-10);
 	}
-
-
-	
 </style>
