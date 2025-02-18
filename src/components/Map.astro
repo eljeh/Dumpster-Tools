@@ -2,11 +2,6 @@
 import zones from '../data/zones.json';
 import settingZones from '../data/settingZones.json';
 import MapControls from './MapControls.astro';
-import {
-	PUBLIC_FTP_HOST,
-	PUBLIC_FTP_USER,
-	PUBLIC_FTP_PASS,
-} from 'astro:env/client';
 
 // Find the min and max coordinates to set up the viewport
 let minX = Infinity;
@@ -213,6 +208,12 @@ const formatZoneName = (zoneName: string): string => {
 <div class='data-table-container'></div>
 
 <script>
+	import { displayFlagLocations } from '../utils/flagLocations';
+	import { displayCurrentEvents } from '../utils/eventsLocations';
+	import { displayKillPositions } from '../utils/killLocations';
+	import { displayPlayerLocations } from '../utils/playerLocations';
+	import { displayVehicleLocations } from '../utils/vehicleLocations';
+
 	import {
 		PUBLIC_WBAUTH,
 		PUBLIC_WBBOTID,
@@ -238,263 +239,52 @@ const formatZoneName = (zoneName: string): string => {
 		const toSvgX = (x) => ((x - minX) / (maxX - minX)) * 1000;
 		const toSvgY = (y) => 1000 - ((y - minY) / (maxY - minY)) * 1000;
 
-		function displayPlayerLocations() {
-			const url = `https://api.whalleybot.com/bot/${WBBotID}/PlayerLocations`;
-			fetch(url, {
-				method: 'GET',
-				headers: {
-					Accept: '*/*',
-					Authorization: WBAuth,
-				},
-			})
-				.then((response) => {
-					if (!response.ok) {
-						throw new Error('Network response was not ok');
-					}
-					return response.json();
-				})
-				.then((data) => {
-					// Remove existing player markers container
-					document.querySelector('.player-markers-container')?.remove();
+		displayFlagLocations(toSvgX, toSvgY);
+		displayCurrentEvents(toSvgX, toSvgY);
+		displayKillPositions(toSvgX, toSvgY);
+		displayPlayerLocations(toSvgX, toSvgY);
+		displayVehicleLocations(toSvgX, toSvgY);
+		setInterval(() => {
+			displayCurrentEvents(toSvgX, toSvgY);
+			displayPlayerLocations(toSvgX, toSvgY);
+			displayVehicleLocations(toSvgX, toSvgY);
+			displayKillPositions(toSvgX, toSvgY);
+			displayFlagLocations(toSvgX, toSvgY);
+		}, 300000);
 
-					// Create container for all player markers
-					const svg = document.querySelector('.map');
-					const container = document.createElementNS(
-						'http://www.w3.org/2000/svg',
-						'g',
-					);
-					container.classList.add('player-markers-container');
-					container.style.display = document.getElementById('players-toggle')
-						.checked
-						? 'block'
-						: 'none';
-
-					// Add new player markers
-					data.forEach((player) => {
-						const [x, y] = player.lastKnownLocation.split(' ');
-						const playerX = -parseFloat(x); // Flip X coordinate like we do for zones
-						const playerY = parseFloat(y);
-
-						const g = document.createElementNS(
-							'http://www.w3.org/2000/svg',
-							'g',
-						);
-						g.classList.add('player-marker');
-
-						// Add title element for tooltip
-						const title = document.createElementNS(
-							'http://www.w3.org/2000/svg',
-							'title',
-						);
-						title.textContent = `
-						Player: ${player.playerName}\nID: ${player.steamID}\ntype: ${player.type}\nLocation: (${playerX.toFixed(2)}, ${playerY.toFixed(2)})`;
-						g.appendChild(title);
-
-						// Create circle for player
-						const circle = document.createElementNS(
-							'http://www.w3.org/2000/svg',
-							'circle',
-						);
-						circle.setAttribute('cx', toSvgX(playerX));
-						circle.setAttribute('cy', toSvgY(playerY));
-						circle.setAttribute('r', '3');
-
-						// Create text label
-						const text = document.createElementNS(
-							'http://www.w3.org/2000/svg',
-							'text',
-						);
-						text.setAttribute('x', toSvgX(playerX));
-						text.setAttribute('y', toSvgY(playerY) - 5);
-						text.textContent = player.playerName;
-
-						g.appendChild(circle);
-						g.appendChild(text);
-						container.appendChild(g);
-					});
-
-					svg.appendChild(container);
-
-					// Add table data
-					const tableContainer = document.querySelector(
-						'.data-table-container',
-					);
-					if (!tableContainer) return;
-
-					// Clear existing table
-					tableContainer.innerHTML = '';
-
-					// Only create and show table if players toggle is checked
-					if (document.getElementById('players-toggle').checked) {
-						// Create table
-						const table = document.createElement('table');
-						table.classList.add('player-data-table');
-
-						// Create table header
-						const thead = document.createElement('thead');
-						thead.innerHTML = `
-							<tr>
-								<th>Player Name</th>
-								<th>Steam ID</th>
-								<th>Type</th>
-								<th>Location</th>
-							</tr>
-						`;
-						table.appendChild(thead);
-
-						// Create table body
-						const tbody = document.createElement('tbody');
-						data.forEach((player) => {
-							const [x, y] = player.lastKnownLocation.split(' ');
-							const playerX = -parseFloat(x); // Flip X coordinate
-							const playerY = parseFloat(y);
-
-							const row = document.createElement('tr');
-							row.innerHTML = `
-								<td>${player.playerName}</td>
-								<td>${player.steamID}</td>
-								<td>${player.type}</td>
-								<td>(${playerX.toFixed(2)}, ${playerY.toFixed(2)})</td>
-							`;
-							tbody.appendChild(row);
-						});
-						table.appendChild(tbody);
-
-						// Add table to container
-						tableContainer.appendChild(table);
-					}
-				})
-				.catch((error) => {
-					console.error('Error fetching player locations:', error);
-				});
-		}
-
-		function displayVehicleLocations() {
-			const url = `https://api.whalleybot.com/bot/${WBBotID}/VehicleLocations`;
-			fetch(url, {
-				method: 'GET',
-				headers: {
-					Accept: '*/*',
-					Authorization: WBAuth,
-				},
-			})
-				.then((response) => {
-					if (!response.ok) {
-						console.error(
-							'API response not ok:',
-							response.status,
-							response.statusText,
-						);
-						throw new Error('Network response was not ok');
-					}
-					return response.json();
-				})
-				.then((data) => {
-					// Remove existing vehicle markers container
-					const existingContainer = document.querySelector(
-						'.vehicle-markers-container',
-					);
-					if (existingContainer) {
-						existingContainer.remove();
-					}
-
-					// Create container for all vehicle markers
-					const svg = document.querySelector('.map');
-					const container = document.createElementNS(
-						'http://www.w3.org/2000/svg',
-						'g',
-					);
-					container.classList.add('vehicle-markers-container');
-					container.style.display = document.getElementById('vehicles-toggle')
-						.checked
-						? 'block'
-						: 'none';
-
-					// Add new vehicle markers
-					let validVehicles = 0;
-					let skippedVehicles = 0;
-
-					data.forEach((vehicle) => {
-						// Skip if vehicle has no location
-						if (!vehicle.value.coords) {
-							skippedVehicles++;
-							return;
-						}
-
-						const [x, y, z] = vehicle.value.coords.split(' ');
-						// Skip if we can't parse coordinates
-						if (!x || !y) {
-							skippedVehicles++;
-							return;
-						}
-
-						const vehicleX = -parseFloat(x);
-						const vehicleY = parseFloat(y);
-
-						// Skip if coordinates are invalid
-						if (isNaN(vehicleX) || isNaN(vehicleY)) {
-							skippedVehicles++;
-							return;
-						}
-
-						validVehicles++;
-
-						const vehicleType = vehicle.value.type
-							.trim()
-							.replace('BPC_', '')
-							.replace('BP_', '');
-
-						const g = document.createElementNS(
-							'http://www.w3.org/2000/svg',
-							'g',
-						);
-						g.classList.add('vehicle-marker');
-						g.classList.add(`${vehicleType}`);
-						// if vehicle.value.reg is not null, add vehicle-reg to the class
-						if (!vehicle.value.reg) {
-							g.classList.add(`not-registered`);
-						} else {
-							g.classList.add(`registered`);
-						}
-
-						// Add title element for tooltip
-						const title = document.createElementNS(
-							'http://www.w3.org/2000/svg',
-							'title',
-						);
-						title.textContent = `Vehicle: ${vehicle.value.type.trim()}\nLocation: (${vehicleX.toFixed(2)}, ${vehicleY.toFixed(2)})\nRegistration: ${vehicle.value.reg}`;
-						g.appendChild(title);
-
-						// Create vehicle icon (using a circle instead of triangle for simplicity)
-						const circle = document.createElementNS(
-							'http://www.w3.org/2000/svg',
-							'circle',
-						);
-						circle.setAttribute('cx', toSvgX(vehicleX));
-						circle.setAttribute('cy', toSvgY(vehicleY));
-						circle.setAttribute('r', '3');
-						circle.classList.add('vehicle-icon');
-
-						// Create text label
-						const text = document.createElementNS(
-							'http://www.w3.org/2000/svg',
-							'text',
-						);
-						text.setAttribute('x', toSvgX(vehicleX));
-						text.setAttribute('y', toSvgY(vehicleY) - 5);
-						text.textContent = vehicleType.replace('_', ' ');
-
-						g.appendChild(circle);
-						g.appendChild(text);
-						container.appendChild(g);
-					});
-
-					svg.appendChild(container);
-				})
-				.catch((error) => {
-					console.error('Error fetching vehicle locations:', error);
-				});
-		}
+		// Get all toggle checkboxes
+		const sectorsToggle = document.getElementById('sectors-toggle');
+		const playersToggle = document.getElementById('players-toggle');
+		const vehicleToggle = document.getElementById('vehicles-toggle');
+		const registeredVehiclesToggle = document.getElementById(
+			'registered-vehicles-toggle',
+		);
+		const notRegisteredVehiclesToggle = document.getElementById(
+			'not-registered-vehicles-toggle',
+		);
+		const flagsToggle = document.getElementById('flags-toggle');
+		const eventsToggle = document.getElementById('events-toggle');
+		const killsToggle = document.getElementById('kills-toggle');
+		const ragerToggle = document.getElementById('rager-toggle');
+		const wolfswagenToggle = document.getElementById('wolfswagen-toggle');
+		const laikaToggle = document.getElementById('laika-toggle');
+		const kingletdusterToggle = document.getElementById('kingletduster-toggle');
+		const barbaToggle = document.getElementById('barba-toggle');
+		const risToggle = document.getElementById('ris-toggle');
+		const dirtbikeToggle = document.getElementById('dirtbike-toggle');
+		const cruiserToggle = document.getElementById('cruiser-toggle');
+		const bicyclesToggle = document.getElementById('bicycles-toggle');
+		const wheelbarrowToggle = document.getElementById('wheelbarrow-toggle');
+		const pvpToggle = document.getElementById('pvp-toggle');
+		const pveToggle = document.getElementById('pve-toggle');
+		const pveBunkerToggle = document.getElementById('pve-bunker-toggle');
+		const pvpBunkerToggle = document.getElementById('pvp-bunker-toggle');
+		const warzonesToggle = document.getElementById('warzones-toggle');
+		const outpostsToggle = document.getElementById('outposts-toggle');
+		const poisToggle = document.getElementById('pois-toggle');
+		const bunkersToggle = document.getElementById('bunkers-toggle');
+		const imageToggle = document.getElementById('image-toggle');
+		const customPOIToggle = document.getElementById('custom-pois-toggle');
 
 		// Function to toggle visibility
 		function updateVisibility(toggleElement, selector) {
@@ -547,368 +337,6 @@ const formatZoneName = (zoneName: string): string => {
 			}
 		}
 
-		function displayCurrentEvents() {
-			const url = `https://api.whalleybot.com/bot/${WBBotID}/WorldEvent/GetCurrentEvent`;
-			fetch(url, {
-				method: 'GET',
-				headers: {
-					Accept: '*/*',
-					Authorization: WBAuth,
-				},
-			})
-				.then((response) => {
-					if (!response.ok) {
-						console.error(
-							'API response not ok:',
-							response.status,
-							response.statusText,
-						);
-						throw new Error('Network response was not ok');
-					}
-					return response.json();
-				})
-				.then((data) => {
-					// Remove existing event markers container
-					document.querySelector('.event-markers-container')?.remove();
-
-					if (!data || !data.currentZonePos) return;
-
-					// Create container for event marker
-					const svg = document.querySelector('.map');
-					const container = document.createElementNS(
-						'http://www.w3.org/2000/svg',
-						'g',
-					);
-					container.classList.add('event-markers-container');
-
-					//start event-markers-container display none
-					container.style.display = 'none';
-
-					const [x, y, z] = data.currentZonePos.split(' ');
-					const eventX = -parseFloat(x); // Flip X coordinate like we do for zones
-					const eventY = parseFloat(y);
-
-					const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-					g.classList.add('event-marker');
-
-					// Add title element for tooltip
-					const title = document.createElementNS(
-						'http://www.w3.org/2000/svg',
-						'title',
-					);
-					title.textContent = `Event: ${data.currentZone}\nLocation: (${eventX.toFixed(2)}, ${eventY.toFixed(2)})`;
-					g.appendChild(title);
-
-					// Create circle for event zone (radius of 100 units)
-					const circle = document.createElementNS(
-						'http://www.w3.org/2000/svg',
-						'circle',
-					);
-					circle.setAttribute('cx', toSvgX(eventX));
-					circle.setAttribute('cy', toSvgY(eventY));
-					circle.setAttribute('r', '50'); // Adjust this value to change zone size
-					circle.classList.add('event-zone');
-
-					// Create text label
-					const text = document.createElementNS(
-						'http://www.w3.org/2000/svg',
-						'text',
-					);
-					text.setAttribute('x', toSvgX(eventX));
-					text.setAttribute('y', toSvgY(eventY));
-					text.classList.add('event-label');
-					text.textContent = data.currentZone;
-
-					g.appendChild(circle);
-					g.appendChild(text);
-					container.appendChild(g);
-					svg.appendChild(container);
-				})
-				.catch((error) => {
-					console.error('Error fetching current events:', error);
-				});
-		}
-
-		function displayKillPositions() {
-			const url = `https://api.whalleybot.com/bot/${WBBotID}/GetKillLogs`;
-			fetch(url, {
-				method: 'GET',
-				headers: {
-					Accept: '*/*',
-					Authorization: WBAuth,
-				},
-			})
-				.then((response) => {
-					if (!response.ok) {
-						throw new Error('Network response was not ok');
-					}
-					return response.json();
-				})
-				.then((data) => {
-					// Remove existing kill markers container
-					document.querySelector('.kill-markers-container')?.remove();
-
-					// Create container for kill markers
-					const svg = document.querySelector('.map');
-					const container = document.createElementNS(
-						'http://www.w3.org/2000/svg',
-						'g',
-					);
-					container.classList.add('kill-markers-container');
-
-					Object.keys(data).forEach((key) => {
-						if (key.includes('Comitted suicide')) {
-							// Handle suicide
-							const locationMatch = key.match(
-								/X=(-?\d+\.?\d*) Y=(-?\d+\.?\d*)/,
-							);
-							if (locationMatch) {
-								const x = -parseFloat(locationMatch[1]); // Flip X coordinate
-								const y = parseFloat(locationMatch[2]);
-								const username = key.match(/User: ([^\s(]+)/)?.[1] || 'Unknown';
-
-								addKillMarker(container, x, y, 'suicide', username);
-							}
-						} else if (key.includes('Killer')) {
-							// Handle kill
-							try {
-								const killData = JSON.parse(key.substring(key.indexOf('{')));
-								const killerX = -killData.Killer.ServerLocation.X; // Flip X coordinate
-								const killerY = killData.Killer.ServerLocation.Y;
-								const victimX = -killData.Victim.ServerLocation.X; // Flip X coordinate
-								const victimY = killData.Victim.ServerLocation.Y;
-
-								// Add killer marker
-								addKillMarker(
-									container,
-									killerX,
-									killerY,
-									'killer',
-									killData.Killer.ProfileName,
-									{
-										victim: killData.Victim.ProfileName,
-										weapon: killData.Weapon,
-										time: killData.TimeOfDay,
-									},
-								);
-
-								// Add victim marker
-								addKillMarker(
-									container,
-									victimX,
-									victimY,
-									'victim',
-									killData.Victim.ProfileName,
-								);
-
-								// Add line connecting killer and victim
-								const line = document.createElementNS(
-									'http://www.w3.org/2000/svg',
-									'line',
-								);
-								line.setAttribute('x1', toSvgX(killerX));
-								line.setAttribute('y1', toSvgY(killerY));
-								line.setAttribute('x2', toSvgX(victimX));
-								line.setAttribute('y2', toSvgY(victimY));
-								line.classList.add('kill-line');
-								container.appendChild(line);
-							} catch (e) {
-								console.error('Error parsing kill data:', e);
-							}
-						}
-					});
-
-					svg.appendChild(container);
-				})
-				.catch((error) => {
-					console.error('Error fetching kill positions:', error);
-				});
-		}
-
-		function addKillMarker(container, x, y, type, username, details = null) {
-			const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-			g.classList.add('kill-marker', type);
-
-			// Add title element for tooltip
-			const title = document.createElementNS(
-				'http://www.w3.org/2000/svg',
-				'title',
-			);
-			if (type === 'killer') {
-				title.textContent = `Killer: ${username}\nVictim: ${details.victim}\nWeapon: ${details.weapon}\nTime: ${details.time}`;
-			} else if (type === 'victim') {
-				title.textContent = `Victim: ${username}`;
-			} else {
-				title.textContent = `Suicide: ${username}`;
-			}
-			g.appendChild(title);
-
-			// Create marker symbol
-			const marker = document.createElementNS(
-				'http://www.w3.org/2000/svg',
-				'circle',
-			);
-			marker.setAttribute('cx', toSvgX(x));
-			marker.setAttribute('cy', toSvgY(y));
-			marker.setAttribute('r', '1');
-			marker.classList.add('kill-icon');
-			g.appendChild(marker);
-
-			// Create text label
-			const text = document.createElementNS(
-				'http://www.w3.org/2000/svg',
-				'text',
-			);
-			text.setAttribute('x', toSvgX(x));
-			text.setAttribute('y', toSvgY(y) - 5);
-			text.textContent = username;
-			g.appendChild(text);
-
-			container.appendChild(g);
-		}
-
-		function displayFlagLocations() {
-			const url = `https://api.whalleybot.com/bot/${WBBotID}/FlagLocations`;
-			fetch(url, {
-				method: 'GET',
-				headers: {
-					Accept: '*/*',
-					Authorization: WBAuth,
-				},
-			})
-				.then((response) => {
-					if (!response.ok) {
-						throw new Error('Network response was not ok');
-					}
-					return response.json();
-				})
-				.then((data) => {
-					// Remove existing flag markers container
-					document.querySelector('.flag-markers-container')?.remove();
-
-					// Create container for flag markers
-					const svg = document.querySelector('.map');
-					const container = document.createElementNS(
-						'http://www.w3.org/2000/svg',
-						'g',
-					);
-					container.classList.add('flag-markers-container');
-					container.style.display = 'none';
-
-					// Convert object to array if necessary
-					const flagsArray = Array.isArray(data) ? data : Object.values(data);
-
-					flagsArray.forEach((flag) => {
-						if (!flag.location) return; // Skip if no location data
-
-						const [x, y, z] = flag.location.split(' ');
-						const flagX = -parseFloat(x); // Flip X coordinate like we do for zones
-						const flagY = parseFloat(y);
-
-						const g = document.createElementNS(
-							'http://www.w3.org/2000/svg',
-							'g',
-						);
-						g.classList.add('flag-marker');
-
-						// Add title element for tooltip
-						const title = document.createElementNS(
-							'http://www.w3.org/2000/svg',
-							'title',
-						);
-						title.textContent = `Flag ID: ${flag.id}\nOwner: ${flag.ownerName}\nSteam ID: ${flag.ownerID}\nLocation: (${flagX.toFixed(2)}, ${flagY.toFixed(2)})`;
-						g.appendChild(title);
-
-						// Create flag icon (using a custom path for a flag shape)
-						const flagIcon = document.createElementNS(
-							'http://www.w3.org/2000/svg',
-							'path',
-						);
-						// New flag design: pole with waving flag
-						const flagPath = `
-							M ${toSvgX(flagX)},${toSvgY(flagY)} 
-							l 0,-6 
-							m 0,0 
-							l 8,-6 
-							l -8,0 
-							l 0,10
-						`;
-						flagIcon.setAttribute('d', flagPath);
-						flagIcon.classList.add('flag-icon');
-						g.appendChild(flagIcon);
-
-						// Create text label
-						const text = document.createElementNS(
-							'http://www.w3.org/2000/svg',
-							'text',
-						);
-						text.setAttribute('x', toSvgX(flagX));
-						text.setAttribute('y', toSvgY(flagY) - 15);
-						text.textContent = flag.ownerName;
-						g.appendChild(text);
-
-						container.appendChild(g);
-					});
-
-					svg.appendChild(container);
-				})
-				.catch((error) => {
-					console.error('Error fetching flag locations:', error);
-				});
-		}
-
-
-
-		// Update player and vehicle locations every 5 minutes
-		displayCurrentEvents();
-		displayPlayerLocations();
-		displayVehicleLocations();
-		displayKillPositions();
-		displayFlagLocations();
-
-		setInterval(() => {
-			displayCurrentEvents();
-			displayPlayerLocations();
-			displayVehicleLocations();
-			displayKillPositions();
-			displayFlagLocations();
-		}, 300000);
-
-		// Get all toggle checkboxes
-		const sectorsToggle = document.getElementById('sectors-toggle');
-		const playersToggle = document.getElementById('players-toggle');
-		const vehicleToggle = document.getElementById('vehicles-toggle');
-		const registeredVehiclesToggle = document.getElementById(
-			'registered-vehicles-toggle',
-		);
-		const notRegisteredVehiclesToggle = document.getElementById(
-			'not-registered-vehicles-toggle',
-		);
-		const flagsToggle = document.getElementById('flags-toggle');
-		const eventsToggle = document.getElementById('events-toggle');
-		const killsToggle = document.getElementById('kills-toggle');
-		const ragerToggle = document.getElementById('rager-toggle');
-		const wolfswagenToggle = document.getElementById('wolfswagen-toggle');
-		const laikaToggle = document.getElementById('laika-toggle');
-		const kingletdusterToggle = document.getElementById('kingletduster-toggle');
-		const barbaToggle = document.getElementById('barba-toggle');
-		const risToggle = document.getElementById('ris-toggle');
-		const dirtbikeToggle = document.getElementById('dirtbike-toggle');
-		const cruiserToggle = document.getElementById('cruiser-toggle');
-		const bicyclesToggle = document.getElementById('bicycles-toggle');
-		const wheelbarrowToggle = document.getElementById('wheelbarrow-toggle');
-
-		const pvpToggle = document.getElementById('pvp-toggle');
-		const pveToggle = document.getElementById('pve-toggle');
-		const pveBunkerToggle = document.getElementById('pve-bunker-toggle');
-		const pvpBunkerToggle = document.getElementById('pvp-bunker-toggle');
-		const warzonesToggle = document.getElementById('warzones-toggle');
-		const outpostsToggle = document.getElementById('outposts-toggle');
-		const poisToggle = document.getElementById('pois-toggle');
-		const bunkersToggle = document.getElementById('bunkers-toggle');
-		const imageToggle = document.getElementById('image-toggle');
-		const customPOIToggle = document.getElementById('custom-pois-toggle');
-
 		// Set up toggle handlers
 		updateVisibility(sectorsToggle, '[class^="zone-Sector_"]');
 		updateVisibility(playersToggle, '.player-markers-container');
@@ -925,28 +353,20 @@ const formatZoneName = (zoneName: string): string => {
 		updateVisibility(dirtbikeToggle, '.Dirtbike');
 		updateVisibility(cruiserToggle, '.Cruiser');
 		updateVisibility(bicyclesToggle, '.MountainBike, .CityBike');
-		updateVisibility(
-			wheelbarrowToggle,
-			'.WheelBarrow_Improvised, .WheelBarrow_Metal',
-		);
+		updateVisibility(wheelbarrowToggle, '.WheelBarrow_Improvised');
+		updateVisibility(wheelbarrowToggle, '.WheelBarrow_Metal');
 		updateVisibility(pvpToggle, '.zone-PVP');
 		updateVisibility(pveToggle, '.zone-PVE');
-		updateVisibility(
-			bunkersToggle,
-			'[class^="zone-PVP_Bunker"], [class^="zone-PVE_Bunker"]',
-		);
+		updateVisibility(bunkersToggle, '[class^="zone-PVP_Bunker"]');
+		updateVisibility(bunkersToggle, '[class^="zone-PVE_Bunker"]');
 		updateVisibility(pveBunkerToggle, '[class^="zone-Bunkers_PVE"]');
 		updateVisibility(pvpBunkerToggle, '[class^="zone-Bunkers_PVP"]');
 		updateVisibility(warzonesToggle, '.zone-WarZoneDrops');
 		updateVisibility(outpostsToggle, '[class^="zone-Outpost_"]');
-		updateVisibility(
-			poisToggle,
-			'[class^="zone-POI_PVP"], [class^="zone-POI_PVE"]',
-		);
+		updateVisibility(poisToggle, '[class^="zone-POI_PVP"]');
+		updateVisibility(poisToggle, '[class^="zone-POI_PVE"]');
 		updateVisibility(customPOIToggle, '[class^="zone-POI_custom"]');
 		updateVisibility(imageToggle, '.map image');
-
-		// Update the vehicle toggle handlers
 		updateVisibility(vehicleToggle, '.vehicle-markers-container');
 		updateVisibility(registeredVehiclesToggle, '.vehicle-marker.registered');
 		updateVisibility(
@@ -1085,12 +505,6 @@ const formatZoneName = (zoneName: string): string => {
 
 			svg.appendChild(container);
 		}
-
-		// // Add loot fetching to the update interval
-		// fetchLootData();
-		// setInterval(() => {
-		// 	fetchLootData();
-		// }, 300000); // Every 5 minutes
 
 		// Add loot toggle to controls
 		const lootToggle = document.getElementById('loot-toggle');
@@ -1455,7 +869,7 @@ const formatZoneName = (zoneName: string): string => {
 	.event-marker .event-zone {
 		fill: hsla(60, 100%, 50%, 0.2);
 		stroke: hsl(60, 100%, 50%);
-		stroke-width: 2;
+		stroke-width: 1;
 		stroke-dasharray: 10 5;
 	}
 
@@ -1544,7 +958,7 @@ const formatZoneName = (zoneName: string): string => {
 		padding: 0.5em;
 		text-align: left;
 		border-bottom: 1px solid var(--color-white-10);
-		background: var(--color-white-40)
+		background: var(--color-white-40);
 	}
 
 	.player-data-table th {
