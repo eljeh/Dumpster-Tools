@@ -513,44 +513,68 @@ const formatZoneName = (zoneName: string): string => {
 </script>
 
 <style is:inline>
+	/* Base Variables */
 	:root {
-		/* Base colors */
+		/* Consolidate color variables */
 		--color-white: hsl(0, 0%, 100%);
-		--color-white-40: hsla(0, 0%, 100%, 0.4);
-		--color-white-10: hsla(0, 0%, 100%, 0.1);
+		--color-white-alpha: {
+			--40: hsla(0, 0%, 100%, 0.4);
+			--10: hsla(0, 0%, 100%, 0.1);
+		}
+		
+		/* Zone color system */
+		--zone: {
+			--default: hsl(207, 44%, 49%);
+			--pve: hsl(121, 100%, 75%);
+			--pvp: hsl(0, 44%, 49%);
+			--warzone: hsl(297, 44%, 49%);
+			--community: hsl(308, 100%, 50%);
+			--poi: {
+				--custom: hsl(147, 41%, 41%);
+				--pve: hsl(200, 50%, 40%);
+				--pvp: hsl(69, 44%, 37%);
+			}
+		}
+	;
+	}
 
-		/* Zone colors */
-		--color-zone-default: hsl(207, 44%, 49%);
-		--color-zone-default-fill: hsla(207, 44%, 49%, 0.02);
-		--color-zone-default-hover: hsla(207, 44%, 49%, 0.4);
+	/* Consolidated zone styles */
+	.zone-rect {
+		fill: var(--fill-color, var(--zone--default));
+		stroke: var(--stroke-color, var(--zone--default));
+		stroke-width: var(--stroke-width, 1);
 
-		/* PvE colors */
-		--color-pve: hsl(121, 100%, 75%);
-		--color-pve-fill: hsla(121, 100%, 75%, 0.009);
-		--color-pve-hover: hsla(121, 100%, 50%, 0.04);
+		&:hover {
+			fill: var(--hover-color, var(--zone--default-hover));
+		}
+	}
 
-		/* PvP colors */
-		--color-pvp: hsla(0, 44%, 49%, 0.75);
-		--color-pvp-fill: hsla(0, 44%, 49%, 0.5);
+	/* Consolidated text styles */
+	.zone-label {
+		fill: var(--color-white);
+		font-size: 0.3em;
+		text-anchor: middle;
+		dominant-baseline: middle;
+		pointer-events: none;
+		text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+	}
 
-		/* Special zone colors */
-		--color-warzone: hsla(297, 44%, 49%, 0.75);
-		--color-warzone-fill: hsla(297, 44%, 49%, 0.5);
+	/* Marker styles */
+	.marker {
+		&-text {
+			text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+			pointer-events: none;
+			text-anchor: middle;
+			fill: white;
+			font-size: 0.3em;
+			letter-spacing: 0.05em;
+		}
 
-		--color-community: hsla(308, 100%, 50%, 0.75);
-		--color-community-fill: hsla(308, 100%, 50%, 0.5);
-
-		/* POI and Outpost colors */
-		--color-custom-poi: hsla(147, 41%, 41%, 0.75);
-		--color-custom-poi-fill: hsla(147, 41%, 41%, 0.5);
-
-		--color-pve-poi: hsla(200, 50%, 40%, 0.75);
-		--color-pve-poi-fill: hsla(200, 50%, 40%, 0.5);
-
-		--color-pvp-poi: hsla(69, 44%, 37%, 0.75);
-		--color-pvp-poi-fill: hsla(69, 44%, 37%, 0.5);
-
-		--color-selected: hsl(124deg 85.76% 35.18%);
+		&-icon {
+			filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+			stroke: white;
+			stroke-width: 0.5;
+		}
 	}
 
 	/* Page Layout */
@@ -705,16 +729,6 @@ const formatZoneName = (zoneName: string): string => {
 	}
 
 	/* Base Zone Styles */
-	.zone-rect {
-		fill: var(--color-zone-default-fill);
-		stroke: var(--color-zone-default-fill);
-		stroke-width: 1;
-
-		&:hover {
-			fill: var(--color-zone-default-hover);
-		}
-	}
-
 	[class^='zone-Sector_'] text {
 		fill: var(--color-white-40);
 		font-size: 1em;
