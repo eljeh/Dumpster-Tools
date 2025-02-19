@@ -207,7 +207,7 @@ const formatZoneName = (zoneName: string): string => {
 	</div>
 </div>
 
-<div id='data-table' class='data-table-container'></div>
+<div id='data-table' class='data-table-container' style='display: none;'></div>
 
 <script>
 	import { displayFlagLocations } from '../utils/flagLocations';
@@ -232,8 +232,6 @@ const formatZoneName = (zoneName: string): string => {
 	const FTPPass = PUBLIC_FTP_PASS;
 
 	document.addEventListener('astro:page-load', () => {
-		// add 'mlf' to main tag
-
 		const mapContainer = document.querySelector('.map-container');
 		const minX = parseFloat(mapContainer.dataset.minX);
 		const maxX = parseFloat(mapContainer.dataset.maxX);
@@ -326,19 +324,38 @@ const formatZoneName = (zoneName: string): string => {
 			}
 		});
 
-		// displayFlagLocations(toSvgX, toSvgY);
-		displayCurrentEvents(toSvgX, toSvgY);
-		displayKillPositions(toSvgX, toSvgY);
-		// displayVehicleLocations(toSvgX, toSvgY);
+		killsToggle.addEventListener('change', () => {
+			const dataTable = document.querySelector('#data-table');
+			if (killsToggle.checked) {
+				displayKillPositions(toSvgX, toSvgY);
+				dataTable.style.display = 'block';
+				setInterval(() => {
+					displayKillPositions(toSvgX, toSvgY);
+				}, 300000);
+			} else {
+				if (dataTable) {
+					dataTable.style.display = 'none';
+					dataTable.innerHTML = ''; // Clear the contents instead of removing
+				}
+			}
+		});
 
-		setInterval(() => {
-			//displayPlayerLocations(toSvgX, toSvgY);
+		
+		eventsToggle.addEventListener('change', () => {
+			const dataTable = document.querySelector('#data-table');
+			if (eventsToggle.checked) {
+				displayCurrentEvents(toSvgX, toSvgY);
+				setInterval(() => {
+					displayCurrentEvents(toSvgX, toSvgY);
+				}, 300000);
+			} else {
+				if (dataTable) {
+					dataTable.style.display = 'none';
+					dataTable.innerHTML = ''; // Clear the contents instead of removing
+				}
+			}
+		});
 
-			displayCurrentEvents(toSvgX, toSvgY);
-			// displayVehicleLocations(toSvgX, toSvgY);
-			displayKillPositions(toSvgX, toSvgY);
-			// displayFlagLocations(toSvgX, toSvgY);
-		}, 300000);
 
 		// Function to toggle visibility
 		function updateVisibility(toggleElement, selector) {
@@ -1059,27 +1076,33 @@ const formatZoneName = (zoneName: string): string => {
 	}
 
 	/* Table Styles */
-	.player-data-table {
+	// every class that ends in data-table
+	[class*='-data-table'] {
 		width: 100%;
 		border-collapse: collapse;
 		margin-top: 1em;
 		color: var(--color-white);
 	}
 
-	.player-data-table th,
-	.player-data-table td {
+	[class*='-data-table'] th,
+	[class*='-data-table'] td {
 		padding: 0.5em;
 		text-align: left;
 		border-bottom: 1px solid var(--color-white-10);
 		background: var(--color-white-10);
 	}
 
-	.player-data-table th {
+	[class*='-data-table'] th {
 		font-weight: bold;
 		background-color: var(--color-grey-dark);
 	}
 
-	.player-data-table tbody tr:hover {
+	[class*='-data-table'] tbody tr td:hover {
 		background-color: var(--color-white-10);
 	}
+	.player-data-table th:nth-of-type(3n),
+	.player-data-table td:nth-of-type(3n){
+		width: 100%;
+	}
+
 </style>

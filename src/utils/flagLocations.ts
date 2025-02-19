@@ -9,7 +9,14 @@ export function displayFlagLocations(
 	toSvgX: (x: number) => number,
 	toSvgY: (y: number) => number
 ) {
-	// console.log('displayFlagLocations', toSvgX, toSvgY);
+	// Define TypeScript interface for flag data
+	interface FlagData {
+		id: string;
+		ownerID: string;
+		ownerName: string;
+		location: string;
+	}
+
 	const url = `https://api.whalleybot.com/bot/${WBBotID}/FlagLocations`;
 	fetch(url, {
 		method: 'GET',
@@ -20,40 +27,42 @@ export function displayFlagLocations(
 	})
 		.then((response) => {
 			if (!response.ok) {
-				throw new Error('Network response was not ok');
+				throw new Error(`HTTP error! status: ${response.status}`);
 			}
 			return response.json();
 		})
 		.then((data) => {
+			console.log('Received player data:', data);
 			// Remove existing flag markers container
 			document.querySelector('.flag-markers-container')?.remove();
 
 			// Create container for flag markers
 			const svg = document.querySelector('.map');
+
+
 			const container = document.createElementNS(
 				'http://www.w3.org/2000/svg',
 				'g'
 			);
 			container.classList.add('flag-markers-container');
-			container.style.display = 'none';
 
 
 			const tableContainer = document.querySelector('.data-table-container');
-
+			console.log('Table container found:', !!tableContainer);
 			if (!tableContainer) return;
+
 			// Clear existing table
 			tableContainer.innerHTML = '';
 
 			const table = document.createElement('table');
-			table.classList.add('player-data-table');
+			table.classList.add('flag-data-table');
 
 			// Create table header
 			const thead = document.createElement('thead');
 			thead.innerHTML = `
                 <tr>
-                    <th>id</th>
+										<th>ownerName</th>
                     <th>ownerID</th>
-                    <th>ownerName</th>
                     <th>location</th>
                 </tr>
             `;
@@ -62,9 +71,8 @@ export function displayFlagLocations(
 			// Create table body
 			const tbody = document.createElement('tbody');
 
-
-			// Convert object to array if necessary
-			const flagsArray = Array.isArray(data) ? data : Object.values(data);
+			// Convert object to array if necessary and type cast
+			const flagsArray = (Array.isArray(data) ? data : Object.values(data)) as FlagData[];
 
 			flagsArray.forEach((flag) => {
 				if (!flag.location) return; // Skip if no location data
@@ -120,18 +128,24 @@ export function displayFlagLocations(
 				// Add table row
 				const row = document.createElement('tr');
 				row.innerHTML = `
-                    <td>${flag.id}</td>
-                    <td>${flag.ownerID}</td>
                     <td>${flag.ownerName}</td>
-                    <td>(${flag.location})</td>
+                    <td>${flag.ownerID}</td>
+                    <td>${flag.location}</td>
                 `;
 				tbody.appendChild(row);
 
 			});
 
 			svg.appendChild(container);
+			table.appendChild(tbody);
+			tableContainer.appendChild(table); // Add table to container
 		})
 		.catch((error) => {
 			console.error('Error fetching flag locations:', error);
+			// Add user-visible error message
+			const tableContainer = document.querySelector('.data-table-container');
+			if (tableContainer) {
+				tableContainer.innerHTML = `<div class="error-message">Failed to load flag locations: ${error.message}</div>`;
+			}
 		});
 } 

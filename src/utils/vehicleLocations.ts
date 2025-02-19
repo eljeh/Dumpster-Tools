@@ -63,7 +63,7 @@ export function displayVehicleLocations(
 			tableContainer.innerHTML = '';
 
 			const table = document.createElement('table');
-			table.classList.add('player-data-table');
+			table.classList.add('vehicle-data-table');
 
 			// Create table header
 			const thead = document.createElement('thead');

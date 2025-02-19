@@ -43,7 +43,34 @@ export function displayKillPositions(
 			);
 			container.classList.add('kill-markers-container');
 
+
+			const tableContainer = document.querySelector('.data-table-container');
+
+			console.log('Table container found:', !!tableContainer);
+			if (!tableContainer) return;
+			tableContainer.innerHTML = '';
+			const table = document.createElement('table');
+			table.classList.add('kill-data-table');
+			const thead = document.createElement('thead');
+			thead.innerHTML = `
+                <tr>
+                    <th>Log</th>
+                </tr>
+            `;
+			table.appendChild(thead);
+			const tbody = document.createElement('tbody');
+
+			if (!data) {
+				const row = document.createElement('tr');
+				row.innerHTML = `<td>No kills to report</td>`;
+				tbody.appendChild(row);
+			}
+
+
 			Object.keys(data).forEach((key) => {
+
+
+
 				if (key.includes('Comitted suicide')) {
 					// Handle suicide
 					const locationMatch = key.match(
@@ -56,6 +83,17 @@ export function displayKillPositions(
 
 						addKillMarker(container, x, y, 'suicide', username, null, toSvgX, toSvgY);
 					}
+
+
+					// Add table row
+					const row = document.createElement('tr');
+					row.innerHTML = `
+                    <td>suicide</td>
+                `;
+					tbody.appendChild(row);
+
+
+
 				} else if (key.includes('Killer')) {
 					// Handle kill
 					try {
@@ -107,7 +145,18 @@ export function displayKillPositions(
 					} catch (e) {
 						console.error('Error parsing kill data:', e);
 					}
+
+					// Add table row
+					const row = document.createElement('tr');
+					row.innerHTML = `
+                    <td>Kill</td>
+                `;
+					tbody.appendChild(row);
+
 				}
+
+
+
 			});
 
 			svg.appendChild(container);
@@ -146,6 +195,9 @@ function addKillMarker(
 	} else {
 		title.textContent = `Suicide: ${username}`;
 	}
+
+
+
 	g.appendChild(title);
 
 	// Create marker symbol

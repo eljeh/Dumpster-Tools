@@ -37,34 +37,29 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 
 			console.log('Table container found:', !!tableContainer);
 			if (!tableContainer) return;
-			// Clear existing table
 			tableContainer.innerHTML = '';
-
 			const table = document.createElement('table');
 			table.classList.add('player-data-table');
-
-
-			// Create table header
 			const thead = document.createElement('thead');
 			thead.innerHTML = `
                 <tr>
                     <th>Player Name</th>
                     <th>Steam ID</th>
+										<th>Location</th>
                     <th>Type</th>
-                    <th>Location</th>
                 </tr>
             `;
 			table.appendChild(thead);
-
-			// Create table body (fixed element type)
 			const tbody = document.createElement('tbody');
+
 
 			// Add new player markers
 			data.forEach((player) => {
 				console.log('Processing player:', player.playerName);
-				const [x, y] = player.lastKnownLocation.split(' ');
+				const [x, y, z] = player.lastKnownLocation.split(' ');
 				const playerX = -parseFloat(x); // Flip X coordinate like we do for zones
 				const playerY = parseFloat(y);
+				const playerZ = parseFloat(z);
 
 				// Add SVG marker
 				const g = document.createElementNS(
@@ -104,9 +99,10 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 				row.innerHTML = `
                     <td>${player.playerName}</td>
                     <td>${player.steamID}</td>
-                    <td>${player.type}</td>
-                    <td>(${playerX.toFixed(2)}, ${playerY.toFixed(2)})</td>
+                    <td>${playerX.toFixed(2)}, ${playerY.toFixed(2)}, ${playerZ.toFixed(2)}</td>
+										<td>${player.type}</td>
                 `;
+								
 				tbody.appendChild(row);
 			});
 
