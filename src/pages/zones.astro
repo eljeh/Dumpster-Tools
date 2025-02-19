@@ -86,13 +86,13 @@ import Map from '../components/Map.astro';
 	main {
 		min-height: calc(100vh - 4.25em);
 		display: grid;
-		--filter-size: minmax(max-content, 16vw);
-		--list-size: minmax(min-content, 92ch);
-		--map-size: 1fr;
+		--filter-size: minmax(max-content, 22ch);
+    --list-size: minmax(min-content, 92ch);
+    --map-size: minmax(1fr, calc(100vw - 22ch));
 	}
 	main.fml {
 		padding: 1em 1em 1em 5.5em;
-		grid-template-columns: 25vw 1fr 25vw;
+		grid-template-columns: 22ch 1fr 92ch;
 		grid-template-columns: var(--filter-size) var(--map-size) var(--list-size);
 		grid-template-rows: auto;
 		grid-template-areas:

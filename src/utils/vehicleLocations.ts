@@ -47,15 +47,40 @@ export function displayVehicleLocations(
 				'g',
 			);
 			container.classList.add('vehicle-markers-container');
-			container.style.display = document.getElementById('vehicles-toggle')
-				.checked
-				? 'block'
-				: 'none';
+			// container.style.display = document.getElementById('vehicles-toggle')
+			// 	.checked
+			// 	? 'block'
+			// 	: 'none';
 
 			// Add new vehicle markers
 			let validVehicles = 0;
 			let skippedVehicles = 0;
 
+			const tableContainer = document.querySelector('.data-table-container');
+
+			if (!tableContainer) return;
+			// Clear existing table
+			tableContainer.innerHTML = '';
+
+			const table = document.createElement('table');
+			table.classList.add('player-data-table');
+
+			// Create table header
+			const thead = document.createElement('thead');
+			thead.innerHTML = `
+                <tr>
+                    <th>Key</th>
+                    <th>Type</th>
+                    <th>Coords</th>
+                    <th>Reg</th>
+                    <th>internalStatus</th>
+                </tr>
+            `;
+			table.appendChild(thead);
+
+			// Create table body
+			const tbody = document.createElement('tbody');
+			
 			data.forEach((vehicle) => {
 				// Skip if vehicle has no location
 				if (!vehicle.value.coords) {
@@ -125,11 +150,29 @@ export function displayVehicleLocations(
 				text.setAttribute('x', toSvgX(vehicleX));
 				text.setAttribute('y', toSvgY(vehicleY) - 5);
 				text.textContent = vehicleType.replace('_', ' ');
-
 				g.appendChild(circle);
 				g.appendChild(text);
 				container.appendChild(g);
+
+				console.log('vehicle', vehicle);
+
+				// Add table row
+				const row = document.createElement('tr');
+				row.innerHTML = `
+                    <td>${vehicle.key}</td>
+                    <td>${vehicle.value.type}</td>
+                    <td>${vehicle.value.coords}</td>
+                    <td>${vehicle.value.reg}</td>
+                    <td>${vehicle.internalStatus}</td>
+                `;
+				tbody.appendChild(row);
 			});
+
+			// Append tbody to table and table to container
+			table.appendChild(tbody);
+			tableContainer.appendChild(table);
+
+			console.log('Finished adding vehicle markers');
 
 			svg.appendChild(container);
 		})

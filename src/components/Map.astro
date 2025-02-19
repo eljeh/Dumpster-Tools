@@ -294,18 +294,50 @@ const formatZoneName = (zoneName: string): string => {
 			}
 		});
 
-		displayFlagLocations(toSvgX, toSvgY);
+		vehicleToggle.addEventListener('change', () => {
+			const dataTable = document.querySelector('#data-table');
+			if (vehicleToggle.checked) {
+				displayVehicleLocations(toSvgX, toSvgY);
+				dataTable.style.display = 'block';
+				setInterval(() => {
+					displayVehicleLocations(toSvgX, toSvgY);
+				}, 300000);
+			} else {
+				if (dataTable) {
+					dataTable.style.display = 'none';
+					dataTable.innerHTML = ''; // Clear the contents instead of removing
+				}
+			}
+		});
+
+		flagsToggle.addEventListener('change', () => {
+			const dataTable = document.querySelector('#data-table');
+			if (flagsToggle.checked) {
+				displayFlagLocations(toSvgX, toSvgY);
+				dataTable.style.display = 'block';
+				setInterval(() => {
+					displayFlagLocations(toSvgX, toSvgY);
+				}, 300000);
+			} else {
+				if (dataTable) {
+					dataTable.style.display = 'none';
+					dataTable.innerHTML = ''; // Clear the contents instead of removing
+				}
+			}
+		});
+
+		// displayFlagLocations(toSvgX, toSvgY);
 		displayCurrentEvents(toSvgX, toSvgY);
 		displayKillPositions(toSvgX, toSvgY);
-		displayVehicleLocations(toSvgX, toSvgY);
+		// displayVehicleLocations(toSvgX, toSvgY);
 
 		setInterval(() => {
 			//displayPlayerLocations(toSvgX, toSvgY);
 
 			displayCurrentEvents(toSvgX, toSvgY);
-			displayVehicleLocations(toSvgX, toSvgY);
+			// displayVehicleLocations(toSvgX, toSvgY);
 			displayKillPositions(toSvgX, toSvgY);
-			displayFlagLocations(toSvgX, toSvgY);
+			// displayFlagLocations(toSvgX, toSvgY);
 		}, 300000);
 
 		// Function to toggle visibility
@@ -651,7 +683,7 @@ const formatZoneName = (zoneName: string): string => {
 		/* position: absolute;
 		top: 5.2em;
 		right: 1em; */
-		z-index: 1000;
+		z-index: 1;
 		display: flex;
 		flex-direction: column;
 		flex-wrap: wrap;

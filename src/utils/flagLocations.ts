@@ -37,6 +37,32 @@ export function displayFlagLocations(
 			container.classList.add('flag-markers-container');
 			container.style.display = 'none';
 
+
+			const tableContainer = document.querySelector('.data-table-container');
+
+			if (!tableContainer) return;
+			// Clear existing table
+			tableContainer.innerHTML = '';
+
+			const table = document.createElement('table');
+			table.classList.add('player-data-table');
+
+			// Create table header
+			const thead = document.createElement('thead');
+			thead.innerHTML = `
+                <tr>
+                    <th>id</th>
+                    <th>ownerID</th>
+                    <th>ownerName</th>
+                    <th>location</th>
+                </tr>
+            `;
+			table.appendChild(thead);
+
+			// Create table body
+			const tbody = document.createElement('tbody');
+
+
 			// Convert object to array if necessary
 			const flagsArray = Array.isArray(data) ? data : Object.values(data);
 
@@ -90,6 +116,17 @@ export function displayFlagLocations(
 				g.appendChild(text);
 
 				container.appendChild(g);
+
+				// Add table row
+				const row = document.createElement('tr');
+				row.innerHTML = `
+                    <td>${flag.id}</td>
+                    <td>${flag.ownerID}</td>
+                    <td>${flag.ownerName}</td>
+                    <td>(${flag.location})</td>
+                `;
+				tbody.appendChild(row);
+
 			});
 
 			svg.appendChild(container);
