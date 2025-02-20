@@ -1,315 +1,290 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import OrderPackForm from '../components/OrderPack-form.astro';
-import SendPackForm from '../components/SendPack-form.astro';
+import Map from '../components/Map.astro';
 ---
 
-<Layout title='In Game - Dumpster Tools'>
-	<div class='wrapper' transition:name='wrapper'>
-		<h2 class='mb-8 text-2xl text-center'>Teleporter</h2>
-		<!--  IG Players -->
-		<div class='flex flex-col my-2'>
-			<label class='font-bold mb-2' for='players'> IG Players </label>
-
-			<div class='flex'>
-				<ul id='players' class='playersList'>
-					<li>No one in game</li>
-				</ul>
-			</div>
-		</div>
-
-		<!-- List of Players -->
-		<div class='flex flex-col my-2'>
-			<label class='block font-bold pr-4 mb-2' for='listofPlayers'>
-				List of Players
-			</label>
-
-			<div class='flex gap-4'>
-				<div id='csvFormPlayers' class='flex relative gap-4 w-full'>
-					<label
-						for='csvFilePlayers'
-						class='text-sm absolute -bottom-4 left-6 h-3'>Upload CSV file</label
-					>
-					<input
-						type='file'
-						id='csvFilePlayers'
-						accept='.csv'
-						class='border rounded w-full'
-					/>
-
-					<button id='uploadBtnPlayers' class='glassmorphism'> Upload </button>
-				</div>
-
-				<div
-					id='selectFormPlayers'
-					style='display: none;'
-					class='flex gap-4 w-full'
-				>
-					<select
-						id='listofPlayers'
-						name='listofPlayers'
-						required
-						class='border rounded w-full leading-tight'
-					>
-					</select>
-				</div>
-			</div>
-		</div>
-
-		<hr class='w-full my-4' />
-
-		<!-- Coordinates -->
-		<div class='flex flex-col my-2'>
-			<label class='block font-bold pr-4 mb-2' for='coordinates'>
-				Coordinates
-			</label>
-			<input
-				type='text'
-				id='coordinates'
-				name='coordinates'
-				required
-				class='border rounded mb-2'
-			/>
-		</div>
-
-		<!-- List of Coords -->
-		<div class='flex flex-col my-2'>
-			<label class='block font-bold pr-4 mb-2' for='listofCoords'>
-				List of Coords
-			</label>
-
-			<div class='flex gap-4'>
-				<div id='csvFormCoords' class='flex relative gap-4 w-full'>
-					<label
-						for='csvFileCoords'
-						class='text-sm absolute -bottom-4 left-6 h-3'>Upload CSV file</label
-					>
-					<input
-						type='file'
-						id='csvFileCoords'
-						accept='.csv'
-						class='border rounded w-full'
-					/>
-
-					<button
-						id='uploadBtnCoords'
-						class='font-bold rounded focus:outline-none'
-					>
-						Upload
-					</button>
-				</div>
-
-				<div id='selectFormCoords' style='display: none;' class='flex gap-4'>
-					<select
-						id='listofCoords'
-						name='listofCoords'
-						required
-						class='border rounded w-full leading-tight'
-					>
-					</select>
-				</div>
-			</div>
-		</div>
-
-		<hr class='w-full my-4' />
-
-		<footer class='relative'>
-			<div class='flex items-center justify-end mb-6'>
-				<button class='glassmorphism' id='sendButton'> Send Teleport </button>
-			</div>
-		</footer>
-
-		<hr class='w-full my-4' />
-		<h2 class='mb-8 text-2xl text-center'>Order Pack</h2>
-		<OrderPackForm />
-		<hr class='w-full my-4' />
-		<h2 class='m-4 text-2xl text-center'>Send Pack</h2>
-		<SendPackForm />
-	</div>
-
-	<script>
-		function populateIGPlayers() {
-			const url = 'https://api.whalleybot.com/bot/217fc652/PlayerLocations';
-			fetch(url, {
-				method: 'GET',
-				headers: {
-					Accept: '*/*',
-					Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
-				},
-			})
-				.then((response) => {
-					if (!response.ok) {
-						throw new Error('Network response was not ok');
-					}
-					return response.json();
-				})
-				.then((data) => {
-					// Clear existing table rows
-					const playersList = document.getElementById('players');
-					playersList.innerHTML = '';
-					// Populate table with JSON data
-					data.forEach((player) => {
-						const row = document.createElement('li');
-						row.classList.add('flex', 'gap-4');
-						row.innerHTML = `
-            <input type="checkbox" id="${player.steamID}" name="selectedPlayers" value="${player.steamID}">
-            <span>${player.playerName}</span>
-            <span>${player.lastKnownLocation}</span>
-          `;
-						playersList.appendChild(row);
-					});
-				})
-				.catch((error) => {
-					console.error('Error fetching or parsing data: ', error);
-				});
-		}
-		// Call the function to display JSON data as a table
-		populateIGPlayers();
-
-		document
-			.getElementById('uploadBtnPlayers')
-			.addEventListener('click', function () {
-				var fileInput = document.getElementById('csvFilePlayers');
-				var file = fileInput.files[0];
-				var reader = new FileReader();
-
-				reader.onload = function (e) {
-					var csvData = e.target.result;
-					parseCsv(csvData, 'listofPlayers'); // Populate listofPlayers select element
-					document.getElementById('csvFormPlayers').style.display = 'none';
-					document.getElementById('selectFormPlayers').style.display = 'block';
-				};
-
-				reader.readAsText(file);
-			});
-
-		document
-			.getElementById('uploadBtnCoords')
-			.addEventListener('click', function () {
-				var fileInput = document.getElementById('csvFileCoords');
-				var file = fileInput.files[0];
-				var reader = new FileReader();
-
-				reader.onload = function (e) {
-					var csvData = e.target.result;
-					parseCsv(csvData, 'listofCoords'); // Populate listofCoords select element
-					document.getElementById('csvFormCoords').style.display = 'none';
-					document.getElementById('selectFormCoords').style.display = 'block';
-				};
-
-				reader.readAsText(file);
-			});
-
-		document.getElementById('sendButton').addEventListener('click', () => {
-			const coordinatesInput =
-				document.getElementById('coordinates').value === ''
-					? document.querySelector('#listofCoords option:checked').value
-					: document.getElementById('coordinates').value;
-
-			const regex = /X=([-+]?\d*\.\d+)\s*Y=([-+]?\d*\.\d+)\s*Z=([-+]?\d*\.\d+)/;
-			const match = coordinatesInput.match(regex);
-
-			if (!match) {
-				alert('Invalid coordinates format');
-				return;
-			}
-
-			const x = match[1];
-			const y = match[2];
-			const z = match[3];
-
-			const selectedIGPlayers = Array.from(
-				document.querySelectorAll(
-					'#players input[name="selectedPlayers"]:checked',
-				),
-			).map((player) => player.value);
-
-			const selectedListPlayers = Array.from(
-				document.querySelectorAll('#listofPlayers option:checked'),
-			).map((option) => option.value);
-
-			const selectedPlayers = [...selectedIGPlayers, ...selectedListPlayers];
-
-			if (selectedPlayers.length === 0) {
-				alert('Please select at least one player');
-				return;
-			}
-
-			selectedPlayers.forEach((playerID) => {
-				console.log(`#teleport ${x} ${y} ${z} ${playerID}`);
-				const encodedMessage = encodeURIComponent(
-					`#teleport ${x} ${y} ${z} ${playerID}`,
-				);
-				const url = `https://api.whalleybot.com/bot/217fc652/GlobalMessage/Send?message=${encodedMessage}`;
-				fetch(url, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: 'WhalleyBotAPI_F935H3ucUJRv7g==',
-					},
-					body: JSON.stringify({ coordinates: coordinatesInput, playerID }),
-				})
-					.then((response) => {
-						if (!response.ok) {
-							throw new Error('Network response was not ok');
-						}
-						return response.json();
-					})
-					.then(() => {
-						alert(`#teleport ${x} ${y} ${z} ${playerID}`);
-					})
-					.catch((error) => {
-						console.error('Error sending data:', error.message);
-						console.error('Stack trace:', error.stack);
-					});
-			});
-		});
-
-		function parseCsv(csvData, selectElementId) {
-			var rows = csvData.split('\n');
-			var selectElement = document.getElementById(selectElementId);
-			selectElement.innerHTML = '';
-
-			rows.forEach(function (row) {
-				var columns = row.split(',');
-				if (columns.length == 2) {
-					var key = columns[0].trim();
-					var value = columns[1].trim();
-					var option = document.createElement('option');
-					option.value = value;
-					option.textContent = key;
-					selectElement.appendChild(option);
-				}
-			});
-		}
-	</script>
+<Layout title='Map Zones'>
+	<Map />
 </Layout>
 
+<script>
+	const main = document.querySelector('main');
+	main.classList.add('fml');
+</script>
+
 <style is:inline>
-	main .wrapper {
-		align-items: unset;
-		max-width: 92ch;
-	}
-	#uploadBtnPlayers,
-	#uploadBtnCoords {
-		margin-top: 0;
+	.wrapper {
+		max-width: 66em;
+		/* @media (max-width: 1024px) {
+			position: relative;
+		} */
 	}
 
-	.playersList {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5em;
-		max-height: 40em;
-		overflow-y: auto;
-		width: 100%;
+	:root {
+		/* Base colors */
+		--color-white: hsla(0, 0%, 100%, 1);
+		--color-white-40: hsla(0, 0%, 100%, 0.4);
+		--color-white-10: hsla(0, 0%, 100%, 0.1);
+		--color-black-80: hsla(0, 0%, 0%, 0.8);
+
+		/* Zone base properties */
+		--zone-stroke-width: 1px;
+		--zone-hover-opacity: 0.4;
+		--text-shadow-default: 2px 2px 8px var(--color-black-80);
+
+		/* Zone colors */
+		--color-zone-default: hsla(207, 44%, 49%, 1);
+		--color-zone-default-fill: hsla(207, 44%, 49%, 0.02);
+		--color-zone-default-hover: hsla(207, 44%, 49%, var(--zone-hover-opacity));
+
+		/* PvE colors */
+		--color-pve: hsla(121, 100%, 75%, 1);
+		--color-pve-fill: hsla(121, 100%, 75%, 0.009);
+		--color-pve-hover: hsla(121, 100%, 50%, 0.04);
+
+		/* PvP colors */
+		--color-pvp: hsla(0, 44%, 49%, 0.75);
+		--color-pvp-fill: hsla(0, 44%, 49%, 0.5);
+
+		/* Special zone colors */
+		--color-warzone: hsla(297, 44%, 49%, 0.75);
+		--color-warzone-fill: hsla(297, 44%, 49%, 0.5);
+
+		--color-community: hsla(308, 100%, 50%, 0.75);
+		--color-community-fill: hsla(308, 100%, 50%, 0.5);
+
+		/* POI and Outpost colors */
+		--color-custom-poi: hsla(147, 41%, 41%, 0.75);
+		--color-custom-poi-fill: hsla(147, 41%, 41%, 0.5);
+
+		--color-pve-poi: hsla(200, 50%, 40%, 0.75);
+		--color-pve-poi-fill: hsla(200, 50%, 40%, 0.5);
+
+		--color-pvp-poi: hsla(69, 44%, 37%, 0.75);
+		--color-pvp-poi-fill: hsla(69, 44%, 37%, 0.5);
+
+		--color-selected: hsla(124, 86%, 35%, 1);
 	}
 
-	.wrapper [type='checkbox'] {
-		zoom: 2;
-		width: unset;
+	/* Page Layout */
+	h2.pageTitle {
+		font-size: 1.25em;
+		flex: auto;
+		@media (max-width: 1024px) {
+			flex: 0 1 100%;
+		}
 	}
-	.wrapper hr {
-		margin-top: 3em;
-		margin-bottom: 1em;
+	/* 
+	main {
+	display: grid;
+	grid-template-areas:
+		'controls'
+		'map'
+		'data-table';
+} */
+
+	main {
+		min-height: calc(100vh - 4.25em);
+		display: grid;
+    --list-size: minmax(min-content, 92ch);
+    --map-size: minmax(1fr, calc(100vw - 22ch));
+		padding: 1em 1em 1em 5.5em;
+		grid-template-columns: 22ch 1fr 92ch;
+		grid-template-columns: var(--map-size) var(--list-size);
+		grid-template-rows: auto;
+		grid-template-areas:
+			'map data-table'
+			'map data-table'
+			'map data-table';
+	}
+	main.fml {
+		padding: 1em 1em 1em 5.5em;
+		grid-template-columns: 22ch 1fr 92ch;
+		grid-template-columns: var(--filter-size) var(--map-size) var(--list-size);
+		grid-template-rows: auto;
+		grid-template-areas:
+			'controls map data-table'
+			'controls map data-table'
+			'controls map data-table';
+	}
+	main.lmf {
+		grid-template-columns: 25vw 1fr 25vw;
+		grid-template-columns: var(--list-size) var(--map-size) var(--filter-size);
+		grid-template-rows: auto;
+		grid-template-areas:
+			'data-table map controls'
+			'data-table map controls'
+			'data-table map controls';
+	}
+	main.flm {
+		grid-template-columns: 25vw 1fr 1fr;
+		grid-template-columns: var(--filter-size) var(--list-size) var(--map-size);
+		grid-template-rows: auto;
+		grid-template-areas:
+			'controls data-table map'
+			'controls data-table map'
+			'controls data-table map';
+	}
+	main.fl-ml {
+		grid-template-columns: 1fr 1fr 25vw;
+		grid-template-rows: 25vh 1fr 1fr;
+		grid-template-areas:
+			'controls controls data-table'
+			'map map data-table'
+			'map map data-table';
+	}
+
+	/* Base Zone Styles */
+	.zone-rect {
+		fill: var(--color-zone-default-fill);
+		stroke: var(--color-zone-default-fill);
+		stroke-width: 1;
+
+		&:hover {
+			fill: var(--color-zone-default-hover);
+		}
+	}
+
+	/* Base text styles for zones */
+	.zone-text-base {
+		fill: var(--color-white);
+		text-anchor: middle;
+		dominant-baseline: middle;
+		pointer-events: none;
+		text-shadow: var(--text-shadow-default);
+	}
+
+	/* Update existing text styles to use the base class */
+	[class^='zone-Sector_'] text {
+		@extend .zone-text-base;
+		fill: var(--color-white-40);
+		font-size: 1em;
+		translate: -75px -75px;
+	}
+
+	.zone-label,
+	[class^='zone-PVP_Bunker'] text,
+	[class^='zone-PVE_Bunker'] text,
+	[class^='zone-POI_PVE'] text,
+	[class^='zone-POI_PVP'] text,
+	[class^='zone-POI_custom_'] text,
+	[class^='zone-Bunkers_PVE'] text,
+	[class^='zone-Bunkers_PVP'] text,
+	.zone-Outpost_A0 text,
+	[class^='zone-Outpost_'] text,
+	.zone-WarZoneDrops text,
+	.zone-CommunityCenter text {
+		@extend .zone-text-base;
+		font-size: 0.3em;
+		font-weight: 300;
+		letter-spacing: 0.1em;
+	}
+
+	/* Zone Type Specific Styles */
+	.zone-PVE .zone-rect {
+		fill: var(--color-pve-fill);
+		stroke: var(--color-pve);
+		stroke-width: 1;
+		&:hover {
+			fill: var(--color-pve-hover);
+		}
+	}
+
+	.zone-PVP .zone-rect {
+		fill: var(--color-pvp-fill);
+		stroke: var(--color-pvp);
+		stroke-width: 1;
+	}
+
+	.zone-WarZoneDrops .zone-rect {
+		fill: var(--color-warzone-fill);
+		stroke: var(--color-warzone);
+		stroke-width: 0;
+	}
+
+	.zone-CommunityCenter .zone-rect {
+		fill: var(--color-community-fill);
+		stroke: var(--color-community);
+		stroke-width: 0.5;
+	}
+
+	/* Sector Styles */
+	[class^='zone-Sector_'] {
+		.zone-rect {
+			stroke: var(--color-white-10);
+			stroke-width: 1;
+			cursor: pointer;
+		}
+	}
+
+	/* POI and Outpost Styles */
+	[class^='zone-Outpost_'] .zone-circ,
+	[class^='zone-POI_custom_'] .zone-circ {
+		fill: var(--color-custom-poi-fill);
+		stroke: var(--color-custom-poi);
+		stroke-width: 0.5;
+	}
+	[class^='zone-PVE_Bunker'] .zone-circ,
+	[class^='zone-POI_PVE'] .zone-rect,
+	[class^='zone-POI_PVE'] .zone-circ,
+	[class^='zone-Bunkers_PVE'] .zone-rect,
+	[class^='zone-Bunkers_PVE'] .zone-circ {
+		fill: var(--color-pve-poi-fill);
+		stroke: var(--color-pve-poi);
+		stroke-width: 0.5;
+	}
+
+	[class^='zone-PVP_Bunker'] .zone-circ,
+	[class^='zone-POI_PVP'] .zone-rect,
+	[class^='zone-POI_PVP'] .zone-circ,
+	.zone-Outpost_A0 .zone-rect,
+	.zone-Outpost_A0 .zone-circ,
+	[class^='zone-Bunkers_PVP'] .zone-rect,
+	[class^='zone-Bunkers_PVP'] .zone-circ {
+		fill: var(--color-pvp-poi-fill);
+		stroke: var(--color-pvp-poi);
+		stroke-width: 0.5;
+	}
+
+	/* Player Marker Styles */
+	.player-marker text {
+		text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.8);
+		pointer-events: none;
+		text-anchor: middle;
+		fill: white;
+		font-size: 0.3em;
+		stroke: none;
+		letter-spacing: 0.05em;
+	}
+
+	.player-marker circle {
+		filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+		fill: red;
+		stroke: white;
+		stroke-width: 0.5;
+	}
+
+	/* Vehicle Marker Styles */
+	.vehicle-marker text {
+		text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.8);
+		pointer-events: none;
+		text-anchor: middle;
+		fill: white;
+		font-size: 0.3em;
+		stroke: none;
+		letter-spacing: 0.05em;
+		.not-registered {
+			fill: red;
+		}
+	}
+
+	.vehicle-marker .vehicle-icon {
+		filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+		fill: blue;
+		stroke: white;
+		stroke-width: 0.5;
+	}
+	.vehicle-marker.not-registered .vehicle-icon {
+		stroke: red;
 	}
 </style>

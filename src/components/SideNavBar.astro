@@ -15,9 +15,7 @@ const currentPath = pathname.slice(1);
     function renderNavBar() {
       navBarList.innerHTML =
         '<hr style="opacity: 0.5;margin: 0 0 0.5em -0.5em; width: 150%;"/>';
-      navBarList.innerHTML += `<a class="sideNavLink" href="/zones"><i class="fi fi-ss-house-user"></i><span class="sideNavLinkText">In Game</span></a>`;
-      // navBarList.innerHTML +=
-      // '<a class="sideNavLink" href="/zones"><i class="fi fi-ss-map"></i><span class="sideNavLinkText">Map Zones</span></a>';
+      navBarList.innerHTML += `<a class="sideNavLink" href="/inGame"><i class="fi fi-ss-house-user"></i><span class="sideNavLinkText">In Game</span></a>`;
       navBarList.innerHTML += '<hr style="opacity: 0.25;margin: 0 0 0.5em 0; width: 100%;"/>';
       navBarList.innerHTML += `<a class="sideNavLink" href="/playerInfo"><i class="fi fi-ss-user"></i><span class="sideNavLinkText">Player Info</span></a>`;
       navBarList.innerHTML +=
@@ -25,8 +23,6 @@ const currentPath = pathname.slice(1);
       navBarList.innerHTML += `<a class="sideNavLink" href="/vehicleInfo"><i class="fi fi-ss-car-rear"></i><span class="sideNavLinkText">Vehicle Info</span></a>`;
       navBarList.innerHTML +=
         '<hr style="opacity: 0.25;margin: 0 0 0.5em 0; width: 100%;"/>';
-      // navBarList.innerHTML += `<a class="sideNavLink" href="#"><i class="fi fi-ss-flag"></i><span class="sideNavLinkText">Flag Info</span></a>`;
-      // navBarList.innerHTML +='<hr style="opacity: 0.25;margin: 0 0 0.5em 0;width: 100%;"/>';
       navBarList.innerHTML += `<a class="sideNavLink" href="/bunkerList"><i class="fi fi-ss-cabin"></i><span class="sideNavLinkText">Bunker list</span></a>`;
       navBarList.innerHTML +=
         '<hr style="opacity: 0.25;margin: 0 0 0.5em 0; width: 100%;"/>';
@@ -47,7 +43,6 @@ const currentPath = pathname.slice(1);
         '<a class="sideNavLink" href="/sendMessage"><i class="fi fi-ss-comment-alt-dots"></i><span class="sideNavLinkText">Send Message</span></a>';
       navBarList.innerHTML +=
         '<hr style="opacity: 0.25;margin: 0 0 0.5em 0;width: 100%;"/>';
-
       // navBarList.innerHTML += '<a class="sideNavLink" href="/econfile">Economy Override</a>';
       // navBarList.innerHTML += '<a class="sideNavLink" href="/apis"><i class="fi fi-ss-ban"></i><span class="sideNavLinkText">APIs</span></a>';
     }
