@@ -51,9 +51,6 @@ export function displayFlagLocations(
 			console.log('Table container found:', !!tableContainer);
 			if (!tableContainer) return;
 
-			// Clear existing table
-			tableContainer.innerHTML = '';
-
 			const table = document.createElement('table');
 			table.classList.add('flag-data-table');
 

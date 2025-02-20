@@ -56,30 +56,25 @@ export function displayVehicleLocations(
 			let validVehicles = 0;
 			let skippedVehicles = 0;
 
-			const tableContainer = document.querySelector('.data-table-container');
+			const dataContainer = document.querySelector('.data-table-container');
+			if (!dataContainer) return;
 
-			if (!tableContainer) return;
-			// Clear existing table
-			tableContainer.innerHTML = '';
-
-			const table = document.createElement('table');
-			table.classList.add('vehicle-data-table');
+			const div = document.createElement('div');
+			div.classList.add('vehicle-data-table');
 
 			// Create table header
-			const thead = document.createElement('thead');
-			thead.innerHTML = `
-                <tr>
-                    <th>Key</th>
-                    <th>Type</th>
-                    <th>Coords</th>
-                    <th>Reg</th>
-                    <th>internalStatus</th>
-                </tr>
+			const ul = document.createElement('ul');
+			ul.classList.add('vehicleList');
+			ul.innerHTML = `
+                <li>
+                    <span>Key</span>
+                    <span>Type</span>
+                    <span>Coords</span>
+                    <span>Reg</span>
+                </li>
             `;
-			table.appendChild(thead);
+			div.appendChild(ul);
 
-			// Create table body
-			const tbody = document.createElement('tbody');
 			
 			data.forEach((vehicle) => {
 				// Skip if vehicle has no location
@@ -154,23 +149,25 @@ export function displayVehicleLocations(
 				g.appendChild(text);
 				container.appendChild(g);
 
-				console.log('vehicle', vehicle);
-
+				let steamID = vehicle.value.reg.split(' ')[0].replace(/^STEAMID:/, '');
+				let type = vehicleType.replace(`_`, ' ').replace(`Metal`, 'Mtl').replace(`Improvised`, 'Imp');
 				// Add table row
-				const row = document.createElement('tr');
-				row.innerHTML = `
-                    <td>${vehicle.key}</td>
-                    <td>${vehicle.value.type}</td>
-                    <td>${vehicle.value.coords}</td>
-                    <td>${vehicle.value.reg}</td>
-                    <td>${vehicle.internalStatus}</td>
-                `;
-				tbody.appendChild(row);
+				const li = document.createElement('li');
+				li.innerHTML = `
+				<span class="clickable" title="#TeleportToVehicle ${vehicle.key}">${vehicle.key}</span>
+				<span class="clickable" title="#RenameVehicle ${vehicle.key} 'VID:${vehicle.key}'">${type}</span>
+				<span class="clickable" title="#Teleport ${vehicle.value.coords}">${vehicle.value.coords}</span>
+					${
+						vehicle.value.reg
+							? `<a class="" href="/playerInfo?playerid=${steamID}" title="${steamID}">${steamID}</a>`
+							: `<span>Unregistered</span>`
+					}
+		`;
+				ul.appendChild(li);
 			});
 
-			// Append tbody to table and table to container
-			table.appendChild(tbody);
-			tableContainer.appendChild(table);
+
+			dataContainer.appendChild(div);
 
 			console.log('Finished adding vehicle markers');
 

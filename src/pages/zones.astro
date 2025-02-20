@@ -86,9 +86,16 @@ import Map from '../components/Map.astro';
 	main {
 		min-height: calc(100vh - 4.25em);
 		display: grid;
-		--filter-size: minmax(max-content, 22ch);
     --list-size: minmax(min-content, 92ch);
     --map-size: minmax(1fr, calc(100vw - 22ch));
+		padding: 1em 1em 1em 5.5em;
+		grid-template-columns: 22ch 1fr 92ch;
+		grid-template-columns: var(--map-size) var(--list-size);
+		grid-template-rows: auto;
+		grid-template-areas:
+			'map data-table'
+			'map data-table'
+			'map data-table';
 	}
 	main.fml {
 		padding: 1em 1em 1em 5.5em;

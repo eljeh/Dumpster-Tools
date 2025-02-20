@@ -37,7 +37,7 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 
 			console.log('Table container found:', !!tableContainer);
 			if (!tableContainer) return;
-			tableContainer.innerHTML = '';
+
 			const table = document.createElement('table');
 			table.classList.add('player-data-table');
 			const thead = document.createElement('thead');

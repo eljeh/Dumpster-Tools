@@ -43,7 +43,6 @@ export function displayKillPositions(
 			);
 			container.classList.add('kill-markers-container');
 
-
 			const tableContainer = document.querySelector('.data-table-container');
 
 			console.log('Table container found:', !!tableContainer);
