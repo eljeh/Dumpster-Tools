@@ -1,0 +1,231 @@
+---
+import Layout from '../layouts/Layout.astro';
+import fs from 'fs';
+---
+
+<Layout title='Loot Manager'>
+  <div class='wrapper' transition:name='wrapper'>
+    <h2 class='font-bold text-2xl text-center'>Loot Manager</h2>
+    <div class='flex gap-8 mt-6'>
+      {/* Select List Column */}
+      <div class='flex flex-col gap-4'>
+        <select id='zoneSelect' class='p-2 border rounded'>
+          <option value=''>- Zone -</option>
+        </select>
+
+        <select id='typeSelect' class='p-2 border rounded'>
+          <option value=''>- Type -</option>
+        </select>
+
+        <select id='locationSelect' class='p-2 border rounded'>
+          <option value=''>- Location -</option>
+        </select>
+
+        <select id='areaSelect' class='p-2 border rounded'>
+          <option value=''>- Area -</option>
+        </select>
+
+        <select id='itemSelect' class='p-2 border rounded'>
+          <option value=''>- Item -</option>
+        </select>
+      </div>
+
+      {/* Display Panel */}
+      <div class='flex-1 border rounded p-4'>
+        <h3 class='text-lg font-semibold mb-4'>Loot Spawner Details</h3>
+        <span id='folder-structure'></span>
+        <hr class='my-4' />
+        <pre id='display-content'></pre>
+      </div>
+    </div>
+  </div>
+
+  <style is:inline>
+    .wrapper {
+      max-width: 110ch;
+    }
+  </style>
+
+  <script>
+    let lootData = null;
+
+    async function fetchLootStructure() {
+      try {
+        const response = await fetch('/api/getLootStructure');
+        lootData = await response.json();
+
+        // Only populate zones initially
+        populateSelect('zoneSelect', Object.keys(lootData));
+
+        // Disable all other selects
+        ['typeSelect', 'locationSelect', 'areaSelect', 'itemSelect'].forEach(
+          (id) => {
+            const select = document.getElementById(id);
+            select.disabled = true;
+          },
+        );
+      } catch (error) {
+        console.error('Failed to fetch loot structure:', error);
+      }
+    }
+
+    function populateSelect(selectId, options) {
+      const select = document.getElementById(selectId);
+      if (!select) return;
+
+      // Clear existing options except the first one
+      while (select.options.length > 1) {
+        select.remove(1);
+      }
+
+      // Add new options
+      options.forEach((option) => {
+        const optionElement = document.createElement('option');
+        optionElement.value = option;
+        optionElement.textContent = option;
+        select.appendChild(optionElement);
+      });
+
+      select.disabled = false;
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', fetchLootStructure);
+
+    // Handle select changes
+    const selects = document.querySelectorAll('select');
+    const displayContent = document.getElementById('display-content');
+
+    selects.forEach((select) => {
+      select.addEventListener('change', () => {
+        if (!lootData) {
+          console.error('Loot data not loaded');
+          return;
+        }
+
+        // Reset all selects that come after the current one
+        const selectOrder = [
+          'zoneSelect',
+          'typeSelect',
+          'locationSelect',
+          'areaSelect',
+          'itemSelect',
+        ];
+        const currentIndex = selectOrder.indexOf(select.id);
+
+        // Reset all subsequent selects
+        if (currentIndex !== -1) {
+          for (let i = currentIndex + 1; i < selectOrder.length; i++) {
+            const subsequentSelect = document.getElementById(selectOrder[i]);
+            subsequentSelect.value = '';
+            subsequentSelect.disabled = true;
+            // Reset to default option
+            while (subsequentSelect.options.length > 1) {
+              subsequentSelect.remove(1);
+            }
+          }
+        }
+
+        const selections = {
+          zone: document.getElementById('zoneSelect').value,
+          type: document.getElementById('typeSelect').value,
+          location: document.getElementById('locationSelect').value,
+          area: document.getElementById('areaSelect').value,
+          item: document.getElementById('itemSelect').value,
+        };
+
+        // Handle select changes
+        switch (select.id) {
+          case 'zoneSelect':
+            if (selections.zone && lootData[selections.zone]) {
+              populateSelect(
+                'typeSelect',
+                Object.keys(lootData[selections.zone]),
+              );
+            }
+            break;
+          case 'typeSelect':
+            if (
+              selections.zone &&
+              selections.type &&
+              lootData[selections.zone]?.[selections.type]
+            ) {
+              populateSelect(
+                'locationSelect',
+                lootData[selections.zone][selections.type].location,
+              );
+            }
+            break;
+          case 'locationSelect':
+            if (selections.zone && selections.type && selections.location) {
+              populateSelect(
+                'areaSelect',
+                lootData[selections.zone][selections.type].area,
+              );
+            }
+            break;
+          case 'areaSelect':
+            if (selections.zone && selections.type && selections.area) {
+              const filteredItems = lootData[selections.zone][
+                selections.type
+              ].item
+                .filter(
+                  (item) =>
+                    item.location === selections.location &&
+                    item.area === selections.area,
+                )
+                .map((item) => item.item);
+              populateSelect('itemSelect', filteredItems);
+            }
+            break;
+        }
+
+        // Clear display content when any selection changes
+        displayContent.textContent = '';
+        const folderStructure = document.getElementById('folder-structure');
+        folderStructure.textContent = '';
+
+        // Only proceed if we have valid selections
+        if (!selections.zone || !lootData[selections.zone]) return;
+
+        // Construct the full path
+        const basePath = [selections.zone, selections.type]
+          .filter(Boolean)
+          .join('/');
+
+        // Construct the filename part
+        const filenameParts = [
+          selections.location,
+          selections.area,
+          selections.item,
+        ]
+          .filter(Boolean)
+          .join('_');
+
+        const fullPath = filenameParts
+          ? `${basePath}/${filenameParts}`
+          : basePath;
+
+        // Only fetch and display data if an item is selected
+        if (select.id === 'itemSelect' && selections.item) {
+          fetch(`/data/lootFiles/${fullPath}.json`)
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error('File not found');
+              }
+              return response.json();
+            })
+            .then((data) => {
+              displayContent.textContent = JSON.stringify(data, null, 2);
+              folderStructure.textContent = `${fullPath}.json`;
+            })
+            .catch((error) => {
+              console.error('Failed to fetch item data:', error);
+              displayContent.textContent =
+                'Error: File not found in this location';
+            });
+        }
+      });
+    });
+  </script>
+</Layout>
