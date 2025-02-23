@@ -51,22 +51,20 @@ export function displayFlagLocations(
 			console.log('Table container found:', !!tableContainer);
 			if (!tableContainer) return;
 
-			const table = document.createElement('table');
-			table.classList.add('flag-data-table');
+			const div = document.createElement('div');
+			div.classList.add('flag-data-table');
 
-			// Create table header
-			const thead = document.createElement('thead');
-			thead.innerHTML = `
-                <tr>
-										<th>ownerName</th>
-                    <th>ownerID</th>
-                    <th>location</th>
-                </tr>
+			// Create list header
+			const ul = document.createElement('ul');
+			ul.classList.add('flagList');
+			ul.innerHTML = `
+                <li>
+                    <span class="playerName">Owner</span>
+                    <span class="steamID">Steam ID</span>
+                    <span class="coords">Location</span>
+                </li>
             `;
-			table.appendChild(thead);
-
-			// Create table body
-			const tbody = document.createElement('tbody');
+			div.appendChild(ul);
 
 			// Convert object to array if necessary and type cast
 			const flagsArray = (Array.isArray(data) ? data : Object.values(data)) as FlagData[];
@@ -122,20 +120,19 @@ export function displayFlagLocations(
 
 				container.appendChild(g);
 
-				// Add table row
-				const row = document.createElement('tr');
-				row.innerHTML = `
-                    <td>${flag.ownerName}</td>
-                    <td>${flag.ownerID}</td>
-                    <td>${flag.location}</td>
-                `;
-				tbody.appendChild(row);
+				// Add list item
+				const li = document.createElement('li');
+				li.innerHTML = `
+					<span title="#TeleportTo ${flag.ownerName}" class="playerName">${flag.ownerName}</span>
+					<a class="steamID" href="/playerInfo?playerid=${flag.ownerID}" title="${flag.ownerID}">${flag.ownerID}</a>
+					<span class="clickable coords" title="#Teleport ${flag.location}">${flag.location}</span>
+				`;
+				ul.appendChild(li);
 
 			});
 
 			svg.appendChild(container);
-			table.appendChild(tbody);
-			tableContainer.appendChild(table); // Add table to container
+			tableContainer.appendChild(div);
 		})
 		.catch((error) => {
 			console.error('Error fetching flag locations:', error);

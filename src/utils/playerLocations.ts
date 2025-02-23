@@ -34,24 +34,24 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 			// 	: 'none';
 
 			const tableContainer = document.querySelector('.data-table-container');
-
 			console.log('Table container found:', !!tableContainer);
 			if (!tableContainer) return;
 
-			const table = document.createElement('table');
-			table.classList.add('player-data-table');
-			const thead = document.createElement('thead');
-			thead.innerHTML = `
-                <tr>
-                    <th>Player Name</th>
-                    <th>Steam ID</th>
-										<th>Location</th>
-                    <th>Type</th>
-                </tr>
-            `;
-			table.appendChild(thead);
-			const tbody = document.createElement('tbody');
+			const div = document.createElement('div');
+			div.classList.add('player-data-table');
 
+			// Create list header
+			const ul = document.createElement('ul');
+			ul.classList.add('playerList');
+			ul.innerHTML = `
+                <li>
+                    <span class="playerName">Name</span>
+                    <span class="steamID">Steam ID</span>
+                    <span class="coords">Location</span>
+                    <span class="pType">Type</span>
+                </li>
+            `;
+			div.appendChild(ul);
 
 			// Add new player markers
 			data.forEach((player) => {
@@ -94,23 +94,21 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 				g.appendChild(text);
 				container.appendChild(g);
 
-				// Add table row
-				const row = document.createElement('tr');
-				row.innerHTML = `
-                    <td>${player.playerName}</td>
-                    <td>${player.steamID}</td>
-                    <td>${playerX.toFixed(2)}, ${playerY.toFixed(2)}, ${playerZ.toFixed(2)}</td>
-										<td>${player.type}</td>
-                `;
-								
-				tbody.appendChild(row);
+				// Add list item
+				const li = document.createElement('li');
+				li.innerHTML = `
+					<span title="#TeleportTo ${player.playerName}" class="playerName">${player.playerName}</span>
+					<a class="steamID" href="/playerInfo?playerid=${player.steamID}" title="${player.steamID}">${player.steamID}</a>
+					<span class="clickable coords" title="#Teleport ${player.lastKnownLocation}">${playerX.toFixed(2)}, ${playerY.toFixed(2)}, ${playerZ.toFixed(2)}</span>
+					<span class="pType">${player.type}</span>
+				`;
+				ul.appendChild(li);
 			});
 
 			console.log('Finished adding player markers');
 
 			svg.appendChild(container);
-			table.appendChild(tbody);
-			tableContainer.appendChild(table);
+			tableContainer.appendChild(div);
 		})
 		.catch((error) => {
 			console.error('Error in displayPlayerLocations:', error);

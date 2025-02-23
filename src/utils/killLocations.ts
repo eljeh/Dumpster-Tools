@@ -48,28 +48,28 @@ export function displayKillPositions(
 			console.log('Table container found:', !!tableContainer);
 			if (!tableContainer) return;
 			tableContainer.innerHTML = '';
-			const table = document.createElement('table');
-			table.classList.add('kill-data-table');
-			const thead = document.createElement('thead');
-			thead.innerHTML = `
-                <tr>
-                    <th>Log</th>
-                </tr>
+
+			const div = document.createElement('div');
+			div.classList.add('kill-data-table');
+
+			// Create list header
+			const ul = document.createElement('ul');
+			ul.classList.add('killList');
+			ul.innerHTML = `
+                <li>
+                    <span class="eventType">Event Type</span>
+                    <span class="details">Details</span>
+                </li>
             `;
-			table.appendChild(thead);
-			const tbody = document.createElement('tbody');
+			div.appendChild(ul);
 
 			if (!data) {
-				const row = document.createElement('tr');
-				row.innerHTML = `<td>No kills to report</td>`;
-				tbody.appendChild(row);
+				const li = document.createElement('li');
+				li.innerHTML = `<span colspan="2">No kills to report</span>`;
+				ul.appendChild(li);
 			}
 
-
 			Object.keys(data).forEach((key) => {
-
-
-
 				if (key.includes('Comitted suicide')) {
 					// Handle suicide
 					const locationMatch = key.match(
@@ -81,18 +81,14 @@ export function displayKillPositions(
 						const username = key.match(/User: ([^\s(]+)/)?.[1] || 'Unknown';
 
 						addKillMarker(container, x, y, 'suicide', username, null, toSvgX, toSvgY);
+
+						const li = document.createElement('li');
+						li.innerHTML = `
+							<span class="eventType">Suicide</span>
+							<span class="clickable playerName" title="${key}">${username}</span>
+						`;
+						ul.appendChild(li);
 					}
-
-
-					// Add table row
-					const row = document.createElement('tr');
-					row.innerHTML = `
-                    <td>suicide</td>
-                `;
-					tbody.appendChild(row);
-
-
-
 				} else if (key.includes('Killer')) {
 					// Handle kill
 					try {
@@ -141,24 +137,21 @@ export function displayKillPositions(
 						line.setAttribute('y2', toSvgY(victimY).toString());
 						line.classList.add('kill-line');
 						container.appendChild(line);
+
+						const li = document.createElement('li');
+						li.innerHTML = `
+							<span>Kill</span>
+							<span class="clickable" title="${killData.Killer.ProfileName} killed ${killData.Victim.ProfileName} with ${killData.Weapon}">${killData.Killer.ProfileName} → ${killData.Victim.ProfileName}</span>
+						`;
+						ul.appendChild(li);
 					} catch (e) {
 						console.error('Error parsing kill data:', e);
 					}
-
-					// Add table row
-					const row = document.createElement('tr');
-					row.innerHTML = `
-                    <td>Kill</td>
-                `;
-					tbody.appendChild(row);
-
 				}
-
-
-
 			});
 
 			svg.appendChild(container);
+			tableContainer.appendChild(div);
 		})
 		.catch((error) => {
 			console.error('Error fetching kill positions:', error);
@@ -194,8 +187,6 @@ function addKillMarker(
 	} else {
 		title.textContent = `Suicide: ${username}`;
 	}
-
-
 
 	g.appendChild(title);
 

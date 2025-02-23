@@ -3,7 +3,7 @@ import zones from '../data/zones.json';
 import settingZones from '../data/settingZones.json';
 import MapControls from './MapControls.astro';
 import DataControls from './dataControls.astro';
-
+import LootManager from './lootManager.astro';
 // Find the min and max coordinates to set up the viewport
 let minX = Infinity;
 let maxX = -Infinity;
@@ -58,8 +58,7 @@ const formatZoneName = (zoneName: string): string => {
 };
 ---
 
-<MapControls />
-
+<!-- <MapControls /> -->
 <div class='wrapper' transition:name='wrapper'>
 	<div
 		class='map-container'
@@ -208,9 +207,14 @@ const formatZoneName = (zoneName: string): string => {
 	</div>
 </div>
 
-<div id='data-table' class='data-table-container' style='display: none;'>
-	<!-- <DataControls /> -->
+<div class='data-table-wrapper'>
+	<DataControls />
+	<div id='data-table' class='data-table-container'></div>
 </div>
+
+<!-- <div id='details-container' class='details-container'>
+	<LootManager />
+</div> -->
 
 <script>
 	import { displayFlagLocations } from '../utils/flagLocations';
@@ -662,10 +666,11 @@ const formatZoneName = (zoneName: string): string => {
 	}
 
 	.wrapper {
-		grid-area: map;
-		width: 100%;
-		max-width: 66em;
+		flex: 1 1 calc(100vh - 4.25em);
+		width: unset;
+		max-width: unset;
 		aspect-ratio: 1/1;
+		padding: 0.25em 0.5em 0.25em 0.5em;
 	}
 
 	/* Consolidated zone styles */
@@ -716,135 +721,15 @@ const formatZoneName = (zoneName: string): string => {
 		}
 	}
 
-	.overlay-controls {
-		grid-area: controls;
-		/* position: absolute;
-		top: 5.2em;
-		right: 1em; */
-		z-index: 1;
-		display: flex;
-		flex-direction: column;
-		flex-wrap: wrap;
-		align-items: flex-start;
-		justify-content: flex-start;
-		height: fit-content;
-		width: 11em;
-		gap: 0.5em;
-		padding: 1em 1.5em;
-		border-radius: 0.5em;
-		background: var(--color-grey-darker);
-		box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
-			var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-
-		@media (max-width: 1024px) {
-			width: 100%;
-			position: absolute;
-			top: 0;
-			right: 0;
-			flex-direction: row;
-			justify-content: center;
-			padding-bottom: 0;
-			gap: 0 0.75em;
-		}
-
-		label {
-			display: flex;
-			flex-direction: row;
-			gap: 0.5em;
-			align-items: center;
-		}
-
-		input[type='checkbox'] {
-			display: none;
-			/* zoom: 1.5;
-			@media (max-width: 1024px) {
-				zoom: 1;
-			} */
-		}
-
-		label:has(input[type='checkbox']:checked),
-		input[type='checkbox']:checked ~ label {
-			color: var(--color-selected);
-		}
-	}
-
-	.data-table-container {
+	.data-table-wrapper {
 		overflow-y: scroll;
-		max-height: 91vh;
-		width: 97ch;
-		grid-area: data-table;
-		/* position: absolute;
-		top: calc(100vh - 10em);
-		max-width: 78em; */
-		/* width: 100%; */
-		margin: 0 1em 0 1.5em;
-		padding: 1em 1.5em;
+		max-height: calc(100vh - 6.5em);
+		flex: 1 0 auto;
+		padding: 1em 1em;
 		border-radius: 0.5em;
 		background: var(--color-grey-darker);
 		box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
 			var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-	}
-
-	/* Form Controls */
-	.vehicle-container,
-	.modifiers-container {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5em;
-		align-items: start;
-		justify-content: center;
-		flex-wrap: wrap;
-		flex-grow: 1;
-		background: var(--color-grey-darker);
-		&:hover,
-		&:has(#vehicles-toggle:checked),
-		&:has(#modifiers-toggle:checked) {
-			outline: 1px solid #f9f9f963;
-			outline-offset: 0.25em;
-			border-radius: 0.125em;
-		}
-	}
-
-	#vehicles-toggle,
-	#modifiers-toggle {
-		display: none;
-	}
-
-	#vehicles-toggle:checked,
-	#modifiers-toggle:checked {
-		~ label .close {
-			display: inline;
-		}
-		~ label .open {
-			display: none;
-		}
-	}
-	#vehicles-toggle:not(:checked),
-	#modifiers-toggle:not(:checked) {
-		~ label .close {
-			display: none;
-		}
-		~ label .open {
-			display: inline;
-		}
-	}
-
-	#vehicles-toggle:not(:checked) ~ .vehicle-types,
-	#modifiers-toggle:not(:checked) ~ .loot-modifiers {
-		display: none;
-	}
-
-	#vehicles-toggle:checked ~ .vehicle-types,
-	#modifiers-toggle:checked ~ .loot-modifiers {
-		display: flex;
-	}
-
-	.vehicle-types,
-	.loot-modifiers {
-		flex-direction: column;
-		gap: 0.5em;
-		align-items: start;
-		background: var(--color-grey-darker);
 	}
 
 	/* Map Container */
@@ -854,6 +739,7 @@ const formatZoneName = (zoneName: string): string => {
 		align-items: center;
 		width: 100%;
 		overflow: hidden;
+		border-radius: 0.25em;
 	}
 
 	.map {
@@ -1097,14 +983,14 @@ const formatZoneName = (zoneName: string): string => {
 	}
 
 	/* Table Styles */
-	// every class that ends in data-table
-	[class*='-data-table'] {
+
+	/* [class*='-data-table'] {
 		width: 100%;
 		border-collapse: collapse;
 		margin-top: 1em;
 		color: var(--color-white);
-	}
-
+	} */
+/* 
 	[class*='-data-table'] th,
 	[class*='-data-table'] td {
 		padding: 0.5em;
@@ -1124,12 +1010,23 @@ const formatZoneName = (zoneName: string): string => {
 	.player-data-table th:nth-of-type(3n),
 	.player-data-table td:nth-of-type(3n) {
 		width: 100%;
-	}
+	} */
 
 	input[type='checkbox']:checked + .vehicleList {
 		display: block;
 	}
-	.vehicleList li {
+
+
+	.data-table-container {
+		display: block;
+		margin-top: 1em;
+	}
+
+
+	.vehicleList li,
+	.playerList li,
+	.killList li,
+	.flagList li {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
@@ -1137,36 +1034,57 @@ const formatZoneName = (zoneName: string): string => {
 		flex-wrap: wrap;
 		border-bottom: 0.25em solid var(--color-primary);
 		justify-content: flex-start;
+		padding:0 0.5em;
 	}
-	.vehicleList li:hover {
+	.vehicleList li:hover,
+	.playerList li:hover,
+	.killList li:hover,
+	.flagList li:hover {
 		background: var(--color-primary);
 	}
 	.vehicleList li span,
-	.vehicleList li a {
+	.vehicleList li a,
+	.playerList li span,
+	.playerList li a,
+	.killList li span,
+	.killList li a,
+	.flagList li span,
+	.flagList li a {
 		padding: 0.25em 0.5em;
 		border-radius: 0.25em;
 	}
 	.vehicleList li .clickable:hover,
-	.vehicleList li a:hover {
+	.vehicleList li a:hover,
+	.playerList li span:hover,
+	.playerList li a:hover,
+	.killList li span:hover,
+	.killList li a:hover,
+	.flagList li span:hover,
+	.flagList li a:hover {
 		background: var(--color-accent);
 		cursor: pointer;
 	}
-	.vehicleList li span:nth-child(1) {
+
+
+	.data-table-container li .vID {
 		flex: 0 1 10ch;
 	}
-	.vehicleList li span:nth-child(2) {
+	.data-table-container li .vType {
 		flex: 0 1 17ch;
 	}
-	.vehicleList li span:nth-child(3) {
+	.data-table-container li .coords {
 		flex: 0 1 32ch;
 	}
-	.vehicleList li span:nth-child(4),
-	.vehicleList li a {
+	.data-table-container li .steamID {
 		flex: 1 1 19ch;
 	}
-	/* .vehicleList li span:nth-child(5) {
-    flex: 1 1 10ch;
-  } */
+	.data-table-container li .playerName {
+		flex: 1;
+	}
+	.data-table-container li .pType {
+		flex: 0 1 10ch;
+	}
+	
 
 	#VehicleContainer > div {
 		margin-bottom: 1em;

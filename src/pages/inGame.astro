@@ -74,64 +74,12 @@ import Map from '../components/Map.astro';
 			flex: 0 1 100%;
 		}
 	}
-	/* 
-	main {
-	display: grid;
-	grid-template-areas:
-		'controls'
-		'map'
-		'data-table';
-} */
 
 	main {
+		display: flex;
 		min-height: calc(100vh - 4.25em);
-		display: grid;
-    --list-size: minmax(min-content, 92ch);
-    --map-size: minmax(1fr, calc(100vw - 22ch));
-		padding: 1em 1em 1em 5.5em;
-		grid-template-columns: 22ch 1fr 92ch;
-		grid-template-columns: var(--map-size) var(--list-size);
-		grid-template-rows: auto;
-		grid-template-areas:
-			'map data-table'
-			'map data-table'
-			'map data-table';
-	}
-	main.fml {
-		padding: 1em 1em 1em 5.5em;
-		grid-template-columns: 22ch 1fr 92ch;
-		grid-template-columns: var(--filter-size) var(--map-size) var(--list-size);
-		grid-template-rows: auto;
-		grid-template-areas:
-			'controls map data-table'
-			'controls map data-table'
-			'controls map data-table';
-	}
-	main.lmf {
-		grid-template-columns: 25vw 1fr 25vw;
-		grid-template-columns: var(--list-size) var(--map-size) var(--filter-size);
-		grid-template-rows: auto;
-		grid-template-areas:
-			'data-table map controls'
-			'data-table map controls'
-			'data-table map controls';
-	}
-	main.flm {
-		grid-template-columns: 25vw 1fr 1fr;
-		grid-template-columns: var(--filter-size) var(--list-size) var(--map-size);
-		grid-template-rows: auto;
-		grid-template-areas:
-			'controls data-table map'
-			'controls data-table map'
-			'controls data-table map';
-	}
-	main.fl-ml {
-		grid-template-columns: 1fr 1fr 25vw;
-		grid-template-rows: 25vh 1fr 1fr;
-		grid-template-areas:
-			'controls controls data-table'
-			'map map data-table'
-			'map map data-table';
+		gap: 1.5em;
+		flex-wrap: wrap;
 	}
 
 	/* Base Zone Styles */

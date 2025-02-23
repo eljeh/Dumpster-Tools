@@ -67,10 +67,10 @@ export function displayVehicleLocations(
 			ul.classList.add('vehicleList');
 			ul.innerHTML = `
                 <li>
-                    <span>Key</span>
-                    <span>Type</span>
-                    <span>Coords</span>
-                    <span>Reg</span>
+                    <span class="vID">Key</span>
+                    <span class="vType">Type</span>
+                    <span class="coords">Coords</span>
+                    <span class="steamID">Reg</span>
                 </li>
             `;
 			div.appendChild(ul);
@@ -154,13 +154,13 @@ export function displayVehicleLocations(
 				// Add table row
 				const li = document.createElement('li');
 				li.innerHTML = `
-				<span class="clickable" title="#TeleportToVehicle ${vehicle.key}">${vehicle.key}</span>
-				<span class="clickable" title="#RenameVehicle ${vehicle.key} 'VID:${vehicle.key}'">${type}</span>
-				<span class="clickable" title="#Teleport ${vehicle.value.coords}">${vehicle.value.coords}</span>
+				<span class="clickable vID" title="#TeleportToVehicle ${vehicle.key}">${vehicle.key}</span>
+				<span class="clickable vType" title="#RenameVehicle ${vehicle.key} 'VID:${vehicle.key}'" >${type}</span>
+				<span class="clickable coords" title="#Teleport ${vehicle.value.coords}" c>${vehicle.value.coords}</span>
 					${
 						vehicle.value.reg
-							? `<a class="" href="/playerInfo?playerid=${steamID}" title="${steamID}">${steamID}</a>`
-							: `<span>Unregistered</span>`
+							? `<a class="steamID" href="/playerInfo?playerid=${steamID}" title="${steamID}">${steamID}</a>`
+							: `<span class="steamID">Unregistered</span>`
 					}
 		`;
 				ul.appendChild(li);
