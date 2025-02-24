@@ -29,10 +29,24 @@ const { title } = Astro.props;
       rel='stylesheet'
       href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'
     />
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/assets/favicon/site.webmanifest">
+    <link
+      rel='apple-touch-icon'
+      sizes='180x180'
+      href='/assets/favicon/apple-touch-icon.png'
+    />
+    <link
+      rel='icon'
+      type='image/png'
+      sizes='32x32'
+      href='/assets/favicon/favicon-32x32.png'
+    />
+    <link
+      rel='icon'
+      type='image/png'
+      sizes='16x16'
+      href='/assets/favicon/favicon-16x16.png'
+    />
+    <link rel='manifest' href='/assets/favicon/site.webmanifest' />
     <link href='/assets/css/styles.css' rel='stylesheet' type='text/css' />
     <meta name='generator' content={Astro.generator} />
     <title>{title}</title>
@@ -202,7 +216,7 @@ const { title } = Astro.props;
   .pageTitle {
     font-size: clamp(2em, 8vw, 3em);
     padding: 0.25em 0.25em 0.25em 1.5em;
-    line-height: .75;
+    line-height: 0.75;
   }
   main {
     padding: 1em 1em 1em 5.5em;
@@ -220,4 +234,7 @@ const { title } = Astro.props;
     min-width: 4.5em;
     z-index: 1000;
   }
+
+  /* style scrollbar */ /* For browsers that support `scrollbar-*` properties */
+
 </style>

@@ -732,6 +732,19 @@ const formatZoneName = (zoneName: string): string => {
 			var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 	}
 
+
+  .data-table-wrapper {
+    scrollbar-color: var(--color-primary) var(--color-tertiary);
+  }
+
+  .data-table-wrapper::-webkit-scrollbar {
+    background: var(--color-primary);
+  }
+  .data-table-wrapper::-webkit-scrollbar-thumb {
+    background: var(--color-tertiary);
+  }
+
+
 	/* Map Container */
 	.map-container {
 		display: flex;
