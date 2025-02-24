@@ -78,35 +78,42 @@
 
 <script>
 	document.addEventListener('DOMContentLoaded', () => {
+		const mainNavToggles = document.querySelectorAll(
+			'.mainNav-container input[type="checkbox"]',
+		);
 		const vehiclesToggle = document.getElementById(
 			'vehicles-toggle',
 		) as HTMLInputElement;
 		const vehicleTypes = document.querySelector(
 			'.vehicle-types',
 		) as HTMLElement;
-
 		const modifiersToggle = document.getElementById(
 			'modifiers-toggle',
 		) as HTMLInputElement;
 		const lootModifiers = document.querySelector(
 			'.loot-modifiers',
 		) as HTMLElement;
-
 		const zonesToggle = document.getElementById(
 			'zones-toggle',
 		) as HTMLInputElement;
 		const zones = document.querySelector('.zones') as HTMLElement;
 
-		vehiclesToggle.addEventListener('change', () => {
-			vehicleTypes.style.display = vehiclesToggle.checked ? 'flex' : 'none';
-		});
+		mainNavToggles.forEach((toggle) => {
+			toggle.addEventListener('change', (e) => {
+				const currentToggle = e.target as HTMLInputElement;
 
-		modifiersToggle.addEventListener('change', () => {
-			lootModifiers.style.display = modifiersToggle.checked ? 'flex' : 'none';
-		});
+				// Deselect other toggles
+				mainNavToggles.forEach((otherToggle) => {
+					if (otherToggle !== currentToggle) {
+						(otherToggle as HTMLInputElement).checked = false;
+					}
+				});
 
-		zonesToggle.addEventListener('change', () => {
-			zones.style.display = zonesToggle.checked ? 'flex' : 'none';
+				// Handle visibility of sub-sections
+				vehicleTypes.style.display = vehiclesToggle.checked ? 'flex' : 'none';
+				lootModifiers.style.display = modifiersToggle.checked ? 'flex' : 'none';
+				zones.style.display = zonesToggle.checked ? 'flex' : 'none';
+			});
 		});
 	});
 </script>
