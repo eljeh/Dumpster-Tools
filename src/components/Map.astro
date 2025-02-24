@@ -36,8 +36,9 @@ minY -= padding;
 maxY += padding;
 
 // Function to convert game coordinates to SVG coordinates
-const toSvgX = (x: number) => ((x - minX) / (maxX - minX)) * 1000;
-const toSvgY = (y: number) => 1000 - ((y - minY) / (maxY - minY)) * 1000; // Flip Y axis
+const toSvgX = (x: number): number => ((x - minX) / (maxX - minX)) * 1000;
+const toSvgY = (y: number): number =>
+	1000 - ((y - minY) / (maxY - minY)) * 1000; // Flip Y axis
 
 const ZONE_NAME_MAPPINGS = {
 	Sector_: (name: string) => name.replace('Sector_', ''),
@@ -239,52 +240,103 @@ const formatZoneName = (zoneName: string): string => {
 	const FTPPass = PUBLIC_FTP_PASS;
 
 	document.addEventListener('astro:page-load', () => {
-		const mapContainer = document.querySelector('.map-container');
-		const minX = parseFloat(mapContainer.dataset.minX);
-		const maxX = parseFloat(mapContainer.dataset.maxX);
-		const minY = parseFloat(mapContainer.dataset.minY);
-		const maxY = parseFloat(mapContainer.dataset.maxY);
+		const mapContainer = document.querySelector(
+			'.map-container',
+		) as HTMLElement;
+		const minX = parseFloat(mapContainer.dataset.minX || '0');
+		const maxX = parseFloat(mapContainer.dataset.maxX || '0');
+		const minY = parseFloat(mapContainer.dataset.minY || '0');
+		const maxY = parseFloat(mapContainer.dataset.maxY || '0');
 
-		const toSvgX = (x) => ((x - minX) / (maxX - minX)) * 1000;
-		const toSvgY = (y) => 1000 - ((y - minY) / (maxY - minY)) * 1000;
+		const toSvgX = (x: number): number => ((x - minX) / (maxX - minX)) * 1000;
+		const toSvgY = (y: number): number =>
+			1000 - ((y - minY) / (maxY - minY)) * 1000;
 
 		// Get all toggle checkboxes
-		const sectorsToggle = document.getElementById('sectors-toggle');
-		const playersToggle = document.getElementById('players-toggle');
-		const vehicleToggle = document.getElementById('vehicles-toggle');
+		const sectorsToggle = document.getElementById(
+			'sectors-toggle',
+		) as HTMLInputElement;
+		const playersToggle = document.getElementById(
+			'players-toggle',
+		) as HTMLInputElement;
+		const vehicleToggle = document.getElementById(
+			'vehicles-toggle',
+		) as HTMLInputElement;
 		const registeredVehiclesToggle = document.getElementById(
 			'registered-vehicles-toggle',
-		);
+		) as HTMLInputElement;
 		const notRegisteredVehiclesToggle = document.getElementById(
 			'not-registered-vehicles-toggle',
-		);
-		const flagsToggle = document.getElementById('flags-toggle');
-		const eventsToggle = document.getElementById('events-toggle');
-		const killsToggle = document.getElementById('kills-toggle');
-		const ragerToggle = document.getElementById('rager-toggle');
-		const wolfswagenToggle = document.getElementById('wolfswagen-toggle');
-		const laikaToggle = document.getElementById('laika-toggle');
-		const kingletdusterToggle = document.getElementById('kingletduster-toggle');
-		const barbaToggle = document.getElementById('barba-toggle');
-		const risToggle = document.getElementById('ris-toggle');
-		const dirtbikeToggle = document.getElementById('dirtbike-toggle');
-		const cruiserToggle = document.getElementById('cruiser-toggle');
-		const bicyclesToggle = document.getElementById('bicycles-toggle');
-		const wheelbarrowToggle = document.getElementById('wheelbarrow-toggle');
-		const pvpToggle = document.getElementById('pvp-toggle');
-		const pveToggle = document.getElementById('pve-toggle');
-		const pveBunkerToggle = document.getElementById('pve-bunker-toggle');
-		const pvpBunkerToggle = document.getElementById('pvp-bunker-toggle');
-		const warzonesToggle = document.getElementById('warzones-toggle');
-		const outpostsToggle = document.getElementById('outposts-toggle');
-		const poisToggle = document.getElementById('pois-toggle');
-		const bunkersToggle = document.getElementById('bunkers-toggle');
-		const imageToggle = document.getElementById('image-toggle');
-		const customPOIToggle = document.getElementById('custom-pois-toggle');
+		) as HTMLInputElement;
+		const flagsToggle = document.getElementById(
+			'flags-toggle',
+		) as HTMLInputElement;
+		const eventsToggle = document.getElementById(
+			'events-toggle',
+		) as HTMLInputElement;
+		const killsToggle = document.getElementById(
+			'kills-toggle',
+		) as HTMLInputElement;
+		const ragerToggle = document.getElementById(
+			'rager-toggle',
+		) as HTMLInputElement;
+		const wolfswagenToggle = document.getElementById(
+			'wolfswagen-toggle',
+		) as HTMLInputElement;
+		const laikaToggle = document.getElementById(
+			'laika-toggle',
+		) as HTMLInputElement;
+		const kingletdusterToggle = document.getElementById(
+			'kingletduster-toggle',
+		) as HTMLInputElement;
+		const barbaToggle = document.getElementById(
+			'barba-toggle',
+		) as HTMLInputElement;
+		const risToggle = document.getElementById('ris-toggle') as HTMLInputElement;
+		const dirtbikeToggle = document.getElementById(
+			'dirtbike-toggle',
+		) as HTMLInputElement;
+		const cruiserToggle = document.getElementById(
+			'cruiser-toggle',
+		) as HTMLInputElement;
+		const bicyclesToggle = document.getElementById(
+			'bicycles-toggle',
+		) as HTMLInputElement;
+		const wheelbarrowToggle = document.getElementById(
+			'wheelbarrow-toggle',
+		) as HTMLInputElement;
+		const pvpToggle = document.getElementById('pvp-toggle') as HTMLInputElement;
+		const pveToggle = document.getElementById('pve-toggle') as HTMLInputElement;
+		const pveBunkerToggle = document.getElementById(
+			'pve-bunker-toggle',
+		) as HTMLInputElement;
+		const pvpBunkerToggle = document.getElementById(
+			'pvp-bunker-toggle',
+		) as HTMLInputElement;
+		const warzonesToggle = document.getElementById(
+			'warzones-toggle',
+		) as HTMLInputElement;
+		const outpostsToggle = document.getElementById(
+			'outposts-toggle',
+		) as HTMLInputElement;
+		const poisToggle = document.getElementById(
+			'pois-toggle',
+		) as HTMLInputElement;
+		const bunkersToggle = document.getElementById(
+			'bunkers-toggle',
+		) as HTMLInputElement;
+		const imageToggle = document.getElementById(
+			'image-toggle',
+		) as HTMLInputElement;
+		const customPOIToggle = document.getElementById(
+			'custom-pois-toggle',
+		) as HTMLInputElement;
+		const lootToggle = document.getElementById(
+			'loot-toggle',
+		) as HTMLInputElement;
 
-		// on change playersToggle check if it is checked, displayPlayerLocations
 		playersToggle.addEventListener('change', () => {
-			const dataTable = document.querySelector('#data-table');
+			const dataTable = document.querySelector('#data-table') as HTMLElement;
 			const playerDataTable = document.querySelector('.player-data-table');
 			if (playersToggle.checked) {
 				displayPlayerLocations(toSvgX, toSvgY);
@@ -297,14 +349,13 @@ const formatZoneName = (zoneName: string): string => {
 					if (playerDataTable) {
 						playerDataTable.remove();
 					}
-					// dataTable.style.display = 'none';
-					dataTable.innerHTML = ''; // Clear the contents instead of removing
+					dataTable.innerHTML = '';
 				}
 			}
 		});
 
 		vehicleToggle.addEventListener('change', () => {
-			const dataTable = document.querySelector('#data-table');
+			const dataTable = document.querySelector('#data-table') as HTMLElement;
 			const vehicleDataTable = document.querySelector('.vehicle-data-table');
 			if (vehicleToggle.checked) {
 				displayVehicleLocations(toSvgX, toSvgY);
@@ -317,14 +368,13 @@ const formatZoneName = (zoneName: string): string => {
 					if (vehicleDataTable) {
 						vehicleDataTable.remove();
 					}
-					// dataTable.style.display = 'none';
-					dataTable.innerHTML = ''; // Clear the contents instead of removing
+					dataTable.innerHTML = '';
 				}
 			}
 		});
 
 		flagsToggle.addEventListener('change', () => {
-			const dataTable = document.querySelector('#data-table');
+			const dataTable = document.querySelector('#data-table') as HTMLElement;
 			const flagDataTable = document.querySelector('.flag-data-table');
 			if (flagsToggle.checked) {
 				displayFlagLocations(toSvgX, toSvgY);
@@ -337,34 +387,33 @@ const formatZoneName = (zoneName: string): string => {
 					if (flagDataTable) {
 						flagDataTable.remove();
 					}
-					// dataTable.style.display = 'none';
-					dataTable.innerHTML = ''; // Clear the contents instead of removing
+					dataTable.innerHTML = '';
 				}
 			}
 		});
 
 		killsToggle.addEventListener('change', () => {
-			const dataTable = document.querySelector('#data-table');
+			const dataTable = document.querySelector('#data-table') as HTMLElement;
 			const killDataTable = document.querySelector('.kill-data-table');
+			const svg = document.querySelector('.map') as SVGElement;
 			if (killsToggle.checked) {
-				displayKillPositions(toSvgX, toSvgY);
+				displayKillPositions(svg, toSvgX, toSvgY);
 				dataTable.style.display = 'block';
 				setInterval(() => {
-					displayKillPositions(toSvgX, toSvgY);
+					displayKillPositions(svg, toSvgX, toSvgY);
 				}, 300000);
 			} else {
 				if (dataTable) {
 					if (killDataTable) {
 						killDataTable.remove();
 					}
-					// dataTable.style.display = 'none';
-					dataTable.innerHTML = ''; // Clear the contents instead of removing
+					dataTable.innerHTML = '';
 				}
 			}
 		});
 
 		eventsToggle.addEventListener('change', () => {
-			const dataTable = document.querySelector('#data-table');
+			const dataTable = document.querySelector('#data-table') as HTMLElement;
 			const eventDataTable = document.querySelector('.event-data-table');
 			if (eventsToggle.checked) {
 				displayCurrentEvents(toSvgX, toSvgY);
@@ -376,8 +425,7 @@ const formatZoneName = (zoneName: string): string => {
 					if (eventDataTable) {
 						eventDataTable.remove();
 					}
-					// dataTable.style.display = 'none';
-					dataTable.innerHTML = ''; // Clear the contents instead of removing
+					dataTable.innerHTML = '';
 				}
 			}
 		});
@@ -387,20 +435,70 @@ const formatZoneName = (zoneName: string): string => {
 			if (!toggleElement) return;
 
 			const updateElements = () => {
+				// Turn off all other toggles except the current one
+				if ((toggleElement as HTMLInputElement).checked) {
+					const allToggles = [
+						sectorsToggle,
+						playersToggle,
+						vehicleToggle,
+						flagsToggle,
+						eventsToggle,
+						killsToggle,
+						ragerToggle,
+						wolfswagenToggle,
+						laikaToggle,
+						kingletdusterToggle,
+						barbaToggle,
+						risToggle,
+						dirtbikeToggle,
+						cruiserToggle,
+						bicyclesToggle,
+						wheelbarrowToggle,
+						pvpToggle,
+						pveToggle,
+						pveBunkerToggle,
+						pvpBunkerToggle,
+						warzonesToggle,
+						outpostsToggle,
+						poisToggle,
+						bunkersToggle,
+						imageToggle,
+						customPOIToggle,
+						registeredVehiclesToggle,
+						notRegisteredVehiclesToggle,
+						lootToggle,
+					].filter((toggle) => toggle && toggle !== toggleElement);
+
+					allToggles.forEach((toggle) => {
+						if ((toggle as HTMLInputElement).checked) {
+							(toggle as HTMLInputElement).checked = false;
+							// Trigger change event to update visibility
+							toggle.dispatchEvent(new Event('change'));
+						}
+					});
+				}
+
 				const elements = document.querySelectorAll(selector);
 				elements.forEach((element) => {
 					// Special handling for vehicle markers container
 					if (selector === '.vehicle-markers-container') {
-						element.style.display = toggleElement.checked ? 'block' : 'none';
+						element.style.display = (toggleElement as HTMLInputElement).checked
+							? 'block'
+							: 'none';
 						return;
 					}
 
 					// For individual vehicle markers, check both the vehicles toggle and registration toggles
 					if (selector.includes('.vehicle-marker')) {
-						const isVehiclesEnabled = vehicleToggle.checked;
+						const isVehiclesEnabled = (vehicleToggle as HTMLInputElement)
+							.checked;
 						const isRegistered = element.classList.contains('registered');
-						const isRegisteredEnabled = registeredVehiclesToggle.checked;
-						const isNotRegisteredEnabled = notRegisteredVehiclesToggle.checked;
+						const isRegisteredEnabled = (
+							registeredVehiclesToggle as HTMLInputElement
+						).checked;
+						const isNotRegisteredEnabled = (
+							notRegisteredVehiclesToggle as HTMLInputElement
+						).checked;
 
 						const shouldShow =
 							isVehiclesEnabled &&
@@ -409,7 +507,9 @@ const formatZoneName = (zoneName: string): string => {
 
 						element.style.display = shouldShow ? 'block' : 'none';
 					} else {
-						element.style.display = toggleElement.checked ? 'block' : 'none';
+						element.style.display = (toggleElement as HTMLInputElement).checked
+							? 'block'
+							: 'none';
 					}
 				});
 			};
@@ -420,12 +520,18 @@ const formatZoneName = (zoneName: string): string => {
 
 			// For vehicle-specific toggles, also listen to vehicles toggle changes
 			if (selector.includes('.vehicle-marker')) {
-				vehicleToggle.addEventListener('change', updateElements);
+				(vehicleToggle as HTMLInputElement).addEventListener(
+					'change',
+					updateElements,
+				);
 				if (toggleElement !== registeredVehiclesToggle) {
-					registeredVehiclesToggle.addEventListener('change', updateElements);
+					(registeredVehiclesToggle as HTMLInputElement).addEventListener(
+						'change',
+						updateElements,
+					);
 				}
 				if (toggleElement !== notRegisteredVehiclesToggle) {
-					notRegisteredVehiclesToggle.addEventListener(
+					(notRegisteredVehiclesToggle as HTMLInputElement).addEventListener(
 						'change',
 						updateElements,
 					);
@@ -603,7 +709,6 @@ const formatZoneName = (zoneName: string): string => {
 		}
 
 		// Add loot toggle to controls
-		const lootToggle = document.getElementById('loot-toggle');
 		updateVisibility(lootToggle, '.loot-markers-container');
 	});
 </script>
@@ -990,7 +1095,7 @@ const formatZoneName = (zoneName: string): string => {
 		margin-top: 1em;
 		color: var(--color-white);
 	} */
-/* 
+	/* 
 	[class*='-data-table'] th,
 	[class*='-data-table'] td {
 		padding: 0.5em;
@@ -1016,12 +1121,10 @@ const formatZoneName = (zoneName: string): string => {
 		display: block;
 	}
 
-
 	.data-table-container {
 		display: block;
 		margin-top: 1em;
 	}
-
 
 	.vehicleList li,
 	.playerList li,
@@ -1034,7 +1137,7 @@ const formatZoneName = (zoneName: string): string => {
 		flex-wrap: wrap;
 		border-bottom: 0.25em solid var(--color-primary);
 		justify-content: flex-start;
-		padding:0 0.5em;
+		padding: 0 0.5em;
 	}
 	.vehicleList li:not(:first-child):hover,
 	.playerList li:not(:first-child):hover,
@@ -1064,8 +1167,6 @@ const formatZoneName = (zoneName: string): string => {
 		background: var(--color-accent);
 		cursor: pointer;
 	}
-
-
 	.data-table-container li .vID {
 		flex: 0 1 10ch;
 	}
@@ -1079,12 +1180,12 @@ const formatZoneName = (zoneName: string): string => {
 		flex: 0 1 19ch;
 	}
 	.data-table-container li .playerName {
-		flex: 1;
+		flex: 0 1 32ch;
 	}
 	.data-table-container li .pType {
 		flex: 0 1 10ch;
 	}
-	
+
 	.data-table-container li span:last-child {
 		flex: 1;
 	}
