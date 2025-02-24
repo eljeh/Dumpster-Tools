@@ -1139,10 +1139,10 @@ const formatZoneName = (zoneName: string): string => {
 		justify-content: flex-start;
 		padding: 0 0.5em;
 	}
-	.vehicleList li:not(:first-child):hover,
-	.playerList li:not(:first-child):hover,
-	.killList li:not(:first-child):hover,
-	.flagList li:not(:first-child):hover {
+	.vehicleList li:hover,
+	.playerList li:hover,
+	.killList li:hover,
+	.flagList li:hover {
 		background: var(--color-primary);
 	}
 	.vehicleList li span,
@@ -1156,14 +1156,14 @@ const formatZoneName = (zoneName: string): string => {
 		padding: 0.25em 0.5em;
 		border-radius: 0.25em;
 	}
-	.vehicleList li:not(:first-child) .clickable:hover,
-	.vehicleList li:not(:first-child) a:hover,
-	.playerList li:not(:first-child) span:hover,
-	.playerList li:not(:first-child) a:hover,
-	.killList li:not(:first-child) span:hover,
-	.killList li:not(:first-child) a:hover,
-	.flagList li:not(:first-child) span:hover,
-	.flagList li:not(:first-child) a:hover {
+	.vehicleList li .clickable:hover,
+	.vehicleList li a:hover,
+	.playerList li span:hover,
+	.playerList li a:hover,
+	.killList li span:hover,
+	.killList li a:hover,
+	.flagList li span:hover,
+	.flagList li a:hover {
 		background: var(--color-accent);
 		cursor: pointer;
 	}
