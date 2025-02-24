@@ -1,19 +1,32 @@
 <div class='data-controls'>
-
-	<div class="mainNav-container">
-		<label><input type='checkbox' id='players-toggle' />Players</label>
-		<label><input type='checkbox' id='vehicles-toggle' />Vehicles</label>
-		<label><input type='checkbox' id='flags-toggle' />Flags</label>
-		<label><input type='checkbox' id='kills-toggle' />Kills</label>
-		<label ><input type='checkbox' id='modifiers-toggle' />Loots Modifiers</label>
-		</label><input type='checkbox' id='zones-toggle' />Zones</label>
+	<div class='mainNav-container'>
+		<label><input type='checkbox' id='players-toggle' />Players</label><span
+			class='nav-divider'>|</span
+		>
+		<label><input type='checkbox' id='vehicles-toggle' />Vehicles</label><span
+			class='nav-divider'>|</span
+		>
+		<label><input type='checkbox' id='flags-toggle' />Flags</label><span
+			class='nav-divider'>|</span
+		>
+		<label><input type='checkbox' id='kills-toggle' />Kills</label><span
+			class='nav-divider'>|</span
+		>
+		<label><input type='checkbox' id='modifiers-toggle' />Loots Modifiers</label
+		><span class='nav-divider'>|</span>
+		<label><input type='checkbox' id='zones-toggle' />Zones</label>
 	</div>
 
-	<div class="subNav-container">
-
+	<div class='subNav-container'>
 		<div class='vehicle-types'>
-			<label><input type='checkbox' checked id='registered-vehicles-toggle' />Registered</label>
-			<label><input type='checkbox' id='not-registered-vehicles-toggle' />Not Registered</label>
+			<label>
+				<input type='checkbox' checked id='registered-vehicles-toggle' />
+				Registered
+			</label><span class='nav-divider'>|</span>
+			<label>
+				<input type='checkbox' checked id='not-registered-vehicles-toggle' />
+				Not Registered
+			</label>
 			<!-- <label><input type='checkbox' id='rager-toggle' />Ragers</label>
 			<label><input type='checkbox' id='wolfswagen-toggle' />WolfsWagens</label>
 			<label><input type='checkbox' id='laika-toggle' />Laikas</label>
@@ -27,39 +40,84 @@
 		</div>
 
 		<div class='loot-modifiers'>
-			<label><input type='checkbox' id='pvp-toggle' />PvP</label>
-			<label><input type='checkbox' id='pve-toggle' />PvE</label>
-			<label><input type='checkbox' id='custom-pois-toggle' />POIs</label>
-			<label><input type='checkbox' id='pve-bunker-toggle' />PvE Bunkers</label>
-			<label><input type='checkbox' id='pvp-bunker-toggle' />PvP Bunkers</label>
+			<label><input type='checkbox' id='pvp-toggle' />PvP</label><span
+				class='nav-divider'>|</span
+			>
+			<label><input type='checkbox' id='pve-toggle' />PvE</label><span
+				class='nav-divider'>|</span
+			>
+			<label><input type='checkbox' id='custom-pois-toggle' />POIs</label><span
+				class='nav-divider'>|</span
+			>
+			<label><input type='checkbox' id='pve-bunker-toggle' />PvE Bunkers</label
+			><span class='nav-divider'>|</span>
+			<label><input type='checkbox' id='pvp-bunker-toggle' />PvP Bunkers</label
+			><span class='nav-divider'>|</span>
 			<label><input type='checkbox' id='warzones-toggle' />Warzones</label>
 		</div>
 
 		<div class='zones'>
-		<label><input type='checkbox' id='events-toggle' />Events</label>
-		<label><input type='checkbox' id='pois-toggle' />POIs</label>
-		<label><input type='checkbox' id='bunkers-toggle' />Bunkers</label>
-		<label><input type='checkbox' id='outposts-toggle' />Outposts</label>
-		<label><input type='checkbox' checked id='sectors-toggle' />Sectors</label>
-		<label><input type='checkbox' checked id='image-toggle' />Image</label>
+			<label><input type='checkbox' id='events-toggle' />Events</label><span
+				class='nav-divider'>|</span
+			>
+			<label><input type='checkbox' id='pois-toggle' />POIs</label><span
+				class='nav-divider'>|</span
+			>
+			<label><input type='checkbox' id='bunkers-toggle' />Bunkers</label><span
+				class='nav-divider'>|</span
+			>
+			<label><input type='checkbox' id='outposts-toggle' />Outposts</label><span
+				class='nav-divider'>|</span
+			>
+			<label><input type='checkbox' checked id='sectors-toggle' />Sectors</label
+			><span class='nav-divider'>|</span>
+			<label><input type='checkbox' checked id='image-toggle' />Image</label>
 		</div>
-
 	</div>
-
 </div>
 
 <script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const vehiclesToggle = document.getElementById(
+			'vehicles-toggle',
+		) as HTMLInputElement;
+		const vehicleTypes = document.querySelector(
+			'.vehicle-types',
+		) as HTMLElement;
 
+		const modifiersToggle = document.getElementById(
+			'modifiers-toggle',
+		) as HTMLInputElement;
+		const lootModifiers = document.querySelector(
+			'.loot-modifiers',
+		) as HTMLElement;
+
+		const zonesToggle = document.getElementById(
+			'zones-toggle',
+		) as HTMLInputElement;
+		const zones = document.querySelector('.zones') as HTMLElement;
+
+		vehiclesToggle.addEventListener('change', () => {
+			vehicleTypes.style.display = vehiclesToggle.checked ? 'flex' : 'none';
+		});
+
+		modifiersToggle.addEventListener('change', () => {
+			lootModifiers.style.display = modifiersToggle.checked ? 'flex' : 'none';
+		});
+
+		zonesToggle.addEventListener('change', () => {
+			zones.style.display = zonesToggle.checked ? 'flex' : 'none';
+		});
+	});
 </script>
 
 <style>
 	.data-controls {
 		display: flex;
-    flex-direction: column;
-    /* gap: 1em; */
-    padding: 0.75em 1em;
-    border-radius: 0.5em;
-    background: var(--color-grey-dark);
+		flex-direction: column;
+		padding: 0.75em 1em;
+		border-radius: 0.5em;
+		background: var(--color-grey-dark);
 		label {
 			display: flex;
 			flex-direction: row;
@@ -88,8 +146,14 @@
 		flex-direction: column;
 	}
 
-/* Form Controls */
-.vehicle-container,
+	.nav-divider {
+		font-size: 2em;
+		color: var(--color-grey-darker);
+		line-height: 0.65;
+	}
+
+	/* Form Controls */
+	.vehicle-container,
 	.modifiers-container,
 	.zones-container {
 		display: flex;
@@ -110,13 +174,10 @@
 	.vehicle-types,
 	.loot-modifiers,
 	.zones {
+		margin-top: 1em;
 		display: none;
 		flex-direction: row;
 		gap: 0.5em;
 		align-items: start;
 	}
-
-
 </style>
-
-

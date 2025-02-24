@@ -1076,7 +1076,7 @@ const formatZoneName = (zoneName: string): string => {
 		flex: 0 1 32ch;
 	}
 	.data-table-container li .steamID {
-		flex: 1 1 19ch;
+		flex: 0 1 19ch;
 	}
 	.data-table-container li .playerName {
 		flex: 1;
@@ -1085,6 +1085,9 @@ const formatZoneName = (zoneName: string): string => {
 		flex: 0 1 10ch;
 	}
 	
+	.data-table-container li span:last-child {
+		flex: 1;
+	}
 
 	#VehicleContainer > div {
 		margin-bottom: 1em;
