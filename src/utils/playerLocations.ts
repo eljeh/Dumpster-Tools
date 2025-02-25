@@ -1,5 +1,5 @@
 export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y: number) => number) {
-	console.log('Starting displayPlayerLocations function');
+	// console.log('Starting displayPlayerLocations function');
 	const url = `https://api.whalleybot.com/bot/${import.meta.env.PUBLIC_WBBOTID}/PlayerLocations`;
 	console.log('Fetching from URL:', url);
 	fetch(url, {
@@ -10,14 +10,14 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 		},
 	})
 		.then((response) => {
-			console.log('Received response:', response.status, response.statusText);
+			// console.log('Received response:', response.status, response.statusText);
 			if (!response.ok) {
 				throw new Error('Network response was not ok');
 			}
 			return response.json();
 		})
 		.then((data) => {
-			console.log('Received player data:', data);
+			// console.log('Received player data:', data);
 			// Remove existing player markers container
 			document.querySelector('.player-markers-container')?.remove();
 
@@ -55,7 +55,7 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 
 			// Add new player markers
 			data.forEach((player) => {
-				console.log('Processing player:', player.playerName);
+
 				const [x, y, z] = player.lastKnownLocation.split(' ');
 				const playerX = -parseFloat(x); // Flip X coordinate like we do for zones
 				const playerY = parseFloat(y);
