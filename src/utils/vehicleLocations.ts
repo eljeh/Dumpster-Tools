@@ -75,95 +75,134 @@ export function displayVehicleLocations(
             `;
 			div.appendChild(ul);
 
-			
-			data.forEach((vehicle) => {
-				// Skip if vehicle has no location
-				if (!vehicle.value.coords) {
-					skippedVehicles++;
-					return;
+			// Sort and group data by vehicle type
+			const vehicleGroups = new Map();
+
+			// First pass - group vehicles by type and count them
+			data.forEach(vehicle => {
+				if (!vehicle.value.coords) return; // Skip invalid vehicles
+				const vehicleType = vehicle.value.type.trim().replace('BPC_', '').replace('BP_', '');
+				if (!vehicleGroups.has(vehicleType)) {
+					vehicleGroups.set(vehicleType, {
+						total: 0,
+						registered: 0,
+						vehicles: []
+					});
 				}
-
-				const [x, y, z] = vehicle.value.coords.split(' ');
-				// Skip if we can't parse coordinates
-				if (!x || !y) {
-					skippedVehicles++;
-					return;
+				const group = vehicleGroups.get(vehicleType);
+				group.total++;
+				if (vehicle.value.reg) {
+					group.registered++;
 				}
+				group.vehicles.push(vehicle);
+			});
 
-				const vehicleX = -parseFloat(x);
-				const vehicleY = parseFloat(y);
+			// Sort vehicle types alphabetically
+			const sortedTypes = Array.from(vehicleGroups.keys()).sort();
 
-				// Skip if coordinates are invalid
-				if (isNaN(vehicleX) || isNaN(vehicleY)) {
-					skippedVehicles++;
-					return;
-				}
+			// Create groups with headers
+			sortedTypes.forEach(type => {
+				const group = vehicleGroups.get(type);
 
-				validVehicles++;
+				// Add type header
+				const typeHeader = document.createElement('li');
+				typeHeader.classList.add('type-header');
+				typeHeader.innerHTML = `
+					<span class="type-summary" colspan="4">
+						${type} (${group.registered}/${group.total} registered)
+					</span>
+				`;
+				ul.appendChild(typeHeader);
 
-				const vehicleType = vehicle.value.type
-					.trim()
-					.replace('BPC_', '')
-					.replace('BP_', '');
+				// Add vehicles of this type
+				group.vehicles.forEach((vehicle) => {
+					// Skip if vehicle has no location
+					if (!vehicle.value.coords) {
+						skippedVehicles++;
+						return;
+					}
 
-				const g = document.createElementNS(
-					'http://www.w3.org/2000/svg',
-					'g',
-				);
-				g.classList.add('vehicle-marker');
-				g.classList.add(`${vehicleType}`);
-				// if vehicle.value.reg is not null, add vehicle-reg to the class
-				if (!vehicle.value.reg) {
-					g.classList.add(`not-registered`);
-				} else {
-					g.classList.add(`registered`);
-				}
+					const [x, y, z] = vehicle.value.coords.split(' ');
+					// Skip if we can't parse coordinates
+					if (!x || !y) {
+						skippedVehicles++;
+						return;
+					}
 
-				// Add title element for tooltip
-				const title = document.createElementNS(
-					'http://www.w3.org/2000/svg',
-					'title',
-				);
-				title.textContent = `Vehicle: ${vehicle.value.type.trim()}\nLocation: (${vehicleX.toFixed(2)}, ${vehicleY.toFixed(2)})\nRegistration: ${vehicle.value.reg}`;
-				g.appendChild(title);
+					const vehicleX = -parseFloat(x);
+					const vehicleY = parseFloat(y);
 
-				// Create vehicle icon (using a circle instead of triangle for simplicity)
-				const circle = document.createElementNS(
-					'http://www.w3.org/2000/svg',
-					'circle',
-				);
-				circle.setAttribute('cx', toSvgX(vehicleX));
-				circle.setAttribute('cy', toSvgY(vehicleY));
-				circle.setAttribute('r', radius.toString());
-				circle.classList.add('vehicle-icon');
+					// Skip if coordinates are invalid
+					if (isNaN(vehicleX) || isNaN(vehicleY)) {
+						skippedVehicles++;
+						return;
+					}
 
-				// Create text label
-				const text = document.createElementNS(
-					'http://www.w3.org/2000/svg',
-					'text',
-				);
-				text.setAttribute('x', toSvgX(vehicleX));
-				text.setAttribute('y', toSvgY(vehicleY) - 5);
-				text.textContent = vehicleType.replace('_', ' ');
-				g.appendChild(circle);
-				g.appendChild(text);
-				container.appendChild(g);
+					validVehicles++;
 
-				let steamID = vehicle.value.reg.split(' ')[0].replace(/^STEAMID:/, '');
-				let type = vehicleType.replace(`_`, ' ').replace(`Metal`, 'Mtl').replace(`Improvised`, 'Imp');
-				// Add table row
-				const li = document.createElement('li');
-				li.innerHTML = `
+					const vehicleType = vehicle.value.type
+						.trim()
+						.replace('BPC_', '')
+						.replace('BP_', '');
+
+					const g = document.createElementNS(
+						'http://www.w3.org/2000/svg',
+						'g',
+					);
+					g.classList.add('vehicle-marker');
+					g.classList.add(`${vehicleType}`);
+					// if vehicle.value.reg is not null, add vehicle-reg to the class
+					if (!vehicle.value.reg) {
+						g.classList.add(`not-registered`);
+					} else {
+						g.classList.add(`registered`);
+					}
+
+					// Add title element for tooltip
+					const title = document.createElementNS(
+						'http://www.w3.org/2000/svg',
+						'title',
+					);
+					title.textContent = `Vehicle: ${vehicle.value.type.trim()}\nLocation: (${vehicleX.toFixed(2)}, ${vehicleY.toFixed(2)})\nRegistration: ${vehicle.value.reg}`;
+					g.appendChild(title);
+
+					// Create vehicle icon (using a circle instead of triangle for simplicity)
+					const circle = document.createElementNS(
+						'http://www.w3.org/2000/svg',
+						'circle',
+					);
+					circle.setAttribute('cx', toSvgX(vehicleX).toString());
+					circle.setAttribute('cy', toSvgY(vehicleY).toString());
+					circle.setAttribute('r', radius.toString());
+					circle.classList.add('vehicle-icon');
+
+					// Create text label
+					const text = document.createElementNS(
+						'http://www.w3.org/2000/svg',
+						'text',
+					);
+					text.setAttribute('x', toSvgX(vehicleX).toString());
+					text.setAttribute('y', (toSvgY(vehicleY) - 5).toString());
+					text.textContent = vehicleType.replace('_', ' ');
+					g.appendChild(circle);
+					g.appendChild(text);
+					container.appendChild(g);
+
+					let steamID = vehicle.value.reg.split(' ')[0].replace(/^STEAMID:/, '');
+					let type = vehicleType.replace(`_`, ' ').replace(`Metal`, 'Mtl').replace(`Improvised`, 'Imp');
+					// Add table row
+					const li = document.createElement('li');
+					li.innerHTML = `
 				<span class="clickable vID" title="#TeleportToVehicle ${vehicle.key}">${vehicle.key}</span>
 				<span class="clickable vType" title="#RenameVehicle ${vehicle.key} 'VID:${vehicle.key}'" >${type}</span>
 				<span class="clickable coords" title="#Teleport ${vehicle.value.coords}" c>${vehicle.value.coords}</span>
-					${
-						vehicle.value.reg
+					${vehicle.value.reg
 							? `<a class="steamID" href="/playerInfo?playerid=${steamID}" title="${steamID}">${steamID}</a>`
 							: `<span class="steamID">Unregistered</span>`
-					}
+						}
 		`;
-				ul.appendChild(li);
+					ul.appendChild(li);
+				});
 			});
 
 

@@ -15,6 +15,11 @@
 		<label><input type='checkbox' id='modifiers-toggle' />Loots Modifiers</label
 		><span class='nav-divider'>|</span>
 		<label><input type='checkbox' id='zones-toggle' />Zones</label>
+		<div class='map-controls'>
+			<label><input type='checkbox' checked id='sectors-toggle' />Sectors</label
+			><span class='nav-divider'>|</span>
+			<label><input type='checkbox' checked id='image-toggle' />Image</label>
+		</div>
 	</div>
 
 	<div class='subNav-container'>
@@ -69,9 +74,6 @@
 			<label><input type='checkbox' id='outposts-toggle' />Outposts</label><span
 				class='nav-divider'>|</span
 			>
-			<label><input type='checkbox' checked id='sectors-toggle' />Sectors</label
-			><span class='nav-divider'>|</span>
-			<label><input type='checkbox' checked id='image-toggle' />Image</label>
 		</div>
 	</div>
 </div>
@@ -149,6 +151,16 @@
 		gap: 0.5em 1em;
 	}
 
+	.mainNav-container {
+		position: relative;
+	}
+
+	.map-controls {
+		display: flex;
+		gap: 1em;
+		position: absolute;
+		right: 0;
+	}
 	.subNav-container {
 		flex-direction: column;
 	}
