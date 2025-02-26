@@ -40,9 +40,6 @@ export function displayCurrentEvents(toSvgX: (x: number) => number, toSvgY: (y: 
 			);
 			container.classList.add('event-markers-container');
 
-			//start event-markers-container display none
-			container.style.display = 'none';
-
 			const [x, y, z] = data.currentZonePos.split(' ');
 			const eventX = -parseFloat(x); // Flip X coordinate like we do for zones
 			const eventY = parseFloat(y);
