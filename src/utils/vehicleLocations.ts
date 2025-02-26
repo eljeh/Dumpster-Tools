@@ -69,8 +69,8 @@ export function displayVehicleLocations(
                 <li>
                     <span class="vID">Key</span>
                     <span class="vType">Type</span>
-                    <span class="coords">Coords</span>
                     <span class="steamID">Reg</span>
+                    <span class="coords">Coords</span>
                 </li>
             `;
 			div.appendChild(ul);
@@ -195,11 +195,11 @@ export function displayVehicleLocations(
 					li.innerHTML = `
 				<span class="clickable vID" title="#TeleportToVehicle ${vehicle.key}">${vehicle.key}</span>
 				<span class="clickable vType" title="#RenameVehicle ${vehicle.key} 'VID:${vehicle.key}'" >${type}</span>
+				${vehicle.value.reg
+				? `<a class="steamID" href="/playerInfo?playerid=${steamID}" title="${steamID}">${steamID}</a>`
+				: `<span class="steamID">Unregistered</span>`
+				}
 				<span class="clickable coords" title="#Teleport ${vehicle.value.coords}" c>${vehicle.value.coords}</span>
-					${vehicle.value.reg
-							? `<a class="steamID" href="/playerInfo?playerid=${steamID}" title="${steamID}">${steamID}</a>`
-							: `<span class="steamID">Unregistered</span>`
-						}
 		`;
 					ul.appendChild(li);
 				});
