@@ -28,10 +28,7 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 				'g',
 			);
 			container.classList.add('player-markers-container');
-			// container.style.display = document.getElementById('players-toggle')
-			// 	.checked
-			// 	? 'block'
-			// 	: 'none';
+
 
 			const tableContainer = document.querySelector('.data-table-container');
 			console.log('Table container found:', !!tableContainer);

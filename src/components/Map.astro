@@ -407,6 +407,10 @@ const formatZoneName = (zoneName: string): string => {
 						displayVehicleLocations(toSvgX, toSvgY);
 					}
 				}, 300000);
+			} else {
+				// Remove player markers and data when toggle is unchecked
+				document.querySelector('.vehicle-markers-container')?.remove();
+				document.querySelector('.vehicle-data-table')?.remove();
 			}
 		});
 
@@ -423,6 +427,10 @@ const formatZoneName = (zoneName: string): string => {
 						displayFlagLocations(toSvgX, toSvgY);
 					}
 				}, 300000);
+			} else {
+				// Remove player markers and data when toggle is unchecked
+				document.querySelector('.flag-markers-container')?.remove();
+				document.querySelector('.flag-data-table')?.remove();
 			}
 		});
 
@@ -440,6 +448,10 @@ const formatZoneName = (zoneName: string): string => {
 						displayKillPositions(svg, toSvgX, toSvgY);
 					}
 				}, 300000);
+			} else {
+				// Remove player markers and data when toggle is unchecked
+				document.querySelector('.kill-markers-container')?.remove();
+				document.querySelector('.kill-data-table')?.remove();
 			}
 		});
 
@@ -455,6 +467,10 @@ const formatZoneName = (zoneName: string): string => {
 						displayCurrentEvents(toSvgX, toSvgY);
 					}
 				}, 300000);
+			} else {
+				// Remove player markers and data when toggle is unchecked
+				document.querySelector('.event-markers-container')?.remove();
+				document.querySelector('.event-data-table')?.remove();
 			}
 		});
 

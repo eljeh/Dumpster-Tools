@@ -10,7 +10,7 @@ export function displayVehicleLocations(
 	toSvgY: (y: number) => number
 ) {
 	const radius = 3;
-	// console.log('displayVehicleLocations', toSvgX, toSvgY);
+	console.log('Starting displayVehicleLocations fetch...');
 	const url = `https://api.whalleybot.com/bot/${WBBotID}/VehicleLocations`;
 	fetch(url, {
 		method: 'GET',
@@ -20,6 +20,7 @@ export function displayVehicleLocations(
 		},
 	})
 		.then((response) => {
+			console.log('API Response status:', response.status);
 			if (!response.ok) {
 				console.error(
 					'API response not ok:',
@@ -31,25 +32,46 @@ export function displayVehicleLocations(
 			return response.json();
 		})
 		.then((data) => {
+			document.querySelector('.vehicle-markers-container')?.remove();
+
+			console.log('Received vehicle data:', {
+				totalVehicles: data.length,
+				sampleVehicle: data[0]
+			});
+
 			// Remove existing vehicle markers container
 			const existingContainer = document.querySelector(
 				'.vehicle-markers-container',
 			);
 			if (existingContainer) {
+				console.log('Removing existing vehicle markers container');
 				existingContainer.remove();
+			}
+
+			// Remove existing vehicle data table if it exists
+			const existingDataTable = document.querySelector('.vehicle-data-table');
+			if (existingDataTable) {
+				existingDataTable.remove();
+			}
+
+			// Check if vehicles toggle is checked - if not, we just remove existing data and return
+			const vehiclesToggle = document.getElementById('vehicles-toggle') as HTMLInputElement;
+			if (!vehiclesToggle.checked) {
+				console.log('Vehicles toggle is unchecked, hiding all vehicle data');
+				return;
 			}
 
 			// Create container for all vehicle markers
 			const svg = document.querySelector('.map');
+			if (!svg) {
+				console.error('Map SVG element not found');
+				return;
+			}
 			const container = document.createElementNS(
 				'http://www.w3.org/2000/svg',
 				'g',
 			);
 			container.classList.add('vehicle-markers-container');
-			// container.style.display = document.getElementById('vehicles-toggle')
-			// 	.checked
-			// 	? 'block'
-			// 	: 'none';
 
 			// Add new vehicle markers
 			let validVehicles = 0;
@@ -79,7 +101,10 @@ export function displayVehicleLocations(
 
 			// First pass - group vehicles by type and count them
 			data.forEach(vehicle => {
-				if (!vehicle.value.coords) return; // Skip invalid vehicles
+				if (!vehicle.value.coords) {
+					console.log('Skipping vehicle without coords:', vehicle);
+					return;
+				}
 				const vehicleType = vehicle.value.type.trim().replace('BPC_', '').replace('BP_', '');
 				if (!vehicleGroups.has(vehicleType)) {
 					vehicleGroups.set(vehicleType, {
@@ -195,23 +220,28 @@ export function displayVehicleLocations(
 				<span class="clickable vID" title="#TeleportToVehicle ${vehicle.key}">${vehicle.key}</span>
 				<span class="clickable vType" title="#RenameVehicle ${vehicle.key} 'VID:${vehicle.key}'" >${type}</span>
 				${vehicle.value.reg
-				? `<a class="steamID" href="/playerInfo?playerid=${steamID}" title="${steamID}">${steamID}</a>`
-				: `<span class="steamID">Unregistered</span>`
-				}
+							? `<a class="steamID" href="/playerInfo?playerid=${steamID}" title="${steamID}">${steamID}</a>`
+							: `<span class="steamID">Unregistered</span>`
+						}
 				<span class="clickable coords" title="#Teleport ${vehicle.value.coords}" c>${vehicle.value.coords}</span>
 		`;
 					ul.appendChild(li);
 				});
 			});
 
+			console.log('Vehicle statistics:', {
+				validVehicles,
+				skippedVehicles,
+				totalGroups: vehicleGroups.size
+			});
 
 			dataContainer.appendChild(div);
 
-			console.log('Finished adding vehicle markers');
+			console.log('Successfully added vehicle markers and data table');
 
 			svg.appendChild(container);
 		})
 		.catch((error) => {
-			console.error('Error fetching vehicle locations:', error);
+			console.error('Error in displayVehicleLocations:', error);
 		});
 } 
