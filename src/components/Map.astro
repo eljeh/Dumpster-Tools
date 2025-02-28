@@ -67,6 +67,20 @@ const formatZoneName = (zoneName: string): string => {
 		data-min-y={minY}
 		data-max-y={maxY}
 	>
+		<div class='map-controls'>
+			<label>
+				<input type='checkbox' checked id='sectors-toggle' />
+				<i class='fi fi-ss-draw-square'></i>
+				<span class='labelText'>Sectors</span>
+			</label>
+
+			<label>
+				<input type='checkbox' checked id='image-toggle' />
+				<i class='fi fi-ss-picture'></i>
+				<span class='labelText'>Image</span>
+			</label>
+		</div>
+
 		<svg viewBox='210 30 930 930' class='map'>
 			<image
 				href='../assets/images/map.webp'
@@ -372,6 +386,10 @@ const formatZoneName = (zoneName: string): string => {
 						displayPlayerLocations(toSvgX, toSvgY);
 					}
 				}, 300000);
+			} else {
+				// Remove player markers and data when toggle is unchecked
+				document.querySelector('.player-markers-container')?.remove();
+				document.querySelector('.player-data-table')?.remove();
 			}
 		});
 
@@ -907,11 +925,50 @@ const formatZoneName = (zoneName: string): string => {
 	/* Map Container */
 	.map-container {
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 		width: 100%;
 		overflow: hidden;
 		border-radius: 0.25em;
+		position: relative;
+	}
+
+	.map-controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    position: absolute;
+    z-index: 1;
+    bottom: 1em;
+    right: 1.5em;
+    font-size: 0.75em;
+		label {
+			display: grid;
+			grid-template-areas: 'overlap';
+			align-items: center;
+			input {
+				grid-area: overlap;
+				zoom: 2;
+				opacity: 0;
+				cursor: pointer;
+			}
+			.fi {
+				font-size: 1.5em;
+				line-height: 0;
+				grid-area: overlap;
+				cursor: pointer;
+			}
+			.labelText {
+				font-size: 0;
+				grid-area: overlap;
+				margin-left: 0.75em;
+				transition: font-size 0.5sease -in-out;
+				opacity: 0;
+			}
+		}
 	}
 
 	.map {
