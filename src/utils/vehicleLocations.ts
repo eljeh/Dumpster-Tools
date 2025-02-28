@@ -5,7 +5,6 @@ import {
 const WBAuth = PUBLIC_WBAUTH;
 const WBBotID = PUBLIC_WBBOTID;
 
-
 export function displayVehicleLocations(
 	toSvgX: (x: number) => number,
 	toSvgY: (y: number) => number
