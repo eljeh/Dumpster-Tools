@@ -122,6 +122,7 @@ export function displayFlagLocations(
 
 				// Add list item
 				const li = document.createElement('li');
+				// li.id = flag.ownerID;
 				li.innerHTML = `
 					<span title="#TeleportTo ${flag.ownerName}" class="playerName">${flag.ownerName}</span>
 					<a class="steamID" href="/playerInfo?playerid=${flag.ownerID}" title="${flag.ownerID}">${flag.ownerID}</a>

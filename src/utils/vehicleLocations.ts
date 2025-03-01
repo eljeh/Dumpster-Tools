@@ -131,8 +131,9 @@ export function displayVehicleLocations(
 				// Add type header
 				const typeHeader = document.createElement('li');
 				typeHeader.classList.add('type-header');
+				typeHeader.classList.add(`${type.toLowerCase()}-header`);
 				typeHeader.innerHTML = `
-					<span class="type-summary" colspan="4">
+					<span class="type-summary " colspan="4">
 						${type} (${group.registered}/${group.total} registered)
 					</span>
 				`;
@@ -216,15 +217,18 @@ export function displayVehicleLocations(
 					let type = vehicleType.replace(`_`, ' ').replace(`Metal`, 'Mtl').replace(`Improvised`, 'Imp');
 					// Add table row
 					const li = document.createElement('li');
+					// add vehicle.key as id
+					li.id = vehicle.key;
+					li.classList.add(`${vehicleType.toLowerCase()}-row`);
 					li.innerHTML = `
 				<span class="clickable vID" title="#TeleportToVehicle ${vehicle.key}">${vehicle.key}</span>
 				<span class="clickable vType" title="#RenameVehicle ${vehicle.key} 'VID:${vehicle.key}'" >${type}</span>
 				${vehicle.value.reg
 							? `<a class="steamID" href="/playerInfo?playerid=${steamID}" title="${steamID}">${steamID}</a>`
 							: `<span class="steamID">Unregistered</span>`
-						}
+				}
 				<span class="clickable coords" title="#Teleport ${vehicle.value.coords}" c>${vehicle.value.coords}</span>
-		`;
+				`;
 					ul.appendChild(li);
 				});
 			});

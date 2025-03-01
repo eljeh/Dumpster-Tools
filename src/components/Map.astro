@@ -288,6 +288,11 @@ const formatZoneName = (zoneName: string): string => {
 		const eventsToggle = document.getElementById(
 			'events-toggle',
 		) as HTMLInputElement;
+
+		const modifiersToggle = document.getElementById(
+			'modifiers-toggle',
+		) as HTMLInputElement;
+
 		const killsToggle = document.getElementById(
 			'kills-toggle',
 		) as HTMLInputElement;
@@ -474,6 +479,17 @@ const formatZoneName = (zoneName: string): string => {
 			}
 		});
 
+		modifiersToggle.addEventListener('change', (event) => {
+			if (modifiersToggle.checked) {
+				clearAllMarkersAndData();
+				modifiersToggle.checked = true;
+			} else {
+				// Remove player markers and data when toggle is unchecked
+				document.querySelector('.modifier-markers-container')?.remove();
+				document.querySelector('.modifier-data-table')?.remove();
+			}
+		});
+
 		// Function to toggle visibility
 		function updateVisibility(toggleElement, selector) {
 			if (!toggleElement) return;
@@ -532,17 +548,11 @@ const formatZoneName = (zoneName: string): string => {
 		updateVisibility(eventsToggle, '.event-markers-container');
 		updateVisibility(killsToggle, '.kill-markers-container');
 		updateVisibility(vehicleToggle, '.vehicle-markers-container');
-		updateVisibility(ragerToggle, '.Rager');
-		updateVisibility(wolfswagenToggle, '.WolfsWagen');
-		updateVisibility(laikaToggle, '.Laika');
-		updateVisibility(kingletdusterToggle, '.Kinglet_Duster');
-		updateVisibility(barbaToggle, '.Barba, .BigRaft, .SmallRaft, .SUP');
-		updateVisibility(risToggle, '.RIS');
-		updateVisibility(dirtbikeToggle, '.Dirtbike');
-		updateVisibility(cruiserToggle, '.Cruiser');
-		updateVisibility(bicyclesToggle, '.MountainBike, .CityBike');
-		updateVisibility(wheelbarrowToggle, '.WheelBarrow_Improvised');
-		updateVisibility(wheelbarrowToggle, '.WheelBarrow_Metal');
+		updateVisibility(registeredVehiclesToggle, '.vehicle-marker.registered');
+		updateVisibility(
+			notRegisteredVehiclesToggle,
+			'.vehicle-marker.not-registered',
+		);
 		updateVisibility(pvpToggle, '.zone-PVP');
 		updateVisibility(pveToggle, '.zone-PVE');
 		updateVisibility(bunkersToggle, '[class^="zone-PVP_Bunker"]');
@@ -555,11 +565,17 @@ const formatZoneName = (zoneName: string): string => {
 		updateVisibility(poisToggle, '[class^="zone-POI_PVE"]');
 		updateVisibility(customPOIToggle, '[class^="zone-POI_custom"]');
 		updateVisibility(imageToggle, '.map image');
-		updateVisibility(registeredVehiclesToggle, '.vehicle-marker.registered');
-		updateVisibility(
-			notRegisteredVehiclesToggle,
-			'.vehicle-marker.not-registered',
-		);
+		updateVisibility(ragerToggle, '.Rager');
+		updateVisibility(wolfswagenToggle, '.WolfsWagen');
+		updateVisibility(laikaToggle, '.Laika');
+		updateVisibility(kingletdusterToggle, '.Kinglet_Duster');
+		updateVisibility(barbaToggle, '.Barba, .BigRaft, .SmallRaft, .SUP');
+		updateVisibility(risToggle, '.RIS');
+		updateVisibility(dirtbikeToggle, '.Dirtbike');
+		updateVisibility(cruiserToggle, '.Cruiser');
+		updateVisibility(bicyclesToggle, '.MountainBike, .CityBike');
+		updateVisibility(wheelbarrowToggle, '.WheelBarrow_Improvised');
+		updateVisibility(wheelbarrowToggle, '.WheelBarrow_Metal');
 
 		// Add zoom functionality
 		const svg = document.querySelector('.map');

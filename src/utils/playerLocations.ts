@@ -93,6 +93,7 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 
 				// Add list item
 				const li = document.createElement('li');
+				li.id = player.steamID;
 				li.innerHTML = `
 					<span title="#TeleportTo ${player.playerName}" class="playerName">${player.playerName}</span>
 					<a class="steamID" href="/playerInfo?playerid=${player.steamID}" title="${player.steamID}">${player.steamID}</a>
