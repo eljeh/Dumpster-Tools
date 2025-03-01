@@ -177,6 +177,7 @@ export function displayVehicleLocations(
 					);
 					g.classList.add('vehicle-marker');
 					g.classList.add(`${vehicleType}`);
+					g.setAttribute('data-key', vehicle.key);
 					// if vehicle.value.reg is not null, add vehicle-reg to the class
 					if (!vehicle.value.reg) {
 						g.classList.add(`not-registered`);
@@ -235,6 +236,22 @@ export function displayVehicleLocations(
 						}
 				<span class="clickable coords" title="#Teleport ${vehicle.value.coords}" c>${vehicle.value.coords}</span>
 				`;
+
+					// Add hover event listeners
+					li.addEventListener('mouseenter', () => {
+						const marker = container.querySelector(`.vehicle-marker[data-key="${vehicle.key}"]`);
+						if (marker) {
+							marker.classList.add('highlighted');
+							// Move the marker to the end of its container to appear on top
+							marker.parentNode?.appendChild(marker);
+						}
+					});
+
+					li.addEventListener('mouseleave', () => {
+						const marker = container.querySelector(`.vehicle-marker[data-key="${vehicle.key}"]`);
+						marker?.classList.remove('highlighted');
+					});
+
 					ul.appendChild(li);
 				});
 			});

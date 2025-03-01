@@ -64,6 +64,7 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 					'g',
 				);
 				g.classList.add('player-marker');
+				g.setAttribute('data-steamid', player.steamID); // Add data attribute for linking
 				const title = document.createElementNS(
 					'http://www.w3.org/2000/svg',
 					'title',
@@ -77,15 +78,15 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 					'http://www.w3.org/2000/svg',
 					'circle',
 				);
-				circle.setAttribute('cx', toSvgX(playerX));
-				circle.setAttribute('cy', toSvgY(playerY));
+				circle.setAttribute('cx', toSvgX(playerX).toString());
+				circle.setAttribute('cy', toSvgY(playerY).toString());
 				circle.setAttribute('r', '3');
 				const text = document.createElementNS(
 					'http://www.w3.org/2000/svg',
 					'text',
 				);
-				text.setAttribute('x', toSvgX(playerX));
-				text.setAttribute('y', toSvgY(playerY) - 5);
+				text.setAttribute('x', toSvgX(playerX).toString());
+				text.setAttribute('y', (toSvgY(playerY) - 5).toString());
 				text.textContent = player.playerName;
 				g.appendChild(circle);
 				g.appendChild(text);
@@ -100,6 +101,22 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 					<span class="clickable coords" title="#Teleport ${player.lastKnownLocation}">${playerX.toFixed(2)}, ${playerY.toFixed(2)}, ${playerZ.toFixed(2)}</span>
 					<span class="pType">${player.type}</span>
 				`;
+
+				// Add hover event listeners
+				li.addEventListener('mouseenter', () => {
+					const marker = container.querySelector(`[data-steamid="${player.steamID}"]`);
+					if (marker) {
+						marker.classList.add('highlighted');
+						// Move the marker to the end of its container to appear on top
+						marker.parentNode?.appendChild(marker);
+					}
+				});
+
+				li.addEventListener('mouseleave', () => {
+					const marker = container.querySelector(`[data-steamid="${player.steamID}"]`);
+					marker?.classList.remove('highlighted');
+				});
+
 				ul.appendChild(li);
 			});
 

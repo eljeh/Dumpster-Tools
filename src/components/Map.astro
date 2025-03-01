@@ -59,7 +59,7 @@ const formatZoneName = (zoneName: string): string => {
 ---
 
 <!-- <MapControls /> -->
-<div class='wrapper' >
+<div class='wrapper'>
 	<div
 		class='map-container'
 		data-min-x={minX}
@@ -977,6 +977,26 @@ const formatZoneName = (zoneName: string): string => {
 		fill: var(--color-player);
 		stroke: var(--color-white);
 		stroke-width: 0.5;
+		transition:
+			r 0.2s ease-in-out,
+			fill 0.2s ease-in-out;
+	}
+
+	.player-marker.highlighted {
+		position: relative;
+	}
+
+	.player-marker.highlighted circle {
+		r: 5;
+		fill: var(--color-accent);
+		text-shadow: 0px 0px 10px rgb(0, 0, 0);
+		stroke-width: 0.75;
+	}
+
+	.player-marker.highlighted text {
+		font-size: 0.5em;
+		fill: var(--color-white);
+		text-shadow: 0px 0px 10px rgb(0, 0, 0);
 	}
 
 	/* Vehicle Marker Styles */
@@ -1001,6 +1021,23 @@ const formatZoneName = (zoneName: string): string => {
 	}
 	.vehicle-marker.not-registered .vehicle-icon {
 		stroke: red;
+	}
+
+	.vehicle-marker.highlighted {
+		position: relative;
+	}
+
+	.vehicle-marker.highlighted .vehicle-icon {
+		fill: var(--color-accent);
+		stroke-width: 0.75;
+		transform: scale(1.5);
+		transition: transform 0.2s ease-in-out;
+	}
+
+	.vehicle-marker.highlighted text {
+		font-size: 0.5em;
+		fill: var(--color-white);
+		text-shadow: 0px 0px 10px rgb(0, 0, 0);
 	}
 
 	/* Event Marker Styles */
