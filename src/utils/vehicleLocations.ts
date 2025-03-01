@@ -87,13 +87,13 @@ export function displayVehicleLocations(
 			const ul = document.createElement('ul');
 			ul.classList.add('vehicleList');
 			ul.innerHTML = `
-                <li>
-                    <span class="vID">Key</span>
-                    <span class="vType">Type</span>
-                    <span class="steamID">Reg</span>
-                    <span class="coords">Coords</span>
-                </li>
-            `;
+						<li>
+								<span class="vID">Key</span>
+								<span class="vType">Type</span>
+								<span class="steamID">Reg</span>
+								<span class="coords">Coords</span>
+						</li>
+				`;
 			div.appendChild(ul);
 
 			// Sort and group data by vehicle type
@@ -131,11 +131,12 @@ export function displayVehicleLocations(
 				// Add type header
 				const typeHeader = document.createElement('li');
 				typeHeader.classList.add('type-header');
-				typeHeader.classList.add(`${type.toLowerCase()}-header`);
+				typeHeader.classList.add(`${type}-header`);
 				typeHeader.innerHTML = `
-					<span class="type-summary " colspan="4">
+					<label class="type-summary">
+						<input type='checkbox' id='${type}-toggle' checked/>
 						${type} (${group.registered}/${group.total} registered)
-					</span>
+					</label>
 				`;
 				ul.appendChild(typeHeader);
 
@@ -219,14 +220,19 @@ export function displayVehicleLocations(
 					const li = document.createElement('li');
 					// add vehicle.key as id
 					li.id = vehicle.key;
-					li.classList.add(`${vehicleType.toLowerCase()}-row`);
+					li.classList.add(`${vehicleType}-row`);
+					if (!vehicle.value.reg) {
+						li.classList.add(`not-registered`);
+					} else {
+						li.classList.add(`registered`);
+					}
 					li.innerHTML = `
 				<span class="clickable vID" title="#TeleportToVehicle ${vehicle.key}">${vehicle.key}</span>
 				<span class="clickable vType" title="#RenameVehicle ${vehicle.key} 'VID:${vehicle.key}'" >${type}</span>
 				${vehicle.value.reg
 							? `<a class="steamID" href="/playerInfo?playerid=${steamID}" title="${steamID}">${steamID}</a>`
 							: `<span class="steamID">Unregistered</span>`
-				}
+						}
 				<span class="clickable coords" title="#Teleport ${vehicle.value.coords}" c>${vehicle.value.coords}</span>
 				`;
 					ul.appendChild(li);
@@ -240,10 +246,39 @@ export function displayVehicleLocations(
 			});
 
 			dataContainer.appendChild(div);
+			svg.appendChild(container);
+
+			// Set up visibility toggles
+			const registeredVehiclesToggle = document.getElementById('registered-vehicles-toggle') as HTMLInputElement;
+			const notRegisteredVehiclesToggle = document.getElementById('not-registered-vehicles-toggle') as HTMLInputElement;
+
+			if (vehiclesToggle && registeredVehiclesToggle && notRegisteredVehiclesToggle) {
+				const updateVisibility = () => {
+					const isVehiclesEnabled = vehiclesToggle.checked;
+
+					// Update both markers and table rows
+					document.querySelectorAll('.vehicle-marker, .vehicle-data-table li').forEach((element) => {
+						if (element.classList.contains('type-header')) return; // Skip headers
+
+						const isRegistered = element.classList.contains('registered');
+						const shouldShow = isVehiclesEnabled &&
+							((isRegistered && registeredVehiclesToggle.checked) ||
+								(!isRegistered && notRegisteredVehiclesToggle.checked));
+
+						(element as HTMLElement).style.display = shouldShow ? 'flex' : 'none';
+					});
+				};
+
+				// Add event listeners
+				vehiclesToggle.addEventListener('change', updateVisibility);
+				registeredVehiclesToggle.addEventListener('change', updateVisibility);
+				notRegisteredVehiclesToggle.addEventListener('change', updateVisibility);
+
+				// Initial visibility update
+				updateVisibility();
+			}
 
 			console.log('Successfully added vehicle markers and data table');
-
-			svg.appendChild(container);
 		})
 		.catch((error) => {
 			console.error('Error in displayVehicleLocations:', error);
