@@ -568,14 +568,29 @@ const formatZoneName = (zoneName: string): string => {
 		updateVisibility(ragerToggle, '.Rager, .Rager-row');
 		updateVisibility(wolfswagenToggle, '.WolfsWagen, .WolfsWagen-row');
 		updateVisibility(laikaToggle, '.Laika, .Laika-row');
-		updateVisibility(kingletdusterToggle, '.Kinglet_Duster, .Kinglet_Duster-row');
-		updateVisibility(barbaToggle, '.Barba, .Barba-row, .BigRaft, .BigRaft-row, .SmallRaft, .SmallRaft-row, .SUP, .SUP-row');
+		updateVisibility(
+			kingletdusterToggle,
+			'.Kinglet_Duster, .Kinglet_Duster-row',
+		);
+		updateVisibility(
+			barbaToggle,
+			'.Barba, .Barba-row, .BigRaft, .BigRaft-row, .SmallRaft, .SmallRaft-row, .SUP, .SUP-row',
+		);
 		updateVisibility(risToggle, '.RIS, .RIS-row');
 		updateVisibility(dirtbikeToggle, '.Dirtbike, .Dirtbike-row');
 		updateVisibility(cruiserToggle, '.Cruiser, .Cruiser-row');
-		updateVisibility(bicyclesToggle, '.MountainBike, .MountainBike-row, .CityBike, .CityBike-row');
-		updateVisibility(wheelbarrowToggle, '.WheelBarrow_Improvised, .WheelBarrow_Improvised-row');
-		updateVisibility(wheelbarrowToggle, '.WheelBarrow_Metal, .WheelBarrow_Metal-row');
+		updateVisibility(
+			bicyclesToggle,
+			'.MountainBike, .MountainBike-row, .CityBike, .CityBike-row',
+		);
+		updateVisibility(
+			wheelbarrowToggle,
+			'.WheelBarrow_Improvised, .WheelBarrow_Improvised-row',
+		);
+		updateVisibility(
+			wheelbarrowToggle,
+			'.WheelBarrow_Metal, .WheelBarrow_Metal-row',
+		);
 
 		// Add zoom functionality
 		const svg = document.querySelector('.map');
@@ -812,7 +827,6 @@ const formatZoneName = (zoneName: string): string => {
 		right: 1.5em;
 		font-size: 0.75em;
 		label {
-
 			display: grid;
 			grid-template-areas: 'overlap';
 			align-items: center;
@@ -1088,17 +1102,6 @@ const formatZoneName = (zoneName: string): string => {
 		margin-top: 1em;
 	}
 
-	.vehicleList-Header,
-	.playerList-Header,
-	.killList-Header,
-	.flagList-Header,
-	.lootList-Header {
-		background: var(--color-primary);
-    border-top-left-radius: 0.5em;
-    border-top-right-radius: 0.5em;
-    padding-top: 0.5em;
-	}
-
 	.vehicleList li,
 	.playerList li,
 	.killList li,
@@ -1113,6 +1116,18 @@ const formatZoneName = (zoneName: string): string => {
 		justify-content: flex-start;
 		padding: 0 0.5em;
 	}
+
+	li.vehicleList-Header,
+	li.playerList-Header,
+	li.killList-Header,
+	li.flagList-Header,
+	.lootList-Header {
+		background: var(--color-primary);
+		border-top-left-radius: 0.5em;
+		border-top-right-radius: 0.5em;
+		border-bottom: none;
+	}
+
 	.vehicleList li:not(:first-child):hover,
 	.playerList li:not(:first-child):hover,
 	.killList li:not(:first-child):hover,
@@ -1145,7 +1160,7 @@ const formatZoneName = (zoneName: string): string => {
 		cursor: pointer;
 	}
 
-	.vehicleList li.type-header{
+	.vehicleList li.type-header {
 		padding: 0;
 	}
 
