@@ -41,7 +41,7 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 			const ul = document.createElement('ul');
 			ul.classList.add('playerList');
 			ul.innerHTML = `
-                <li>
+                <li class="playerList-Header">
                     <span class="playerName">Name</span>
                     <span class="steamID">Steam ID</span>
                     <span class="coords">Location</span>

@@ -58,7 +58,7 @@ export function displayFlagLocations(
 			const ul = document.createElement('ul');
 			ul.classList.add('flagList');
 			ul.innerHTML = `
-                <li>
+                <li class="flagList-Header">
                     <span class="playerName">Owner</span>
                     <span class="steamID">Steam ID</span>
                     <span class="coords">Location</span>

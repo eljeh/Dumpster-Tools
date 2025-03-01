@@ -56,7 +56,7 @@ export function displayKillPositions(
 			const ul = document.createElement('ul');
 			ul.classList.add('killList');
 			ul.innerHTML = `
-                <li>
+                <li class="killList-Header">
                     <span class="eventType">Event Type</span>
                     <span class="details">Details</span>
                 </li>

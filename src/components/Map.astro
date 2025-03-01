@@ -769,7 +769,7 @@ const formatZoneName = (zoneName: string): string => {
 	.data-table-wrapper {
 		overflow-y: scroll;
 		max-height: calc(100vh - 6.5em);
-		flex: 1 0 auto;
+		flex: 1 1 auto;
 		padding: 1em 1em;
 		border-radius: 0.5em;
 		background: var(--color-grey-darker);
@@ -812,6 +812,7 @@ const formatZoneName = (zoneName: string): string => {
 		right: 1.5em;
 		font-size: 0.75em;
 		label {
+
 			display: grid;
 			grid-template-areas: 'overlap';
 			align-items: center;
@@ -826,6 +827,7 @@ const formatZoneName = (zoneName: string): string => {
 				line-height: 0;
 				grid-area: overlap;
 				cursor: pointer;
+				text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
 			}
 			.labelText {
 				font-size: 0;
@@ -1084,6 +1086,17 @@ const formatZoneName = (zoneName: string): string => {
 	.data-table-container {
 		display: block;
 		margin-top: 1em;
+	}
+
+	.vehicleList-Header,
+	.playerList-Header,
+	.killList-Header,
+	.flagList-Header,
+	.lootList-Header {
+		background: var(--color-primary);
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+    padding-top: 0.5em;
 	}
 
 	.vehicleList li,

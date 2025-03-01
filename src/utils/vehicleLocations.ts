@@ -87,7 +87,7 @@ export function displayVehicleLocations(
 			const ul = document.createElement('ul');
 			ul.classList.add('vehicleList');
 			ul.innerHTML = `
-						<li>
+						<li class="vehicleList-Header">
 								<span class="vID">Key</span>
 								<span class="vType">Type</span>
 								<span class="steamID">Reg</span>

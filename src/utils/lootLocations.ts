@@ -74,7 +74,7 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 		const ul = document.createElement('ul');
 		ul.classList.add('lootList');
 		ul.innerHTML = `
-      <li>
+      <li class="lootList-Header">
         <span class="zoneName">Name</span>
         <span class="coords">Top Left</span>
         <span class="coords">Bottom Right</span>
