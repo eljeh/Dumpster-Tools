@@ -74,10 +74,13 @@ import Map from '../components/Map.astro';
 
 	main {
 		display: flex;
-		/* min-height: calc(100vh - 4.25em); */
 		min-height: unset;
 		gap: 1.5em;
 		flex-wrap: wrap;
+		font-size: 1em;
+		@media (max-width: 1024px) {
+			font-size: 0.75em;
+		}
 	}
 
 	/* Base Zone Styles */
