@@ -43,7 +43,8 @@ const ZONE_NAME_MAPPINGS = {
 	Sector_: (name: string) => name.replace('Sector_', ''),
 	POI_PVP_: (name: string) => name.replace('POI_PVP_', 'PvP '),
 	POI_PVE_: (name: string) => name.replace('POI_PVE_', 'PvE '),
-	POI_custom_: (name: string) => name.replace('POI_custom_', ''),
+	POI_PVP: (name: string) => name.replace('POI_PVP', 'PvP '),
+	POI_PVE: (name: string) => name.replace('POI_PVE', 'PvE '),
 	Bunkers_PVP: (name: string) => name.replace('Bunkers_PVP', 'PvP Bunker'),
 	Bunkers_PVE: (name: string) => name.replace('Bunkers_PVE', 'PvE Bunker'),
 	Outpost_: (name: string) => `${name.replace('Outpost_', '')} Outpost`,
@@ -92,6 +93,7 @@ const formatZoneName = (zoneName: string): string => {
 			/>
 			{
 				Object.entries(zones).map(([zoneName, zoneArray]) =>
+					
 					zoneArray.map((zone) => {
 						if (!zone.TopLeft || !zone.BottomRight) return null;
 
@@ -289,11 +291,9 @@ const formatZoneName = (zoneName: string): string => {
 		const eventsToggle = document.getElementById(
 			'events-toggle',
 		) as HTMLInputElement;
-
 		const modifiersToggle = document.getElementById(
 			'modifiers-toggle',
 		) as HTMLInputElement;
-
 		const killsToggle = document.getElementById(
 			'kills-toggle',
 		) as HTMLInputElement;
@@ -339,17 +339,20 @@ const formatZoneName = (zoneName: string): string => {
 		const outpostsToggle = document.getElementById(
 			'outposts-toggle',
 		) as HTMLInputElement;
-		const poisToggle = document.getElementById(
-			'pois-toggle',
-		) as HTMLInputElement;
+		// const poisToggle = document.getElementById(
+		// 	'pois-toggle',
+		// ) as HTMLInputElement;
 		const bunkersToggle = document.getElementById(
 			'bunkers-toggle',
 		) as HTMLInputElement;
 		const imageToggle = document.getElementById(
 			'image-toggle',
 		) as HTMLInputElement;
-		const customPOIToggle = document.getElementById(
-			'custom-pois-toggle',
+		const pois_pvpToggle = document.getElementById(
+			'pois-pvp-toggle',
+		) as HTMLInputElement;
+		const pois_pveToggle = document.getElementById(
+			'pois-pve-toggle',
 		) as HTMLInputElement;
 
 		// Function to clear all markers and data
@@ -562,9 +565,8 @@ const formatZoneName = (zoneName: string): string => {
 		updateVisibility(pvpBunkerToggle, '[class^="zone-Bunkers_PVP"]');
 		updateVisibility(warzonesToggle, '.zone-WarZoneDrops');
 		updateVisibility(outpostsToggle, '[class^="zone-Outpost_"]');
-		updateVisibility(poisToggle, '[class^="zone-POI_PVP"]');
-		updateVisibility(poisToggle, '[class^="zone-POI_PVE"]');
-		updateVisibility(customPOIToggle, '[class^="zone-POI_custom"]');
+		updateVisibility(pois_pvpToggle, '[class^="zone-POI_PVP"]');
+		updateVisibility(pois_pveToggle, '[class^="zone-POI_PVE"]');
 		updateVisibility(imageToggle, '.map image');
 		updateVisibility(ragerToggle, '.Rager, .Rager-row');
 		updateVisibility(wolfswagenToggle, '.WolfsWagen, .WolfsWagen-row');
@@ -653,7 +655,8 @@ const formatZoneName = (zoneName: string): string => {
 		[
 			'pvp-toggle',
 			'pve-toggle',
-			'pois-toggle',
+			'pois-pvp-toggle',
+			'pois-pve-toggle',
 			'pve-bunker-toggle',
 			'pvp-bunker-toggle',
 			'warzones-toggle',
@@ -693,6 +696,10 @@ const formatZoneName = (zoneName: string): string => {
 		--color-pvp-fill: hsla(0, 44%, 49%, 0.2);
 		--color-pvp-hover: hsla(0, 44%, 49%, 0.4);
 
+		--color-event-poi: hsla(0, 0%, 100%, 1);
+		--color-event-poi-fill: hsla(0, 0%, 100%, 0.5);
+		--color-event-poi-hover: hsla(0, 0%, 100%, 0.4);
+
 		--color-warzone: hsla(297, 44%, 49%, 1);
 		--color-warzone-fill: hsla(297, 44%, 49%, 0.2);
 
@@ -700,8 +707,8 @@ const formatZoneName = (zoneName: string): string => {
 		--color-community-fill: hsla(308, 100%, 50%, 0.2);
 
 		/* POI colors */
-		--color-custom-poi: hsla(147, 41%, 41%, 1);
-		--color-custom-poi-fill: hsla(147, 41%, 41%, 0.2);
+		--color-poi: hsla(147, 41%, 41%, 1);
+		--color-poi-fill: hsla(147, 41%, 41%, 0.2);
 
 		--color-pve-poi: hsla(200, 50%, 40%, 1);
 		--color-pve-poi-fill: hsla(200, 50%, 40%, 0.2);
@@ -877,9 +884,10 @@ const formatZoneName = (zoneName: string): string => {
 	.zone-label,
 	[class^='zone-PVP_Bunker'] text,
 	[class^='zone-PVE_Bunker'] text,
+	[class^='zone-POI_EVENT'] text,
 	[class^='zone-POI_PVE'] text,
 	[class^='zone-POI_PVP'] text,
-	[class^='zone-POI_custom_'] text,
+	[class^='zone-POI_'] text,
 	[class^='zone-Bunkers_PVE'] text,
 	[class^='zone-Bunkers_PVP'] text,
 	.zone-Outpost_A0 text,
@@ -935,14 +943,14 @@ const formatZoneName = (zoneName: string): string => {
 
 	/* POI and Outpost Styles */
 	[class^='zone-Outpost_'] .zone-circ,
-	[class^='zone-POI_custom_'] .zone-circ {
-		fill: var(--color-custom-poi-fill);
-		stroke: var(--color-custom-poi);
+	[class^='zone-POI_'] .zone-circ
+	[class^='zone-POI_'] .zone-rect {
+		fill: var(--color-poi-fill);
+		stroke: var(--color-poi);
 		stroke-width: 0.5;
 	}
+
 	[class^='zone-PVE_Bunker'] .zone-circ,
-	[class^='zone-POI_PVE'] .zone-rect,
-	[class^='zone-POI_PVE'] .zone-circ,
 	[class^='zone-Bunkers_PVE'] .zone-rect,
 	[class^='zone-Bunkers_PVE'] .zone-circ {
 		fill: var(--color-pve-poi-fill);
@@ -950,9 +958,14 @@ const formatZoneName = (zoneName: string): string => {
 		stroke-width: 0.5;
 	}
 
+	[class^='zone-POI_EVENT'] .zone-rect,
+	[class^='zone-POI_EVENT'] .zone-circ {
+		fill: var(--color-event-poi-fill);
+		stroke: var(--color-event-poi);
+		stroke-width: 0.5;
+	}
+
 	[class^='zone-PVP_Bunker'] .zone-circ,
-	[class^='zone-POI_PVP'] .zone-rect,
-	[class^='zone-POI_PVP'] .zone-circ,
 	.zone-Outpost_A0 .zone-rect,
 	.zone-Outpost_A0 .zone-circ,
 	[class^='zone-Bunkers_PVP'] .zone-rect,
@@ -1227,7 +1240,7 @@ const formatZoneName = (zoneName: string): string => {
 		flex: 0 1 20ch;
 	}
 	.data-table-container li .zoneName {
-		flex: 0 1 24ch;
+		flex: 0 1 28ch;
 	}
 	.data-table-container li .playerName {
 		flex: 0 1 24ch;

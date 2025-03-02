@@ -9,7 +9,8 @@ interface Zone {
 interface ZonesData {
 	pvp: Zone[];
 	pve: Zone[];
-	pois: Record<string, Zone[]>;
+	pois_pvp: Zone[];
+	pois_pve: Zone[];
 	pveBunkers: Zone[];
 	pvpBunkers: Zone[];
 	warzones: Zone[];
@@ -18,7 +19,8 @@ interface ZonesData {
 interface ToggleStates {
 	pvp: boolean;
 	pve: boolean;
-	pois: boolean;
+	pois_pvp: boolean;
+	pois_pve: boolean;
 	pveBunker: boolean;
 	pvpBunker: boolean;
 	warzones: boolean;
@@ -36,14 +38,12 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 		const zonesData: ZonesData = {
 			pvp: zones.PVP || [],
 			pve: zones.PVE || [],
-
-			pois: Object.entries(zones)
-				.filter(([key]) => key.startsWith('POI_custom_'))
-				.reduce((acc, [key, value]) => {
-					acc[key] = value;
-					return acc;
-				}, {} as Record<string, Zone[]>),
-				
+			pois_pvp: Object.entries(zones)
+				.filter(([key]) => key.startsWith('POI_PVP'))
+				.flatMap(([_, zones]) => zones),
+			pois_pve: Object.entries(zones)
+				.filter(([key]) => key.startsWith('POI_PVE'))
+				.flatMap(([_, zones]) => zones),
 			pveBunkers: [
 				...(zones.Bunkers_PVE || []),
 				...(zones.Bunkers_PVE_AB || []),
@@ -58,7 +58,8 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 		// Get toggle elements
 		const pvpToggle = document.getElementById('pvp-toggle') as HTMLInputElement;
 		const pveToggle = document.getElementById('pve-toggle') as HTMLInputElement;
-		const poisToggle = document.getElementById('pois-toggle') as HTMLInputElement;
+		const pois_pvpToggle = document.getElementById('pois-pvp-toggle') as HTMLInputElement;
+		const pois_pveToggle = document.getElementById('pois-pve-toggle') as HTMLInputElement;
 		const pveBunkerToggle = document.getElementById('pve-bunker-toggle') as HTMLInputElement;
 		const pvpBunkerToggle = document.getElementById('pvp-bunker-toggle') as HTMLInputElement;
 		const warzonesToggle = document.getElementById('warzones-toggle') as HTMLInputElement;
@@ -110,19 +111,27 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 			});
 		}
 
-		if (poisToggle?.checked) {
-			console.log('zonesData.pois: ', zonesData.pois);
-			Object.entries(zonesData.pois).forEach(([key, zones]) => {
-				zones.forEach((zone) => {
-					console.log('zone: ', zone);
-					if (zone.TopLeft && zone.BottomRight) {
-						displayData.push({
-							name: key.replace('POI_custom_', ''),
-							topLeft: zone.TopLeft,
-							bottomRight: zone.BottomRight,
-						});
-					}
-				});
+		if (pois_pvpToggle?.checked && zonesData.pois_pvp) {
+			zonesData.pois_pvp.forEach((zone) => {
+				if (zone.TopLeft && zone.BottomRight) {
+					displayData.push({
+						name: `${zone.Name} - PvP POI`,
+						topLeft: zone.TopLeft,
+						bottomRight: zone.BottomRight,
+					});
+				}
+			});
+		}
+
+		if (pois_pveToggle?.checked && zonesData.pois_pve) {
+			zonesData.pois_pve.forEach((zone) => {
+				if (zone.TopLeft && zone.BottomRight) {
+					displayData.push({
+						name: `${zone.Name} - PvE POI`,
+						topLeft: zone.TopLeft,
+						bottomRight: zone.BottomRight,
+					});
+				}
 			});
 		}
 
@@ -130,7 +139,7 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 			zonesData.pveBunkers.forEach((zone) => {
 				if (zone.TopLeft && zone.BottomRight) {
 					displayData.push({
-						name: `${zone.Name} Bunker - PVE `,
+						name: `${zone.Name} Bunker - PVE`,
 						topLeft: zone.TopLeft,
 						bottomRight: zone.BottomRight,
 					});
@@ -168,7 +177,8 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 			toggles: {
 				pvp: pvpToggle?.checked,
 				pve: pveToggle?.checked,
-				pois: poisToggle?.checked,
+				pois_pvp: pois_pvpToggle?.checked,
+				pois_pve: pois_pveToggle?.checked,
 				pveBunker: pveBunkerToggle?.checked,
 				pvpBunker: pvpBunkerToggle?.checked,
 				warzones: warzonesToggle?.checked,

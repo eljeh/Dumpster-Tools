@@ -165,106 +165,135 @@
             "BottomRight": "X=314398.375 Y=-904795.125"
         }
     ],
-    "POI_custom_AirportB2": [
+    "POI_EVENT": [
         {
-            "TopLeft": "X=-176504.328 Y=31344.752",
-            "BottomRight": "X=-352579.688 Y=-85133.078"
-        }
-    ],
-    "POI_custom_BrickYard": [
-        {
-            "TopLeft": "X=-766321.125 Y=-273100.594",
-            "BottomRight": "X=-799536.562 Y=-294348.688"
-        }
-    ],
-    "POI_custom_CementFactory": [
-        {
-            "TopLeft": "X=-390450.000 Y=12775.000",
-            "BottomRight": "X=-423262.594 Y=-24266.750"
-        }
-    ],
-    "POI_custom_CoalMine": [
-        {
-            "TopLeft": "X=-444421.906 Y=438232.312",
-            "BottomRight": "X=-466634.969 Y=411954.969"
-        }
-    ],
-    "POI_custom_CommunityCenter": [
-        {
+            "Name": "Community Center",
             "TopLeft": "X=182772.42 Y=57584.63",
             "BottomRight": "X=148236.92 Y=21730.98"
         }
     ],
-    "POI_custom_Hospital": [
+    "POI_PVE": [
         {
+            "Name": "Airfield",
+            "TopLeft": "X=531550.9015 Y=616560.2079",
+            "BottomRight": "X=431478.7812 Y=519607.8419"
+        },
+        {
+            "Name": "TrainYard",
+            "TopLeft": "X=108377.805 Y=-151269.891",
+            "BottomRight": "X=78730.375 Y=-182220.078"
+        },
+        {
+            "Name": "AirField",
+            "TopLeft": "X=383502.5589 Y=-511968.1178",
+            "BottomRight": "X=342555.783 Y=-537316.1219"
+        },
+        {
+            "Name": "BootCamp",
+            "TopLeft": "X=277040.9417 Y=-17097.084",
+            "BottomRight": "X=232974.4115 Y=-50634.4433"
+        },
+        {
+            "Name": "Dam",
+            "TopLeft": "X=9789.359 Y=271091.594",
+            "BottomRight": "X=-25888.350 Y=232471.469"
+        },
+        {
+            "Name": "Cement Factory",
+            "TopLeft": "X=-390450.000 Y=12775.000",
+            "BottomRight": "X=-423262.594 Y=-24266.750"
+        },
+        {
+            "Name": "Hospital",
             "TopLeft": "X=-611478.875 Y=-99940.992",
             "BottomRight": "X=-655928.875 Y=-195923.688"
-        }
-    ],
-    "POI_custom_MechFactory": [
+        },
         {
-            "TopLeft": "X=-416551.375 Y=-658164.500",
-            "BottomRight": "X=-459235.406 Y=-716178.688"
-        }
-    ],
-    "POI_custom_Mirkovci": [
-        {
-            "TopLeft": "X=309241.281 Y=-156663.906",
-            "BottomRight": "X=264562.531 Y=-202506.281"
-        }
-    ],
-    "POI_custom_NavalBase": [
-        {
-            "TopLeft": "X=532989.607 Y=-504735.4323",
-            "BottomRight": "X=458687.531 Y=-588262.8977"
-        }
-    ],
-    "POI_custom_Novigrad": [
-        {
-            "TopLeft": "X=-137546.172 Y=-658548.625",
-            "BottomRight": "X=-186394.938 Y=-710344.563"
-        }
-    ],
-    "POI_custom_NuclearPowerPlant": [
-        {
-            "TopLeft": "X=-669521.125 Y=243415.000",
-            "BottomRight": "X=-751730.000 Y=183879.453"
-        }
-    ],
-    "POI_custom_Quarry": [
-        {
+            "Name": "Quarry",
             "TopLeft": "X=173626.625 Y=-251815.703",
             "BottomRight": "X=104838.109 Y=-388328.312"
+        },
+        {
+            "Name": "Krsko City",
+            "TopLeft": "X=-752400.000 Y=192691.750",
+            "BottomRight": "X=-900566.688 Y=29708.375"
         }
     ],
-    "POI_custom_Samobor": [
+    "POI_PVP": [
         {
+            "Name": "Airport B2",
+            "TopLeft": "X=-176504.328 Y=31344.752",
+            "BottomRight": "X=-352579.688 Y=-85133.078"
+        },
+        {
+            "Name": "Brick Yard",
+            "TopLeft": "X=-766321.125 Y=-273100.594",
+            "BottomRight": "X=-799536.562 Y=-294348.688"
+        },
+        {
+            "Name": "Coal Mine",
+            "TopLeft": "X=-444421.906 Y=438232.312",
+            "BottomRight": "X=-466634.969 Y=411954.969"
+        },
+        {
+            "Name": "Mech Factory",
+            "TopLeft": "X=-416551.375 Y=-658164.500",
+            "BottomRight": "X=-459235.406 Y=-716178.688"
+        },
+        {
+            "Name": "Naval Base",
+            "TopLeft": "X=532989.607 Y=-504735.4323",
+            "BottomRight": "X=458687.531 Y=-588262.8977"
+        },
+        {
+            "Name": "Nuclear Power Plant",
+            "TopLeft": "X=-669521.125 Y=243415.000",
+            "BottomRight": "X=-751730.000 Y=183879.453"
+        },
+        {
+            "Name": "Samobor",
             "TopLeft": "X=401577.344 Y=437500.906",
             "BottomRight": "X=224053.797 Y=269610.656"
-        }
-    ],
-    "POI_custom_ScrapYard": [
+        },
         {
+            "Name": "Scrap Yard",
             "TopLeft": "X=-854244.250 Y=-163196.766",
             "BottomRight": "X=-879888.438 Y=-208867.906"
-        }
-    ],
-    "POI_custom_Spickovina": [
+        },
         {
-            "TopLeft": "X=-30912.904 Y=-73909.492",
-            "BottomRight": "X=-79165.945 Y=-100700.492"
-        }
-    ],
-    "POI_custom_Tisno": [
-        {
-            "TopLeft": "X=-17658.209 Y=-470713.938",
-            "BottomRight": "X=-51762.984 Y=-503011.969"
-        }
-    ],
-    "POI_custom_TrainYard": [
-        {
+            "Name": "Train Yard",
             "TopLeft": "X=-248945.188 Y=-709153.813",
             "BottomRight": "X=-394300.031 Y=-799647.875"
+        },
+        {
+            "Name": "Prison",
+            "TopLeft": "X=-45447.859 Y=164459.594",
+            "BottomRight": "X=-82107.438 Y=126724.211"
+        },
+        {
+            "Name": "RaceTrack",
+            "TopLeft": "X=285116.401 Y=-737888.1903",
+            "BottomRight": "X=243519.6764 Y=-774285.3244"
+        },
+        {
+            "Name": "AirField",
+            "TopLeft": "X=-754216.1427 Y=-668134.4446",
+            "BottomRight": "X=-767586.5185 Y=-686852.9707"
+        },
+        {
+            "Name": "Military Compound",
+            "TopLeft": "X=-837066.688 Y=562050.000",
+            "BottomRight": "X=-883633.312 Y=495375.000"
+        },
+        {
+            "Name": "Radio Tower",
+            "TopLeft": "X=-834950.000 Y=351441.625",
+            "BottomRight": "X=-888925.000 Y=302758.375"
+        },
+        {
+            "Name": "Saw Mill",
+            "TopLeft": "X=-71498.602 Y=516977.812",
+            "BottomRight": "X=-105758.312 Y=472091.750"
         }
     ],
     "WarZoneDrops": [
