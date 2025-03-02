@@ -36,12 +36,14 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 		const zonesData: ZonesData = {
 			pvp: zones.PVP || [],
 			pve: zones.PVE || [],
+
 			pois: Object.entries(zones)
 				.filter(([key]) => key.startsWith('POI_custom_'))
 				.reduce((acc, [key, value]) => {
 					acc[key] = value;
 					return acc;
 				}, {} as Record<string, Zone[]>),
+				
 			pveBunkers: [
 				...(zones.Bunkers_PVE || []),
 				...(zones.Bunkers_PVE_AB || []),
@@ -88,7 +90,7 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 			zonesData.pvp.forEach((zone) => {
 				if (zone.TopLeft && zone.BottomRight) {
 					displayData.push({
-						name: 'PVP Zone',
+						name: `PVP Zone `,
 						topLeft: zone.TopLeft,
 						bottomRight: zone.BottomRight,
 					});
@@ -100,7 +102,7 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 			zonesData.pve.forEach((zone) => {
 				if (zone.TopLeft && zone.BottomRight) {
 					displayData.push({
-						name: 'PVE Zone',
+						name: `PVE Zone`,
 						topLeft: zone.TopLeft,
 						bottomRight: zone.BottomRight,
 					});
@@ -109,8 +111,10 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 		}
 
 		if (poisToggle?.checked) {
+			console.log('zonesData.pois: ', zonesData.pois);
 			Object.entries(zonesData.pois).forEach(([key, zones]) => {
 				zones.forEach((zone) => {
+					console.log('zone: ', zone);
 					if (zone.TopLeft && zone.BottomRight) {
 						displayData.push({
 							name: key.replace('POI_custom_', ''),
@@ -126,7 +130,7 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 			zonesData.pveBunkers.forEach((zone) => {
 				if (zone.TopLeft && zone.BottomRight) {
 					displayData.push({
-						name: 'PVE Bunker',
+						name: `${zone.Name} Bunker - PVE `,
 						topLeft: zone.TopLeft,
 						bottomRight: zone.BottomRight,
 					});
@@ -138,7 +142,7 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 			zonesData.pvpBunkers.forEach((zone) => {
 				if (zone.TopLeft && zone.BottomRight) {
 					displayData.push({
-						name: 'PVP Bunker',
+						name: `${zone.Name} Bunker - PVP`,
 						topLeft: zone.TopLeft,
 						bottomRight: zone.BottomRight,
 					});
@@ -150,7 +154,7 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 			zonesData.warzones.forEach((zone) => {
 				if (zone.TopLeft && zone.BottomRight) {
 					displayData.push({
-						name: 'Warzone',
+						name: ` - Warzone`,
 						topLeft: zone.TopLeft,
 						bottomRight: zone.BottomRight,
 					});
