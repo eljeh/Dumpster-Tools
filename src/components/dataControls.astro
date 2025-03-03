@@ -14,7 +14,9 @@
 		>
 		<label><input type='checkbox' id='modifiers-toggle' />Loots Modifiers</label
 		><span class='nav-divider'>|</span>
-		<label><input type='checkbox' id='zones-toggle' />Zones</label>
+		<label
+			><input type='checkbox' id='settingZones-toggle' />Settings Zones</label
+		>
 	</div>
 
 	<div class='subNav-container'>
@@ -30,35 +32,26 @@
 		</div>
 
 		<div class='loot-modifiers'>
-			<label><input type='checkbox' id='pvp-toggle' />PvP</label><span
-				class='nav-divider'>|</span
-			>
-			<label><input type='checkbox' id='pve-toggle' />PvE</label><span
-				class='nav-divider'>|</span
-			>
-			<label><input type='checkbox' id='pois-pvp-toggle' />PvP POIs</label><span
-			class='nav-divider'>|</span
-		>
-			<label><input type='checkbox' id='pois-pve-toggle' />PvE POIs</label><span
-				class='nav-divider'>|</span
-			>
-			<label><input type='checkbox' id='pve-bunker-toggle' />PvE Bunkers</label
-			><span class='nav-divider'>|</span>
-			<label><input type='checkbox' id='pvp-bunker-toggle' />PvP Bunkers</label
-			><span class='nav-divider'>|</span>
+			<label><input type='checkbox' id='mapZones-toggle' />Map Zones</label>
+			<span class='nav-divider'>|</span>
+			<label><input type='checkbox' id='pois-pvp-toggle' />PvP POIs</label>
+			<span class='nav-divider'>|</span>
+			<label><input type='checkbox' id='pois-pve-toggle' />PvE POIs</label>
+			<span class='nav-divider'>|</span>
+			<label><input type='checkbox' id='pve-bunker-toggle' />PvE Bunkers</label>
+			<span class='nav-divider'>|</span>
+			<label><input type='checkbox' id='pvp-bunker-toggle' />PvP Bunkers</label>
+			<span class='nav-divider'>|</span>
 			<label><input type='checkbox' id='warzones-toggle' />Warzones</label>
 		</div>
 
-		<div class='zones'>
-			<label><input type='checkbox' id='events-toggle' />Events</label><span
-				class='nav-divider'>|</span
-			>
-			<label><input type='checkbox' id='bunkers-toggle' />Bunkers</label><span
-				class='nav-divider'>|</span
-			>
-			<label><input type='checkbox' id='outposts-toggle' />Outposts</label><span
-				class='nav-divider'>|</span
-			>
+		<div class='settingZones'>
+			<label><input type='checkbox' id='events-toggle' />Events</label>
+			<span class='nav-divider'>|</span>
+			<label><input type='checkbox' id='bunkers-toggle' />Bunkers</label>
+			<span class='nav-divider'>|</span>
+			<label><input type='checkbox' id='outposts-toggle' />Outposts</label>
+			<span class='nav-divider'>|</span>
 		</div>
 	</div>
 </div>
@@ -80,10 +73,10 @@
 		const lootModifiers = document.querySelector(
 			'.loot-modifiers',
 		) as HTMLElement;
-		const zonesToggle = document.getElementById(
-			'zones-toggle',
+		const settingZonesToggle = document.getElementById(
+			'settingZones-toggle',
 		) as HTMLInputElement;
-		const zones = document.querySelector('.zones') as HTMLElement;
+		const settingZones = document.querySelector('.settingZones') as HTMLElement;
 
 		mainNavToggles.forEach((toggle) => {
 			toggle.addEventListener('change', (e) => {
@@ -99,7 +92,9 @@
 				// Handle visibility of sub-sections
 				vehicleTypes.style.display = vehiclesToggle.checked ? 'flex' : 'none';
 				lootModifiers.style.display = modifiersToggle.checked ? 'flex' : 'none';
-				zones.style.display = zonesToggle.checked ? 'flex' : 'none';
+				settingZones.style.display = settingZonesToggle.checked
+					? 'flex'
+					: 'none';
 			});
 		});
 	});
@@ -163,7 +158,7 @@
 	/* Form Controls */
 	.vehicle-container,
 	.modifiers-container,
-	.zones-container {
+	.settingZones-container {
 		display: flex;
 		flex-direction: column;
 		gap: 0.5em;
@@ -181,7 +176,7 @@
 
 	.vehicle-types,
 	.loot-modifiers,
-	.zones {
+	.settingZones {
 		margin-top: 1em;
 		display: none;
 		flex-direction: row;

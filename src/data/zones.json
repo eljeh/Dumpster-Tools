@@ -1,18 +1,14 @@
 {
-    "PVE": [
+    "MapZones": [
         {
+            "Name": "PvE Zone",
             "TopLeft": "X=619196.750 Y=619196.750",
-            "BottomRight": "X=-599996.750 Y=-599996.750"
-        }
-    ],
-    "PVP": [
-        {
-            "TopLeft": "X=-600000.000 Y=619200.000",
-            "BottomRight": "X=-904795.125 Y=-904795.125"
+            "BottomRight": "X=-904795.125 Y=-599987.812"
         },
         {
+            "Name": "PvP Zone",
             "TopLeft": "X=617901.562 Y=-597895.812",
-            "BottomRight": "X=-600000.000 Y=-904795.125"
+            "BottomRight": "X=-904795.125 Y=-904795.125"
         }
     ],
     "Sector_A0": [

@@ -1,6 +1,6 @@
 ---
 import zones from '../data/zones.json';
-import settingZones from '../data/settingZones.json';
+// import settingZones from '../data/settingZones.json';
 import MapControls from './MapControls.astro';
 import DataControls from './dataControls.astro';
 import LootManager from './lootManager.astro';
@@ -41,13 +41,12 @@ const toSvgY = (y: number) => 1000 - ((y - minY) / (maxY - minY)) * 1000; // Fli
 
 const ZONE_NAME_MAPPINGS = {
 	Sector_: (name: string) => name.replace('Sector_', ''),
-	POI_PVP_: (name: string) => name.replace('POI_PVP_', 'PvP '),
-	POI_PVE_: (name: string) => name.replace('POI_PVE_', 'PvE '),
+	// MapZones: (name: string) => name,
 	POI_PVP: (name: string) => name.replace('POI_PVP', 'PvP '),
 	POI_PVE: (name: string) => name.replace('POI_PVE', 'PvE '),
 	Bunkers_PVP: (name: string) => name.replace('Bunkers_PVP', 'PvP Bunker'),
 	Bunkers_PVE: (name: string) => name.replace('Bunkers_PVE', 'PvE Bunker'),
-	Outpost_: (name: string) => `${name.replace('Outpost_', '')} Outpost`,
+	// Outpost_: (name: string) => `${name.replace('Outpost_', '')} Outpost`,
 	WarZoneDrops: (name: string) => name.replace('WarZoneDrops', 'Warzone Drops'),
 } as const;
 
@@ -84,7 +83,6 @@ const formatZoneName = (zoneName: string): string => {
 
 		<svg viewBox='210 30 930 930' class='map'>
 			<image
-
 				href='../assets/images/MapZones.png'
 				width='1000'
 				height='1000'
@@ -93,7 +91,6 @@ const formatZoneName = (zoneName: string): string => {
 			/>
 			{
 				Object.entries(zones).map(([zoneName, zoneArray]) =>
-					
 					zoneArray.map((zone) => {
 						if (!zone.TopLeft || !zone.BottomRight) return null;
 
@@ -146,7 +143,7 @@ const formatZoneName = (zoneName: string): string => {
 					}),
 				)
 			}
-			{
+			<!-- {
 				Object.entries(settingZones).map(([zoneName, zoneArray]) =>
 					zoneArray.map((zone) => {
 						if (!zone.Center) return null;
@@ -219,7 +216,7 @@ const formatZoneName = (zoneName: string): string => {
 						);
 					}),
 				)
-			}
+			} -->
 		</svg>
 	</div>
 </div>
@@ -325,8 +322,9 @@ const formatZoneName = (zoneName: string): string => {
 		const wheelbarrowToggle = document.getElementById(
 			'wheelbarrow-toggle',
 		) as HTMLInputElement;
-		const pvpToggle = document.getElementById('pvp-toggle') as HTMLInputElement;
-		const pveToggle = document.getElementById('pve-toggle') as HTMLInputElement;
+		const mapZonesToggle = document.getElementById(
+			'mapZones-toggle',
+		) as HTMLInputElement;
 		const pveBunkerToggle = document.getElementById(
 			'pve-bunker-toggle',
 		) as HTMLInputElement;
@@ -339,9 +337,6 @@ const formatZoneName = (zoneName: string): string => {
 		const outpostsToggle = document.getElementById(
 			'outposts-toggle',
 		) as HTMLInputElement;
-		// const poisToggle = document.getElementById(
-		// 	'pois-toggle',
-		// ) as HTMLInputElement;
 		const bunkersToggle = document.getElementById(
 			'bunkers-toggle',
 		) as HTMLInputElement;
@@ -557,8 +552,7 @@ const formatZoneName = (zoneName: string): string => {
 			notRegisteredVehiclesToggle,
 			'.vehicle-marker.not-registered',
 		);
-		updateVisibility(pvpToggle, '.zone-PVP');
-		updateVisibility(pveToggle, '.zone-PVE');
+		updateVisibility(mapZonesToggle, '.zone-MapZones');
 		updateVisibility(bunkersToggle, '[class^="zone-PVP_Bunker"]');
 		updateVisibility(bunkersToggle, '[class^="zone-PVE_Bunker"]');
 		updateVisibility(pveBunkerToggle, '[class^="zone-Bunkers_PVE"]');
@@ -653,8 +647,7 @@ const formatZoneName = (zoneName: string): string => {
 
 		// Add event listeners for toggles
 		[
-			'pvp-toggle',
-			'pve-toggle',
+			'mapZones-toggle',
 			'pois-pvp-toggle',
 			'pois-pve-toggle',
 			'pve-bunker-toggle',
@@ -887,7 +880,7 @@ const formatZoneName = (zoneName: string): string => {
 	[class^='zone-POI_EVENT'] text,
 	[class^='zone-POI_PVE'] text,
 	[class^='zone-POI_PVP'] text,
-	[class^='zone-POI_'] text,
+	/* [class^='zone-POI_'] text, */
 	[class^='zone-Bunkers_PVE'] text,
 	[class^='zone-Bunkers_PVP'] text,
 	.zone-Outpost_A0 text,
@@ -943,8 +936,7 @@ const formatZoneName = (zoneName: string): string => {
 
 	/* POI and Outpost Styles */
 	[class^='zone-Outpost_'] .zone-circ,
-	[class^='zone-POI_'] .zone-circ
-	[class^='zone-POI_'] .zone-rect {
+	[class^='zone-POI_'] .zone-circ [class^='zone-POI_'] .zone-rect {
 		fill: var(--color-poi-fill);
 		stroke: var(--color-poi);
 		stroke-width: 0.5;

@@ -7,8 +7,9 @@ interface Zone {
 }
 
 interface ZonesData {
-	pvp: Zone[];
-	pve: Zone[];
+	MapZones: Zone[];
+	// pvp: Zone[];
+	// pve: Zone[];
 	pois_pvp: Zone[];
 	pois_pve: Zone[];
 	pveBunkers: Zone[];
@@ -17,8 +18,9 @@ interface ZonesData {
 }
 
 interface ToggleStates {
-	pvp: boolean;
-	pve: boolean;
+	MapZones: boolean;
+	// pvp: boolean;
+	// pve: boolean;
 	pois_pvp: boolean;
 	pois_pve: boolean;
 	pveBunker: boolean;
@@ -36,8 +38,9 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 	try {
 		// Get the zones data
 		const zonesData: ZonesData = {
-			pvp: zones.PVP || [],
-			pve: zones.PVE || [],
+			// pvp: zones.PVP || [],
+			// pve: zones.PVE || [],
+			MapZones: zones.MapZones || [],
 			pois_pvp: Object.entries(zones)
 				.filter(([key]) => key.startsWith('POI_PVP'))
 				.flatMap(([_, zones]) => zones),
@@ -48,7 +51,7 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 				...(zones.Bunkers_PVE || []),
 				...(zones.Bunkers_PVE_AB || []),
 			],
-			pvpBunkers: [
+			pvpBunkers: [	
 				...(zones.Bunkers_PVP || []),
 				...(zones.Bunkers_PVP_AB || []),
 			],
@@ -56,8 +59,9 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 		};
 
 		// Get toggle elements
-		const pvpToggle = document.getElementById('pvp-toggle') as HTMLInputElement;
-		const pveToggle = document.getElementById('pve-toggle') as HTMLInputElement;
+		const mapZonesToggle = document.getElementById('mapZones-toggle') as HTMLInputElement;
+		// const pvpToggle = document.getElementById('pvp-toggle') as HTMLInputElement;
+		// const pveToggle = document.getElementById('pve-toggle') as HTMLInputElement;
 		const pois_pvpToggle = document.getElementById('pois-pvp-toggle') as HTMLInputElement;
 		const pois_pveToggle = document.getElementById('pois-pve-toggle') as HTMLInputElement;
 		const pveBunkerToggle = document.getElementById('pve-bunker-toggle') as HTMLInputElement;
@@ -87,11 +91,11 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 		const displayData: DisplayItem[] = [];
 
 		// Collect data based on toggle states
-		if (pvpToggle?.checked && zonesData.pvp) {
-			zonesData.pvp.forEach((zone) => {
+		if (mapZonesToggle?.checked && zonesData.MapZones) {
+			zonesData.MapZones.forEach((zone) => {
 				if (zone.TopLeft && zone.BottomRight) {
 					displayData.push({
-						name: `PVP Zone `,
+						name: zone.Name,
 						topLeft: zone.TopLeft,
 						bottomRight: zone.BottomRight,
 					});
@@ -99,17 +103,17 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 			});
 		}
 
-		if (pveToggle?.checked && zonesData.pve) {
-			zonesData.pve.forEach((zone) => {
-				if (zone.TopLeft && zone.BottomRight) {
-					displayData.push({
-						name: `PVE Zone`,
-						topLeft: zone.TopLeft,
-						bottomRight: zone.BottomRight,
-					});
-				}
-			});
-		}
+		// if (pveToggle?.checked && zonesData.pve) {
+		// 	zonesData.pve.forEach((zone) => {
+		// 		if (zone.TopLeft && zone.BottomRight) {
+		// 			displayData.push({
+		// 				name: `PVE Zone`,
+		// 				topLeft: zone.TopLeft,
+		// 				bottomRight: zone.BottomRight,
+		// 			});
+		// 		}
+		// 	});
+		// }
 
 		if (pois_pvpToggle?.checked && zonesData.pois_pvp) {
 			zonesData.pois_pvp.forEach((zone) => {
@@ -171,12 +175,33 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 			});
 		}
 
+		// Only proceed if there is data to display
+		if (displayData.length > 0) {
+			// Add data rows
+			displayData.forEach((item) => {
+				const li = document.createElement('li');
+				li.innerHTML = `
+					<span class="zoneName">${item.name}</span>
+					<span class="coords">${item.topLeft || 'N/A'}</span>
+					<span class="coords">${item.bottomRight || 'N/A'}</span>
+				`;
+				ul.appendChild(li);
+			});
+
+			div.appendChild(ul);
+			dataTable.appendChild(div);
+			dataTable.style.display = 'block';
+		} else {
+			dataTable.style.display = 'none';
+		}
+
 		// Log the filtered data
 		console.log('Selected Zone Data:', {
 			total: displayData.length,
 			toggles: {
-				pvp: pvpToggle?.checked,
-				pve: pveToggle?.checked,
+				mapZones: mapZonesToggle?.checked,
+				// pvp: pvpToggle?.checked,
+				// pve: pveToggle?.checked,
 				pois_pvp: pois_pvpToggle?.checked,
 				pois_pve: pois_pveToggle?.checked,
 				pveBunker: pveBunkerToggle?.checked,
@@ -185,29 +210,15 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 			},
 			data: displayData,
 		});
-
-		// Add data rows
-		displayData.forEach((item) => {
-			const li = document.createElement('li');
-			li.innerHTML = `
-        <span class="zoneName">${item.name}</span>
-        <span class="coords">${item.topLeft || 'N/A'}</span>
-        <span class="coords">${item.bottomRight || 'N/A'}</span>
-      `;
-			ul.appendChild(li);
-		});
-
-		div.appendChild(ul);
-		dataTable.appendChild(div);
 	} catch (error) {
 		console.error('Error displaying zone data:', error);
 		const dataTable = document.getElementById('data-table');
 		if (dataTable) {
 			dataTable.innerHTML = `
-        <div style="color: red; padding: 1em;">
-          Error loading zone data. Please check the console for details.
-        </div>
-      `;
+				<div style="color: red; padding: 1em;">
+					Error loading zone data. Please check the console for details.
+				</div>
+			`;
 		}
 	}
 } 
