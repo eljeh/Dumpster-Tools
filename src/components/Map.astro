@@ -116,14 +116,14 @@ const formatZoneName = (zoneName: string): string => {
 
 						return (
 							<g
-								class={`zone-${zoneName}`}
+								class={`zone-${zoneName} ${zoneName === 'MapZones' ? `zone-${zone.Name.replace(' ', '')}` : ''}`}
 								style={
-									zoneName.includes('Sector_')
+									zoneName.includes('Sector_') || zoneName === 'MapZones'
 										? 'display: block;'
 										: 'display: none;'
 								}>
 								<title>
-									{`${sector}\nTop Left: (${topLeft.x.toFixed(2)}, ${topLeft.y.toFixed(2)})\nBottom Right: (${bottomRight.x.toFixed(2)}, ${bottomRight.y.toFixed(2)})`}
+									{`${zoneName === 'MapZones' ? zone.Name : sector}\nTop Left: (${topLeft.x.toFixed(2)}, ${topLeft.y.toFixed(2)})\nBottom Right: (${bottomRight.x.toFixed(2)}, ${bottomRight.y.toFixed(2)})`}
 								</title>
 								<rect
 									x={toSvgX(Math.min(topLeft.x, bottomRight.x))}
@@ -136,7 +136,7 @@ const formatZoneName = (zoneName: string): string => {
 									x={toSvgX(Math.min(topLeft.x, bottomRight.x)) + width / 2}
 									y={toSvgY(Math.max(topLeft.y, bottomRight.y)) + height / 2}
 									class='zone-label'>
-									{sector}
+									{zoneName === 'MapZones' ? zone.Name : sector}
 								</text>
 							</g>
 						);
@@ -898,7 +898,7 @@ const formatZoneName = (zoneName: string): string => {
 	}
 
 	/* Zone Type Specific Styles */
-	.zone-PVE .zone-rect {
+	.zone-PvEZone .zone-rect {
 		fill: var(--color-pve-fill);
 		stroke: var(--color-pve);
 		stroke-width: 1;
@@ -907,10 +907,13 @@ const formatZoneName = (zoneName: string): string => {
 		}
 	}
 
-	.zone-PVP .zone-rect {
+	.zone-PvPZone .zone-rect {
 		fill: var(--color-pvp-fill);
 		stroke: var(--color-pvp);
 		stroke-width: 1;
+		&:hover {
+			fill: var(--color-pvp-hover);
+		}
 	}
 
 	.zone-WarZoneDrops .zone-rect {
