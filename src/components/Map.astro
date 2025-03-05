@@ -189,6 +189,13 @@ const formatZoneName = (zoneName: string): string => {
 	const FTPUser = PUBLIC_FTP_USER;
 	const FTPPass = PUBLIC_FTP_PASS;
 
+	// Add this at the top of your script to declare the global type
+	declare global {
+		interface Window {
+			countdownTimer: number;
+		}
+	}
+
 	document.addEventListener('astro:page-load', () => {
 		const mapContainer = document.querySelector(
 			'.map-container',
@@ -322,6 +329,12 @@ const formatZoneName = (zoneName: string): string => {
 				'.progress-fill',
 			) as HTMLElement;
 			const countdown = document.querySelector('.countdown') as HTMLElement;
+
+			// Clear any existing countdown
+			if (window.countdownTimer) {
+				clearTimeout(window.countdownTimer);
+			}
+
 			progress.style.display = 'flex';
 			progressFill.style.width = '0%';
 
@@ -338,7 +351,7 @@ const formatZoneName = (zoneName: string): string => {
 
 				if (timeLeft > 0) {
 					timeLeft--;
-					setTimeout(updateCountdown, 1000);
+					window.countdownTimer = setTimeout(updateCountdown, 1000);
 				}
 			};
 
@@ -354,6 +367,12 @@ const formatZoneName = (zoneName: string): string => {
 				'.progress-fill',
 			) as HTMLElement;
 			const countdown = document.querySelector('.countdown') as HTMLElement;
+
+			// Clear any existing countdown
+			if (window.countdownTimer) {
+				clearTimeout(window.countdownTimer);
+			}
+
 			progressFill.style.width = '100%';
 			countdown.textContent = '0:00';
 			setTimeout(() => {
@@ -1384,10 +1403,10 @@ const formatZoneName = (zoneName: string): string => {
 	}
 
 	.progress-text {
-    color: var(--color-white);
-    font-size: 0.75em;
-    white-space: nowrap;
-    text-align: right;
-    min-width: 16ch;
+		color: var(--color-white);
+		font-size: 0.75em;
+		white-space: nowrap;
+		text-align: right;
+		min-width: 16ch;
 	}
 </style>
