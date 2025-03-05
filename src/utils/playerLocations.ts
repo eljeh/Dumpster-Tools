@@ -98,7 +98,7 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 				li.innerHTML = `
 					<span title="#TeleportTo ${player.playerName}" class="playerName">${player.playerName}</span>
 					<a class="steamID" href="/playerInfo?playerid=${player.steamID}" title="${player.steamID}">${player.steamID}</a>
-					<span class="clickable coords" title="#Teleport ${player.lastKnownLocation}">${playerX.toFixed(2)}, ${playerY.toFixed(2)}, ${playerZ.toFixed(2)}</span>
+					<span class="clickable coords" title="#Teleport ${player.lastKnownLocation}">${playerX.toFixed(2)} ${playerY.toFixed(2)} ${playerZ.toFixed(2)}</span>
 					<span class="pType">${player.type}</span>
 				`;
 

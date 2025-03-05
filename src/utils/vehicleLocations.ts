@@ -210,7 +210,7 @@ export function displayVehicleLocations(
 					);
 					text.setAttribute('x', toSvgX(vehicleX).toString());
 					text.setAttribute('y', (toSvgY(vehicleY) - 5).toString());
-					text.textContent = vehicleType.replace('_', ' ');
+					text.textContent = vehicleType.replace('_', ' ').replace(`Metal`, 'Mtl').replace(`Improvised`, 'Imp');
 					g.appendChild(circle);
 					g.appendChild(text);
 					container.appendChild(g);
