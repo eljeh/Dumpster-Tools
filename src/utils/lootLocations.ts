@@ -167,7 +167,7 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 			zonesData.warzones.forEach((zone) => {
 				if (zone.TopLeft && zone.BottomRight) {
 					displayData.push({
-						name: ` - Warzone`,
+						name: `${zone.Name} - Warzone`,
 						topLeft: zone.TopLeft,
 						bottomRight: zone.BottomRight,
 					});

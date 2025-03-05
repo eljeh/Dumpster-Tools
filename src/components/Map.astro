@@ -47,7 +47,7 @@ const ZONE_NAME_MAPPINGS = {
 	Bunkers_PVP: (name: string) => name.replace('Bunkers_PVP', 'PvP Bunker'),
 	Bunkers_PVE: (name: string) => name.replace('Bunkers_PVE', 'PvE Bunker'),
 	// Outpost_: (name: string) => `${name.replace('Outpost_', '')} Outpost`,
-	WarZoneDrops: (name: string) => name.replace('WarZoneDrops', 'Warzone Drops'),
+	WarZoneDrops: (name: string) => name.replace('WarZoneDrops', 'Warzone Drop'),
 } as const;
 
 const formatZoneName = (zoneName: string): string => {
@@ -136,7 +136,7 @@ const formatZoneName = (zoneName: string): string => {
 									x={toSvgX(Math.min(topLeft.x, bottomRight.x)) + width / 2}
 									y={toSvgY(Math.max(topLeft.y, bottomRight.y)) + height / 2}
 									class='zone-label'>
-									{zoneName === 'MapZones' ? zone.Name : sector}
+									{!zoneName.startsWith('Sector_') ? zone.Name : sector}
 								</text>
 							</g>
 						);
@@ -1000,12 +1000,14 @@ const formatZoneName = (zoneName: string): string => {
 		fill: var(--color-accent);
 		text-shadow: 0px 0px 10px rgb(0, 0, 0);
 		stroke-width: 0.75;
+		transition: all 0.2s ease-in-out;
 	}
 
 	.player-marker.highlighted text {
 		font-size: 0.5em;
 		fill: var(--color-white);
 		text-shadow: 0px 0px 10px rgb(0, 0, 0);
+		transition: all 0.2s ease-in-out;
 	}
 
 	/* Vehicle Marker Styles */
@@ -1039,14 +1041,15 @@ const formatZoneName = (zoneName: string): string => {
 	.vehicle-marker.highlighted .vehicle-icon {
 		fill: var(--color-accent);
 		stroke-width: 0.75;
-		transform: scale(1.5);
-		transition: transform 0.2s ease-in-out;
+		r: 5;
+		transition: all 0.2s ease-in-out;
 	}
 
 	.vehicle-marker.highlighted text {
 		font-size: 0.5em;
 		fill: var(--color-white);
 		text-shadow: 0px 0px 10px rgb(0, 0, 0);
+		transition: all 0.2s ease-in-out;
 	}
 
 	/* Event Marker Styles */
