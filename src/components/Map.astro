@@ -143,86 +143,20 @@ const formatZoneName = (zoneName: string): string => {
 					}),
 				)
 			}
-			<!-- {
-				Object.entries(settingZones).map(([zoneName, zoneArray]) =>
-					zoneArray.map((zone) => {
-						if (!zone.Center) return null;
-
-						const center = {
-							x: -parseFloat(zone.Center.split(' ')[0]), // Flip X coordinate
-							y: parseFloat(zone.Center.split(' ')[1]),
-						};
-
-						// Handle both circular and rectangular zones
-						const isCircular = zone.Radius !== undefined;
-						let width, height, radius;
-
-						if (isCircular) {
-							radius = parseFloat(zone.Radius) * 100000;
-						} else if (zone.size) {
-							const [sizeX, sizeY] = zone.size
-								.split(' ')
-								.map((s) => parseFloat(s) * 100000);
-							width = sizeX;
-							height = sizeY;
-						} else {
-							return null;
-						}
-
-						// if zoneName starts with Sector_, add zone-Sector_ to the class
-						const sector = formatZoneName(zoneName);
-
-						return (
-							<g
-								class={`zone-${zoneName}`}
-								style={
-									zoneName.includes('Sector_')
-										? 'display: block;'
-										: 'display: none;'
-								}>
-								<title>
-									{isCircular
-										? `${sector}\nCenter: (${center.x.toFixed(2)}, ${center.y.toFixed(2)})\nRadius: ${zone.Radius}`
-										: `${sector}\nCenter: (${center.x.toFixed(2)}, ${center.y.toFixed(2)})\nSize: ${zone.size}`}
-								</title>
-
-								{isCircular ? (
-									<circle
-										cx={toSvgX(center.x)}
-										cy={toSvgY(center.y)}
-										r={(radius / (maxX - minX)) * 1000}
-										class='zone-circ'
-									/>
-								) : (
-									<rect
-										x={toSvgX(center.x - width)}
-										y={toSvgY(center.y + height)}
-										width={(width / (maxX - minX)) * 2000}
-										height={(height / (maxY - minY)) * 2000}
-										class='zone-rect'
-									/>
-								)}
-								<text
-									x={toSvgX(center.x)}
-									y={toSvgY(center.y)}
-									class='zone-label'>
-									{sector
-										.replace('PvP', '')
-										.replace('PvE', '')
-										.replace('PVP_', '')
-										.replace('PVE_', '')}
-								</text>
-							</g>
-						);
-					}),
-				)
-			} -->
 		</svg>
 	</div>
 </div>
 
 <div class='data-table-wrapper' transition:name='wrapper'>
 	<DataControls />
+	<div class='update-progress'>
+		<div class='progress-bar'>
+			<div class='progress-fill'></div>
+		</div>
+		<div class='progress-text'>
+			Next update in: <span class='countdown'>3:00</span>
+		</div>
+	</div>
 	<div id='data-table' class='data-table-container'></div>
 </div>
 
@@ -238,6 +172,7 @@ const formatZoneName = (zoneName: string): string => {
 	import { displayPlayerLocations } from '../utils/playerLocations';
 	import { displayVehicleLocations } from '../utils/vehicleLocations';
 	import { displayLootLocations } from '../utils/lootLocations';
+	import { updateDataWithDiff, clearDataCache } from '../utils/dataUpdate';
 
 	import {
 		PUBLIC_WBAUTH,
@@ -378,6 +313,54 @@ const formatZoneName = (zoneName: string): string => {
 			});
 		}
 
+		// Function to show progress bar and start countdown
+		function showProgress() {
+			const progress = document.querySelector(
+				'.update-progress',
+			) as HTMLElement;
+			const progressFill = document.querySelector(
+				'.progress-fill',
+			) as HTMLElement;
+			const countdown = document.querySelector('.countdown') as HTMLElement;
+			progress.style.display = 'flex';
+			progressFill.style.width = '0%';
+
+			// Start countdown from 3 minutes
+			let timeLeft = 180; // 3 minutes in seconds
+			const updateCountdown = () => {
+				const minutes = Math.floor(timeLeft / 60);
+				const seconds = timeLeft % 60;
+				countdown.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+				// Update progress bar
+				const progress = ((180 - timeLeft) / 180) * 100;
+				progressFill.style.width = `${progress}%`;
+
+				if (timeLeft > 0) {
+					timeLeft--;
+					setTimeout(updateCountdown, 1000);
+				}
+			};
+
+			updateCountdown();
+		}
+
+		// Function to hide progress bar
+		function hideProgress() {
+			const progress = document.querySelector(
+				'.update-progress',
+			) as HTMLElement;
+			const progressFill = document.querySelector(
+				'.progress-fill',
+			) as HTMLElement;
+			const countdown = document.querySelector('.countdown') as HTMLElement;
+			progressFill.style.width = '100%';
+			countdown.textContent = '0:00';
+			setTimeout(() => {
+				progress.style.display = 'none';
+			}, 300);
+		}
+
 		// Update player toggle event listener
 		playersToggle.addEventListener('change', (event) => {
 			if (playersToggle.checked) {
@@ -386,15 +369,35 @@ const formatZoneName = (zoneName: string): string => {
 				const dataTable = document.querySelector('#data-table') as HTMLElement;
 				displayPlayerLocations(toSvgX, toSvgY);
 				dataTable.style.display = 'block';
+				showProgress();
 				setInterval(() => {
 					if (playersToggle.checked) {
-						displayPlayerLocations(toSvgX, toSvgY);
+						showProgress();
+						fetch(`https://api.whalleybot.com/bot/${WBBotID}/PlayerLocations`, {
+							method: 'GET',
+							headers: {
+								Accept: '*/*',
+								Authorization: WBAuth,
+							},
+						})
+							.then((response) => response.json())
+							.then((data) => {
+								updateDataWithDiff('players', data, (diffData) => {
+									document.querySelector('.player-data-table')?.remove();
+									displayPlayerLocations(toSvgX, toSvgY);
+									hideProgress();
+								});
+							})
+							.catch(() => {
+								hideProgress();
+							});
 					}
 				}, 300000);
 			} else {
-				// Remove player markers and data when toggle is unchecked
 				document.querySelector('.player-markers-container')?.remove();
 				document.querySelector('.player-data-table')?.remove();
+				clearDataCache('players');
+				hideProgress();
 			}
 		});
 
@@ -406,15 +409,38 @@ const formatZoneName = (zoneName: string): string => {
 				const dataTable = document.querySelector('#data-table') as HTMLElement;
 				displayVehicleLocations(toSvgX, toSvgY);
 				dataTable.style.display = 'block';
+				showProgress();
 				setInterval(() => {
 					if (vehicleToggle.checked) {
-						displayVehicleLocations(toSvgX, toSvgY);
+						showProgress();
+						fetch(
+							`https://api.whalleybot.com/bot/${WBBotID}/VehicleLocations`,
+							{
+								method: 'GET',
+								headers: {
+									Accept: '*/*',
+									Authorization: WBAuth,
+								},
+							},
+						)
+							.then((response) => response.json())
+							.then((data) => {
+								updateDataWithDiff('vehicles', data, (diffData) => {
+									document.querySelector('.vehicle-data-table')?.remove();
+									displayVehicleLocations(toSvgX, toSvgY);
+									hideProgress();
+								});
+							})
+							.catch(() => {
+								hideProgress();
+							});
 					}
 				}, 300000);
 			} else {
-				// Remove player markers and data when toggle is unchecked
 				document.querySelector('.vehicle-markers-container')?.remove();
 				document.querySelector('.vehicle-data-table')?.remove();
+				clearDataCache('vehicles');
+				hideProgress();
 			}
 		});
 
@@ -426,15 +452,35 @@ const formatZoneName = (zoneName: string): string => {
 				const dataTable = document.querySelector('#data-table') as HTMLElement;
 				displayFlagLocations(toSvgX, toSvgY);
 				dataTable.style.display = 'block';
+				showProgress();
 				setInterval(() => {
 					if (flagsToggle.checked) {
-						displayFlagLocations(toSvgX, toSvgY);
+						showProgress();
+						fetch(`https://api.whalleybot.com/bot/${WBBotID}/FlagLocations`, {
+							method: 'GET',
+							headers: {
+								Accept: '*/*',
+								Authorization: WBAuth,
+							},
+						})
+							.then((response) => response.json())
+							.then((data) => {
+								updateDataWithDiff('flags', data, (diffData) => {
+									document.querySelector('.flag-data-table')?.remove();
+									displayFlagLocations(toSvgX, toSvgY);
+									hideProgress();
+								});
+							})
+							.catch(() => {
+								hideProgress();
+							});
 					}
 				}, 300000);
 			} else {
-				// Remove player markers and data when toggle is unchecked
 				document.querySelector('.flag-markers-container')?.remove();
 				document.querySelector('.flag-data-table')?.remove();
+				clearDataCache('flags');
+				hideProgress();
 			}
 		});
 
@@ -447,15 +493,35 @@ const formatZoneName = (zoneName: string): string => {
 				const svg = document.querySelector('.map') as SVGElement;
 				displayKillPositions(svg, toSvgX, toSvgY);
 				dataTable.style.display = 'block';
+				showProgress();
 				setInterval(() => {
 					if (killsToggle.checked) {
-						displayKillPositions(svg, toSvgX, toSvgY);
+						showProgress();
+						fetch(`https://api.whalleybot.com/bot/${WBBotID}/KillLocations`, {
+							method: 'GET',
+							headers: {
+								Accept: '*/*',
+								Authorization: WBAuth,
+							},
+						})
+							.then((response) => response.json())
+							.then((data) => {
+								updateDataWithDiff('kills', data, (diffData) => {
+									document.querySelector('.kill-data-table')?.remove();
+									displayKillPositions(svg, toSvgX, toSvgY);
+									hideProgress();
+								});
+							})
+							.catch(() => {
+								hideProgress();
+							});
 					}
 				}, 300000);
 			} else {
-				// Remove player markers and data when toggle is unchecked
 				document.querySelector('.kill-markers-container')?.remove();
 				document.querySelector('.kill-data-table')?.remove();
+				clearDataCache('kills');
+				hideProgress();
 			}
 		});
 
@@ -464,17 +530,38 @@ const formatZoneName = (zoneName: string): string => {
 			if (eventsToggle.checked) {
 				clearAllMarkersAndData();
 				eventsToggle.checked = true;
-				const dataTable = document.querySelector('#data-table');
+				const dataTable = document.querySelector('#data-table') as HTMLElement;
 				displayCurrentEvents(toSvgX, toSvgY);
+				dataTable.style.display = 'block';
+				showProgress();
 				setInterval(() => {
 					if (eventsToggle.checked) {
-						displayCurrentEvents(toSvgX, toSvgY);
+						showProgress();
+						fetch(`https://api.whalleybot.com/bot/${WBBotID}/EventLocations`, {
+							method: 'GET',
+							headers: {
+								Accept: '*/*',
+								Authorization: WBAuth,
+							},
+						})
+							.then((response) => response.json())
+							.then((data) => {
+								updateDataWithDiff('events', data, (diffData) => {
+									document.querySelector('.event-data-table')?.remove();
+									displayCurrentEvents(toSvgX, toSvgY);
+									hideProgress();
+								});
+							})
+							.catch(() => {
+								hideProgress();
+							});
 					}
 				}, 300000);
 			} else {
-				// Remove player markers and data when toggle is unchecked
 				document.querySelector('.event-markers-container')?.remove();
 				document.querySelector('.event-data-table')?.remove();
+				clearDataCache('events');
+				hideProgress();
 			}
 		});
 
@@ -482,10 +569,25 @@ const formatZoneName = (zoneName: string): string => {
 			if (modifiersToggle.checked) {
 				clearAllMarkersAndData();
 				modifiersToggle.checked = true;
+				const dataTable = document.querySelector('#data-table') as HTMLElement;
+				displayLootLocations(zones);
+				dataTable.style.display = 'block';
+				showProgress();
+				setInterval(() => {
+					if (modifiersToggle.checked) {
+						showProgress();
+						updateDataWithDiff('modifiers', zones, (diffData) => {
+							document.querySelector('.modifier-data-table')?.remove();
+							displayLootLocations(zones);
+							hideProgress();
+						});
+					}
+				}, 300000);
 			} else {
-				// Remove player markers and data when toggle is unchecked
 				document.querySelector('.modifier-markers-container')?.remove();
 				document.querySelector('.modifier-data-table')?.remove();
+				clearDataCache('modifiers');
+				hideProgress();
 			}
 		});
 
@@ -1148,7 +1250,7 @@ const formatZoneName = (zoneName: string): string => {
 
 	.data-table-container {
 		display: block;
-		margin-top: 1em;
+		/* margin-top: 1em; */
 	}
 
 	.vehicleList li,
@@ -1253,5 +1355,39 @@ const formatZoneName = (zoneName: string): string => {
 
 	#VehicleContainer > div {
 		margin-bottom: 1em;
+	}
+
+	.update-progress {
+		position: sticky;
+		top: -1em;
+		background: var(--color-grey-darker);
+		padding: 0.25em 1em;
+		display: none;
+		align-items: center;
+		gap: 1em;
+		z-index: 1000;
+	}
+
+	.progress-bar {
+		width: 100%;
+		height: 4px;
+		background: var(--color-grey-dark);
+		border-radius: 2px;
+		overflow: hidden;
+	}
+
+	.progress-fill {
+		width: 0%;
+		height: 100%;
+		background: var(--color-accent);
+		transition: width 0.3s ease-in-out;
+	}
+
+	.progress-text {
+    color: var(--color-white);
+    font-size: 0.75em;
+    white-space: nowrap;
+    text-align: right;
+    min-width: 16ch;
 	}
 </style>
