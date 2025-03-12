@@ -52,6 +52,13 @@
 			<span class='nav-divider'>|</span>
 			<label><input type='checkbox' id='outposts-toggle' />Outposts</label>
 			<span class='nav-divider'>|</span>
+			<label
+			><input type='checkbox' id='pvpzones-toggle' />PvP Zones</label
+		>
+		<span class='nav-divider'>|</span>
+			<label
+				><input type='checkbox' id='serverzones-toggle' />Server Zones</label
+			>
 		</div>
 	</div>
 </div>
@@ -77,6 +84,7 @@
 			'settingZones-toggle',
 		) as HTMLInputElement;
 		const settingZones = document.querySelector('.settingZones') as HTMLElement;
+
 
 		mainNavToggles.forEach((toggle) => {
 			toggle.addEventListener('change', (e) => {
@@ -176,7 +184,8 @@
 
 	.vehicle-types,
 	.loot-modifiers,
-	.settingZones {
+	.settingZones,
+	.serverZones {
 		margin-top: 1em;
 		display: none;
 		flex-direction: row;

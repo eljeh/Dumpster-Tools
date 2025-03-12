@@ -1,0 +1,49 @@
+{
+	"Zones": [
+		{
+			"Name": "Airfield",
+			"TopLeft": "X=531550.9015 Y=616560.2079",
+			"BottomRight": "X=431478.7812 Y=519607.8419"
+		},
+		{
+			"Name": "TrainYard",
+			"TopLeft": "X=108377.805 Y=-151269.891",
+			"BottomRight": "X=78730.375 Y=-182220.078"
+		},
+		{
+			"Name": "AirField",
+			"TopLeft": "X=383502.5589 Y=-511968.1178",
+			"BottomRight": "X=342555.783 Y=-537316.1219"
+		},
+		{
+			"Name": "BootCamp",
+			"TopLeft": "X=277040.9417 Y=-17097.084",
+			"BottomRight": "X=232974.4115 Y=-50634.4433"
+		},
+		{
+			"Name": "Dam",
+			"TopLeft": "X=9789.359 Y=271091.594",
+			"BottomRight": "X=-25888.350 Y=232471.469"
+		},
+		{
+			"Name": "Cement Factory",
+			"TopLeft": "X=-390450.000 Y=12775.000",
+			"BottomRight": "X=-423262.594 Y=-24266.750"
+		},
+		{
+			"Name": "Hospital",
+			"TopLeft": "X=-611478.875 Y=-99940.992",
+			"BottomRight": "X=-655928.875 Y=-195923.688"
+		},
+		{
+			"Name": "Quarry",
+			"TopLeft": "X=173626.625 Y=-251815.703",
+			"BottomRight": "X=104838.109 Y=-388328.312"
+		},
+		{
+			"Name": "Krsko City",
+			"TopLeft": "X=-752400.000 Y=192691.750",
+			"BottomRight": "X=-900566.688 Y=29708.375"
+		}
+	]
+}

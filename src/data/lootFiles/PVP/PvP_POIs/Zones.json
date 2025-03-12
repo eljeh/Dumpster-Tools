@@ -1,0 +1,79 @@
+{
+	"Zones": [
+		{
+			"Name": "Airport B2",
+			"TopLeft": "X=-176504.328 Y=31344.752",
+			"BottomRight": "X=-352579.688 Y=-85133.078"
+		},
+		{
+			"Name": "Brick Yard",
+			"TopLeft": "X=-766321.125 Y=-273100.594",
+			"BottomRight": "X=-799536.562 Y=-294348.688"
+		},
+		{
+			"Name": "Coal Mine",
+			"TopLeft": "X=-444421.906 Y=438232.312",
+			"BottomRight": "X=-466634.969 Y=411954.969"
+		},
+		{
+			"Name": "Mech Factory",
+			"TopLeft": "X=-416551.375 Y=-658164.500",
+			"BottomRight": "X=-459235.406 Y=-716178.688"
+		},
+		{
+			"Name": "Naval Base",
+			"TopLeft": "X=532989.607 Y=-504735.4323",
+			"BottomRight": "X=458687.531 Y=-588262.8977"
+		},
+		{
+			"Name": "Nuclear Power Plant",
+			"TopLeft": "X=-669521.125 Y=243415.000",
+			"BottomRight": "X=-751730.000 Y=183879.453"
+		},
+		{
+			"Name": "Samobor",
+			"TopLeft": "X=401577.344 Y=437500.906",
+			"BottomRight": "X=224053.797 Y=269610.656"
+		},
+		{
+			"Name": "Scrap Yard",
+			"TopLeft": "X=-854244.250 Y=-163196.766",
+			"BottomRight": "X=-879888.438 Y=-208867.906"
+		},
+		{
+			"Name": "Train Yard",
+			"TopLeft": "X=-248945.188 Y=-709153.813",
+			"BottomRight": "X=-394300.031 Y=-799647.875"
+		},
+		{
+			"Name": "Prison",
+			"TopLeft": "X=-45447.859 Y=164459.594",
+			"BottomRight": "X=-82107.438 Y=126724.211"
+		},
+		{
+			"Name": "RaceTrack",
+			"TopLeft": "X=285116.401 Y=-737888.1903",
+			"BottomRight": "X=243519.6764 Y=-774285.3244"
+		},
+		{
+			"Name": "AirField",
+			"TopLeft": "X=-754216.1427 Y=-668134.4446",
+			"BottomRight": "X=-767586.5185 Y=-686852.9707"
+		},
+		{
+			"Name": "Military Compound",
+			"TopLeft": "X=-837066.688 Y=562050.000",
+			"BottomRight": "X=-883633.312 Y=495375.000"
+		},
+		{
+			"Name": "Radio Tower",
+			"TopLeft": "X=-834950.000 Y=351441.625",
+			"BottomRight": "X=-888925.000 Y=302758.375"
+		},
+		{
+			"Name": "Saw Mill",
+			"TopLeft": "X=-71498.602 Y=516977.812",
+			"BottomRight": "X=-105758.312 Y=472091.750"
+		}
+	]
+}

@@ -1,0 +1,212 @@
+{
+    "Outpost_A0": [
+        {
+            "Center": "-610000 -510000",
+            "Radius": "0.9"
+        }
+    ],
+    "Outpost_B4": [
+        {
+            "Center": "570000 -210000",
+            "Radius": "0.35"
+        }
+    ],
+    "Outpost_C2": [
+        {
+            "Center": "-147000 275000",
+            "Radius": "0.35"
+        }
+    ],
+    "Outpost_Z3": [
+        {
+            "Center": "12820 -678344",
+            "Radius": "0.35"
+        }
+    ],
+    "POI_PVE_CommunityCenter": [
+        {
+            "Center": "170000 35000",
+            "size": "0.32 0.250"
+        }
+    ],
+    "POI_PVE_D4Airfield": [
+        {
+            "Center": "489000 570000",
+            "Radius": "0.8"
+        }
+    ],
+    "POI_PVE_A4Airfield": [
+        {
+            "Center": "362000 -528000",
+            "Radius": "0.3"
+        }
+    ],
+    "POI_PVE_BootCamp": [
+        {
+            "Center": "250731 -35000",
+            "Radius": "0.25"
+        }
+    ],
+    "POI_PVP_Samobor": [
+        {
+            "Center": "315000 360000",
+            "Radius": "1"
+        }
+    ],
+    "POI_PVE_C4Hospital": [
+        {
+            "Center": "385000 295000",
+            "Radius": "0.001"
+        }
+    ],
+    "POI_PVE_Dam": [
+        {
+            "Center": "-10000 255000",
+            "size": "0.22 0.35"
+        }
+    ],
+    "POI_PVE_Cement_Factory": [
+        {
+            "Center": "-407571 -5833",
+            "Radius": "0.3"
+        }
+    ],
+    "POI_PVE_Factory": [
+        {
+            "Center": "97375 -164985",
+            "Radius": "0.3"
+        }
+    ],
+    "POI_PVP_CoalMine": [
+        {
+            "Center": "-453870 422430",
+            "Radius": "0.4"
+        }
+    ],
+    "POI_PVE_RadioTower": [
+        {
+            "Center": "-862601 328386",
+            "size": "0.300 0.200"
+        }
+    ],
+    "POI_PVP_Power_Plant": [
+        {
+            "Center": "-712614 219138",
+            "Radius": "0.6"
+        }
+    ],
+    "POI_PVP_Rad_City": [
+        {
+            "Center": "-835000 120000",
+            "Radius": "0.9"
+        }
+    ],
+    "POI_PVP_NavalBase": [
+        {
+            "Center": "490000 -530000",
+            "Radius": "0.6"
+        }
+    ],
+    "POI_PVP_Z4Island": [
+        {
+            "Center": "480000 -830000",
+            "Radius": "0.001"
+        }
+    ],
+    "POI_PVP_FishPlant": [
+        {
+            "Center": "-360000 -360000",
+            "Radius": "0.001"
+        }
+    ],
+    "POI_Event_KingOfTheCastle": [
+        {
+            "Center": "-178000 -165000",
+            "Radius": "0.450 "
+        }
+    ],
+    "POI_Event_Maze": [
+        {
+            "Center": "-330000 -140000",
+            "Radius": "0.001"
+        }
+    ],
+    "POI_PVE_CastleB3": [
+        {
+            "Center": "48000 4000",
+            "Radius": "0.200"
+        }
+    ],
+    "POI_PVE_SawMillD2": [
+        {
+            "Center": "-93608 494772",
+            "Radius": "0.250"
+        }
+    ],
+    "POI_PVP_CompoundD0": [
+        {
+            "Center": "-864000 538000",
+            "Radius": "0.500"
+        }
+    ],
+    "POI_PVE_HospitalB0": [
+        {
+            "Center": "-630000 -150000",
+            "Radius": "0.500"
+        }
+    ],
+    "POI_PVP_ScrapYardB0": [
+        {
+            "Center": "-872000 -180000",
+            "Radius": "0.500"
+        }
+    ],
+    "POI_PVP_BrickYardB0": [
+        {
+            "Center": "-775000 -280000",
+            "Radius": "0.500"
+        }
+    ],
+    "POI_PVP_NovigradZ2": [
+        {
+            "Center": "-165949 -680058",
+            "Radius": "0.001"
+        }
+    ],
+    "POI_PVP_TrainYardZ1": [
+        {
+            "Center": "-315697 -747336",
+            "size": "0.600 0.300"
+        }
+    ],
+    "POI_PVP_MechFactoryZ1": [
+        {
+            "Center": "-445000 -683000",
+            "Radius": "0.300"
+        }
+    ],
+    "POI_PVP_Airport B2": [
+        {
+            "Center": "-256124 -25000",
+            "size": "0.800 0.400"
+        }
+    ],
+    "POI_PVP_Airfield Z0": [
+        {
+            "Center": "-761000 -665000",
+            "Radius": "0.250"
+        }
+    ],
+    "POI_PVP_North_Quarry": [
+        {
+            "Center": "136000 -290000",
+            "Radius": "0.30"
+        }
+    ],
+    "POI_PVP_South_Quarry": [
+        {
+            "Center": "146567 -353073",
+            "Radius": "0.30"
+        }
+    ]
+}

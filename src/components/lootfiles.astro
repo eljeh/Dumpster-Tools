@@ -1,0 +1,200 @@
+---
+
+---
+
+<div class='wrapper' transition:name='wrapper'>
+	<h2 class='font-bold text-2xl text-center'>Loot Manager</h2>
+	<div class='flex gap-8 mt-6 loot-manager-container'>
+		<div class='flex flex-col gap-4 loot-manager-selects'>
+			<select id='zoneSelect' class='p-2 border rounded'>
+				<option value=''>- Zone -</option>
+				<option value='PVE'>PVE</option>
+				<option value='PVP'>PVP</option>
+			</select>
+
+			<select id='typeSelect' class='p-2 border rounded'>
+				<option value=''>- Type -</option>
+				<option value='Bunkers'>Bunkers</option>
+				<option value='Bunkers AB'>Bunkers AB</option>
+				<option value='POIs'>POIs</option>
+				<option value='CargoDrops'>CargoDrops</option>
+			</select>
+
+			<select id='BunkersSelect' class='p-2 border rounded'>
+				<option value=''>- Bunkers Select -</option>
+				<option value=''>KIllBoxes</option>
+			</select>
+
+			<select id='BunkersABSelect' class='p-2 border rounded'>
+				<option value=''>- Bunkers AB Select -</option>
+				<option value=''>KIllBoxes</option>
+				<option value=''>Vaults</option>
+			</select>
+
+			<select id='fileListSelect' class='p-2 border rounded'>
+				<option value=''>- File List -</option>
+			</select>
+		</div>
+
+		<div class='flex-1 border rounded p-4 loot-manager-display'>
+			<h3 class='text-lg font-semibold mb-4'>Loot Spawner Details</h3>
+			<span id='folder-structure'></span>
+			<hr class='my-4' />
+			<pre id='display-content'></pre>
+		</div>
+	</div>
+</div>
+
+<style is:inline>
+	.wrapper {
+		max-width: 200ch;
+		align-items: normal;
+	}
+	.loot-manager-selects {
+		min-width: 40ch;
+	}
+	.loot-manager-display {
+		max-height: 80vh;
+		overflow-y: auto;
+	}
+</style>
+
+<script>
+	let lootData = null;
+	let currentZone = '';
+	let currentType = '';
+	let currentSubType = '';
+
+	async function fetchLootStructure() {
+		try {
+			const response = await fetch('/api/getLoot');
+			lootData = await response.json();
+			setupEventListeners();
+		} catch (error) {
+			console.error('Failed to fetch loot data:', error);
+		}
+	}
+
+	function setupEventListeners() {
+		const zoneSelect = document.getElementById('zoneSelect');
+		const typeSelect = document.getElementById('typeSelect');
+		const bunkersSelect = document.getElementById('BunkersSelect');
+		const bunkersABSelect = document.getElementById('BunkersABSelect');
+		const fileListSelect = document.getElementById('fileListSelect');
+
+		zoneSelect.addEventListener('change', handleZoneChange);
+		typeSelect.addEventListener('change', handleTypeChange);
+		bunkersSelect.addEventListener('change', handleSubTypeChange);
+		bunkersABSelect.addEventListener('change', handleSubTypeChange);
+		fileListSelect.addEventListener('change', handleFileSelect);
+	}
+
+	function handleZoneChange(e) {
+		currentZone = e.target.value;
+		currentType = '';
+		currentSubType = '';
+		updateTypeSelect();
+		clearSubTypeSelects();
+		clearFileList();
+	}
+
+	function handleTypeChange(e) {
+		currentType = e.target.value;
+		currentSubType = '';
+		updateSubTypeSelects();
+		updateFileList();
+	}
+
+	function handleSubTypeChange(e) {
+		currentSubType = e.target.value;
+		updateFileList();
+	}
+
+	function handleFileSelect(e) {
+		const fileName = e.target.value;
+		if (!fileName) return;
+
+		let content;
+		if (currentSubType) {
+			content = lootData[currentZone][currentType][currentSubType][fileName];
+		} else {
+			content = lootData[currentZone][currentType][fileName];
+		}
+
+		const displayContent = document.getElementById('display-content');
+		const folderStructure = document.getElementById('folder-structure');
+
+		folderStructure.textContent = `${currentZone}/${currentType}${currentSubType ? '/' + currentSubType : ''}/${fileName}`;
+		displayContent.textContent = JSON.stringify(content, null, 2);
+	}
+
+	function updateTypeSelect() {
+		const typeSelect = document.getElementById('typeSelect');
+		typeSelect.innerHTML = '<option value="">- Type -</option>';
+
+		if (currentZone && lootData[currentZone]) {
+			Object.keys(lootData[currentZone]).forEach((type) => {
+				const option = document.createElement('option');
+				option.value = type;
+				option.textContent = type;
+				typeSelect.appendChild(option);
+			});
+		}
+	}
+
+	function updateSubTypeSelects() {
+		const bunkersSelect = document.getElementById('BunkersSelect');
+		const bunkersABSelect = document.getElementById('BunkersABSelect');
+
+		bunkersSelect.style.display = 'none';
+		bunkersABSelect.style.display = 'none';
+
+		if (currentType === 'Bunkers') {
+			bunkersSelect.style.display = 'block';
+		} else if (currentType === 'Bunkers AB') {
+			bunkersABSelect.style.display = 'block';
+		}
+	}
+
+	function updateFileList() {
+		const fileListSelect = document.getElementById('fileListSelect');
+		fileListSelect.innerHTML = '<option value="">- File List -</option>';
+
+		if (!currentZone || !currentType) return;
+
+		let files;
+		if (currentSubType) {
+			files = lootData[currentZone][currentType][currentSubType];
+		} else {
+			files = lootData[currentZone][currentType];
+		}
+
+		if (files) {
+			Object.keys(files).forEach((fileName) => {
+				const option = document.createElement('option');
+				option.value = fileName;
+				option.textContent = fileName;
+				fileListSelect.appendChild(option);
+			});
+		}
+	}
+
+	function clearSubTypeSelects() {
+		const bunkersSelect = document.getElementById('BunkersSelect');
+		const bunkersABSelect = document.getElementById('BunkersABSelect');
+		bunkersSelect.style.display = 'none';
+		bunkersABSelect.style.display = 'none';
+	}
+
+	function clearFileList() {
+		const fileListSelect = document.getElementById('fileListSelect');
+		fileListSelect.innerHTML = '<option value="">- File List -</option>';
+		const displayContent = document.getElementById('display-content');
+		displayContent.textContent = '';
+		const folderStructure = document.getElementById('folder-structure');
+		folderStructure.textContent = '';
+	}
+
+	// Initialize on page load
+	document.addEventListener('DOMContentLoaded', fetchLootStructure);
+</script>

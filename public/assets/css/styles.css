@@ -31,7 +31,7 @@
     /* background: linear-gradient(180deg, var(--color-accent) 20em, var(--color-tertiary) 20em); */
     /* background: radial-gradient(circle, var(--color-secondary) 30%, var(--color-tertiary) 90%), no-repeat; */
     color: var(--font-color);
-    font-size: clamp(16px, 1vw, 18px);
+    font-size: clamp(12px, 1vw, 18px);
   }
   body:before {
       content: '';

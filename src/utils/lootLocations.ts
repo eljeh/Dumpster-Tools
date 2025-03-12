@@ -8,8 +8,6 @@ interface Zone {
 
 interface ZonesData {
 	MapZones: Zone[];
-	// pvp: Zone[];
-	// pve: Zone[];
 	pois_pvp: Zone[];
 	pois_pve: Zone[];
 	pveBunkers: Zone[];
@@ -19,8 +17,6 @@ interface ZonesData {
 
 interface ToggleStates {
 	MapZones: boolean;
-	// pvp: boolean;
-	// pve: boolean;
 	pois_pvp: boolean;
 	pois_pve: boolean;
 	pveBunker: boolean;
@@ -38,8 +34,6 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 	try {
 		// Get the zones data
 		const zonesData: ZonesData = {
-			// pvp: zones.PVP || [],
-			// pve: zones.PVE || [],
 			MapZones: zones.MapZones || [],
 			pois_pvp: Object.entries(zones)
 				.filter(([key]) => key.startsWith('POI_PVP'))
@@ -60,8 +54,6 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 
 		// Get toggle elements
 		const mapZonesToggle = document.getElementById('mapZones-toggle') as HTMLInputElement;
-		// const pvpToggle = document.getElementById('pvp-toggle') as HTMLInputElement;
-		// const pveToggle = document.getElementById('pve-toggle') as HTMLInputElement;
 		const pois_pvpToggle = document.getElementById('pois-pvp-toggle') as HTMLInputElement;
 		const pois_pveToggle = document.getElementById('pois-pve-toggle') as HTMLInputElement;
 		const pveBunkerToggle = document.getElementById('pve-bunker-toggle') as HTMLInputElement;
@@ -102,18 +94,6 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 				}
 			});
 		}
-
-		// if (pveToggle?.checked && zonesData.pve) {
-		// 	zonesData.pve.forEach((zone) => {
-		// 		if (zone.TopLeft && zone.BottomRight) {
-		// 			displayData.push({
-		// 				name: `PVE Zone`,
-		// 				topLeft: zone.TopLeft,
-		// 				bottomRight: zone.BottomRight,
-		// 			});
-		// 		}
-		// 	});
-		// }
 
 		if (pois_pvpToggle?.checked && zonesData.pois_pvp) {
 			zonesData.pois_pvp.forEach((zone) => {
@@ -200,8 +180,6 @@ export function displayLootLocations(zones: Record<string, Zone[]>) {
 			total: displayData.length,
 			toggles: {
 				mapZones: mapZonesToggle?.checked,
-				// pvp: pvpToggle?.checked,
-				// pve: pveToggle?.checked,
 				pois_pvp: pois_pvpToggle?.checked,
 				pois_pve: pois_pveToggle?.checked,
 				pveBunker: pveBunkerToggle?.checked,

@@ -1,0 +1,19 @@
+{
+	"Nodes": [
+		{
+			"Rarity": "Common",
+			"Ids": [
+				"ItemLootTreeNodes.FoodStore.Food.Snacks.NutsAndBerries"
+			]
+		}
+	],
+	"Probability": 60,
+	"QuantityMin": 2,
+	"QuantityMax": 4,
+	"AllowDuplicates": false,
+	"ShouldFilterItemsByZone": false,
+	"InitialDamage": 0,
+	"RandomDamage": 20,
+	"InitialUsage": 0,
+	"RandomUsage": 0
+}

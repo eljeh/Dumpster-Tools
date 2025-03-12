@@ -13,16 +13,14 @@ import Map from '../components/Map.astro';
 </script>
 
 <style is:inline>
-	.wrapper {
-		max-width: 66em;
-	}
-
 	:root {
 		/* Base colors */
-		--color-white: hsla(0, 0%, 100%, 1);
+		--color-white: hsl(0, 0%, 100%);
 		--color-white-40: hsla(0, 0%, 100%, 0.4);
 		--color-white-10: hsla(0, 0%, 100%, 0.1);
-		--color-black-80: hsla(0, 0%, 0%, 0.8);
+		--color-black: hsl(0, 0%, 0%);
+		--color-grey-darker: hsla(0, 0%, 13%, 1);
+		--color-grey-dark: hsla(0, 0%, 20%, 1);
 
 		/* Zone base properties */
 		--zone-stroke-width: 1px;
@@ -47,8 +45,11 @@ import Map from '../components/Map.astro';
 		--color-warzone: hsla(297, 44%, 49%, 0.75);
 		--color-warzone-fill: hsla(297, 44%, 49%, 0.5);
 
-		--color-community: hsla(308, 100%, 50%, 0.75);
-		--color-community-fill: hsla(308, 100%, 50%, 0.5);
+		--color-community: hsla(0, 0%, 67%, 0.75);
+		--color-community-fill: hsla(0, 0%, 67%, 0.5);
+
+		--color-kingofthecastle: hsl(38, 100%, 50%);
+		--color-kingofthecastle-fill: hsla(38, 100%, 50%, 0.2);
 
 		/* POI and Outpost colors */
 		--color-custom-poi: hsla(147, 41%, 41%, 0.75);
@@ -61,179 +62,5 @@ import Map from '../components/Map.astro';
 		--color-pvp-poi-fill: hsla(69, 44%, 37%, 0.5);
 
 		--color-selected: hsla(124, 86%, 35%, 1);
-	}
-
-	/* Page Layout */
-	h2.pageTitle {
-		font-size: 1.25em;
-		flex: auto;
-		@media (max-width: 1024px) {
-			flex: 0 1 100%;
-		}
-	}
-
-	main {
-		display: flex;
-		min-height: unset;
-		gap: 1.5em;
-		flex-wrap: wrap;
-		font-size: 1em;
-		@media (max-width: 1024px) {
-			font-size: 0.75em;
-		}
-	}
-
-	/* Base Zone Styles */
-	.zone-rect {
-		fill: var(--color-zone-default-fill);
-		stroke: var(--color-zone-default-fill);
-		stroke-width: 1;
-
-		&:hover {
-			fill: var(--color-zone-default-hover);
-		}
-	}
-
-	/* Base text styles for zones */
-	.zone-text-base {
-		fill: var(--color-white);
-		text-anchor: middle;
-		dominant-baseline: middle;
-		pointer-events: none;
-		text-shadow: var(--text-shadow-default);
-	}
-
-	/* Update existing text styles to use the base class */
-	[class^='zone-Sector_'] text {
-		@extend .zone-text-base;
-		fill: var(--color-white-40);
-		font-size: 1em;
-		translate: -75px -75px;
-	}
-
-	.zone-label,
-	[class^='zone-PVP_Bunker'] text,
-	[class^='zone-PVE_Bunker'] text,
-	[class^='zone-POI_PVE'] text,
-	[class^='zone-POI_PVP'] text,
-	[class^='zone-POI_custom_'] text,
-	[class^='zone-Bunkers_PVE'] text,
-	[class^='zone-Bunkers_PVP'] text,
-	.zone-Outpost_A0 text,
-	[class^='zone-Outpost_'] text,
-	.zone-WarZoneDrops text,
-	.zone-CommunityCenter text {
-		@extend .zone-text-base;
-		font-size: 0.3em;
-		font-weight: 300;
-		letter-spacing: 0.1em;
-	}
-
-	/* Zone Type Specific Styles */
-	.zone-PVE .zone-rect {
-		fill: var(--color-pve-fill);
-		stroke: var(--color-pve);
-		stroke-width: 1;
-		&:hover {
-			fill: var(--color-pve-hover);
-		}
-	}
-
-	.zone-PVP .zone-rect {
-		fill: var(--color-pvp-fill);
-		stroke: var(--color-pvp);
-		stroke-width: 1;
-	}
-
-	.zone-WarZoneDrops .zone-rect {
-		fill: var(--color-warzone-fill);
-		stroke: var(--color-warzone);
-		stroke-width: 0;
-	}
-
-	.zone-CommunityCenter .zone-rect {
-		fill: var(--color-community-fill);
-		stroke: var(--color-community);
-		stroke-width: 0.5;
-	}
-
-	/* Sector Styles */
-	[class^='zone-Sector_'] {
-		.zone-rect {
-			stroke: var(--color-white-10);
-			stroke-width: 1;
-			cursor: pointer;
-		}
-	}
-
-	/* POI and Outpost Styles */
-	[class^='zone-Outpost_'] .zone-circ,
-	[class^='zone-POI_custom_'] .zone-circ {
-		fill: var(--color-custom-poi-fill);
-		stroke: var(--color-custom-poi);
-		stroke-width: 0.5;
-	}
-	[class^='zone-PVE_Bunker'] .zone-circ,
-	[class^='zone-POI_PVE'] .zone-rect,
-	[class^='zone-POI_PVE'] .zone-circ,
-	[class^='zone-Bunkers_PVE'] .zone-rect,
-	[class^='zone-Bunkers_PVE'] .zone-circ {
-		fill: var(--color-pve-poi-fill);
-		stroke: var(--color-pve-poi);
-		stroke-width: 0.5;
-	}
-
-	[class^='zone-PVP_Bunker'] .zone-circ,
-	[class^='zone-POI_PVP'] .zone-rect,
-	[class^='zone-POI_PVP'] .zone-circ,
-	.zone-Outpost_A0 .zone-rect,
-	.zone-Outpost_A0 .zone-circ,
-	[class^='zone-Bunkers_PVP'] .zone-rect,
-	[class^='zone-Bunkers_PVP'] .zone-circ {
-		fill: var(--color-pvp-poi-fill);
-		stroke: var(--color-pvp-poi);
-		stroke-width: 0.5;
-	}
-
-	/* Player Marker Styles */
-	.player-marker text {
-		text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.8);
-		pointer-events: none;
-		text-anchor: middle;
-		fill: white;
-		font-size: 0.3em;
-		stroke: none;
-		letter-spacing: 0.05em;
-	}
-
-	.player-marker circle {
-		filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
-		fill: red;
-		stroke: white;
-		stroke-width: 0.5;
-	}
-
-	/* Vehicle Marker Styles */
-	.vehicle-marker text {
-		text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.8);
-		pointer-events: none;
-		text-anchor: middle;
-		fill: white;
-		font-size: 0.3em;
-		stroke: none;
-		letter-spacing: 0.05em;
-		.not-registered {
-			fill: red;
-		}
-	}
-
-	.vehicle-marker .vehicle-icon {
-		filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
-		fill: blue;
-		stroke: white;
-		stroke-width: 0.5;
-	}
-	.vehicle-marker.not-registered .vehicle-icon {
-		stroke: red;
 	}
 </style>
