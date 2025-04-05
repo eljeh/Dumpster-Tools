@@ -115,7 +115,7 @@ export function displayVehicleLocations(
 				}
 				const group = vehicleGroups.get(vehicleType);
 				group.total++;
-				if (vehicle.value.reg) {
+				if (vehicle.value.reg.includes('STEAMID')) {
 					group.registered++;
 				}
 				group.vehicles.push(vehicle);
@@ -178,8 +178,8 @@ export function displayVehicleLocations(
 					g.classList.add('vehicle-marker');
 					g.classList.add(`${vehicleType}`);
 					g.setAttribute('data-key', vehicle.key);
-					// if vehicle.value.reg is not null, add vehicle-reg to the class
-					if (!vehicle.value.reg) {
+
+					if (!vehicle.value.reg.includes('STEAMID')) {
 						g.classList.add(`not-registered`);
 					} else {
 						g.classList.add(`registered`);
@@ -222,7 +222,7 @@ export function displayVehicleLocations(
 					// add vehicle.key as id
 					li.id = vehicle.key;
 					li.classList.add(`${vehicleType}-row`);
-					if (!vehicle.value.reg) {
+					if (!vehicle.value.reg.includes('STEAMID')) {
 						li.classList.add(`not-registered`);
 					} else {
 						li.classList.add(`registered`);
@@ -230,9 +230,9 @@ export function displayVehicleLocations(
 					li.innerHTML = `
 				<span class="clickable vID" title="#TeleportToVehicle ${vehicle.key}">${vehicle.key}</span>
 				<span class="clickable vType" title="#RenameVehicle ${vehicle.key} 'VID:${vehicle.key}'" >${type}</span>
-				${vehicle.value.reg
+				${vehicle.value.reg.includes('STEAMID')
 							? `<a class="steamID" href="/playerInfo?playerid=${steamID}" title="${steamID}">${steamID}</a>`
-							: `<span class="steamID">Unregistered</span>`
+							: `<span class="steamID">Not Registered</span>`
 						}
 				<span class="clickable coords" title="#Teleport ${vehicle.value.coords}" c>${vehicle.value.coords}</span>
 				`;

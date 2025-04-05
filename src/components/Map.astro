@@ -1145,15 +1145,12 @@ const formatZoneName = (zoneName: string): string => {
 		}
 	}
 
-
-
 	.zone-PVP-Zone .zone-rect,
 	.zone-PVP-Zone .zone-circ {
 		fill: var(--color-pvp-fill);
 		/* stroke: var(--color-pvp);
 		stroke-width: 1; */
 	}
-
 
 	.zone-WarZoneDrops .zone-rect {
 		fill: var(--color-warzone-fill);
@@ -1183,13 +1180,15 @@ const formatZoneName = (zoneName: string): string => {
 
 	/* POI and Outpost Styles */
 	[class^='zone-Outpost_'] .zone-circ,
-	[class^='zone-POI_'] .zone-circ,
+	/* [class^='zone-POI_'] .zone-circ,
 	[class^='zone-POI_'] .zone-rect {
 		fill: var(--color-poi-fill);
 		stroke: var(--color-poi);
 		stroke-width: 0.5;
-	}
+	} */
 
+	[class^='zone-POI_PVE'] .zone-circ,
+	[class^='zone-POI_PVE'] .zone-rect,
 	[class^='zone-Custom_PVE_'] .zone-circ,
 	[class^='zone-Custom_PVE_'] .zone-rect,
 	[class^='zone-PVE_Bunker'] .zone-circ,
@@ -1211,6 +1210,8 @@ const formatZoneName = (zoneName: string): string => {
 	.zone-Outpost_Z3 .zone-circ,
 	[class^='zone-Custom_PVP_'] .zone-circ,
 	[class^='zone-Custom_PVP_'] .zone-rect,
+	[class^='zone-POI_PVP'] .zone-circ,
+	[class^='zone-POI_PVP'] .zone-rect,
 	[class^='zone-PVP_Bunker'] .zone-circ,
 	[class^='zone-Bunkers_PVP'] .zone-rect,
 	[class^='zone-Bunkers_PVP'] .zone-circ {
