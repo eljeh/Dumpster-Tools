@@ -1,5 +1,5 @@
 ---
-import NotesDialog from './_playerNotes/NotesDialog.astro';
+//import NotesDialog from './_playerNotes/NotesDialog.astro';
 // Add prop definition
 const { SteamId = '' } = Astro.props;
 //const SteamId = '76561198187036603';
@@ -36,7 +36,7 @@ const { SteamId = '' } = Astro.props;
 </form>
 
 <div class='playerInfoWrapper'>
-	<NotesDialog SteamId={SteamId} />
+	<!-- <NotesDialog SteamId={SteamId} /> -->
 	<div id='playerInfo'></div>
 	<div id='squadInfo'></div>
 	<div id='squadCounts'>
@@ -159,7 +159,7 @@ const { SteamId = '' } = Astro.props;
 				playerInfo.innerHTML = `Getting info for ${playerId}`;
 
 				const data = await response.json();
-				playerInfo.innerHTML = `<button id='openNotes-${data.Player.SteamID}' class='notesButton'><i class="fi fi-ss-notebook"></i><span>Notes</span></button>`;
+				//playerInfo.innerHTML = `<button id='openNotes-${data.Player.SteamID}' class='notesButton'><i class="fi fi-ss-notebook"></i><span>Notes</span></button>`;
 				playerInfo.innerHTML += `<h3>${data.Player.PlayerName}</h3>`;
 				playerInfo.innerHTML += `Discord ID: ${data.Player.DiscordID}`;
 				playerInfo.innerHTML += `<br>Steam ID: ${data.Player.SteamID}`;
@@ -168,18 +168,18 @@ const { SteamId = '' } = Astro.props;
 				playerInfo.innerHTML += `<br>Account: ${data.Player.AccountNumber}`;
 				playerInfo.innerHTML += `<br>🪙 ${data.Player.Coins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${data.Player.CreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰  ${data.Player.GoldBalance.toLocaleString()}`;
 
-				const notesSteamID = document.getElementById(`notesSteamID`);
-				notesSteamID.setAttribute('value', data.Player.SteamID);
-				const notesButton = document.getElementById(
-					`openNotes-${data.Player.SteamID}`,
-				);
-				notesButton.setAttribute('data-playersSteam', data.Player.SteamID);
-				const notesTitle = document.getElementById('noteTitle');
-				notesTitle.innerHTML = `Notes - ${data.Player.PlayerName} <small>(${playerId})</small>`;
+				// const notesSteamID = document.getElementById(`notesSteamID`);
+				// notesSteamID.setAttribute('value', data.Player.SteamID);
+				// const notesButton = document.getElementById(
+				// 	`openNotes-${data.Player.SteamID}`,
+				// );
+				// notesButton.setAttribute('data-playersSteam', data.Player.SteamID);
+				// const notesTitle = document.getElementById('noteTitle');
+				// notesTitle.innerHTML = `Notes - ${data.Player.PlayerName} <small>(${playerId})</small>`;
 
-				notesButton.addEventListener('click', () => {
-					notesDialog.showModal();
-				});
+				// notesButton.addEventListener('click', () => {
+				// 	notesDialog.showModal();
+				// });
 
 				const PlayersSquadID = data.SquadInfo.ID;
 

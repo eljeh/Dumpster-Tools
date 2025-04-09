@@ -32,7 +32,7 @@
     background: radial-gradient(circle, var(--color-tertiary) 30%, var(--color-accent) 90%), no-repeat;
     background: radial-gradient(circle, var(--color-accent) 30%, var(--color-tertiary) 90%), no-repeat;
     color: var(--font-color);
-    font-size: clamp(11px, 1vw, 18px);
+    font-size: clamp(12px, 1vw, 18px);
   }
   body:before {
       content: '';
