@@ -82,7 +82,7 @@ const formatZoneName = (zoneName: string): string => {
 
 		<svg viewBox='210 30 930 930' class='map'>
 			<image
-				href='../assets/images/map.png'
+				href='../assets/images/map.webp'
 				width='1000'
 				height='1000'
 				x='169'
@@ -932,6 +932,10 @@ const formatZoneName = (zoneName: string): string => {
 	}
 
 	main {
+		min-height: calc(100vh - 4.19em);
+	}
+
+	.mainWrapper {
 		display: flex;
 		min-height: unset;
 		gap: 1.5em;

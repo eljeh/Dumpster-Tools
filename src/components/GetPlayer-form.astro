@@ -136,6 +136,7 @@ const { SteamId = '' } = Astro.props;
 			if (playerSelect.querySelector(`option[value="${playerId}"]`)) {
 				playerSelect.value = playerId;
 			}
+			playerInfo.innerHTML = `Getting info for ${playerId}`;
 
 			try {
 				const response = await fetch(
@@ -156,18 +157,18 @@ const { SteamId = '' } = Astro.props;
 					throw new Error(`HTTP error! status: ${response.status}`);
 				}
 
-				playerInfo.innerHTML = `Getting info for ${playerId}`;
-
 				const data = await response.json();
 				//playerInfo.innerHTML = `<button id='openNotes-${data.Player.SteamID}' class='notesButton'><i class="fi fi-ss-notebook"></i><span>Notes</span></button>`;
-				playerInfo.innerHTML += `<h3>${data.Player.PlayerName}</h3>`;
+				playerInfo.innerHTML = `<h3>${data.Player.PlayerName}</h3>`;
 				playerInfo.innerHTML += `Discord ID: ${data.Player.DiscordID}`;
 				playerInfo.innerHTML += `<br>Steam ID: ${data.Player.SteamID}`;
 				playerInfo.innerHTML += `<br>IP Address: ${data.Player.IP}`;
 				playerInfo.innerHTML += `<br>`;
 				playerInfo.innerHTML += `<br>Account: ${data.Player.AccountNumber}`;
 				playerInfo.innerHTML += `<br>🪙 ${data.Player.Coins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${data.Player.CreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰  ${data.Player.GoldBalance.toLocaleString()}`;
-
+				playerInfo.innerHTML += `<br>`;
+				playerInfo.innerHTML += `<br>Squad: ${data.SquadInfo.SquadName} (${data.SquadInfo.ID})`;
+				
 				// const notesSteamID = document.getElementById(`notesSteamID`);
 				// notesSteamID.setAttribute('value', data.Player.SteamID);
 				// const notesButton = document.getElementById(

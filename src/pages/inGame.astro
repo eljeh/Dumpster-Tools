@@ -4,11 +4,13 @@ import Map from '../components/Map.astro';
 ---
 
 <Layout title='Map Zones'>
-	<Map />
+	<div class='mainWrapper'>
+		<Map />
+	</div>
 </Layout>
 
 <script>
-	const main = document.querySelector('main');
+	const main = document.querySelector('.mainWrapper');
 	main.classList.add('fml');
 </script>
 
