@@ -123,7 +123,7 @@ input[type="file"]::file-selector-button:active {
     color: var(--font-color);
   }
   main{
-    min-height: 100vh;
+    min-height: calc(100vh - 4.19em);
   }
   .wrapper {
     margin: 0 auto;
