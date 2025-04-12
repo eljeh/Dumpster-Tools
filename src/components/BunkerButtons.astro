@@ -102,11 +102,20 @@
 				sectors.forEach((bunker) => {
 					const div = document.createElement('div'); // Changed from button to div
 
-					let totalSeconds = Math.floor(
-						(bunker.nextAcivationTime || 0) / 10000,
-					);
-					let hours = Math.floor(totalSeconds / 3600);
-					const formattedTime = `Next Acivation: ${hours}hrs`;
+					// bunker.nextAcivationTime is unixtimestamphere
+					const nextActivationTime = new Date(
+						bunker.nextAcivationTime * 1000,
+					).toLocaleString('en-US', {
+						hour: '2-digit',
+						minute: '2-digit',
+						second: '2-digit',
+						hour12: true,
+					});
+
+					let formattedTime = `Next Acivation: ${nextActivationTime}`;
+					if (nextActivationTime === 'Invalid Date') {
+						formattedTime = '';
+					}
 
 					div.onclick = () => teleportTo(bunker.location); // Keep the click event
 					div.className = `btn ${bunker.status.toLowerCase()}`; // Retain the status class
