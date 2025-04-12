@@ -905,8 +905,8 @@ const formatZoneName = (zoneName: string): string => {
 		--color-kingofthecastle-fill: hsla(38, 100%, 50%, 0.2);
 
 		/* POI colors */
-		--color-poi: hsla(147, 41%, 41%, 1);
-		--color-poi-fill: hsla(147, 41%, 41%, 0.2);
+		--color-outpost: hsla(147, 41%, 41%, 1);
+		--color-outpost-fill: hsla(147, 41%, 41%, 0.2);
 
 		--color-pve-poi: hsla(200, 50%, 40%, 1);
 		--color-pve-poi-fill: hsla(200, 50%, 40%, 0.2);
@@ -995,7 +995,6 @@ const formatZoneName = (zoneName: string): string => {
 			font-size: 0.3em;
 			letter-spacing: 0.05em;
 		}
-
 		&-icon {
 			filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
 			stroke: white;
@@ -1149,8 +1148,8 @@ const formatZoneName = (zoneName: string): string => {
 		}
 	}
 
-	.zone-PVP-Zone .zone-rect,
-	.zone-PVP-Zone .zone-circ {
+	[class^='zone-PVP-Zone'] .zone-rect,
+	[class^='zone-PVP-Zone'] .zone-circ {
 		fill: var(--color-pvp-fill);
 		/* stroke: var(--color-pvp);
 		stroke-width: 1; */
@@ -1183,13 +1182,11 @@ const formatZoneName = (zoneName: string): string => {
 	}
 
 	/* POI and Outpost Styles */
-	[class^='zone-Outpost_'] .zone-circ,
-	/* [class^='zone-POI_'] .zone-circ,
-	[class^='zone-POI_'] .zone-rect {
-		fill: var(--color-poi-fill);
-		stroke: var(--color-poi);
+	[class^='zone-Outpost_'] .zone-circ {
+		fill: var(--color-outpost-fill);
+		stroke: var(--color-outpost);
 		stroke-width: 0.5;
-	} */
+	}
 
 	[class^='zone-POI_PVE'] .zone-circ,
 	[class^='zone-POI_PVE'] .zone-rect,

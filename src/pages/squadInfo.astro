@@ -1,0 +1,192 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title='Get Squad Info - Dumpster Tools'>
+  <div class='wrapper' transition:name='wrapper'>
+    <h2 class='mb-8 text-2xl text-center'>Get Squad Info</h2>
+
+    <div class='form-container'>
+      <form id='squadForm' class='mb-6'>
+        <div class='form-group'>
+          <label for='squadId' class='block font-bold mb-2'>Squad ID</label>
+          <input
+            type='text'
+            id='squadId'
+            name='squadId'
+            value='3090'
+            class='border rounded px-3 py-2 w-full'
+            required
+          />
+        </div>
+        <button
+          type='submit'
+          class='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-2'
+        >
+          Get Squad Info
+        </button>
+      </form>
+    </div>
+
+    <div id='squadInfo'></div>
+  </div>
+</Layout>
+
+<script>
+  import { PUBLIC_WBAUTH, PUBLIC_WBBOTID } from 'astro:env/client';
+  const WBAuth = PUBLIC_WBAUTH;
+  const WBBotID = PUBLIC_WBBOTID;
+
+  document.addEventListener('astro:page-load', () => {
+    const squadInfo = document.getElementById('squadInfo');
+    const squadForm = document.getElementById('squadForm');
+
+    async function populateSquadInfo(PlayersSquadID) {
+      try {
+        console.log(`Fetching squad data for ID: ${PlayersSquadID}`);
+
+        // Clear previous results
+        squadInfo.innerHTML =
+          '<div class="loading">Loading squad data...</div>';
+
+        const response = await fetch(
+          `https://api.whalleybot.com/bot/${WBBotID}/GetSquad?SquadID=${PlayersSquadID}`,
+          {
+            method: 'GET',
+            headers: {
+              Accept: '*/*',
+              Authorization: WBAuth,
+            },
+          },
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (!data) {
+          throw new Error('Empty response from API');
+        }
+        // Handle both array and object responses
+        let SquadData;
+
+        if (Array.isArray(data)) {
+          if (data.length === 0) {
+            throw new Error('No squad data found for the given ID');
+          }
+          SquadData = data[0];
+        } else if (typeof data === 'object') {
+          // If it's an object, use it directly
+          SquadData = data;
+        } else {
+          throw new Error(`Unexpected response format: ${typeof data}`);
+        }
+
+        if (!SquadData) {
+          throw new Error('Squad data is null or undefined');
+        }
+
+        if (typeof SquadData !== 'object') {
+          throw new Error(
+            `Expected object for SquadData, got ${typeof SquadData}`,
+          );
+        }
+
+        // Check for required properties
+        const hasSquadName = 'squadName' in SquadData;
+        const hasId = 'id' in SquadData;
+
+        console.log('Squad properties check:', {
+          hasSquadName,
+          hasId,
+          availableProps: Object.keys(SquadData),
+        });
+
+        // Only update the UI if we have valid data
+        if (hasSquadName && hasId) {
+          squadInfo.innerHTML = `<div class="squad-info">
+            <h3>Squad: ${SquadData.squadName} (${SquadData.id})</h3>
+            <div class="squad-details">
+              <p>Members: ${SquadData.squadMember ? Object.keys(SquadData.squadMember).length : 0}</p>
+            </div>
+          </div>`;
+        } else {
+          // Try to display whatever data we have
+          let displayHtml =
+            '<div class="squad-info"><h3>Squad Information</h3>';
+
+          // Add all available properties
+          for (const [key, value] of Object.entries(SquadData)) {
+            if (typeof value === 'object') {
+              displayHtml += `<p><strong>${key}:</strong> ${JSON.stringify(value)}</p>`;
+            } else {
+              displayHtml += `<p><strong>${key}:</strong> ${value}</p>`;
+            }
+          }
+
+          displayHtml += '</div>';
+          squadInfo.innerHTML = displayHtml;
+        }
+      } catch (error) {
+        console.error('Error fetching squad info:', error);
+        squadInfo.innerHTML = `<div class="error-message">
+          Error loading squad information: ${error.message}
+        </div>`;
+      }
+    }
+
+    // Handle form submission
+    squadForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const squadIdInput = document.getElementById(
+        'squadId',
+      ) as HTMLInputElement;
+      const squadId = squadIdInput.value.trim();
+
+      if (squadId) {
+        populateSquadInfo(squadId);
+      }
+    });
+
+
+  });
+</script>
+
+<style is:inline>
+  .wrapper {
+    max-width: 82ch;
+  }
+
+  .form-container {
+    margin-bottom: 2rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .loading {
+    padding: 1rem;
+    text-align: center;
+    color: #4b5563;
+  }
+
+  .squad-info {
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 1rem;
+  }
+
+  .squad-details {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .error-message {
+    color: #dc2626;
+    padding: 1rem;
+    border: 1px solid #dc2626;
+    border-radius: 4px;
+    margin-top: 1rem;
+  }
+</style>

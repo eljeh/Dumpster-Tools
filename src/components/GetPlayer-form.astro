@@ -48,6 +48,7 @@ const { SteamId = '' } = Astro.props;
 </div>
 
 <script>
+	import zones from '../data/zones.json';
 	import { PUBLIC_WBAUTH, PUBLIC_WBBOTID } from 'astro:env/client';
 	const WBAuth = PUBLIC_WBAUTH;
 	const WBBotID = PUBLIC_WBBOTID;
@@ -166,9 +167,7 @@ const { SteamId = '' } = Astro.props;
 				playerInfo.innerHTML += `<br>`;
 				playerInfo.innerHTML += `<br>Account: ${data.Player.AccountNumber}`;
 				playerInfo.innerHTML += `<br>🪙 ${data.Player.Coins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${data.Player.CreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰  ${data.Player.GoldBalance.toLocaleString()}`;
-				playerInfo.innerHTML += `<br>`;
-				playerInfo.innerHTML += `<br>Squad: ${data.SquadInfo.SquadName} (${data.SquadInfo.ID})`;
-				
+
 				// const notesSteamID = document.getElementById(`notesSteamID`);
 				// notesSteamID.setAttribute('value', data.Player.SteamID);
 				// const notesButton = document.getElementById(
@@ -184,29 +183,7 @@ const { SteamId = '' } = Astro.props;
 
 				const PlayersSquadID = data.SquadInfo.ID;
 
-				const squadResponse = await fetch(
-					`https://api.whalleybot.com/bot/${WBBotID}/GetSquad?SquadID=${PlayersSquadID}`,
-					{
-						method: 'GET',
-						headers: {
-							Accept: '*/*',
-							Authorization: WBAuth,
-						},
-					},
-				);
-				const dataS = await squadResponse.json();
-				const SquadData = dataS[0];
-				const squadMembers = Object.values(SquadData.squadMember);
-				const activeMembers = [];
-				squadMembers.forEach((member) => {
-					if (member.playerData !== null) {
-						activeMembers.push(member.playerData.steamID);
-					}
-				});
-
-				getFlagData(activeMembers);
-				getSquadData(data.SquadInfo.ID);
-				getVehicleInfo(squadMembers);
+				getSquadData(PlayersSquadID);
 			} catch (error) {
 				console.error('Error fetching player info:', error);
 				playerInfo.innerHTML = `Error - Player may not be linked:<br /> ${error.message}`;
@@ -248,7 +225,6 @@ const { SteamId = '' } = Astro.props;
 			});
 
 		async function getSquadData(PlayersSquadID) {
-			console.log('getSquadData', PlayersSquadID);
 			const response = await fetch(
 				`https://api.whalleybot.com/bot/${WBBotID}/GetSquad?SquadID=${PlayersSquadID}`,
 				{
@@ -267,11 +243,12 @@ const { SteamId = '' } = Astro.props;
 
 			// Parse the response data
 			const data = await response.json();
-			const SquadData = data[0];
+			const SquadData = data;
 
 			squadInfo.innerHTML += `<hr class="infoHr"/>`;
 			squadInfo.innerHTML += `<br>Squad: ${SquadData.squadName} (${SquadData.id})`;
 
+			// Get the squad members array from the squadMember object
 			const squadMembers = Object.values(SquadData.squadMember);
 
 			//Calculate the total creditBalance and goldBalance of the squad
@@ -306,23 +283,35 @@ const { SteamId = '' } = Astro.props;
 					details.innerHTML += `<br>`;
 				}
 			});
+
+			getFlagData(squadMembers);
+			getVehicleInfo(squadMembers);
 		}
+
 		function isWithinPVP(flagLocationX, flagLocationY) {
-			const PVP = {
-				topLeftX: -904795.125, // Left-most X
-				topLeftY: 619200.0, // Top-most Y
-				bottomRightX: -297316.625, // Right-most X
-				bottomRightY: -904795.125, // Bottom-most Y
-			};
+			// const PVP = zones.MapZones.find((zone) => zone.Name === 'PVP');
+			// if (!PVP) return false;
+			// const [topLeftX, topLeftY] = PVP.TopLeft.split(' ').map(
+			// 	(coord) => parseFloat(coord.split('=')[1]),
+			// );
+			// const [bottomRightX, bottomRightY] = PVP.BottomRight.split(' ').map(
+			// 	(coord) => parseFloat(coord.split('=')[1]),
+			// );
+
+			const topLeftX = 617901.562;
+			const topLeftY = -597895.812;
+			const bottomRightX = -904795.125;
+			const bottomRightY = -904795.125;
 
 			// Check if the flag location is within the PVP zone
 			return (
-				flagLocationX >= PVP.topLeftX && // Right of left edge
-				flagLocationX <= PVP.bottomRightX && // Left of right edge
-				flagLocationY <= PVP.topLeftY && // Below top edge
-				flagLocationY >= PVP.bottomRightY // Above bottom edge
+				flagLocationX >= topLeftX && // Right of left edge
+				flagLocationX <= bottomRightX && // Left of right edge
+				flagLocationY <= topLeftY && // Below top edge
+				flagLocationY >= bottomRightY // Above bottom edge
 			);
 		}
+
 		async function getFlagData(squadMembers) {
 			const response = await fetch(
 				`https://api.whalleybot.com/bot/217fc652/FlagLocations`,
@@ -346,7 +335,9 @@ const { SteamId = '' } = Astro.props;
 
 			// find all flags owened by squadMembers
 			const flags = FlagData.filter((flag) =>
-				squadMembers.map((member) => member).includes(flag.ownerID),
+				squadMembers
+					.map((member) => member.playerData.steamID)
+					.includes(flag.ownerID),
 			);
 
 			flagCount.innerHTML = ` 🚩 Flags: ${flags.length} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;`;
