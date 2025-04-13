@@ -298,17 +298,31 @@ const { SteamId = '' } = Astro.props;
 			// 	(coord) => parseFloat(coord.split('=')[1]),
 			// );
 
-			const topLeftX = 617901.562;
-			const topLeftY = -597895.812;
-			const bottomRightX = -904795.125;
-			const bottomRightY = -904795.125;
+			const PVP = {
+				topLeftX: 617901.562,
+				topLeftY: -597895.812,
+				bottomRightX: -904795.125,
+				bottomRightY: -904795.125,
+			};
 
-			// Check if the flag location is within the PVP zone
+			// Parse coordinates to numbers if they're strings
+			const x =
+				typeof flagLocationX === 'string'
+					? parseFloat(flagLocationX)
+					: flagLocationX;
+			const y =
+				typeof flagLocationY === 'string'
+					? parseFloat(flagLocationY)
+					: flagLocationY;
+
+			// Check if coordinates are within PVP zone
+			// For X: point should be between the larger (right) and smaller (left) X values
+			// For Y: point should be between the larger (top) and smaller (bottom) Y values
 			return (
-				flagLocationX >= topLeftX && // Right of left edge
-				flagLocationX <= bottomRightX && // Left of right edge
-				flagLocationY <= topLeftY && // Below top edge
-				flagLocationY >= bottomRightY // Above bottom edge
+				x <= PVP.topLeftX && // Left of right boundary
+				x >= PVP.bottomRightX && // Right of left boundary
+				y <= PVP.topLeftY && // Below top boundary
+				y >= PVP.bottomRightY // Above bottom boundary
 			);
 		}
 
@@ -358,6 +372,7 @@ const { SteamId = '' } = Astro.props;
 				details.innerHTML += `<br>`;
 			});
 		}
+
 		async function getVehicleInfo(squadMembers) {
 			try {
 				// Fetch the list of vehicles
