@@ -1405,7 +1405,9 @@ const formatZoneName = (zoneName: string): string => {
 		justify-content: flex-start;
 		padding: 0 0.5em;
 	}
-
+	.vehicle-data-table li {
+		flex-wrap: nowrap;
+	}
 	li.vehicleList-Header,
 	li.playerList-Header,
 	li.killList-Header,
@@ -1446,8 +1448,10 @@ const formatZoneName = (zoneName: string): string => {
 	}
 
 	.vehicle-data-table li.type-header {
+		border-top-left-radius: 0.5em;
+		border-top-right-radius: 0.5em;
 		flex-direction: column;
-		padding: 0;
+		padding: 0 0.5em;
 	}
 
 	.vehicle-data-table li.type-header .type-summary {
@@ -1457,9 +1461,19 @@ const formatZoneName = (zoneName: string): string => {
 		font-weight: 600;
 		color: #ababab;
 		letter-spacing: 0.1em;
+		cursor: pointer;
+		padding: 0.25em 0.5em;
+		border-radius: 0.25em;
 		input {
 			opacity: 0;
 		}
+		&:hover {
+			background: var(--color-accent);
+		}
+	}
+
+	.listTitle:hover {
+		background: var(--color-accent);
 	}
 
 	.data-table-container li .vID {
@@ -1526,17 +1540,6 @@ const formatZoneName = (zoneName: string): string => {
 		min-width: 16ch;
 	}
 
-	.listTitle {
-		font-size: 1.25em;
-		font-weight: bold;
-		cursor: pointer;
-		background: var(--color-secondary);
-		padding: 0.25em 0.5em;
-		border-radius: 0.25em;
-	}
-	.listTitle:hover {
-		background: var(--color-accent);
-	}
 	ul.vehicleList {
 		display: none;
 	}
@@ -1554,7 +1557,7 @@ const formatZoneName = (zoneName: string): string => {
 		flex-direction: row;
 		justify-content: space-between;
 		gap: 0 1.5em;
-		flex-wrap: wrap;
+		/* flex-wrap: wrap; */
 		border-bottom: 0.25em solid var(--color-primary);
 		justify-content: flex-start;
 	}
