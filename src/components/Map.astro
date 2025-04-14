@@ -1391,7 +1391,7 @@ const formatZoneName = (zoneName: string): string => {
 		/* margin-top: 1em; */
 	}
 
-	.vehicle-data-table li,
+	.vehicle-data-table > ul > li,
 	.playerList li,
 	.killList li,
 	.flagList li,
@@ -1405,7 +1405,7 @@ const formatZoneName = (zoneName: string): string => {
 		justify-content: flex-start;
 		padding: 0 0.5em;
 	}
-	.vehicle-data-table li {
+	.vehicle-data-table > ul li {
 		flex-wrap: nowrap;
 	}
 	li.vehicleList-Header,
@@ -1425,6 +1425,8 @@ const formatZoneName = (zoneName: string): string => {
 	.lootList li:not(:first-child):hover {
 		background: var(--color-primary);
 	}
+	.vehicle-data-table > ul > li span,
+	.vehicle-data-table > ul >li a,
 	.playerList li span,
 	.playerList li a,
 	.killList li span,
@@ -1451,7 +1453,7 @@ const formatZoneName = (zoneName: string): string => {
 		border-top-left-radius: 0.5em;
 		border-top-right-radius: 0.5em;
 		flex-direction: column;
-		padding: 0 0.5em;
+		padding: 0;
 	}
 
 	.vehicle-data-table li.type-header .type-summary {
