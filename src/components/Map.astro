@@ -954,17 +954,6 @@ const formatZoneName = (zoneName: string): string => {
 		padding: 0.25em 0.5em 0.25em 0.5em;
 	}
 
-	/* Consolidated zone styles */
-	/* .zone-rect {
-		fill: var(--fill-color, var(--zone--default));
-		stroke: var(--stroke-color, var(--zone--default));
-		stroke-width: var(--stroke-width, 1);
-
-		&:hover {
-			fill: var(--hover-color, var(--zone--default-hover));
-		}
-	} */
-
 	.zone-rect {
 		fill: var(--color-zone-default-fill);
 		stroke: var(--color-zone-default-fill);
@@ -1402,7 +1391,7 @@ const formatZoneName = (zoneName: string): string => {
 		/* margin-top: 1em; */
 	}
 
-	.vehicleList li,
+	.vehicle-data-table li,
 	.playerList li,
 	.killList li,
 	.flagList li,
@@ -1428,15 +1417,12 @@ const formatZoneName = (zoneName: string): string => {
 		border-bottom: none;
 	}
 
-	.vehicleList li:not(:first-child):hover,
 	.playerList li:not(:first-child):hover,
 	.killList li:not(:first-child):hover,
 	.flagList li:not(:first-child):hover,
 	.lootList li:not(:first-child):hover {
 		background: var(--color-primary);
 	}
-	.vehicleList li span,
-	.vehicleList li a,
 	.playerList li span,
 	.playerList li a,
 	.killList li span,
@@ -1448,8 +1434,7 @@ const formatZoneName = (zoneName: string): string => {
 		padding: 0.25em 0.5em;
 		border-radius: 0.25em;
 	}
-	.vehicleList li:not(:first-child) .clickable:hover,
-	.vehicleList li:not(:first-child) a:hover,
+
 	.playerList li:not(:first-child) span:hover,
 	.playerList li:not(:first-child) a:hover,
 	.killList li:not(:first-child) span:hover,
@@ -1460,11 +1445,12 @@ const formatZoneName = (zoneName: string): string => {
 		cursor: pointer;
 	}
 
-	.vehicleList li.type-header {
+	.vehicle-data-table li.type-header {
+		flex-direction: column;
 		padding: 0;
 	}
 
-	.vehicleList li.type-header .type-summary {
+	.vehicle-data-table li.type-header .type-summary {
 		flex: 1;
 		background: var(--color-grey-dark);
 		font-size: 1.1em;
@@ -1538,5 +1524,55 @@ const formatZoneName = (zoneName: string): string => {
 		white-space: nowrap;
 		text-align: right;
 		min-width: 16ch;
+	}
+
+	.listTitle {
+		font-size: 1.25em;
+		font-weight: bold;
+		cursor: pointer;
+		background: var(--color-secondary);
+		padding: 0.25em 0.5em;
+		border-radius: 0.25em;
+	}
+	.listTitle:hover {
+		background: var(--color-accent);
+	}
+	ul.vehicleList {
+		display: none;
+	}
+	input[type='checkbox'] {
+		display: none;
+		visibility: hidden;
+	}
+
+	input[type='checkbox']:checked + .vehicleList,
+	input[type='checkbox']:checked + .type-vehicles {
+		display: block;
+	}
+	.vehicleList li {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		gap: 0 1.5em;
+		flex-wrap: wrap;
+		border-bottom: 0.25em solid var(--color-primary);
+		justify-content: flex-start;
+	}
+	.vehicleList li:hover {
+		background: var(--color-primary);
+	}
+	.vehicleList li span,
+	.vehicleList li a {
+		padding: 0.25em 0.5em;
+		border-radius: 0.25em;
+	}
+	.vehicleList li .clickable:hover,
+	.vehicleList li a:hover {
+		background: var(--color-accent);
+		cursor: pointer;
+	}
+
+	#VehicleContainer > div {
+		margin-bottom: 1em;
 	}
 </style>

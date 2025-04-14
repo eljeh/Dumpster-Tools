@@ -85,15 +85,15 @@ export function displayVehicleLocations(
 
 			// Create table header
 			const ul = document.createElement('ul');
-			ul.classList.add('vehicleList');
+			//ul.classList.add('vehicleList');
 			ul.innerHTML = `
-						<li class="vehicleList-Header">
-								<span class="vID">Key</span>
-								<span class="vType">Type</span>
-								<span class="steamID">Reg</span>
-								<span class="coords">Coords</span>
-						</li>
-				`;
+					<li class="vehicleList-Header">
+							<span class="vID">Key</span>
+							<span class="vType">Type</span>
+							<span class="steamID">Reg</span>
+							<span class="coords">Coords</span>
+					</li>
+			`;
 			div.appendChild(ul);
 
 			// Sort and group data by vehicle type
@@ -133,11 +133,12 @@ export function displayVehicleLocations(
 				typeHeader.classList.add('type-header');
 				typeHeader.classList.add(`${type}-header`);
 				typeHeader.innerHTML = `
-					<label class="type-summary">
-						<input type='checkbox' id='${type}-toggle' checked/>
-						${type} (${group.registered}/${group.total} registered)
-					</label>
-				`;
+				<label for='${type}-toggle' class="listTitle type-summary">
+				${type} (${group.registered}/${group.total} registered)
+				</label>
+				<input type='checkbox' id='${type}-toggle' checked/>
+				<ul class="type-vehicles vehicleList"></ul>
+			`;
 				ul.appendChild(typeHeader);
 
 				// Add vehicles of this type
@@ -217,6 +218,14 @@ export function displayVehicleLocations(
 
 					let steamID = vehicle.value.reg.split(' ')[0].replace(/^STEAMID:/, '');
 					let type = vehicleType.replace(`_`, ' ').replace(`Metal`, 'Mtl').replace(`Improvised`, 'Imp');
+
+					const vehicleLocationX = vehicle.value.coords.split(' ')[0];
+					const vehicleLocationY = vehicle.value.coords.split(' ')[1];
+
+					let zone = isWithinPVP(vehicleLocationX, vehicleLocationY)
+						? '🟥'
+						: '🟩';
+
 					// Add table row
 					const li = document.createElement('li');
 					// add vehicle.key as id
@@ -228,14 +237,14 @@ export function displayVehicleLocations(
 						li.classList.add(`registered`);
 					}
 					li.innerHTML = `
-				<span class="clickable vID" title="#TeleportToVehicle ${vehicle.key}">${vehicle.key}</span>
-				<span class="clickable vType" title="#RenameVehicle ${vehicle.key} 'VID:${vehicle.key}'" >${type}</span>
-				${vehicle.value.reg.includes('STEAMID')
+			<span class="clickable vID" title="#TeleportToVehicle ${vehicle.key}">${vehicle.key}</span>
+			<span class="clickable vType" title="#RenameVehicle ${vehicle.key} 'VID:${vehicle.key}'" >${type}</span>
+			${vehicle.value.reg.includes('STEAMID')
 							? `<a class="steamID" href="/playerInfo?playerid=${steamID}" title="${steamID}">${steamID}</a>`
 							: `<span class="steamID">Not Registered</span>`
 						}
-				<span class="clickable coords" title="#Teleport ${vehicle.value.coords}" c>${vehicle.value.coords}</span>
-				`;
+			<span class="clickable coords" title="#Teleport ${vehicle.value.coords}" >${zone} ${vehicle.value.coords}</span>
+			`;
 
 					// Add hover event listeners
 					li.addEventListener('mouseenter', () => {
@@ -252,15 +261,15 @@ export function displayVehicleLocations(
 						marker?.classList.remove('highlighted');
 					});
 
-					ul.appendChild(li);
+					// Append to the type's vehicle list instead of the main ul
+					const typeVehiclesList = typeHeader.querySelector('.type-vehicles');
+					if (typeVehiclesList) {
+						typeVehiclesList.appendChild(li);
+					}
 				});
 			});
 
-			console.log('Vehicle statistics:', {
-				validVehicles,
-				skippedVehicles,
-				totalGroups: vehicleGroups.size
-			});
+
 
 			dataContainer.appendChild(div);
 			svg.appendChild(container);
@@ -300,4 +309,38 @@ export function displayVehicleLocations(
 		.catch((error) => {
 			console.error('Error in displayVehicleLocations:', error);
 		});
+
+	function copyToClipboard(element) {
+		const text = element.title;
+		navigator.clipboard.writeText(text).catch((err) => {
+			console.error('Failed to copy:', err);
+		});
+	}
+
+	// Add click handlers once
+	document.addEventListener('click', (e) => {
+		const target = e.target as HTMLElement;
+		if (target.classList.contains('clickable')) {
+			copyToClipboard(target);
+			alert('Copied to clipboard: ' + target.title);
+		}
+	});
+
+	function isWithinPVP(flagLocationX, flagLocationY) {
+		const PVP = {
+			topLeftX: -904795.125, // Left-most X
+			topLeftY: 619200.0, // Top-most Y
+			bottomRightX: -297316.625, // Right-most X
+			bottomRightY: -904795.125, // Bottom-most Y
+		};
+
+		// Check if the flag location is within the PVP zone
+		return (
+			flagLocationX >= PVP.topLeftX && // Right of left edge
+			flagLocationX <= PVP.bottomRightX && // Left of right edge
+			flagLocationY <= PVP.topLeftY && // Below top edge
+			flagLocationY >= PVP.bottomRightY // Above bottom edge
+		);
+	}
+
 } 
