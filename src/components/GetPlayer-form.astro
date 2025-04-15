@@ -3,7 +3,6 @@
 // Add prop definition
 const { SteamId = '' } = Astro.props;
 //const SteamId = '76561198187036603';
-import { isWithinPVP } from '../utils/pvpUtils';
 ---
 
 <form class='w-full flex flex-col row item-center'>
@@ -49,7 +48,7 @@ import { isWithinPVP } from '../utils/pvpUtils';
 </div>
 
 <script>
-	import zones from '../data/zones.json';
+	import { isWithinPVP } from '../utils/pvpUtils';
 	import { PUBLIC_WBAUTH, PUBLIC_WBBOTID } from 'astro:env/client';
 	const WBAuth = PUBLIC_WBAUTH;
 	const WBBotID = PUBLIC_WBBOTID;
