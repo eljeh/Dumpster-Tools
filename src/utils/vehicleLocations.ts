@@ -122,8 +122,35 @@ export function displayVehicleLocations(
 				group.vehicles.push(vehicle);
 			});
 
-			// Sort vehicle types alphabetically
-			const sortedTypes = Array.from(vehicleGroups.keys()).sort();
+			// Define the preferred order for vehicle types
+			const preferredOrder = [
+				'Laika',
+				'WolfsWagen',
+				'Rager',
+				'Kinglet_Duster',
+				'Dirtbike',
+				'Cruiser',
+				'RIS',
+				'Barba'
+			];
+
+			// Sort vehicle types according to preferred order, then alphabetically for the rest
+			const sortedTypes = Array.from(vehicleGroups.keys()).sort((a, b) => {
+				const aIndex = preferredOrder.indexOf(a);
+				const bIndex = preferredOrder.indexOf(b);
+
+				// If both are in the preferred order, sort by their position in that order
+				if (aIndex !== -1 && bIndex !== -1) {
+					return aIndex - bIndex;
+				}
+
+				// If only one is in the preferred order, prioritize it
+				if (aIndex !== -1) return -1;
+				if (bIndex !== -1) return 1;
+
+				// If neither is in the preferred order, sort alphabetically
+				return a.localeCompare(b);
+			});
 
 			// Create groups with headers
 			sortedTypes.forEach(type => {
