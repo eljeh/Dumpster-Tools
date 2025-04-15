@@ -60,13 +60,18 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 				const playerY = parseFloat(y);
 				const playerZ = parseFloat(z);
 
+				const PvEPvP = isWithinPVP(playerX, playerY)
+					? 'pvp'
+					: 'pve';
+
 				// Add SVG marker
 				const g = document.createElementNS(
 					'http://www.w3.org/2000/svg',
 					'g',
 				);
 				g.classList.add('player-marker');
-				g.setAttribute('data-steamid', player.steamID); // Add data attribute for linking
+				g.classList.add(PvEPvP); // Add PvE/PvP class to marker
+				g.setAttribute('data-steamid', player.steamID);
 				const title = document.createElementNS(
 					'http://www.w3.org/2000/svg',
 					'title',
@@ -101,14 +106,24 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 					? '🟥'
 					: '🟩';
 
+				let zoneClass = isWithinPVP(playerLocationX, playerLocationY)
+					? 'pvp'
+					: 'pve';
+
+				//"lastKnownLocation": "502276.000 -304514.000 3072.000 (as drone)",
+
+				let isDrone = player.lastKnownLocation.includes('(as drone)');
+				let droneClass = isDrone ? 'drone' : '';
+
 				// Add list item
 				const li = document.createElement('li');
 				li.id = player.steamID;
+				li.classList.add(zoneClass);
 				li.innerHTML = `
 					<span title="#TeleportTo ${player.playerName}" class="playerName">${player.playerName}</span>
 					<a class="steamID" href="/playerInfo?playerid=${player.steamID}" title="${player.steamID}">${player.steamID}</a>
 					<span class="clickable coords" title="#Teleport ${player.lastKnownLocation}">${zone} ${playerX.toFixed(2)} ${playerY.toFixed(2)} ${playerZ.toFixed(2)}</span>
-					<span class="pType">${player.type}</span>
+					<span class="pType">${droneClass} ${player.type}</span>
 				`;
 
 				// Add hover event listeners

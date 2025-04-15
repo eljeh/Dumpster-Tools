@@ -68,7 +68,9 @@ export function displayFlagLocations(
 			div.appendChild(ul);
 
 			// Convert object to array if necessary and type cast
-			const flagsArray = (Array.isArray(data) ? data : Object.values(data)) as FlagData[];
+			let flagsArray = (Array.isArray(data) ? data : Object.values(data)) as FlagData[];
+			// remove flag if playerName is null
+			flagsArray = flagsArray.filter((flag) => flag.ownerName !== null);
 
 			flagsArray.forEach((flag) => {
 				if (!flag.location) return; // Skip if no location data

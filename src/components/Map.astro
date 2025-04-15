@@ -752,6 +752,33 @@ const formatZoneName = (zoneName: string): string => {
 			notRegisteredVehiclesToggle,
 			'.vehicle-marker.not-registered',
 		);
+
+		// Handle PvE toggle visibility
+		const pvpToggle = document.getElementById(
+			'player-PVP-toggle',
+		) as HTMLInputElement;
+		const pveToggle = document.getElementById(
+			'player-PVE-toggle',
+		) as HTMLInputElement;
+
+		pveToggle?.addEventListener('change', () => {
+			const pveElements = document.querySelectorAll('.pve');
+			pveElements.forEach((element) => {
+				(element as HTMLElement).style.display = pveToggle.checked
+					? ''
+					: 'none';
+			});
+		});
+
+		pvpToggle?.addEventListener('change', () => {
+			const pvpElements = document.querySelectorAll('.pvp');
+			pvpElements.forEach((element) => {
+				(element as HTMLElement).style.display = pvpToggle.checked
+					? ''
+					: 'none';
+			});
+		});
+
 		updateVisibility(mapZonesToggle, '.zone-MapZones');
 		updateVisibility(bunkersToggle, '[class^="zone-PVP_Bunker"]');
 		updateVisibility(bunkersToggle, '[class^="zone-PVE_Bunker"]');
@@ -1219,6 +1246,11 @@ const formatZoneName = (zoneName: string): string => {
 		font-size: 0.3em;
 		stroke: none;
 		letter-spacing: 0.05em;
+	}
+
+	/* Hide PvE elements when toggle is not checked */
+	#player-PVE-toggle:not(:checked) ~ * .pve {
+		display: none !important;
 	}
 
 	.player-marker circle {

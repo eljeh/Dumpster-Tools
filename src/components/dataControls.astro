@@ -20,6 +20,16 @@
 	</div>
 
 	<div class='subNav-container'>
+		<div class='player-location'>
+			<label>
+				<input type='checkbox' checked id='player-PVE-toggle' />
+				PvE
+			</label><span class='nav-divider'>|</span>
+			<label>
+				<input type='checkbox' checked id='player-PVP-toggle' />
+				PvP
+			</label>
+		</div>
 		<div class='vehicle-types'>
 			<label>
 				<input type='checkbox' checked id='registered-vehicles-toggle' />
@@ -52,10 +62,8 @@
 			<span class='nav-divider'>|</span>
 			<label><input type='checkbox' id='outposts-toggle' />Outposts</label>
 			<span class='nav-divider'>|</span>
-			<label
-			><input type='checkbox' id='pvpzones-toggle' />PvP Zones</label
-		>
-		<span class='nav-divider'>|</span>
+			<label><input type='checkbox' id='pvpzones-toggle' />PvP Zones</label>
+			<span class='nav-divider'>|</span>
 			<label
 				><input type='checkbox' id='serverzones-toggle' />Server Zones</label
 			>
@@ -64,10 +72,71 @@
 </div>
 
 <script>
-	document.addEventListener('DOMContentLoaded', () => {
+	import { isWithinPVP } from '../utils/pvpUtils';
+	import { PUBLIC_WBAUTH, PUBLIC_WBBOTID } from 'astro:env/client';
+	const WBAuth = PUBLIC_WBAUTH;
+	const WBBotID = PUBLIC_WBBOTID;
+
+	document.addEventListener('DOMContentLoaded', async () => {
+		// Function to update player counts
+		async function updatePlayerCounts() {
+			try {
+				const response = await fetch(
+					`https://api.whalleybot.com/bot/${WBBotID}/PlayerLocations`,
+					{
+						method: 'GET',
+						headers: {
+							Accept: '*/*',
+							Authorization: WBAuth,
+						},
+					},
+				);
+
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+
+				const players = await response.json();
+				let pveCount = 0;
+				let pvpCount = 0;
+
+				players.forEach((player) => {
+					const [x, y] = player.lastKnownLocation.split(' ');
+					if (isWithinPVP(x, y)) {
+						pvpCount++;
+					} else {
+						pveCount++;
+					}
+				});
+
+				// Update the counts in the DOM
+				const pveLabel = document.querySelector(
+					'label:has(#player-PVE-toggle)',
+				);
+				const pvpLabel = document.querySelector(
+					'label:has(#player-PVP-toggle)',
+				);
+				if (pveLabel)
+					pveLabel.innerHTML = `<input type='checkbox' checked id='player-PVE-toggle' />PvE (${pveCount})`;
+				if (pvpLabel)
+					pvpLabel.innerHTML = `<input type='checkbox' checked id='player-PVP-toggle' />PvP (${pvpCount})`;
+			} catch (error) {
+				console.error('Error updating player counts:', error);
+			}
+		}
+
+		// Initial update
+		await updatePlayerCounts();
+
+		// Update every 5 minutes
+		setInterval(updatePlayerCounts, 300000);
+
 		const mainNavToggles = document.querySelectorAll(
 			'.mainNav-container input[type="checkbox"]',
 		);
+		const playerLocation = document.querySelector(
+			'.player-location',
+		) as HTMLElement;
 		const vehiclesToggle = document.getElementById(
 			'vehicles-toggle',
 		) as HTMLInputElement;
@@ -85,7 +154,6 @@
 		) as HTMLInputElement;
 		const settingZones = document.querySelector('.settingZones') as HTMLElement;
 
-
 		mainNavToggles.forEach((toggle) => {
 			toggle.addEventListener('change', (e) => {
 				const currentToggle = e.target as HTMLInputElement;
@@ -98,6 +166,10 @@
 				});
 
 				// Handle visibility of sub-sections
+				const playersToggle = document.getElementById(
+					'players-toggle',
+				) as HTMLInputElement;
+				playerLocation.style.display = playersToggle?.checked ? 'flex' : 'none';
 				vehicleTypes.style.display = vehiclesToggle.checked ? 'flex' : 'none';
 				lootModifiers.style.display = modifiersToggle.checked ? 'flex' : 'none';
 				settingZones.style.display = settingZonesToggle.checked
@@ -182,6 +254,7 @@
 		}
 	}
 
+	.player-location,
 	.vehicle-types,
 	.loot-modifiers,
 	.settingZones,
