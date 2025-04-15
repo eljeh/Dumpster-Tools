@@ -1,12 +1,12 @@
-
 import zones from '../data/zones.json';
 
 export const PVP = {
-	topLeftX: 617901.562,
-	topLeftY: -597895.812,
-	bottomRightX: -904795.125,
-	bottomRightY: -904795.125,
+	topLeftX: parseFloat(zones.MapZones.find(zone => zone.Name === 'PvP Zone').TopLeft.split(' ')[0].replace('X=', '')), // 617901.562
+	topLeftY: parseFloat(zones.MapZones.find(zone => zone.Name === 'PvP Zone').TopLeft.split(' ')[1].replace('Y=', '')), // -597895.812
+	bottomRightX: parseFloat(zones.MapZones.find(zone => zone.Name === 'PvP Zone').BottomRight.split(' ')[0].replace('X=', '')), // -904795.125
+	bottomRightY: parseFloat(zones.MapZones.find(zone => zone.Name === 'PvP Zone').BottomRight.split(' ')[1].replace('Y=', '')), // -904795.125
 };
+
 
 /**
  * Checks if a given location is within the PVP zone
