@@ -2,6 +2,7 @@ import {
 	PUBLIC_WBAUTH,
 	PUBLIC_WBBOTID,
 } from 'astro:env/client';
+import { isWithinPVP } from './pvpUtils';
 const WBAuth = PUBLIC_WBAUTH;
 const WBBotID = PUBLIC_WBBOTID;
 
@@ -120,13 +121,20 @@ export function displayFlagLocations(
 
 				container.appendChild(g);
 
+				const flagLocationX = flag.location.split(' ')[0];
+				const flagLocationY = flag.location.split(' ')[1];
+
+				let zone = isWithinPVP(flagLocationX, flagLocationY)
+					? '🟥'
+					: '🟩';
+
 				// Add list item
 				const li = document.createElement('li');
 				// li.id = flag.ownerID;
 				li.innerHTML = `
 					<span title="#TeleportTo ${flag.ownerName}" class="playerName">${flag.ownerName}</span>
 					<a class="steamID" href="/playerInfo?playerid=${flag.ownerID}" title="${flag.ownerID}">${flag.ownerID}</a>
-					<span class="clickable coords" title="#Teleport ${flag.location}">${flag.location}</span>
+					<span class="clickable coords" title="#Teleport ${flag.location}">${zone} ${flag.location}</span>
 				`;
 				ul.appendChild(li);
 

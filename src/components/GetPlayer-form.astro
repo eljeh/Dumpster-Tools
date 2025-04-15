@@ -3,6 +3,7 @@
 // Add prop definition
 const { SteamId = '' } = Astro.props;
 //const SteamId = '76561198187036603';
+import { isWithinPVP } from '../utils/pvpUtils';
 ---
 
 <form class='w-full flex flex-col row item-center'>
@@ -288,32 +289,6 @@ const { SteamId = '' } = Astro.props;
 			getVehicleInfo(squadMembers);
 		}
 
-		function isWithinPVP(flagLocationX, flagLocationY) {
-
-			const PVP = {
-				topLeftX: 617901.562,
-				topLeftY: -597895.812,
-				bottomRightX: -904795.125,
-				bottomRightY: -904795.125,
-			};
-
-			// Parse coordinates to numbers if they're strings
-			const x =
-				typeof flagLocationX === 'string'
-					? parseFloat(flagLocationX)
-					: flagLocationX;
-			const y =
-				typeof flagLocationY === 'string'
-					? parseFloat(flagLocationY)
-					: flagLocationY;
-
-			return (
-				x <= PVP.topLeftX && // Left of right boundary
-				x >= PVP.bottomRightX && // Right of left boundary
-				y <= PVP.topLeftY && // Below top boundary
-				y >= PVP.bottomRightY // Above bottom boundary
-			);
-		}
 
 		async function getFlagData(squadMembers) {
 			const response = await fetch(

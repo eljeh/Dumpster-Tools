@@ -2,6 +2,7 @@ import {
 	PUBLIC_WBAUTH,
 	PUBLIC_WBBOTID,
 } from 'astro:env/client';
+import { isWithinPVP } from './pvpUtils';
 const WBAuth = PUBLIC_WBAUTH;
 const WBBotID = PUBLIC_WBBOTID;
 
@@ -325,31 +326,5 @@ export function displayVehicleLocations(
 			alert('Copied to clipboard: ' + target.title);
 		}
 	});
-
-	function isWithinPVP(flagLocationX, flagLocationY) {
-		const PVP = {
-			topLeftX: 617901.562,
-			topLeftY: -597895.812,
-			bottomRightX: -904795.125,
-			bottomRightY: -904795.125,
-		};
-
-		// Parse coordinates to numbers if they're strings
-		const x =
-			typeof flagLocationX === 'string'
-				? parseFloat(flagLocationX)
-				: flagLocationX;
-		const y =
-			typeof flagLocationY === 'string'
-				? parseFloat(flagLocationY)
-				: flagLocationY;
-
-		return (
-			x <= PVP.topLeftX && // Left of right boundary
-			x >= PVP.bottomRightX && // Right of left boundary
-			y <= PVP.topLeftY && // Below top boundary
-			y >= PVP.bottomRightY // Above bottom boundary
-		);
-	}
 
 } 

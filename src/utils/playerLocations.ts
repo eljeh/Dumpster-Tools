@@ -1,3 +1,5 @@
+import { isWithinPVP } from './pvpUtils';
+
 export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y: number) => number) {
 	// console.log('Starting displayPlayerLocations function');
 	const url = `https://api.whalleybot.com/bot/${import.meta.env.PUBLIC_WBBOTID}/PlayerLocations`;
@@ -92,13 +94,20 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 				g.appendChild(text);
 				container.appendChild(g);
 
+				const playerLocationX = player.lastKnownLocation.split(' ')[0];
+				const playerLocationY = player.lastKnownLocation.split(' ')[1];
+
+				let zone = isWithinPVP(playerLocationX, playerLocationY)
+					? '🟥'
+					: '🟩';
+
 				// Add list item
 				const li = document.createElement('li');
 				li.id = player.steamID;
 				li.innerHTML = `
 					<span title="#TeleportTo ${player.playerName}" class="playerName">${player.playerName}</span>
 					<a class="steamID" href="/playerInfo?playerid=${player.steamID}" title="${player.steamID}">${player.steamID}</a>
-					<span class="clickable coords" title="#Teleport ${player.lastKnownLocation}">${playerX.toFixed(2)} ${playerY.toFixed(2)} ${playerZ.toFixed(2)}</span>
+					<span class="clickable coords" title="#Teleport ${player.lastKnownLocation}">${zone} ${playerX.toFixed(2)} ${playerY.toFixed(2)} ${playerZ.toFixed(2)}</span>
 					<span class="pType">${player.type}</span>
 				`;
 
