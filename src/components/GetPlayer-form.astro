@@ -289,14 +289,6 @@ const { SteamId = '' } = Astro.props;
 		}
 
 		function isWithinPVP(flagLocationX, flagLocationY) {
-			// const PVP = zones.MapZones.find((zone) => zone.Name === 'PVP');
-			// if (!PVP) return false;
-			// const [topLeftX, topLeftY] = PVP.TopLeft.split(' ').map(
-			// 	(coord) => parseFloat(coord.split('=')[1]),
-			// );
-			// const [bottomRightX, bottomRightY] = PVP.BottomRight.split(' ').map(
-			// 	(coord) => parseFloat(coord.split('=')[1]),
-			// );
 
 			const PVP = {
 				topLeftX: 617901.562,
@@ -315,9 +307,6 @@ const { SteamId = '' } = Astro.props;
 					? parseFloat(flagLocationY)
 					: flagLocationY;
 
-			// Check if coordinates are within PVP zone
-			// For X: point should be between the larger (right) and smaller (left) X values
-			// For Y: point should be between the larger (top) and smaller (bottom) Y values
 			return (
 				x <= PVP.topLeftX && // Left of right boundary
 				x >= PVP.bottomRightX && // Right of left boundary

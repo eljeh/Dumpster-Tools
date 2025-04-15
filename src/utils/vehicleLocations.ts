@@ -328,18 +328,27 @@ export function displayVehicleLocations(
 
 	function isWithinPVP(flagLocationX, flagLocationY) {
 		const PVP = {
-			topLeftX: -904795.125, // Left-most X
-			topLeftY: 619200.0, // Top-most Y
-			bottomRightX: -297316.625, // Right-most X
-			bottomRightY: -904795.125, // Bottom-most Y
+			topLeftX: 617901.562,
+			topLeftY: -597895.812,
+			bottomRightX: -904795.125,
+			bottomRightY: -904795.125,
 		};
 
-		// Check if the flag location is within the PVP zone
+		// Parse coordinates to numbers if they're strings
+		const x =
+			typeof flagLocationX === 'string'
+				? parseFloat(flagLocationX)
+				: flagLocationX;
+		const y =
+			typeof flagLocationY === 'string'
+				? parseFloat(flagLocationY)
+				: flagLocationY;
+
 		return (
-			flagLocationX >= PVP.topLeftX && // Right of left edge
-			flagLocationX <= PVP.bottomRightX && // Left of right edge
-			flagLocationY <= PVP.topLeftY && // Below top edge
-			flagLocationY >= PVP.bottomRightY // Above bottom edge
+			x <= PVP.topLeftX && // Left of right boundary
+			x >= PVP.bottomRightX && // Right of left boundary
+			y <= PVP.topLeftY && // Below top boundary
+			y >= PVP.bottomRightY // Above bottom boundary
 		);
 	}
 
