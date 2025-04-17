@@ -297,8 +297,6 @@ export function displayVehicleLocations(
 				});
 			});
 
-
-
 			dataContainer.appendChild(div);
 			svg.appendChild(container);
 
@@ -312,7 +310,14 @@ export function displayVehicleLocations(
 
 					// Update both markers and table rows
 					document.querySelectorAll('.vehicle-marker, .vehicle-data-table li').forEach((element) => {
-						if (element.classList.contains('type-header')) return; // Skip headers
+						// Always keep the header visible
+						if (element.classList.contains('vehicleList-Header')) {
+							(element as HTMLElement).style.display = 'flex';
+							return;
+						}
+
+						// Skip type headers as they're handled separately
+						if (element.classList.contains('type-header')) return;
 
 						const isRegistered = element.classList.contains('registered');
 						const shouldShow = isVehiclesEnabled &&

@@ -131,6 +131,40 @@
 		// Update every 5 minutes
 		setInterval(updatePlayerCounts, 300000);
 
+		// Add event listeners for PvE and PvP toggles
+		const pveToggle = document.getElementById(
+			'player-PVE-toggle',
+		) as HTMLInputElement;
+		const pvpToggle = document.getElementById(
+			'player-PVP-toggle',
+		) as HTMLInputElement;
+
+		pveToggle?.addEventListener('change', () => {
+			// Dispatch a custom event that other components can listen to
+			const event = new CustomEvent('pveToggleChanged', {
+				detail: { checked: pveToggle.checked },
+			});
+			document.dispatchEvent(event);
+
+			// Toggle visibility of PvE players
+			document.querySelectorAll('.player-pve').forEach((player) => {
+				(player as HTMLElement).style.display = pveToggle.checked ? '' : 'none';
+			});
+		});
+
+		pvpToggle?.addEventListener('change', () => {
+			// Dispatch a custom event that other components can listen to
+			const event = new CustomEvent('pvpToggleChanged', {
+				detail: { checked: pvpToggle.checked },
+			});
+			document.dispatchEvent(event);
+
+			// Toggle visibility of PvP players
+			document.querySelectorAll('.player-pvp').forEach((player) => {
+				(player as HTMLElement).style.display = pvpToggle.checked ? '' : 'none';
+			});
+		});
+
 		const mainNavToggles = document.querySelectorAll(
 			'.mainNav-container input[type="checkbox"]',
 		);
