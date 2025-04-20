@@ -22,3 +22,4 @@ pnpm-debug.log*
 
 .codegpt
 data/GetSquad_SquadID_4957.json
+.cursor/rules/*

@@ -1,12 +1,11 @@
 import { defineConfig, envField } from 'astro/config';
 import tailwind from "@astrojs/tailwind";
-import vue from '@astrojs/vue';
 import netlify from "@astrojs/netlify";
 
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
-  integrations: [tailwind(), vue(), netlify()],
+  integrations: [tailwind(), netlify()],
   env: {
     schema: {
       // SECRET_WBBOTID: envField.string({
