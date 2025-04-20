@@ -114,6 +114,7 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 
 				let isDrone = player.lastKnownLocation.includes('(as drone)');
 				let droneClass = isDrone ? 'drone' : '';
+				let playerLocation = player.lastKnownLocation.replace("(as drone)", "");
 
 				// Add list item
 				const li = document.createElement('li');
@@ -122,7 +123,7 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 				li.innerHTML = `
 					<span title="#TeleportTo ${player.playerName}" class="playerName">${player.playerName}</span>
 					<a class="steamID" href="/playerInfo?playerid=${player.steamID}" title="${player.steamID}">${player.steamID}</a>
-					<span class="clickable coords" title="#Teleport ${player.lastKnownLocation}">${zone} ${playerX.toFixed(2)} ${playerY.toFixed(2)} ${playerZ.toFixed(2)}</span>
+					<span class="clickable coords" title="#Teleport ${playerLocation}">${zone} ${playerLocation}</span>
 					<span class="pType">${droneClass} ${player.type}</span>
 				`;
 

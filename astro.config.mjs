@@ -6,7 +6,7 @@ import netlify from "@astrojs/netlify";
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
-  integrations: [tailwind(), vue()],
+  integrations: [tailwind(), vue(), netlify()],
   env: {
     schema: {
       // SECRET_WBBOTID: envField.string({

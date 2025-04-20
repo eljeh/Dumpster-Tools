@@ -4,6 +4,7 @@ import settingZones from '../data/settingZones.json';
 import MapControls from './MapControls.astro';
 import DataControls from './dataControls.astro';
 import LootManager from './lootfiles.astro';
+import GetPlayerInfo from './GetPlayer-info.astro';
 // Find the min and max coordinates to set up the viewport
 let minX = Infinity;
 let maxX = -Infinity;
@@ -81,7 +82,7 @@ const formatZoneName = (zoneName: string): string => {
 		</div>
 
 		<svg viewBox='210 30 930 930' class='map'>
-			<image
+			<image class="mapImage"
 				href='../assets/images/map.webp'
 				width='1000'
 				height='1000'
@@ -234,7 +235,7 @@ const formatZoneName = (zoneName: string): string => {
 </div>
 
 <!-- <div id='details-container' class='details-container'>
-	<LootManager />
+	<GetPlayerInfo />
 </div> -->
 
 <script>
@@ -740,6 +741,24 @@ const formatZoneName = (zoneName: string): string => {
 			}
 		}
 
+		function copyToClipboard(element) {
+		const text = element.title;
+		navigator.clipboard.writeText(text).catch((err) => {
+			console.error('Failed to copy:', err);
+		});
+	}
+
+	// Add click handlers once
+	document.addEventListener('click', (e) => {
+		const target = e.target as HTMLElement;
+		if (target.classList.contains('clickable')) {
+			copyToClipboard(target);
+			alert('Copied to clipboard: ' + target.title);
+		}
+	});
+
+
+
 		// Set up toggle handlers
 		updateVisibility(sectorsToggle, '[class^="zone-Sector_"]');
 		updateVisibility(playersToggle, '.player-markers-container');
@@ -1104,7 +1123,7 @@ const formatZoneName = (zoneName: string): string => {
 	.map {
 		scale: 1;
 
-		image {
+		.mapImage {
 			translate: 60px 45px;
 			scale: 0.91;
 		}
@@ -1473,7 +1492,7 @@ const formatZoneName = (zoneName: string): string => {
 
 	.playerList li:not(:first-child) span:hover,
 	.playerList li:not(:first-child) a:hover,
-	.killList li:not(:first-child) span:hover,
+	.killList li:not(:first-child) .clickable:hover,
 	.killList li:not(:first-child) a:hover,
 	.flagList li:not(:first-child) span:hover,
 	.flagList li:not(:first-child) a:hover {
@@ -1514,7 +1533,7 @@ const formatZoneName = (zoneName: string): string => {
 		flex: 0 1 17ch;
 	}
 	.data-table-container li .coords {
-		flex: 0 1 32ch;
+		flex: 0 1 36ch;
 	}
 	.data-table-container li .steamID {
 		flex: 0 1 20ch;
@@ -1527,6 +1546,14 @@ const formatZoneName = (zoneName: string): string => {
 	}
 	.data-table-container li .pType {
 		flex: 0 1 10ch;
+	}
+
+	.data-table-container li .eventType {
+		flex: 0 1 13ch;
+	}
+
+	.data-table-container li .eventDetails {
+		flex: 0 1 52ch;
 	}
 
 	.data-table-container li span:last-child {

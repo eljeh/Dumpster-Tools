@@ -343,20 +343,4 @@ export function displayVehicleLocations(
 			console.error('Error in displayVehicleLocations:', error);
 		});
 
-	function copyToClipboard(element) {
-		const text = element.title;
-		navigator.clipboard.writeText(text).catch((err) => {
-			console.error('Failed to copy:', err);
-		});
-	}
-
-	// Add click handlers once
-	document.addEventListener('click', (e) => {
-		const target = e.target as HTMLElement;
-		if (target.classList.contains('clickable')) {
-			copyToClipboard(target);
-			alert('Copied to clipboard: ' + target.title);
-		}
-	});
-
 } 

@@ -1,0 +1,376 @@
+---
+// Add prop definition
+const { SteamId = '' } = Astro.props;
+
+// TypeScript declaration for the global function
+declare global {
+	interface Window {
+		loadPlayerInfo: (playerId: string) => Promise<void>;
+	}
+}
+
+// TypeScript interfaces for squad data
+interface PlayerData {
+	playerName: string;
+	steamID: string;
+	coins: number;
+	creditBalance: number;
+	goldBalance: number;
+	totalDeaths: number;
+	totalKills: number;
+}
+
+interface SquadMember {
+	playerData: PlayerData | null;
+	rank: string;
+	steamID: string;
+}
+
+interface SquadData {
+	squadName: string;
+	id: string;
+	squadMember: Record<string, SquadMember>;
+}
+---
+
+<div class='playerInfoWrapper'>
+	<!-- <NotesDialog SteamId={SteamId} /> -->
+	<div id='playerInfo'></div>
+	<div id='squadInfo'></div>
+	<div id='squadCounts'>
+		<span id='memberCount'></span>
+		<span id='flagCount'></span>
+		<span id='vehicleCount'></span>
+	</div>
+	<div id='details'></div>
+</div>
+
+<script>
+	import { isWithinPVP } from '../utils/pvpUtils';
+	import { PUBLIC_WBAUTH, PUBLIC_WBBOTID } from 'astro:env/client';
+	const WBAuth = PUBLIC_WBAUTH;
+	const WBBotID = PUBLIC_WBBOTID;
+
+	document.addEventListener('astro:page-load', () => {
+		const playerInfo = document.getElementById('playerInfo');
+		const squadInfo = document.getElementById('squadInfo');
+		const squadCounts = document.getElementById('squadCounts');
+		const details = document.getElementById('details');
+		const memberCount = document.getElementById('memberCount');
+		const flagCount = document.getElementById('flagCount');
+		const vehicleCount = document.getElementById('vehicleCount');
+
+		// Function to trigger player info fetch
+		async function loadPlayerInfo(playerId: string) {
+			if (!playerId) return;
+
+			const playerInfoWrapper = document.querySelector('.playerInfoWrapper');
+			playerInfoWrapper?.classList.add('panel');
+			playerInfo!.innerHTML = ``;
+			squadInfo!.innerHTML = ``;
+			details!.innerHTML = ``;
+
+			playerInfo!.innerHTML = `Getting info for ${playerId}`;
+
+			try {
+				const response = await fetch(
+					`https://api.whalleybot.com/bot/${WBBotID}/GetPlayer/${playerId}/`,
+					{
+						method: 'GET',
+						headers: {
+							Accept: '*/*',
+							Authorization: WBAuth,
+						},
+					},
+				);
+
+				if (response.status === 403) {
+					throw new Error('Authorization failed - please check your API key');
+				}
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+
+				const data = await response.json();
+				playerInfo!.innerHTML = `<h3>${data.Player.PlayerName}</h3>`;
+				playerInfo!.innerHTML += `Discord ID: ${data.Player.DiscordID}`;
+				playerInfo!.innerHTML += `<br>Steam ID: ${data.Player.SteamID}`;
+				playerInfo!.innerHTML += `<br>IP Address: ${data.Player.IP}`;
+				playerInfo!.innerHTML += `<br>`;
+				playerInfo!.innerHTML += `<br>Account: ${data.Player.AccountNumber}`;
+				playerInfo!.innerHTML += `<br>🪙 ${data.Player.Coins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${data.Player.CreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰  ${data.Player.GoldBalance.toLocaleString()}`;
+
+				const PlayersSquadID = data.SquadInfo.ID;
+
+				getSquadData(PlayersSquadID);
+			} catch (error) {
+				console.error('Error fetching player info:', error);
+				playerInfo!.innerHTML = `Error - Player may not be linked:<br /> ${error instanceof Error ? error.message : 'Unknown error'}`;
+			}
+		}
+
+		async function getSquadData(PlayersSquadID: string) {
+			const response = await fetch(
+				`https://api.whalleybot.com/bot/${WBBotID}/GetSquad?SquadID=${PlayersSquadID}`,
+				{
+					method: 'GET',
+					headers: {
+						Accept: '*/*',
+						Authorization: WBAuth,
+					},
+				},
+			);
+
+			// Check if the response is okay
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+
+			// Parse the response data
+			const data = await response.json();
+			const SquadData = data as SquadData;
+
+			squadInfo!.innerHTML += `<hr class="infoHr"/>`;
+			squadInfo!.innerHTML += `<br>Squad: ${SquadData.squadName} (${SquadData.id})`;
+
+			// Get the squad members array from the squadMember object
+			const squadMembers = Object.values(SquadData.squadMember);
+
+			//Calculate the total creditBalance and goldBalance of the squad
+			let totalCreditBalance = 0;
+			let totalGoldBalance = 0;
+			let totalCoins = 0;
+
+			squadMembers.forEach((member: SquadMember) => {
+				if (member.playerData !== null) {
+					totalCreditBalance += member.playerData.creditBalance;
+					totalGoldBalance += member.playerData.goldBalance;
+					totalCoins += member.playerData.coins;
+				}
+			});
+
+			squadInfo!.innerHTML += `<br>🪙 ${totalCoins.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵  ${totalCreditBalance.toLocaleString()} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰  ${totalGoldBalance.toLocaleString()}<br>`;
+
+			// Rank is a string 1-4 so sort by rank
+			squadMembers.sort(
+				(a: SquadMember, b: SquadMember) => parseInt(b.rank) - parseInt(a.rank),
+			);
+			details!.innerHTML += `<br>`;
+			const numMembers = squadMembers.length;
+			memberCount!.innerHTML = `🪖 Members: ${numMembers} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;`;
+			details!.innerHTML += `<br> ${numMembers} Members`;
+
+			squadMembers.forEach((member: SquadMember) => {
+				if (member.playerData === null) {
+					details!.innerHTML += `<br><strong>Unknown</strong> (${member.steamID}) `;
+					details!.innerHTML += `<br>`;
+				} else {
+					details!.innerHTML += `<br><strong>${member.playerData.playerName}</strong> ${member.rank === '4' ? '👑' : ''} (${member.steamID}) `;
+					details!.innerHTML += `<br>🪙 ${member.playerData.coins.toLocaleString()}  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💵 ${member.playerData.creditBalance.toLocaleString()}  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰 ${member.playerData.goldBalance.toLocaleString()}  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; ⚔️ ${member.playerData.totalDeaths}/${member.playerData.totalKills}`;
+					details!.innerHTML += `<br>`;
+				}
+			});
+
+			getFlagData(squadMembers);
+			getVehicleInfo(squadMembers);
+		}
+
+		async function getFlagData(squadMembers: SquadMember[]) {
+			const response = await fetch(
+				`https://api.whalleybot.com/bot/217fc652/FlagLocations`,
+				{
+					method: 'GET',
+					headers: {
+						Accept: '*/*',
+						Authorization: WBAuth,
+					},
+				},
+			);
+
+			// Check if the response is okay
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+
+			const dataP = await response.json();
+			const FlagData = Object.values(dataP);
+
+			// find all flags owened by squadMembers
+			const flags = FlagData.filter((flag: any) =>
+				squadMembers
+					.map((member: SquadMember) => member.playerData?.steamID)
+					.filter(Boolean)
+					.includes(flag.ownerID),
+			);
+
+			flagCount!.innerHTML = ` 🚩 Flags: ${flags.length} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;`;
+
+			details!.innerHTML += `<hr class="infoHr"/>`;
+			details!.innerHTML += `<br>${flags.length} Flag(s): `;
+
+			flags.forEach((flag: any) => {
+				const flagLocation = flag.location;
+				const flagLocationX = flagLocation.split(' ')[0];
+				const flagLocationY = flagLocation.split(' ')[1];
+
+				if (isWithinPVP(flagLocationX, flagLocationY)) {
+					details!.innerHTML += `<br> 🟥 ${flagLocation}`;
+				} else {
+					details!.innerHTML += `<br> 🟩 ${flagLocation}`;
+				}
+				details!.innerHTML += `<br>`;
+			});
+		}
+
+		async function getVehicleInfo(squadMembers: SquadMember[]) {
+			try {
+				// Fetch the list of vehicles
+				const response = await fetch(
+					`https://api.whalleybot.com/bot/${WBBotID}/VehicleLocations`,
+					{
+						method: 'GET',
+						headers: {
+							Accept: '*/*',
+							Authorization: WBAuth,
+						},
+					},
+				);
+
+				if (!response.ok) {
+					throw new Error('Failed to fetch vehicle data');
+				}
+
+				const dataV = await response.json();
+				const vehiclesData = Object.values(dataV);
+
+				// Filter vehicles owned by the player or squad members
+				const ownedVehicles = vehiclesData.filter((vehicle: any) => {
+					const regInfo = vehicle.value.reg;
+					const ownerSteamID = regInfo.match(/STEAMID:(\d+)/)?.[1];
+					if (ownerSteamID && ownerSteamID !== '0') {
+						// check if ownerSteamID is one of the squadMembers
+						const isSquadMember = squadMembers
+							.map((member: SquadMember) => member.steamID)
+							.includes(ownerSteamID);
+						if (isSquadMember) {
+							return vehicle;
+						}
+					}
+				});
+				vehicleCount!.innerHTML = ` 🚗 Vehicle: ${ownedVehicles.length}`;
+				// Display the vehicle information
+				details!.innerHTML += `<hr class="infoHr"/>`;
+				details!.innerHTML += `<br>${ownedVehicles.length} Vehicle(s):`;
+
+				ownedVehicles.forEach((vehicle: any) => {
+					const vidMatch = vehicle.value.reg.match(/VID:(\d+)/);
+					const coords = vehicle.value.coords;
+					const type = vehicle.value.type.replace('BPC_', '').trim();
+					const internalStatus = vehicle.value.internalStatus;
+					const status = internalStatus ? internalStatus : 'In Game';
+
+					const vehicleLocationX = coords.split(' ')[0];
+					const vehicleLocationY = coords.split(' ')[1];
+
+					let zone = ``;
+
+					if (isWithinPVP(vehicleLocationX, vehicleLocationY)) {
+						zone = `🟥`;
+					} else {
+						zone = `🟩`;
+					}
+
+					details!.innerHTML +=
+						`<br>${type} - ${vidMatch ? vidMatch[1] : 'Unknown'}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;` +
+						`${status !== 'In Game' ? ` [${status}]` : ''} ${zone} ${coords}`;
+
+					details!.innerHTML += `<br>`;
+				});
+			} catch (error) {
+				console.error('Error fetching or displaying vehicle data:', error);
+			}
+		}
+
+		// Expose the loadPlayerInfo function to be called from outside
+		window.loadPlayerInfo = loadPlayerInfo;
+	});
+</script>
+
+<style is:inline>
+	.playerInfoWrapper.panel {
+		border-radius: 0.5em;
+		border: 3px solid var(--color-tertiary);
+		background: var(--color-tertiary);
+		padding: 0.5em 1.5em;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+	}
+	.playerInfoWrapper h3 {
+		font-size: 1.5em;
+		line-height: 2;
+	}
+
+	.playerInfoWrapper > * {
+		position: relative;
+	}
+	.dateTime {
+		font-size: 0.8em;
+		opacity: 0.75;
+	}
+	.notesButton.show {
+		display: block !important;
+	}
+	.notesButton.hide {
+		display: none !important;
+	}
+	.wrapper .notesButton {
+		position: absolute;
+		right: -1.5em;
+		background: transparent;
+		height: 4em;
+		display: grid;
+		place-items: center;
+		margin-bottom: 0;
+		z-index: 10;
+	}
+	.wrapper .notesButton:hover {
+		outline: none;
+	}
+
+	.notesButton i {
+		font-size: 2em;
+	}
+	.notesButton span {
+		background-color: var(--color-accent);
+		box-shadow: -1px 1px 13px 3px #00000042;
+		padding: 0.5em;
+		border-radius: 0.5em;
+		opacity: 0;
+		font-size: 0.8em;
+		margin-top: -10em;
+	}
+	.notesButton:hover i {
+		/* color: var(--color-accent); */
+	}
+	.notesButton:hover span {
+		opacity: 1;
+	}
+	.notesDialog footer {
+		padding: 0 1em 1em;
+	}
+	.notesDialog footer ul {
+		list-style: none;
+		padding: 0;
+	}
+	.notesDialog footer li {
+		padding: 1em;
+		border-top: 0.25em solid var(--color-tertiary);
+	}
+	.notesDialog footer li h2 {
+		margin: 0;
+	}
+	.notesDialog footer li h2 span {
+		font-size: 0.8em;
+	}
+</style>

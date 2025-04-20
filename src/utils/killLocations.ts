@@ -73,19 +73,22 @@ export function displayKillPositions(
 				if (key.includes('Comitted suicide')) {
 					// Handle suicide
 					const locationMatch = key.match(
-						/X=(-?\d+\.?\d*) Y=(-?\d+\.?\d*)/
+						/X=(-?\d+\.?\d*) Y=(-?\d+\.?\d*) Z=(-?\d+\.?\d*)/
 					);
 					if (locationMatch) {
-						const x = -parseFloat(locationMatch[1]); // Flip X coordinate
+						const x = parseFloat(locationMatch[1]); // Flip X coordinate
 						const y = parseFloat(locationMatch[2]);
-						const username = key.match(/User: ([^\s(]+)/)?.[1] || 'Unknown';
-
+						const z = parseFloat(locationMatch[3]);
+						const location = `${x} ${y} ${z}`;
+						// find username inbetween [ ]
+						const username = key.match(/\[(.*?)\]/)?.[1] || 'Unknown';
 						addKillMarker(container, x, y, 'suicide', username, null, toSvgX, toSvgY);
 
 						const li = document.createElement('li');
 						li.innerHTML = `
 							<span class="eventType">Suicide</span>
-							<span class="clickable playerName" title="${key}">${username}</span>
+							<span class="clickable " title="#teleport ${location}">${username}</span>
+							<span class="clickable " title="#teleport ${location}">${location}</span>
 						`;
 						ul.appendChild(li);
 					}
@@ -93,10 +96,22 @@ export function displayKillPositions(
 					// Handle kill
 					try {
 						const killData = JSON.parse(key.substring(key.indexOf('{')));
-						const killerX = -killData.Killer.ServerLocation.X; // Flip X coordinate
-						const killerY = killData.Killer.ServerLocation.Y;
-						const victimX = -killData.Victim.ServerLocation.X; // Flip X coordinate
-						const victimY = killData.Victim.ServerLocation.Y;
+						let killerX = - Math.round(killData.Killer.ClientLocation.X * 100) / 100;
+						let killerY = Math.round(killData.Killer.ClientLocation.Y * 100) / 100;
+						let killerZ = Math.round(killData.Killer.ClientLocation.Z * 100) / 100;
+						let killerLocation = `${killerX} ${killerY} ${killerZ}`;
+
+						let victimX = - Math.round(killData.Victim.ClientLocation.X * 100) / 100;
+						let victimY = Math.round(killData.Victim.ClientLocation.Y * 100) / 100;
+						let victimZ = Math.round(killData.Victim.ClientLocation.Z * 100) / 100;
+						let victimLocation = `${victimX} ${victimY} ${victimZ}`;
+
+						if (killerX === 0 && killerY === 0 && killerZ === 0) {
+							killerX = victimX
+							killerY = victimY
+							killerZ = victimZ
+							killerLocation = ''
+						}
 
 						// Add killer marker
 						addKillMarker(
@@ -138,10 +153,19 @@ export function displayKillPositions(
 						line.classList.add('kill-line');
 						container.appendChild(line);
 
+						const killType = key.match(/\[(.*?)\]/)?.[1] || 'Unknown';
+
 						const li = document.createElement('li');
 						li.innerHTML = `
-							<span>Kill</span>
-							<span class="clickable" title="${killData.Killer.ProfileName} killed ${killData.Victim.ProfileName} with ${killData.Weapon}">${killData.Killer.ProfileName} → ${killData.Victim.ProfileName}</span>
+							<span class="eventType">${killData.TimeOfDay} ${killType} Kill</span>
+							<span class="eventDetails">
+								Killer: <a class="playerName" href="/playerInfo?playerid=${killData.Killer.UserId}" title="${killData.Killer.UserId}">${killData.Killer.ProfileName}</a>
+								<span class="${killerLocation ? 'clickable ' : ''}coords" title="${killerLocation}">${killerLocation}</span>
+								<br>
+								Victim: <a class="playerName" href="/playerInfo?playerid=${killData.Victim.UserId}" title="${killData.Victim.UserId}">${killData.Victim.ProfileName}</a>
+								<span class="clickable coords" title="${victimLocation}">${victimLocation}</span>
+							</span>
+							<span class="weapon">Weapon: ${killData.Weapon.replace("Weapon_", "").replace(`[${killType}]`, '')}</span>
 						`;
 						ul.appendChild(li);
 					} catch (e) {
@@ -194,7 +218,7 @@ function addKillMarker(
 	const marker = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
 	marker.setAttribute('cx', toSvgX(x).toString());
 	marker.setAttribute('cy', toSvgY(y).toString());
-	marker.setAttribute('r', '1');
+	marker.setAttribute('r', '2');
 	marker.classList.add('kill-icon');
 	g.appendChild(marker);
 
@@ -206,4 +230,4 @@ function addKillMarker(
 	g.appendChild(text);
 
 	container.appendChild(g);
-} 
+}
