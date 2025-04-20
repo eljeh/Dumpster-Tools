@@ -160,10 +160,10 @@ export function displayKillPositions(
 							<span class="eventType">${killData.TimeOfDay} ${killType} Kill</span>
 							<span class="eventDetails">
 								Killer: <a class="playerName" href="/playerInfo?playerid=${killData.Killer.UserId}" title="${killData.Killer.UserId}">${killData.Killer.ProfileName}</a>
-								<span class="${killerLocation ? 'clickable ' : ''}coords" title="${killerLocation}">${killerLocation}</span>
+								<span class="${killerLocation ? 'clickable ' : ''}coords" title="#Teleport ${killerLocation}">${killerLocation}</span>
 								<br>
 								Victim: <a class="playerName" href="/playerInfo?playerid=${killData.Victim.UserId}" title="${killData.Victim.UserId}">${killData.Victim.ProfileName}</a>
-								<span class="clickable coords" title="${victimLocation}">${victimLocation}</span>
+								<span class="clickable coords" title="#Teleport ${victimLocation}">${victimLocation}</span>
 							</span>
 							<span class="weapon">Weapon: ${killData.Weapon.replace("Weapon_", "").replace(`[${killType}]`, '')}</span>
 						`;
