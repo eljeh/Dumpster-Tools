@@ -14,9 +14,10 @@ const currentPath = pathname.slice(1);
     // Function to render NavBar component
     function renderNavBar() {
       navBarList.innerHTML =
-        '<hr style="opacity: 0.5;margin: 0 0 0.5em -0.5em; width: 150%;"/>';
+        '<hr style="opacity: 0.5;margin: 0.25em 0 0.5em -0.5em; width: 150%;"/>';
       navBarList.innerHTML += `<a class="sideNavLink" href="/inGame"><i class="fi fi-ss-house-user"></i><span class="sideNavLinkText">In Game</span></a>`;
-      navBarList.innerHTML += '<hr style="opacity: 0.25;margin: 0 0 0.5em 0; width: 100%;"/>';
+      navBarList.innerHTML +=
+        '<hr style="opacity: 0.25;margin: 0 0 0.5em 0; width: 100%;"/>';
       navBarList.innerHTML += `<a class="sideNavLink" href="/playerInfo"><i class="fi fi-ss-user"></i><span class="sideNavLinkText">Player Info</span></a>`;
       navBarList.innerHTML +=
         '<hr style="opacity: 0.25;margin: 0 0 0.5em 0; width: 100%;"/>';
@@ -74,6 +75,7 @@ const currentPath = pathname.slice(1);
 
   .sideNavLink .fi {
     font-size: 2em;
+    padding-left: 0.125em;
   }
   .sideNavLinkText {
     font-size: 0;

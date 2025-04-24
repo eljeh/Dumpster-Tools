@@ -5,6 +5,9 @@ import MapControls from './MapControls.astro';
 import DataControls from './dataControls.astro';
 import LootManager from './lootfiles.astro';
 import GetPlayerInfo from './GetPlayer-info.astro';
+
+const SteamId = '76561198187036603';
+
 // Find the min and max coordinates to set up the viewport
 let minX = Infinity;
 let maxX = -Infinity;
@@ -82,7 +85,8 @@ const formatZoneName = (zoneName: string): string => {
 		</div>
 
 		<svg viewBox='210 30 930 930' class='map'>
-			<image class="mapImage"
+			<image
+				class='mapImage'
 				href='../assets/images/map.webp'
 				width='1000'
 				height='1000'
@@ -223,6 +227,7 @@ const formatZoneName = (zoneName: string): string => {
 
 <div class='data-table-wrapper' transition:name='wrapper'>
 	<DataControls />
+
 	<div class='update-progress'>
 		<div class='progress-bar'>
 			<div class='progress-fill'></div>
@@ -231,12 +236,13 @@ const formatZoneName = (zoneName: string): string => {
 			Next update in: <span class='countdown'>3:00</span>
 		</div>
 	</div>
-	<div id='data-table' class='data-table-container'></div>
-</div>
 
-<!-- <div id='details-container' class='details-container'>
-	<GetPlayerInfo />
-</div> -->
+	<div id='data-table' class='data-table-container'></div>
+
+	<div id='details-container' class='details-container'>
+		<GetPlayerInfo playerId={SteamId} />
+	</div>
+</div>
 
 <script>
 	import zones from '../data/zones.json';
@@ -742,22 +748,20 @@ const formatZoneName = (zoneName: string): string => {
 		}
 
 		function copyToClipboard(element) {
-		const text = element.title;
-		navigator.clipboard.writeText(text).catch((err) => {
-			console.error('Failed to copy:', err);
-		});
-	}
-
-	// Add click handlers once
-	document.addEventListener('click', (e) => {
-		const target = e.target as HTMLElement;
-		if (target.classList.contains('clickable')) {
-			copyToClipboard(target);
-			alert('Copied to clipboard: ' + target.title);
+			const text = element.title;
+			navigator.clipboard.writeText(text).catch((err) => {
+				console.error('Failed to copy:', err);
+			});
 		}
-	});
 
-
+		// Add click handlers once
+		document.addEventListener('click', (e) => {
+			const target = e.target as HTMLElement;
+			if (target.classList.contains('clickable')) {
+				copyToClipboard(target);
+				alert('Copied to clipboard: ' + target.title);
+			}
+		});
 
 		// Set up toggle handlers
 		updateVisibility(sectorsToggle, '[class^="zone-Sector_"]');
@@ -984,9 +988,11 @@ const formatZoneName = (zoneName: string): string => {
 	.mainWrapper {
 		display: flex;
 		min-height: unset;
+		max-height: calc(100vh - 6.5em);
 		gap: 1.5em;
 		flex-wrap: wrap;
 		font-size: 1em;
+
 		@media (max-width: 1024px) {
 			font-size: 0.75em;
 		}
@@ -1047,11 +1053,11 @@ const formatZoneName = (zoneName: string): string => {
 	}
 
 	.data-table-wrapper {
-		overflow-y: scroll;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
 		max-height: calc(100vh - 6.5em);
 		flex: 1 1 auto;
-		/* flex: 1 1 46em; */
-		/* min-width: 30em; */
 		padding: 1em 1em;
 		border-radius: 0.5em;
 		background: var(--color-grey-darker);
@@ -1059,14 +1065,14 @@ const formatZoneName = (zoneName: string): string => {
 			var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 	}
 
-	.data-table-wrapper {
+	.data-table-container {
 		scrollbar-color: var(--color-primary) var(--color-tertiary);
 	}
 
-	.data-table-wrapper::-webkit-scrollbar {
+	.data-table-containerr::-webkit-scrollbar {
 		background: var(--color-primary);
 	}
-	.data-table-wrapper::-webkit-scrollbar-thumb {
+	.data-table-container::-webkit-scrollbar-thumb {
 		background: var(--color-tertiary);
 	}
 
@@ -1439,7 +1445,7 @@ const formatZoneName = (zoneName: string): string => {
 
 	.data-table-container {
 		display: block;
-		/* margin-top: 1em; */
+		overflow-y: scroll;
 	}
 
 	.vehicle-data-table > ul > li,
@@ -1565,8 +1571,6 @@ const formatZoneName = (zoneName: string): string => {
 	}
 
 	.update-progress {
-		position: sticky;
-		top: -1em;
 		background: var(--color-grey-darker);
 		padding: 0.25em 1em;
 		display: none;

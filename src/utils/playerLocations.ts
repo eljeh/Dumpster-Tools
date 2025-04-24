@@ -121,11 +121,28 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 				li.id = player.steamID;
 				li.classList.add(zoneClass);
 				li.innerHTML = `
-					<span title="#TeleportTo ${player.playerName}" class="playerName">${player.playerName}</span>
-					<a class="steamID" href="/playerInfo?playerid=${player.steamID}" title="${player.steamID}">${player.steamID}</a>
+					<span id="${player.steamID}" class="playerName">${player.playerName}</span>
+					<span class="steamID" title="${player.steamID}">${player.steamID}</span>
 					<span class="clickable coords" title="#Teleport ${playerLocation}">${zone} ${playerLocation}</span>
 					<span class="pType">${droneClass} ${player.type}</span>
 				`;
+
+				// Add click event listener to player name to update playerId
+				const playerNameSpan = li.querySelector('.playerName');
+				if (playerNameSpan) {
+					playerNameSpan.addEventListener('click', () => {
+						// Update the playerId in the details-container
+						const detailsContainer = document.getElementById('details-container');
+						if (detailsContainer) {
+							detailsContainer.setAttribute('data-player-id', player.steamID);
+
+							// Call the loadPlayerInfo function to update the player details
+							if (window.loadPlayerInfo) {
+								window.loadPlayerInfo(player.steamID);
+							}
+						}
+					});
+				}
 
 				// Add hover event listeners
 				li.addEventListener('mouseenter', () => {

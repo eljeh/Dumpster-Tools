@@ -28,8 +28,6 @@
   
   body {
     background: var(--color-secondary);
-    /* background: linear-gradient(180deg, var(--color-accent) 20em, var(--color-tertiary) 20em); */
-    /* background: radial-gradient(circle, var(--color-secondary) 30%, var(--color-tertiary) 90%), no-repeat; */
     color: var(--font-color);
     font-size: clamp(12px, 1vw, 18px);
     font-size: 18px;
@@ -59,13 +57,11 @@
   .wrapper button {
     background: var(--color-accent);
     border: 0.25em solid var(--color-accent);
-    /* outline: 0.25em solid var(--color-accent); */
     color: var(--font-color);
     min-width: max-content;
   }
 
   .wrapper button:hover {
-    /* background: var(--color-accent); */
     outline: 0.25em solid var(--color-accent);
   }
 
@@ -104,11 +100,7 @@
     border: 3px solid var(--color-accent);
     box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
   }
-/* file upload button hover state */
-input[type="file"]::file-selector-button:hover {
-  /* background-color: var(--color-primary);
-  color:  var(--color-primary) */
-}
+
 
 
 /* file upload button active state */
@@ -158,34 +150,11 @@ input[type="file"]::file-selector-button:active {
     outline-offset: -0.25em;
   }
 
-  .wrapper table {
-    /* border-collapse: collapse;
-    border-radius: 0.5em;
-    text-align: left; */
-  }
-  thead {
-    /* margin-top: 0.5em;
-    cursor: pointer;
-    padding: 0.75em 1.25em; */
-  }
-  thead th {
-    /* background: var(--color-primary);
-    padding: 0; */
-  }
-  tr {
-    /* padding: 0.75em 1.25em;
-    justify-content: space-between; */
-  }
   td {
     padding: 0.75em 1.25em;
     text-wrap: nowrap;
   }
-  th {
-    /* padding: 1em 1.25em; */
-  }
-  th:has(> .clickable) {
-    /* padding: 0; */
-  }
+
 
   .hidden {
     display: none;
@@ -203,10 +172,7 @@ input[type="file"]::file-selector-button:active {
      content: 'Upload File'; 
      font-weight: bold;
    }
-   input[type='file']:hover::after {
-     /* color: var(--color-accent); */
-     /* background-color:  var(--color-primary)  */
-   }
+
 
   /* file upload button */
 input[type="file"]::file-selector-button {
