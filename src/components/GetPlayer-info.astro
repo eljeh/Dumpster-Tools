@@ -172,7 +172,7 @@ interface SquadData {
 			);
 			const numMembers = squadMembers.length;
 			details!.innerHTML += `<hr class="infoHr"/>`;
-			details!.innerHTML += `🪖 ${numMembers} Members`;
+			details!.innerHTML += `<strong>🪖 ${numMembers} Members</strong>`;
 
 			squadMembers.forEach((member: SquadMember) => {
 				if (member.playerData === null) {
@@ -212,7 +212,7 @@ interface SquadData {
 			);
 
 			details!.innerHTML += `<hr class="infoHr"/>`;
-			details!.innerHTML += `🚩 ${flags.length} Flag(s): `;
+			details!.innerHTML += `<strong>🚩 ${flags.length} Flag(s): </strong>`;
 
 			flags.forEach((flag: any) => {
 				const flagLocation = flag.location;
@@ -264,7 +264,7 @@ interface SquadData {
 				});
 				// Display the vehicle information
 				details!.innerHTML += `<hr class="infoHr"/>`;
-				details!.innerHTML += `🚗 ${ownedVehicles.length} Vehicle(s):`;
+				details!.innerHTML += `<strong>🚗 ${ownedVehicles.length} Vehicle(s):</strong>`;
 
 				ownedVehicles.forEach((vehicle: any) => {
 					const vidMatch = vehicle.value.reg.match(/VID:(\d+)/);
