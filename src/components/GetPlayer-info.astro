@@ -102,22 +102,28 @@ interface SquadData {
 				}
 
 				const data = await response.json();
-				playerInfo!.innerHTML = `<h3>${data.Player.PlayerName}</h3>`;
+				playerInfo!.innerHTML = `<h3>${data.Player.PlayerName} <button class="closeButton">⛔</button></h3>`;
 				playerInfo!.innerHTML += `Discord ID: ${data.Player.DiscordID}`;
 				playerInfo!.innerHTML += `<br>Steam ID: ${data.Player.SteamID}`;
 				const PlayersSquadID = data.SquadInfo.ID;
 				await getSquadData(PlayersSquadID);
+
+				// Add click event listener for close button
+				const closeButton = playerInfo!.querySelector('.closeButton');
+				closeButton?.addEventListener('click', () => {
+					playerInfo!.innerHTML = '';
+					squadInfo!.innerHTML = '';
+					details!.innerHTML = '';
+					playerInfoWrapper?.classList.remove('panel');
+				});
+
+				const target = document.getElementById(`${playerId}-row`);
+				target.scrollTop = 0;
 			} catch (error) {
 				console.error('Error fetching player info:', error);
 				playerInfo!.innerHTML = `Error - Player may not be linked:<br /> ${error instanceof Error ? error.message : 'Unknown error'}`;
 			}
 		}
-
-		// Make the loadPlayerInfo function available globally
-		//window.loadPlayerInfo = loadPlayerInfo;
-
-		// Call the function to load player info
-		//loadPlayerInfo();
 
 		// Add click event listener for player names
 		document.addEventListener('click', (event) => {
@@ -126,6 +132,9 @@ interface SquadData {
 				const playerId = target.id;
 				if (playerId) {
 					loadPlayerInfo(playerId);
+					// Scroll data-table-container to top
+					const target = document.getElementById(playerId);
+					target.scrollTop = 0;
 				}
 			}
 		});
@@ -162,6 +171,7 @@ interface SquadData {
 				(a: SquadMember, b: SquadMember) => parseInt(b.rank) - parseInt(a.rank),
 			);
 			const numMembers = squadMembers.length;
+			details!.innerHTML += `<hr class="infoHr"/>`;
 			details!.innerHTML += `🪖 ${numMembers} Members`;
 
 			squadMembers.forEach((member: SquadMember) => {
@@ -286,11 +296,23 @@ interface SquadData {
 </script>
 
 <style is:inline>
-	.details-container {
-		max-height: calc(100vh - 26em);
+	#details {
+		height: fit-content;
+		overflow-y: auto;
+		scrollbar-color: var(--color-primary) var(--color-tertiary);
+		margin-right: -1em;
+		padding-right: 1em;
+	}
+
+	#details::-webkit-scrollbar {
+		background: var(--color-primary);
+	}
+	#details::-webkit-scrollbar-thumb {
+		background: var(--color-tertiary);
 	}
 
 	.playerInfoWrapper.panel {
+		max-height: calc(100vh - 26em);
 		border-radius: 0.5em;
 		border: 3px solid var(--color-tertiary);
 		background: var(--color-tertiary);
@@ -309,6 +331,10 @@ interface SquadData {
 		border-top-left-radius: 0.5em;
 		border-top-right-radius: 0.5em;
 	}
+	button.closeButton {
+		float: right;
+	}
+
 	.playerInfoWrapper > * {
 		position: relative;
 	}

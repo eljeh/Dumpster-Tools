@@ -118,7 +118,7 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 
 				// Add list item
 				const li = document.createElement('li');
-				li.id = player.steamID;
+				li.id = `${player.steamID}-row`;
 				li.classList.add(zoneClass);
 				li.innerHTML = `
 					<span id="${player.steamID}" class="playerName">${player.playerName}</span>
