@@ -110,8 +110,6 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 					? 'pvp'
 					: 'pve';
 
-				//"lastKnownLocation": "502276.000 -304514.000 3072.000 (as drone)",
-
 				let isDrone = player.lastKnownLocation.includes('(as drone)');
 				let droneClass = isDrone ? 'drone' : '';
 				let playerLocation = player.lastKnownLocation.replace("(as drone)", "");
@@ -122,7 +120,7 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 				li.classList.add(zoneClass);
 				li.innerHTML = `
 					<span id="${player.steamID}" class="playerName">${player.playerName}</span>
-					<span class="steamID" title="${player.steamID}">${player.steamID}</span>
+					<a class="steamID" href="/playerInfo?playerid=${player.steamID}" title="${player.steamID}">${player.steamID}</a>
 					<span class="clickable coords" title="#Teleport ${playerLocation}">${zone} ${playerLocation}</span>
 					<span class="pType">${droneClass} ${player.type}</span>
 				`;
