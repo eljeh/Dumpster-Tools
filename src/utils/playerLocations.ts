@@ -1,24 +1,22 @@
 import { isWithinPVP } from './pvpUtils';
+import { fetchPlayerLocations } from './getPlayerApi';
+import type { PlayerLocation } from './getPlayerApi';
+
+// Extend Window interface to include loadPlayerInfo
+declare global {
+	interface Window {
+		loadPlayerInfo?: (playerId: string) => void;
+	}
+}
 
 export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y: number) => number) {
 	// console.log('Starting displayPlayerLocations function');
 	const url = `https://api.whalleybot.com/bot/${import.meta.env.PUBLIC_WBBOTID}/PlayerLocations`;
 	console.log('Fetching from URL:', url);
-	fetch(url, {
-		method: 'GET',
-		headers: {
-			Accept: '*/*',
-			Authorization: import.meta.env.PUBLIC_WBAUTH,
-		},
-	})
-		.then((response) => {
-			// console.log('Received response:', response.status, response.statusText);
-			if (!response.ok) {
-				throw new Error('Network response was not ok');
-			}
-			return response.json();
-		})
-		.then((data) => {
+
+	// Use fetchPlayerLocations instead of fetch
+	fetchPlayerLocations()
+		.then((data: PlayerLocation[]) => {
 			// console.log('Received player data:', data);
 			// Remove existing player markers container
 			document.querySelector('.player-markers-container')?.remove();
@@ -30,8 +28,6 @@ export function displayPlayerLocations(toSvgX: (x: number) => number, toSvgY: (y
 				'g',
 			);
 			container.classList.add('player-markers-container');
-
-
 			const tableContainer = document.querySelector('.data-table-container');
 			console.log('Table container found:', !!tableContainer);
 			if (!tableContainer) return;

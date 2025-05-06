@@ -85,7 +85,7 @@ import Layout from '../layouts/Layout.astro';
             // Add click event listener to the first cell in each row
             if (index === 0) {
               cell =
-                '<span class="clickable" onclick="teleportToVehicle(this)" title="#teleportToVehicle">' +
+                '<span class="clickable" onclick="teleportToVehicle(this)" title="#teleportToVehicle '+ cell +'">' +
                 cell +
                 '</span>';
             }

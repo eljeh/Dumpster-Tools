@@ -3,6 +3,7 @@ import {
 	PUBLIC_WBBOTID,
 } from 'astro:env/client';
 import { isWithinPVP } from './pvpUtils';
+import { fetchPlayerData } from './getPlayerApi';
 const WBAuth = PUBLIC_WBAUTH;
 const WBBotID = PUBLIC_WBBOTID;
 
@@ -264,15 +265,48 @@ export function displayVehicleLocations(
 					} else {
 						li.classList.add(`registered`);
 					}
-					li.innerHTML = `
-			<span class="clickable vID" title="#TeleportToVehicle ${vehicle.key}">${vehicle.key}</span>
-			<span class="clickable vType" title="#RenameVehicle ${vehicle.key} 'VID:${vehicle.key}'" >${type}</span>
-			${vehicle.value.reg.includes('STEAMID')
-							? `<a class="steamID" href="/playerInfo?playerid=${steamID}" title="${steamID}">${steamID}</a>`
-							: `<span class="steamID">Not Registered</span>`
-						}
-			<span class="clickable coords" title="#Teleport ${vehicle.value.coords}" >${zone} ${vehicle.value.coords}</span>
-			`;
+
+					// Fetch player data if registered
+					if (vehicle.value.reg.includes('STEAMID')) {
+						fetchPlayerData(steamID)
+							.then(playerData => {
+								li.innerHTML = `
+									<span class="clickable vID" title="#TeleportToVehicle ${vehicle.key}">${vehicle.key}</span>
+									<span class="clickable vType" title="#RenameVehicle ${vehicle.key} 'VID:${vehicle.key}'" >${type}</span>
+									<span id="${steamID}" class="playerName steamID">${playerData.Player.PlayerName}</span>
+									<span class="clickable coords" title="#Teleport ${vehicle.value.coords}" >${zone} ${vehicle.value.coords}</span>
+								`;
+
+								const playerNameSpan = li.querySelector('.playerName');
+								if (playerNameSpan) {
+									playerNameSpan.addEventListener('click', () => {
+										const detailsContainer = document.getElementById('details-container');
+										if (detailsContainer) {
+											detailsContainer.setAttribute('data-player-id', steamID);
+											if (window.loadPlayerInfo) {
+												window.loadPlayerInfo(steamID);
+											}
+										}
+									});
+								}
+							})
+							.catch(error => {
+								console.error('Error fetching player data:', error);
+								li.innerHTML = `
+									<span class="clickable vID" title="#TeleportToVehicle ${vehicle.key}">${vehicle.key}</span>
+									<span class="clickable vType" title="#RenameVehicle ${vehicle.key} 'VID:${vehicle.key}'" >${type}</span>
+									<span class="steamID">Error loading player data</span>
+									<span class="clickable coords" title="#Teleport ${vehicle.value.coords}" >${zone} ${vehicle.value.coords}</span>
+								`;
+							});
+					} else {
+						li.innerHTML = `
+							<span class="clickable vID" title="#TeleportToVehicle ${vehicle.key}">${vehicle.key}</span>
+							<span class="clickable vType" title="#RenameVehicle ${vehicle.key} 'VID:${vehicle.key}'" >${type}</span>
+							<span class="steamID">Not Registered</span>
+							<span class="clickable coords" title="#Teleport ${vehicle.value.coords}" >${zone} ${vehicle.value.coords}</span>
+						`;
+					}
 
 					// Add hover event listeners
 					li.addEventListener('mouseenter', () => {
