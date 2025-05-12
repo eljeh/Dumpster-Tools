@@ -273,7 +273,7 @@ export function displayVehicleLocations(
 								li.innerHTML = `
 									<span class="clickable vID" title="#TeleportToVehicle ${vehicle.key}">${vehicle.key}</span>
 									<span class="clickable vType" title="#RenameVehicle ${vehicle.key} 'VID:${vehicle.key}'" >${type}</span>
-									<span id="${steamID}" class="playerName steamID">${playerData.Player.PlayerName}</span>
+									<span id="${steamID}" class="clickable playerName steamID" title="${playerData.Player.SteamID}" >${playerData.Player.PlayerName}</span>
 									<span class="clickable coords" title="#Teleport ${vehicle.value.coords}" >${zone} ${vehicle.value.coords}</span>
 								`;
 
@@ -295,7 +295,7 @@ export function displayVehicleLocations(
 								li.innerHTML = `
 									<span class="clickable vID" title="#TeleportToVehicle ${vehicle.key}">${vehicle.key}</span>
 									<span class="clickable vType" title="#RenameVehicle ${vehicle.key} 'VID:${vehicle.key}'" >${type}</span>
-									<span class="steamID">Error loading player data</span>
+									<span class="playerName steamID">Error loading data</span>
 									<span class="clickable coords" title="#Teleport ${vehicle.value.coords}" >${zone} ${vehicle.value.coords}</span>
 								`;
 							});
@@ -303,7 +303,7 @@ export function displayVehicleLocations(
 						li.innerHTML = `
 							<span class="clickable vID" title="#TeleportToVehicle ${vehicle.key}">${vehicle.key}</span>
 							<span class="clickable vType" title="#RenameVehicle ${vehicle.key} 'VID:${vehicle.key}'" >${type}</span>
-							<span class="steamID">Not Registered</span>
+							<span class="playerName steamID">Not Registered</span>
 							<span class="clickable coords" title="#Teleport ${vehicle.value.coords}" >${zone} ${vehicle.value.coords}</span>
 						`;
 					}
